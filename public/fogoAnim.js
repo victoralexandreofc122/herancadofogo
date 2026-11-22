@@ -6,8 +6,8 @@
  *   conjuração (na mão) → golpe ativo (voo, leque, raio) → impacto → fim (fumaça, brasas apagando).
  * Cada função devolve true quando desenhou (o jogo então não desenha o efeito antigo daquele jutsu).
  */
-import { jutsuSpritesReady } from './vfxJutsus.js';
-import { folhaCast, folhaChao, folhaImpacto, folhaProjetil } from './folhasAnim.js';
+import { FRAMES, jutsuSpritesReady } from './vfxJutsus.js';
+import { folhaCai, folhaCast, folhaChao, folhaImpacto, folhaProjetil } from './folhasAnim.js';
 
 const ready = (skill) => jutsuSpritesReady(skill);
 /** Ida e Volta: a runa marcada de cada ninja (até usar de novo ou acabar o tempo). */
@@ -505,11 +505,12 @@ export function fogoImpact(jfx, msg, skill, now) {
 /** Aviso ou zona no chão (mensagem `ground`): Cinzas Detonantes, Chão Incandescente, cada meteoro e a Coluna Infernal. */
 export function fogoGround(jfx, msg, now, follow = () => null) {
   if (msg.skill === 'lightning_rede' && msg.kind !== 'aviso' && ready('lightning_rede')) {
-    // Rede de Faíscas: a rede elétrica no chão, tremendo enquanto a zona dura
-    const ms = msg.ms ?? 3000, sc = (msg.r ?? 2.5) / 2.5;
-    // duas camadas: a rede firme no chão e a mesma por cima piscando (as faíscas correndo)
-    seq(jfx, 'lightning_rede', msg.x, msg.y, now, [['01', 0, ms, { layer: 'ground', fadeIn: 200, fadeOut: 350, scale: sc }]]);
-    for (let t = 0; t < ms - 150; t += 300) seq(jfx, 'lightning_rede', msg.x, msg.y, now, [['01', t, 180, { flicker: true, fadeIn: 40, fadeOut: 120, scale: sc }]]);
+    // v95: a folha com 6 quadros: a rede abre (01, 02), estala em laço (03 a 05) enquanto a zona dura e se desfaz (06)
+    const ms = msg.ms ?? 3000, sc = (2 * (msg.r ?? 2.5)) / ((FRAMES.lightning_rede_04?.casas) ?? 2);
+    const st = [['01', 0, 140], ['02', 120, 160]];
+    for (let t = 260, i = 0; t < ms - 200; t += 150, i++) st.push([['03', '04', '05'][i % 3], t, 190, { fadeIn: 30, fadeOut: 40 }]);
+    st.push(['06', ms - 200, 520, { fadeOut: 380 }]);
+    seq(jfx, 'lightning_rede', msg.x, msg.y, now, st, { layer: 'ground', scale: sc });
     return true;
   }
   // zonas de Cura: em volta de quem lançou (o Santuário anda com ele)
@@ -595,12 +596,8 @@ export function fogoGround(jfx, msg, now, follow = () => null) {
     return true;
   }
   if (msg.skill === 'stone_avalanche' && msg.kind === 'aviso' && ready('stone_avalanche')) {
-    // v79: Avalanche: uma rocha por aviso cai do alto no fim dele (a lasca da Chuva de Cascalho) e deixa a cratera com poeira
-    const ms = msg.ms ?? 900, sc = ((msg.r ?? 1.3) * 2) / 2.2, fall = Math.min(380, ms * 0.5), h = 5;
-    if (ready('stone_cascalho')) jfx.launch(`aval:${msg.id}`, 'stone_cascalho_03b', msg.x, msg.y - h, 0, 1, h / (fall / 1000), h, now + ms - fall, 0);
-    jfx.marca(msg.x, msg.y, now + ms - fall - 100, fall + 100, { sombra: 0.7 });   // v85: a sombra da rocha chegando
-    seq(jfx, 'stone_avalanche', msg.x, msg.y, now, [[Number(msg.id) % 2 ? '01' : '02', ms, 1500, { scale: sc, layer: 'ground', fadeIn: 40, fadeOut: 800 }]]);
-    return true;
+    // v95: a folha nova: o X do aviso, a rocha caindo, o impacto, a poeira e o rastro (uma rocha por ponto)
+    return folhaCai(jfx, 'stone_avalanche', msg, now);
   }
   if (msg.skill === 'fire_chao' && msg.kind !== 'aviso' && ready('fire_chao')) {
     const sc = (msg.r ?? 2.5) / 2.5, ms = msg.ms ?? 4000;

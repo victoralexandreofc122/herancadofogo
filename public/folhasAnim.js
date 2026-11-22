@@ -74,7 +74,7 @@ const TIPO = {
   shadow_troca: { t: 'entre' }, shadow_saltadora: { t: 'entre', mao: ['01'] },
   shadow_agarre: { t: 'agarre' },
   shadow_punho: { t: 'aviso', avisa: ['01', '02'], cai: ['03', '04'], bate: ['05', '06'] },
-  water_clone: { t: 'invoca' }, shadow_sentinela: { t: 'invoca', sobe: ['01', '02', '03'] },
+  water_clone: { t: 'invoca', sobe: ['01'] },   // v95: o duplo desenhado (surge, anda, corta e desmancha; de lado, de frente e de costas) shadow_sentinela: { t: 'invoca', sobe: ['01', '02', '03'] },
   water_muro: { t: 'muro' },
   // v81: o resto do Taijutsu e o Vento
   taijutsu_portoes: { t: 'corpo', pes: true, intro: ['01', '02', '03'], meio: ['04', '05'], fim: ['06'] },
@@ -113,13 +113,13 @@ const TIPO = {
   // v83: as Armas completas
   weapons_4: { t: 'zona', gira: 3, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   weapons_dragoes: { t: 'aviso', unico: true, avisa: ['01'], cai: ['02', '03', '04'], bate: ['05', '06'], bateEscala: 0.7 },   // as lâminas passavam 57% da área
-  weapons_ceu: { t: 'chuva' },
+  weapons_ceu: { t: 'cai' },   // v95: uma lâmina em cada ponto sorteado pelo servidor (a folha nova tem uma lâmina só)
   weapons_laco: { t: 'corrente' },
-  weapons_arsenal: { t: 'invoca', circulo: '01' },
+  weapons_arsenal: { t: 'invoca', sobe: ['01'] },   // v95: o cavaleiro de armas desenhado (de lado, de frente e de costas)
   // v84: mais do Taijutsu e o Olho da Tempestade
   taijutsu_3: { t: 'cone', meio: ['01', '02', '03', '04', '05'], resto: ['06'], rajada: { fr: ['02', '03'], n: 8, ms: 65 } },   // v86: a rajada de socos
   taijutsu_pressao: { t: 'proj', sai: ['01', '02'], voa: '03', bate: ['05', '06'] },   // v95: refeita, com os 6 quadros
-  taijutsu_bloqueio: { t: 'escudo', curto: true, monta: ['01'], quebra: ['01'] },
+  taijutsu_bloqueio: { t: 'escudo', monta: ['01', '02'], meio: ['03', '04'], quebra: ['05', '06'] },   // v95: a folha com 6 quadros: sobe, firme em laço até o golpe, recebe e se desfaz
   taijutsu_ascendente: { t: 'rastro', saida: ['01'], estica: [], chegada: ['02', '03', '04', '05', '06'] },
   wind_olho: { t: 'corpo', gira: 2, escudo: true, intro: ['01', '02'], meio: ['03', '04'], fim: [], golpe: ['05', '06'] },   // v95: refeita (a espiral inteira no painel); 05 e 06 na onda do fim
   // v88: a Ilusão (as 15 primeiras folhas; a Estaca tem também a folha para baixo)
@@ -219,6 +219,7 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       seq(jfx, s, msg.x, msg.y + 0.1, now, corrida(fs, 0, 120, 600), { scale: sc, spin: k.gira ?? 0, ...(k.chao ? { layer: 'ground' } : {}) });   // v88: chao/gira (a espiral da Ilusão)
       return true;
     }
+    case 'cai': return true;   // v95: o desenho vem em cada aviso no chão (folhaCai)
     case 'clan': return true;   // v90: o desenho vem com o clan_fx
     case 'corpo': {
       const dur = k.ms ?? info[k.dur ?? 'durationMs'] ?? 4000, tag = `folha:${s}:${msg.playerId}`;   // v88: ms fixo (a Dissipação: um estouro só)
@@ -249,6 +250,7 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       // o escudo fica (no último quadro) até um golpe bater nele, ou some sozinho em 10 s
       // v92: cabeca = o ícone em cima da cabeça (o Olhar Rubro ativo), em laço, ao lado dos outros ícones
       if (k.cabeca) seq(jfx, s, 0, 0, now, laco(k.monta.slice(0, 2), k.monta.slice(2), [], 10_000, 260), { tag, cabeca: msg.playerId });
+      else if (k.meio) seq(jfx, s, 0, -0.5, now, laco(k.monta, k.meio, [], 10_000, 260), { ...me, tag });   // v95: firme em laço até o golpe
       else seq(jfx, s, 0, -0.5, now, corrida(k.monta, 0, 150, k.curto ? 650 : 10_000), { ...me, tag, ...(k.curto ? { scale: 0.7 } : {}) });
       return true;
     }
@@ -465,6 +467,24 @@ export function folhaClanFx(jfx, msg, now) {
   return true;
 }
 
+/**
+ * v95: uma coisa que cai do céu num ponto avisado (Céu de Lâminas, Avalanche): o X no chão durante o aviso (01), a queda
+ * em dois quadros no fim (02 mais alto, 03 quase no chão), o impacto (04) quando o aviso acaba, a poeira (05) e o resto (06).
+ */
+export function folhaCai(jfx, s, msg, now) {
+  if (!jutsuSpritesReady(s)) return false;   // a Avalanche é do fogoAnim (fora do TIPO)
+  const ms = msg.ms ?? 900, r = msg.r ?? 1.3, sc = (1.5 * r) / largura(s, '04');
+  const fall = Math.min(260, ms * 0.4);
+  // onde o pé do desenho fica em cada quadro da queda (casas acima do ponto): a lâmina já vem com o X no pé; a rocha desce
+  const [a2, a3] = { weapons_ceu: [0, 0], stone_avalanche: [-0.9, -0.25] }[s] ?? [-0.9, -0.25];
+  jfx.marca(msg.x, msg.y, now + ms - fall - 120, fall + 120, { sombra: r * 0.5 });   // a sombra chegando
+  seq(jfx, s, msg.x, msg.y, now, [['01', 0, ms - (a2 === 0 ? fall : 0), { layer: 'ground', fadeIn: 120, fadeOut: 60, scale: (0.8 * r) / largura(s, '01') }]]);
+  jfx.show(`${s}_02`, msg.x, msg.y + a2, now + ms - fall, fall * 0.55, { fadeIn: 0, fadeOut: 0, scale: sc });
+  jfx.show(`${s}_03`, msg.x, msg.y + a3, now + ms - fall * 0.45, fall * 0.45 + 20, { fadeIn: 0, fadeOut: 0, scale: sc });
+  seq(jfx, s, msg.x, msg.y, now, [['04', ms, 240, { fadeIn: 0, scale: sc }], ['05', ms + 200, 420, { layer: 'ground', scale: sc }], ['06', ms + 560, 700, { layer: 'ground', fadeOut: 500, scale: sc }]]);
+  return true;
+}
+
 /** O projétil bateu. */
 export function folhaImpacto(jfx, msg, skill, now) {
   const k = TIPO[skill];
@@ -491,6 +511,7 @@ export function folhaChao(jfx, msg, now, follow = () => null) {
       ...(k.piso ? { piso: [k.piso[0], r * k.piso[1], k.piso[2], k.piso[3]] } : {}) });
     return true;
   }
+  if (k.t === 'cai' && msg.kind === 'aviso') return folhaCai(jfx, s, msg, now);   // v95: Céu de Lâminas
   if (k.t === 'chuva') return msg.kind === 'aviso';   // o desenho veio no lançamento
   if (k.golpe && msg.kind === 'aviso') {   // o fim da transformação: o golpe cai no ponto avisado (o Olho da Tempestade)
     const sc = (2 * r) / largura(s, k.golpe[0]);
@@ -560,7 +581,8 @@ export function folhaEscudoHit(jfx, id, now, follow) {
 
 /** Invocações desenhadas: o quadro parado e o do golpe (o desenho de código fica de reserva). */
 export const SUMMON_FRAMES = {
-  clone_agua: { skill: 'water_clone', parado: 'water_clone_01', golpe: 'water_clone_01' },
+  clone_agua: { skill: 'water_clone', parado: 'water_clone_02', anda: ['water_clone_03', 'water_clone_04'], golpe: 'water_clone_05', some: 'water_clone_06' },   // v95
+  arsenal: { skill: 'weapons_arsenal', parado: 'weapons_arsenal_02', anda: ['weapons_arsenal_03', 'weapons_arsenal_04'], golpe: 'weapons_arsenal_05', some: 'weapons_arsenal_06' },   // v95
   sentinela_sombra: { skill: 'shadow_sentinela', parado: 'shadow_sentinela_04', golpe: 'shadow_sentinela_05', some: 'shadow_sentinela_06' },
   // v90: as feras do Clã Garra andam (dois passos) e mordem; o Rei tem as folhas de frente e de costas
   fera_garra: { skill: 'garra_matilha', parado: 'garra_matilha_02', anda: ['garra_matilha_03', 'garra_matilha_04'], golpe: 'garra_matilha_05', some: 'garra_matilha_06' },

@@ -1609,24 +1609,54 @@
     }
   },
   "lightning_rede": {
-    "pixel": 5.25,
-    "fundo": "magenta",
+    "pixel": 8,
+    "margem": 10,
     "detector_texto": false,
-    "grao": 0.6,
-    "alfa_suave": true,
+    "grao": 1.2,
     "paineis": [
       [
-        300,
-        230,
-        2250,
-        1360
+        26,
+        352,
+        677,
+        1013
+      ],
+      [
+        699,
+        351,
+        1349,
+        1013
+      ],
+      [
+        1371,
+        352,
+        2022,
+        1013
+      ],
+      [
+        25,
+        1096,
+        677,
+        1968
+      ],
+      [
+        699,
+        1096,
+        1349,
+        1968
+      ],
+      [
+        1371,
+        1096,
+        2023,
+        1968
       ]
     ],
     "jogo": {
-      "pxCasa": 0.0165,
+      "pxCasa": 0.03,
       "ancora": "centro",
       "blend": "glow"
-    }
+    },
+    "fundo": "magenta"
   },
   "lightning_correntes": {
     "pixel": 10.5,
@@ -2974,43 +3004,60 @@
     }
   },
   "stone_avalanche": {
-    "pixel": 20,
-    "fundo": "magenta",
+    "pixel": 8,
+    "margem": 10,
     "detector_texto": false,
-    "grao": 0.5,
-    "cor_fundo": [
-      253,
-      0,
-      250
-    ],
+    "grao": 1.2,
     "paineis": [
       [
-        440,
-        850,
-        1260,
-        1438
+        45,
+        393,
+        683,
+        1051
       ],
       [
-        1420,
-        850,
-        2240,
-        1438
+        710,
+        393,
+        1338,
+        1051
+      ],
+      [
+        1365,
+        393,
+        2003,
+        1051
+      ],
+      [
+        45,
+        1202,
+        683,
+        1881
+      ],
+      [
+        710,
+        1202,
+        1338,
+        1881
+      ],
+      [
+        1365,
+        1202,
+        2003,
+        1881
       ]
     ],
-    "circulo": {
-      "1": [
-        0.82,
-        1.0
-      ],
-      "2": [
-        0.82,
-        1.0
-      ]
-    },
     "jogo": {
-      "pxCasa": 0.06,
+      "pxCasa": 0.03,
       "ancora": "centro",
-      "blend": "normal"
+      "blend": "normal",
+      "quadros": {
+        "02": {
+          "ancora": "base"
+        },
+        "03": {
+          "ancora": "base"
+        }
+      }
     }
   },
   "stone_4": {
@@ -3461,25 +3508,60 @@
   },
   "water_clone": {
     "pixel": 8,
-    "fundo": "magenta",
+    "margem": 10,
     "detector_texto": false,
-    "grao": 1,
+    "grao": 1.2,
     "paineis": [
       [
-        820,
-        240,
-        1740,
-        1320
+        23,
+        213,
+        673,
+        1011
+      ],
+      [
+        699,
+        213,
+        1349,
+        1011
+      ],
+      [
+        1375,
+        213,
+        2025,
+        1011
+      ],
+      [
+        23,
+        1120,
+        673,
+        1943
+      ],
+      [
+        700,
+        1119,
+        1348,
+        1943
+      ],
+      [
+        1375,
+        1119,
+        2025,
+        1943
       ]
-    ],
-    "quadros": [
-      1
     ],
     "jogo": {
       "pxCasa": 0.022,
       "ancora": "base",
       "blend": "normal",
-      "alpha": 0.85
+      "alpha": 0.85,
+      "quadros": {
+        "01": {
+          "ancora": "massa"
+        },
+        "06": {
+          "ancora": "base"
+        }
+      }
     }
   },
   "water_2": {
@@ -8096,28 +8178,61 @@
     "limpa_magenta": true
   },
   "weapons_arsenal": {
-    "pixel": 11,
-    "fundo": "magenta",
-    "margem": 12,
+    "pixel": 8,
+    "margem": 10,
     "detector_texto": false,
     "grao": 1.2,
-    "topo": 0,
     "paineis": [
       [
-        193,
-        142,
-        2450,
-        1431
+        110,
+        523,
+        675,
+        1150
+      ],
+      [
+        691,
+        523,
+        1357,
+        1150
+      ],
+      [
+        1373,
+        523,
+        2034,
+        1150
+      ],
+      [
+        110,
+        1304,
+        675,
+        1920
+      ],
+      [
+        691,
+        1304,
+        1357,
+        1920
+      ],
+      [
+        1374,
+        1303,
+        2035,
+        1920
       ]
     ],
     "jogo": {
-      "pxCasa": 0.03,
-      "ancora": "centro",
+      "pxCasa": 0.026,
+      "ancora": "base",
       "blend": "normal",
-      "alpha": 0.9
-    },
-    "limiar_m": 0.35,
-    "alfa_suave": true
+      "quadros": {
+        "01": {
+          "ancora": "massa"
+        },
+        "06": {
+          "ancora": "massa"
+        }
+      }
+    }
   },
   "weapons_dragoes": {
     "pixel": 8,
@@ -8172,53 +8287,62 @@
   },
   "weapons_ceu": {
     "pixel": 8,
-    "fundo": "magenta",
-    "margem": 12,
+    "margem": 10,
     "detector_texto": false,
     "grao": 1.2,
-    "topo": 0,
     "paineis": [
       [
-        13,
-        101,
-        851,
-        709
+        89,
+        459,
+        611,
+        1017
       ],
       [
-        866,
-        101,
-        1710,
-        709
+        762,
+        459,
+        1286,
+        1017
       ],
       [
-        1725,
-        101,
-        2566,
-        709
+        1437,
+        458,
+        1959,
+        1017
       ],
       [
-        13,
-        823,
-        851,
-        1429
+        89,
+        1232,
+        611,
+        1861
       ],
       [
-        866,
-        823,
-        1710,
-        1429
+        762,
+        1232,
+        1286,
+        1861
       ],
       [
-        1725,
-        823,
-        2566,
-        1429
+        1437,
+        1232,
+        1959,
+        1861
       ]
     ],
     "jogo": {
       "pxCasa": 0.03,
       "ancora": "centro",
-      "blend": "normal"
+      "blend": "normal",
+      "quadros": {
+        "02": {
+          "ancora": "base"
+        },
+        "03": {
+          "ancora": "base"
+        },
+        "04": {
+          "ancora": "base"
+        }
+      }
     }
   },
   "weapons_4": {
@@ -8481,26 +8605,53 @@
     ]
   },
   "taijutsu_bloqueio": {
-    "pixel": 11,
-    "fundo": "magenta",
-    "margem": 12,
+    "pixel": 8,
+    "margem": 10,
     "detector_texto": false,
     "grao": 1.2,
-    "topo": 0,
     "paineis": [
       [
-        490,
-        284,
-        2089,
-        1302
+        14,
+        403,
+        673,
+        1040
+      ],
+      [
+        689,
+        403,
+        1358,
+        1040
+      ],
+      [
+        1375,
+        403,
+        2034,
+        1040
+      ],
+      [
+        14,
+        1232,
+        673,
+        1890
+      ],
+      [
+        689,
+        1232,
+        1358,
+        1890
+      ],
+      [
+        1375,
+        1232,
+        2035,
+        1890
       ]
     ],
     "jogo": {
       "pxCasa": 0.03,
-      "ancora": "centro",
+      "ancora": "massa",
       "blend": "normal"
-    },
-    "alfa_suave": true
+    }
   },
   "taijutsu_ascendente": {
     "pixel": 8,
@@ -11829,5 +11980,333 @@
       ]
     ],
     "fundo": "magenta"
+  },
+  "weapons_arsenal_cima": {
+    "pixel": 8,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        23,
+        265,
+        677,
+        1013
+      ],
+      [
+        699,
+        265,
+        1349,
+        1013
+      ],
+      [
+        1371,
+        265,
+        2025,
+        1013
+      ],
+      [
+        23,
+        1131,
+        677,
+        1881
+      ],
+      [
+        699,
+        1131,
+        1349,
+        1881
+      ],
+      [
+        1371,
+        1131,
+        2025,
+        1881
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.026,
+      "ancora": "base",
+      "blend": "normal",
+      "quadros": {
+        "01": {
+          "ancora": "massa"
+        },
+        "06": {
+          "ancora": "massa"
+        }
+      }
+    }
+  },
+  "weapons_arsenal_baixo": {
+    "pixel": 8,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        23,
+        266,
+        676,
+        1013
+      ],
+      [
+        699,
+        266,
+        1348,
+        1013
+      ],
+      [
+        1371,
+        266,
+        2025,
+        1013
+      ],
+      [
+        23,
+        1131,
+        677,
+        1881
+      ],
+      [
+        700,
+        1131,
+        1348,
+        1881
+      ],
+      [
+        1371,
+        1131,
+        2025,
+        1881
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.026,
+      "ancora": "base",
+      "blend": "normal",
+      "quadros": {
+        "01": {
+          "ancora": "massa"
+        },
+        "06": {
+          "ancora": "massa"
+        }
+      }
+    }
+  },
+  "water_clone_baixo": {
+    "pixel": 8,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        24,
+        213,
+        673,
+        1011
+      ],
+      [
+        699,
+        213,
+        1349,
+        1011
+      ],
+      [
+        1375,
+        213,
+        2025,
+        1011
+      ],
+      [
+        24,
+        1120,
+        673,
+        1942
+      ],
+      [
+        699,
+        1120,
+        1349,
+        1942
+      ],
+      [
+        1375,
+        1120,
+        2024,
+        1942
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.022,
+      "ancora": "base",
+      "blend": "normal",
+      "alpha": 0.85,
+      "quadros": {
+        "01": {
+          "ancora": "massa"
+        },
+        "06": {
+          "ancora": "base"
+        }
+      }
+    }
+  },
+  "water_clone_cima": {
+    "pixel": 8,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        23,
+        213,
+        673,
+        1011
+      ],
+      [
+        699,
+        213,
+        1349,
+        1011
+      ],
+      [
+        1375,
+        213,
+        2025,
+        1011
+      ],
+      [
+        23,
+        1120,
+        673,
+        1942
+      ],
+      [
+        699,
+        1120,
+        1349,
+        1942
+      ],
+      [
+        1376,
+        1120,
+        2025,
+        1942
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.022,
+      "ancora": "base",
+      "blend": "normal",
+      "alpha": 0.85,
+      "quadros": {
+        "01": {
+          "ancora": "massa"
+        },
+        "06": {
+          "ancora": "base"
+        }
+      }
+    }
+  },
+  "taijutsu_3_rajada": {
+    "pixel": 8,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        24,
+        285,
+        662,
+        939
+      ],
+      [
+        702,
+        285,
+        1346,
+        939
+      ],
+      [
+        1386,
+        285,
+        2024,
+        939
+      ],
+      [
+        24,
+        1068,
+        663,
+        1860
+      ],
+      [
+        702,
+        1068,
+        1346,
+        1860
+      ],
+      [
+        1385,
+        1068,
+        2024,
+        1860
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal"
+    }
+  },
+  "taijutsu_4_rajada": {
+    "pixel": 8,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        26,
+        457,
+        665,
+        1062
+      ],
+      [
+        701,
+        457,
+        1339,
+        1062
+      ],
+      [
+        1383,
+        457,
+        2022,
+        1062
+      ],
+      [
+        26,
+        1231,
+        665,
+        1925
+      ],
+      [
+        701,
+        1231,
+        1339,
+        1925
+      ],
+      [
+        1383,
+        1231,
+        2022,
+        1925
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal"
+    }
   }
 }

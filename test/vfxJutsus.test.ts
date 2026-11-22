@@ -86,14 +86,16 @@ describe('v73 a v79: as animações desenhadas dos jutsus de Fogo, Cura, Relâmp
     // v95: o Ciclo Sem Fim (a última folha)
     'illusion_4'];
   // quadros por folha: 6; o Cometa veio sem o 5, a Desintoxicação com o 6 vazio, a Palma com 7
-  const N: Record<string, number> = { illusion_4: 9, heal_palma: 7, lightning_risco: 7, stone_avalanche: 2,
-    water_clone: 1, water_casulo: 8, taijutsu_queda: 7, weapons: 7, weapons_corte: 5, weapons_arsenal: 1, taijutsu_bloqueio: 1, zefiro_mil: 5, shadow_veu: 7, shadow_2: 5, shadow_beijo: 5, shadow_recuo: 5 };   // v80: folhas com outro número de quadros   // a Avalanche: duas crateras de uma folha só
+  const N: Record<string, number> = { illusion_4: 9, heal_palma: 7, lightning_risco: 7,
+ water_casulo: 8, taijutsu_queda: 7, weapons: 7, weapons_corte: 5, zefiro_mil: 5, shadow_veu: 7, shadow_2: 5, shadow_beijo: 5, shadow_recuo: 5 };   // v80: folhas com outro número de quadros   // a Avalanche: duas crateras de uma folha só
   it('cada jutsu tem os quadros da folha, e a Revoada e a Chuva têm as peças soltas (uma brasa, um meteoro)', () => {
     for (const s of SKILLS) {
       const n = FOGO_SPRITE_FRAMES.filter((f) => f.replace(/_0\d\w?$/, '') === s && /_0\d$/.test(f)).length;
       assert.equal(n, N[s] ?? 6, s);
     }
-    assert.ok(FOGO_SPRITE_FRAMES.includes('lightning_rede_01'), 'a Rede de Faíscas veio num quadro só');
+    for (let i = 1; i <= 6; i++) assert.ok(FOGO_SPRITE_FRAMES.includes(`lightning_rede_0${i}`), 'a Rede de Faíscas com os 6 quadros (v95)');
+    for (const d of ['baixo', 'cima']) for (const k of ['water_clone', 'weapons_arsenal', 'aspide_ninho']) assert.ok(FOGO_SPRITE_FRAMES.includes(`${k}_${d}_02`), `${k} para ${d} (v95)`);
+    for (const k of ['taijutsu_3', 'taijutsu_4']) assert.ok(FOGO_SPRITE_FRAMES.includes(`${k}_rajada_06`), `${k}: a folha de rajada (v95)`);
     for (let i = 1; i <= 6; i++) assert.ok(FOGO_SPRITE_FRAMES.includes(`illusion_estaca_baixo_0${i}`), 'a Estaca para baixo');   // v88: a primeira folha de direção
     for (const f of ['lightning_ceu_01b', 'lightning_ceu_03b', 'lightning_ceu_05b', 'lightning_ceu_06b', 'lightning_2_02b', 'lightning_2_05b', 'fire_2_04b', 'fire_2_05b', 'fire_2_06b', 'fire_4_01b', 'fire_4_04b', 'fire_4_05b', 'fire_4_06b']) assert.ok(FOGO_SPRITE_FRAMES.includes(f), f);
   });

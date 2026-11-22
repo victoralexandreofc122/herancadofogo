@@ -34,7 +34,8 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   (perde o alvo), Duplo de Água bate. Mesclado (PR #34; a v32 rodou no Neon).
 - **v95 (sem migração, pedidos do Victor de 22/11):** o Ciclo Sem Fim (a última folha: os 200 desenhados), o lugar no corpo em
   todos os jutsus desse tipo (`LUGAR` em `public/vfxJutsus.js`) e as 12 folhas refeitas (o Ninho de Áspides com as serpentes nas 3
-  direções; a lista de refazer ficou vazia).
+  direções; a lista de refazer ficou vazia), mais 12 folhas (Arsenal Vivo e Duplo de Água nas 3 direções, Bloqueio, Rede, Avalanche e
+  Céu de Lâminas por ponto, as rajadas) e os círculos centrados no corpo (marcações do Victor).
 - **v94 (sem migração, pedido do Victor de 22/11):** a primeira experiência sem rolagem (entrada em 2 colunas, Criador,
   Configurações, Vínculo em abas, Perfil e Manual em colunas; `scripts/auditar-primeira.ts` confere), a Forma Umbral nos pés e
   opaca e o chão verde da Aura de Regeneração (`piso`).

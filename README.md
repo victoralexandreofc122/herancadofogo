@@ -256,6 +256,12 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
 - As folhas refeitas: Ninho de Áspides (as serpentes andam e mordem, com as folhas para baixo e para cima), Véu de Vento,
   Espelho de Ar, Soco de Pressão, Olho da Tempestade, Tromba d’Água, Tornado Cortante, Fenda do Vento, Desintoxicação (agora
   uma cúpula, com o 6º quadro) e Cometa Rasteiro (o cometa voa até onde parou e explode). A lista de refazer ficou vazia.
+- Mais 12 folhas (22/11): Arsenal Vivo e Duplo de Água desenhados (surgem, andam, golpeiam e somem, de lado, de frente e de
+  costas), Bloqueio Firme (a guarda em laço até o golpe), Rede de Faíscas (6 quadros), Avalanche e Céu de Lâminas (uma rocha ou
+  lâmina em cada ponto sorteado: o X, a queda, o impacto e a poeira; `folhaCai`) e as rajadas do Cem Golpes e do Punho do Céu.
+  As listas de refazer e de quadros a mais ficaram vazias; faltam só as folhas de direção.
+- As marcações do Victor no lugar do corpo: os círculos em volta do corpo ficam com o ninja no meio (o meio da arte no meio do
+  corpo, também nos quadros pequenos da entrada), o anel do Fôlego vai para os pés em perspectiva e o Véu do Zéfiro cobre a cabeça.
 
 ### v94: primeira experiência sem rolagem e os ajustes da Forma Umbral e da Aura (sem migração)
 
