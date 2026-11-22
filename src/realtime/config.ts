@@ -558,7 +558,8 @@ export const REALTIME: Readonly<RealtimeConfig> = {
           name: 'Rei Lodo',
           ryo: { min: 120, max: 200 },
           phases: [
-            { at: 0.65, text: 'O Rei Lodo chama os filhos!', adds: { type: 'slime', count: 4 } },
+            // v93 (pedido do Victor, 22/11): sem chamar Lodos (a luta é só com ele, no salão); fica agitado e bate mais rápido
+            { at: 0.65, text: 'O Rei Lodo se agita!', enrage: 1.15 },
             {
               at: 0.3, text: 'O Rei Lodo está furioso!', enrage: 1.3,
               // Esmagar: marca só o alvo dele (1,2 casa) e bate 1,5 s depois: 60 de dano. Sai, Pedra ou Substituição.

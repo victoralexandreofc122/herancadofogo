@@ -36,7 +36,7 @@ import { cronistaFala, tutorFala } from './falas.js';
 import { FRAGMENT_BY_ID, FRAGMENT_REWARD, FRAGMENT_SERVER_REACH, FRAGMENT_SPOTS } from './fragmentos.js';
 
 /**
- * v35 (#11): o Rito do Despertar. Genin de nível 11 com a linhagem marcada no Criador fala com o Diretor, derrota estes
+ * v35 (#11): o Rito do Despertar. Genin de nível 11 com a linhagem marcada no Criador fala com O Cronista (v93; antes o Diretor), derrota estes
  * monstros (Lodo Escuro, na Floresta) e volta: a linhagem desperta e a árvore do clã abre.
  */
 export const RITE = { monster: 'lodo_escuro', count: 10, monsterName: 'Lodos Escuros' } as const;
@@ -521,6 +521,8 @@ interface Monster {
   echo?: number;
   /** v30: provocado: persegue e bate nesta invocação (Golem, Clone) enquanto ela existir. */
   tauntId?: string;
+  /** v93: a invocação que bateu nele por último e quando (ele só a persegue se ela bate e está mais perto que o ninja). */
+  summonHit?: { id: string; at: number };
   punch?: { damage: number; hit: HitInfo; liftMs: number; everyMs: number; nextAt: number; radius: number; poison?: { amount: number; max: number; ms: number } };
   /** v53: em quem a invocação está indo (monstro ou ninja inimigo do dono). */
   summonTargetId?: string;
@@ -704,6 +706,8 @@ const SUMMON_AI = { aggroRange: 7, chaseSpeed: 3, leashRange: 12 } as const;
 const SUMMON_FOCUS_MS = 10_000;
 const SUMMON_FOCUS_RANGE = 10;
 const SUMMON_FOLLOW = 2.5;
+/** v93: por quanto tempo depois do golpe a invocação ainda atrai o monstro que ela bateu. */
+const SUMMON_HIT_MS = 3000;
 /** O golpe de cada invocação conta como o jutsu que a chamou (maestria, recarga do PvP, nome no registro). */
 const SUMMON_SKILL: Readonly<Record<string, Skill>> = { golem: 'stone_golem', sentinela_sombra: 'shadow_sentinela', arsenal: 'weapons_arsenal', clone_agua: 'water_clone',
   serpente_aspide: 'aspide_ninho', fera_garra: 'garra_matilha', fera_rei: 'garra_rei' };   // v63
@@ -1351,8 +1355,8 @@ export class GameWorld {
     if (session.clan) this.grantClanJutsus(session);   // v30: um tier do clã que o nível alcançou longe do jogo
     else if (session.rank.code !== 'ACADEMY' && session.level >= CLAN_TIER_LEVEL[0]) {
       this.sendTo(session, { type: 'notice', text: session.clanMark
-        ? `Sua linhagem (${CLAN_NAMES[session.clanMark]}) pode despertar: fale com o Diretor da Academia sobre o Rito do Despertar.`
-        : 'Sua linhagem pode despertar: marque o sangue no Criador de Personagem (☰ → Config. → Mudar visual do personagem) e fale com o Diretor sobre o Rito do Despertar.', tone: 'info' });
+        ? `Sua linhagem (${CLAN_NAMES[session.clanMark]}) pode despertar: fale com O Cronista, na Academia, sobre o Rito do Despertar.`
+        : 'Sua linhagem pode despertar: marque o sangue no Criador de Personagem (☰ → Config. → Mudar visual do personagem) e fale com O Cronista sobre o Rito do Despertar.', tone: 'info' });
     }
     this.syncMission(session.id);
     if (session.canBeSensei) this.syncSensei(session.id);
@@ -2207,6 +2211,7 @@ export class GameWorld {
   /** O golpe/habilidade de cada criatura no alvo. Devolve true se a criatura se moveu (avanço do Tigre, pulo do Gato). */
   private creatureAct(m: Monster, owner: Session, x: Target, t: number): boolean {
     const c = m.creature!;
+    if (x.kind === 'monster') x.monster.summonHit = { id: m.id, at: t };   // v93: quem bate atrai o monstro
     const st = CREATURE_STATS[c.kind];
     let dmg = creatureBaseDamage(owner.level) * st.power * affinityMult(c.level);
     let moved = false;
@@ -2911,7 +2916,7 @@ export class GameWorld {
     if (!who.clanMark) return fail(`${who.username} ainda não marcou a linhagem no Criador de Personagem.`);
     this.setRite(who, RITE.count);
     this.audit(s.id, 'rito', who.id, {}, true, null);
-    if (who.id !== s.id) this.sendTo(who, { type: 'notice', text: `O administrador completou o seu Rito: ${RITE.count}/${RITE.count}. Volte ao Diretor da Academia.`, tone: 'good' });
+    if (who.id !== s.id) this.sendTo(who, { type: 'notice', text: `O administrador completou o seu Rito: ${RITE.count}/${RITE.count}. Volte ao Cronista, na Academia.`, tone: 'good' });
     this.sendTo(s, { type: 'notice', text: `Admin: Rito de ${who.username} completo (${RITE.count}/${RITE.count}).`, tone: 'good' });
   }
 
@@ -2982,6 +2987,8 @@ export class GameWorld {
     // "eu" (só na patente): o próprio admin
     const username = (c.cmd === 'rank' || c.cmd === 'resetclasses') && c.username === 'eu' ? (this.sessions.get(adminId)?.username ?? c.username) : c.username;
     const target = await store.findPlayer(username);
+    // v93 (pedido do Victor, 22/11): a linhagem já desperta continua desperta depois de zerar as classes (sem refazer o Rito)
+    const clanAntes = (target && this.sessions.get(target.id)?.clan) || null;   // o reset é só para conta de admin, que testa online
     if (!target) {
       await store.log(adminId, c.cmd, null, { username }, false, 'jogador não encontrado');
       return say(`Admin: jogador "${username}" não encontrado.`, 'bad');
@@ -2993,7 +3000,7 @@ export class GameWorld {
         const s = this.sessions.get(target.id);
         if (s) {
           s.classes = { primary: null, secondary: null };
-          s.clan = null;
+          s.clan = null;   // o banco zerou; volta logo abaixo (chooseClan grava de novo e devolve os jutsus do clã do nível)
           s.rank = { code: 'ACADEMY', name: 'Academia' };
           s.canBeSensei = false;
           for (const code of [...s.jutsus.keys()]) {
@@ -3006,8 +3013,9 @@ export class GameWorld {
           this.sendTo(s, { type: 'kit', ...this.kitView(s) });
           this.sendTo(s, { type: 'progress', ...this.progressView(s) });
           this.broadcastMap(s.map, this.rankMsg(s));
+          if (clanAntes) this.restoreClan(s, clanAntes as Clan);
         }
-        say(`Admin: ${target.username} voltou à Academia sem classe e sem linhagem (${r.removed} jutsus de classe e de clã removidos). Fale com o Diretor para escolher de novo.`, 'good');
+        say(`Admin: ${target.username} voltou à Academia sem classe (${r.removed} jutsus de classe removidos)${clanAntes ? `; a linhagem (${CLAN_NAMES[clanAntes as Clan]}) continua desperta` : ''}. Fale com o Diretor para escolher de novo.`, 'good');
         break;
       }
       case 'rank': {
@@ -4521,6 +4529,15 @@ export class GameWorld {
     return undefined;
   }
 
+  /** v93: a invocação que atrai o monstro: a que bateu nele nos últimos 3 s (ainda viva, no mapa), ou a Tartaruga perto. */
+  private summonTaunt(m: Monster, range: number, t: number): Monster | undefined {
+    if (m.ownerId) return undefined;
+    const h = m.summonHit && t - m.summonHit.at <= SUMMON_HIT_MS ? this.monsters.get(m.summonHit.id) : undefined;
+    if (h && h.hp > 0 && h.map === m.map && h.ownerId) return h;
+    const near = this.summonNear(m, range);
+    return near?.creature?.kind === 'tartaruga' ? near : undefined;
+  }
+
   /** v30: a invocação mais perto de um monstro, no raio (só as de ninjas; o monstro não provoca a si mesmo). */
   private summonNear(m: Monster, range: number): Monster | undefined {
     if (m.ownerId) return undefined;
@@ -4614,6 +4631,7 @@ export class GameWorld {
         const [fx, fy] = unit(aim.x - m.x, aim.y - m.y);
         this.broadcastMap(m.map, { type: 'summon_punch', id: m.id, x: round2(m.x), y: round2(m.y), r: p.radius, fx: round2(fx), fy: round2(fy) });
         for (const x of hits) {
+          if (x.kind === 'monster') x.monster.summonHit = { id: m.id, at: t };   // v93: quem bate atrai o monstro
           this.hitTarget(x, p.damage, owner, t, 'skill', SUMMON_SKILL[m.type] ?? 'stone_golem', p.hit);
           if (p.liftMs && this.stillThere(x)) this.applyStatus(x, 'stunned', p.liftMs, t, owner);
           if (p.poison && this.stillThere(x)) this.poisonOn(x, owner, p.poison.amount, p.poison.max, p.poison.ms, t);   // v63: Ninho de Áspides
@@ -5692,6 +5710,16 @@ export class GameWorld {
     } else done();
   }
 
+  /** v93: devolve a linhagem já desperta depois do reset de classes (sem Rito, mesmo na Academia): grava, avisa e dá os jutsus do clã do nível. */
+  private restoreClan(s: Session, clan: Clan): void {
+    s.clan = clan;
+    if (this.store?.chooseClan) this.storeTask(s, (store) => store.chooseClan!(s.id, clan), true);
+    this.sendTo(s, { type: 'clan', clan });
+    this.grantClanJutsus(s);
+    if (s.riteProgress !== null) this.setRite(s, null);
+    this.broadcastMap(s.map, this.rankMsg(s));
+  }
+
   /** v35: marca a linhagem no Criador (antes do Rito; depois de despertar, não muda mais). */
   private markClan(s: Session, clan: Clan): void {
     if (s.clan) return this.sendTo(s, { type: 'notice', text: `Sua linhagem já despertou: ${CLAN_NAMES[s.clan]}.`, tone: 'info' });
@@ -5700,7 +5728,7 @@ export class GameWorld {
     if (this.store?.setClanMark) this.storeTask(s, (store) => store.setClanMark!(s.id, clan), true);
   }
 
-  /** v35: o Rito do Despertar com o Diretor (começar, ver o andamento, despertar). true = o Diretor falou do Rito. */
+  /** v35: o Rito do Despertar (começar, ver o andamento, despertar). v93: com O Cronista; true = ele falou do Rito. */
   private riteTalk(s: Session, say: (text: string) => void): boolean {
     if (s.clan || s.rank.code === 'ACADEMY' || s.level < CLAN_TIER_LEVEL[0]) return false;
     if (!s.clanMark) {
@@ -5733,7 +5761,7 @@ export class GameWorld {
     if (s.riteProgress === null || s.clan || type !== RITE.monster || s.riteProgress >= RITE.count) return;
     this.setRite(s, s.riteProgress + 1);
     this.sendTo(s, { type: 'notice', tone: 'good', text: s.riteProgress! >= RITE.count
-      ? `Rito do Despertar: ${RITE.count}/${RITE.count}! Volte ao Diretor da Academia.` : `Rito do Despertar: ${s.riteProgress}/${RITE.count}.` });
+      ? `Rito do Despertar: ${RITE.count}/${RITE.count}! Volte ao Cronista, na Academia.` : `Rito do Despertar: ${s.riteProgress}/${RITE.count}.` });
   }
 
   /** v30: ensina os jutsus do clã que o nível já alcançou (no despertar, ao entrar e ao subir de nível). */
@@ -5952,6 +5980,8 @@ export class GameWorld {
     if (npc.role === 'cronista') {                           // v62: a Crônica das Eras
       if (t - session.lastMissionAt < this.config.missionRequestEveryMs) return;
       session.lastMissionAt = t;
+      // v93: o Rito do Despertar é com ele (a família lutou perto dos Titãs: a história que ele guarda); depois, a Crônica
+      if (this.riteTalk(session, (text) => this.sendTo(session, { type: 'npc_say', npcId: 'cronista', text }))) return;
       return this.talkChronicler(session);
     }
     if (npc.id === 'director' || npc.id.startsWith('tutor_')) {
@@ -5994,7 +6024,7 @@ export class GameWorld {
       say('Chegou a hora da Missão de Genin.\n\nEscolha sua classe: ela decide quais jutsus você pode aprender, e quem você vai ser quando ninguém estiver olhando.\n\nEscolha devagar. Escolha feita com pressa é a primeira que se arrepende.');
       return this.sendTo(s, { type: 'class_choice', kind: 'primary', classes: [...CLASSES] });
     }
-    if (this.riteTalk(s, say)) return;   // v35: o Rito do Despertar vem antes do resto
+    // v93 (pedido do Victor, 22/11): o Rito do Despertar saiu do Diretor e é com O Cronista (o Diretor fica com as classes)
     if (s.level >= lv.kage && !s.kageCandidate) {
       return say('Poucos chegam tão longe. Eu cheguei, e não quis.\n\nSe quiser, registre aqui a sua candidatura a Kage. A aldeia escolhe. Eu só guardo a porta.');
     }
@@ -8156,16 +8186,6 @@ export class GameWorld {
       return;
     }
     if (m.mind === 'chase' && distanceToBox(zone, m) > ai.leashRange) { m.tauntId = undefined; return this.monsterReturn(m, zone); }
-    // v30: provocação: a invocação de um ninja no raio de aggro atrai o monstro (a mais perto)
-    const taunt = this.summonNear(m, ai.aggroRange);
-    if (taunt) {
-      if (m.tauntId !== taunt.id) this.broadcastMap(m.map, { type: 'monster_aggro', id: m.id, targetId: taunt.id });
-      m.tauntId = taunt.id;
-      m.mind = 'chase';
-      m.dir = unit(taunt.x - m.x, taunt.y - m.y);
-      return;
-    }
-    m.tauntId = undefined;
     const layout = this.layout(m.map);
     const ok = (s: Session) => s.map === m.map && !s.dead && !s.closed && !inSafeZone(layout, s.x, s.y) && s.invisUntil <= this.now();
     let target: Session | undefined;
@@ -8180,6 +8200,17 @@ export class GameWorld {
       }
     }
     target ??= nearest(m, this.mapPlayers.get(m.map) ?? [], ai.aggroRange, ok);
+    // v93 (pedido do Victor, 22/11): a invocação só atrai o monstro se está batendo nele (nos últimos 3 s) e está mais perto
+    // que o ninja; só estar perto não basta (ele segue no ninja). A Tartaruga do Vínculo provoca de perto, como antes.
+    const taunt = this.summonTaunt(m, ai.aggroRange, t);
+    if (taunt && (!target || distance(m, taunt) < distance(m, target))) {
+      if (m.tauntId !== taunt.id) this.broadcastMap(m.map, { type: 'monster_aggro', id: m.id, targetId: taunt.id });
+      m.tauntId = taunt.id;
+      m.mind = 'chase';
+      m.dir = unit(taunt.x - m.x, taunt.y - m.y);
+      return;
+    }
+    m.tauntId = undefined;
     if (!target) {
       if (m.mind === 'chase') {
         if (distanceToBox(zone, m) > 0) this.monsterReturn(m, zone);

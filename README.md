@@ -246,6 +246,17 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v93: pedidos do Victor de 22/11 (sem migração)
+
+- Invocações: o monstro só vai na invocação se ela está batendo nele (nos últimos 3 s) e mais perto que o ninja; só estar
+  perto não basta (a Tartaruga do Vínculo provoca de perto, como antes). `summonHit` e `summonTaunt` em `gameWorld.ts`.
+- Rito do Despertar: agora é com O Cronista (na Academia); o Diretor fica só com as classes. Zerar as classes
+  (`/admin resetarclasses`) mantém a linhagem desperta e devolve os jutsus do clã do nível (`restoreClan`).
+- Caverna do Lodo: o Salão do Rei Lodo, fechado por rocha no leste da câmara (entra-se pelo túnel leste); nenhum Lodo Escuro
+  nasce nele nem no túnel; o chefe não chama mais os filhos (aos 65% fica agitado, 15% mais rápido).
+- O soco sem arma mostra o impacto do punho, e não o arco de corte da espada.
+- O círculo escuro em perspectiva: a Forma Umbral achatada (`sy`) e a Noite Fechada deitada no chão, por baixo do ninja.
+
 ### v92: ajustes do Victor no lugar da arte no corpo (sem migração)
 
 - Forma Umbral e Guarda Compartilhada: a parte de trás vai até o pescoço (`corte`), a cabeça fica na frente da arte.

@@ -118,7 +118,9 @@ export class JutsuSprites {
       // alto = a altura da arte em casas (o corpo inteiro, só o tronco); corte = onde a metade de trás acaba (casas, a partir do ponto)
       apoio: opts.apoio ?? null, alto: opts.alto ?? 0, corte: opts.corte ?? 0,
       // v92: ícone em cima da cabeça de alguém (o id): o jogo põe os ícones ativos lado a lado (drawCabeca)
-      cabeca: opts.cabeca ?? null });
+      cabeca: opts.cabeca ?? null,
+      // v93: achata na vertical (o círculo perfeito vira elipse em perspectiva: deitado no chão ou em volta do corpo)
+      sy: opts.sy ?? 1 });
     return true;
   }
 
@@ -222,7 +224,10 @@ export class JutsuSprites {
       // v91: com `alto`, a escala sai da altura da imagem (a arte do tamanho do corpo, qualquer que seja a folha)
       const im = imgs[s.name], fm = FRAMES[s.name];
       const base = s.alto && im && fm && !fm.quadros ? (s.alto * im.width) / (im.height * fm.casas) : s.scale;
+      const achata = s.sy !== 1;
+      if (achata) { g.save(); g.translate(px, py); g.scale(1, s.sy); g.translate(-px, -py); }
       drawSprite(g, s.name, px, py, T, ang, base * (1 + s.grow * life) * pop, alpha * fr, s.flicker ? now : 0, s.len, ((now - s.start) * s.rate), s.apoio);
+      if (achata) g.restore();
       if (s.split) g.restore();
     }
     this.list.length = alive;

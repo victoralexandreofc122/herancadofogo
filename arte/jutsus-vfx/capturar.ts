@@ -268,6 +268,9 @@ function PLANOS(X: number, Y: number): Record<string, Plan> {
       [100, { type: 'summon', id: 'refl1', ownerId: '__ME__', kind: 'clone_agua', hp: 30, maxHp: 30, ms: 6000 }],
       [1700, { type: 'monster_died', id: 'refl1', killerId: '' }]], shots: [40, 240, 640, 1200, 1750, 2000] },
     // ---- v89: o Clã Rubro, o Clã Umbra (3), Água, Taijutsu, Vento e Cura
+    // v93: o Ataque Básico sem arma: o impacto do soco na frente (e não o arco de corte)
+    soco: { steps: [[0, { type: 'attack', playerId: '__ME__', x: X, y: Y, fx: 1, fy: 0, r: 1.6 }], [450, { type: 'attack', playerId: '__ME__', x: X, y: Y, fx: 1, fy: 0, r: 1.6 }]],
+      shots: [90, 160, 230, 300, 540, 610] },
     rubro_olho: { steps: [[0, C('rubro_olho', { playerId: '__ME__' })]], shots: [60, 200, 350, 600, 1500, 3000] },
     // v92: a fileira de ícones em cima da cabeça: o Olhar Rubro, depois atordoado e em silêncio ao mesmo tempo
     cabeca_teste: { steps: [[0, C('rubro_olho', { playerId: '__ME__' })], [600, { type: 'player_status', playerId: '__ME__', status: 'stunned', ms: 1500 }],

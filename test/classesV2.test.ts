@@ -588,6 +588,36 @@ describe('Jutsus v2, entrega 5: as outras classes', () => {
     assert.ok(!world.monsters.has(sum.id) || world.monsters.get(sum.id).hp < sum.maxHp, 'o clone apanhou');
     assert.equal(s.hp, hp, 'o ninja não apanhou');
   });
+
+  it('v93: a invocação só perto (sem bater) não atrai o monstro; batendo e mais perto que o ninja, atrai', () => {
+    const w = setupWorld({ ...config(), combat: { ...config().combat, monsters: { ...REALTIME.combat.monsters, count: 0, attackDamage: 8 } } });
+    const world: any = w.world;
+    const a = w.connect('kaito');
+    const row = openRow(10);
+    placeIn(world, a.id, 'map_2', row.x, row.y);
+    const s = world.sessions.get(a.id);
+    Object.assign(s, { fx: 1, fy: 0, chakra: 1000, cooldowns: {}, tutorial: 4 });
+    s.jutsus.set('water_clone', 0);
+    s.kits[s.activeKit] = ['water_clone', ...s.kits[s.activeKit].slice(0, 3)];
+    a.send({ type: 'cast', skill: 'water_clone' });
+    const clone = world.monsters.get(a.conn.last('summon').id);
+    const mon = world.monsters.get(world.spawnMonster({ x: s.x + 3, y: s.y }, undefined, 'map_2').id);
+    const t = world.now();
+    // só perto: pensa e vai no ninja
+    world.thinkMonster(mon, world.monsterType(mon.type).ai, t);
+    assert.equal(mon.tauntId, undefined, 'só perto não atrai');
+    assert.equal(mon.targetId, a.id);
+    // a invocação bateu nele e está mais perto que o ninja: vai nela
+    Object.assign(clone, { x: mon.x - 1, y: mon.y });
+    mon.summonHit = { id: clone.id, at: t };
+    world.thinkMonster(mon, world.monsterType(mon.type).ai, t + 1);
+    assert.equal(mon.tauntId, clone.id, 'batendo e mais perto, atrai');
+    // bateu, mas o ninja está mais perto: segue no ninja
+    Object.assign(clone, { x: mon.x + 2.5, y: mon.y });
+    Object.assign(s, { x: mon.x - 1, y: mon.y });
+    world.thinkMonster(mon, world.monsterType(mon.type).ai, t + 2);
+    assert.equal(mon.tauntId, undefined, 'o ninja mais perto ganha');
+  });
 });
 
 

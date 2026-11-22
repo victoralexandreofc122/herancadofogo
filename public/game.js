@@ -939,9 +939,9 @@ function handleMessage(msg) {
       break;
     }
     case 'clan_mark':
-      // v35: a linhagem marcada no Criador (desperta no Rito do Despertar, com o Diretor)
+      // v35: a linhagem marcada no Criador (desperta no Rito do Despertar; v93: com O Cronista)
       state.ninja.clanMark = msg.clan;
-      addSystemLine(`🩸 Sangue marcado: ${LINEAGE_NAMES[msg.clan] || msg.clan}. Desperta no Rito do Despertar (Genin, nível 11, com o Diretor).`);
+      addSystemLine(`🩸 Sangue marcado: ${LINEAGE_NAMES[msg.clan] || msg.clan}. Desperta no Rito do Despertar (Genin, nível 11, com O Cronista, na Academia).`);
       break;
     case 'rite':
       state.ninja.riteProgress = msg.progress;
@@ -1374,11 +1374,16 @@ function handleMessage(msg) {
       // Arremesso (Shuriken Gigante): sem corte; o efeito é a shuriken voando (mensagem `projectile`).
       // O corte tem o tamanho do golpe da arma (kunai curta, espada longa maior: `r` do servidor).
       const reach = (msg.r || state.world.basicAttack?.range || 1.6) / 1.6;
-      if (!msg.throw && !vfx.play('slash', msg.x, msg.y, { start: now, delay: 80, angle: Math.atan2(msg.fy, msg.fx), scale: reach })) {
-        state.effects.push({ skill: 'attack', x: msg.x, y: msg.y, fx: msg.fx, fy: msg.fy, start: now });
-      }
-      faceTo(msg.playerId, msg.fx, msg.fy);
       const attacker = state.players.get(msg.playerId);
+      // v93 (pedido do Victor, 22/11): sem arma é soco e chute: o impacto do soco (clarão, anel e poeira) na frente, no
+      // alcance do punho, e não o arco de corte da espada (o jogador achava que era um corte)
+      const desarmado = !msg.throw && !(attacker?.gear?.hand || attacker?.gear?.back);
+      const d = (msg.r || state.world.basicAttack?.range || 1.6) * 0.62;
+      const fez = msg.throw ? true : desarmado
+        ? vfx.play('punch', msg.x + msg.fx * d, msg.y + msg.fy * d - 0.25, { start: now, delay: 70, scale: 0.9 })
+        : vfx.play('slash', msg.x, msg.y, { start: now, delay: 80, angle: Math.atan2(msg.fy, msg.fx), scale: reach });
+      if (!fez) state.effects.push({ skill: 'attack', x: msg.x, y: msg.y, fx: msg.fx, fy: msg.fy, start: now });
+      faceTo(msg.playerId, msg.fx, msg.fy);
       // Com arma equipada (na mão ou nas costas), o golpe é com ela; sem arma, soco e chute alternados.
       if (attacker) {
         const armed = attacker.gear?.hand || attacker.gear?.back;
@@ -6719,9 +6724,9 @@ ui.chat.addEventListener('submit', (e) => {
   if (!message) return closeChat();
   if (!state.connected) return addSystemLine('Sem conexão. Tentando reconectar…');
   // v30: o despertar da linhagem (a partir de Genin): /linhagem rubro | umbra | andarilho
-  // v35: agora a linhagem se marca no Criador de Personagem e desperta no Rito do Despertar (com o Diretor)
+  // v35: agora a linhagem se marca no Criador de Personagem e desperta no Rito do Despertar (v93: com O Cronista)
   if (/^\/linhagem\b/i.test(message)) {
-    addSystemLine('A linhagem agora se marca no Criador de Personagem (☰ → Aparência) e desperta no Rito do Despertar, com o Diretor da Academia.');
+    addSystemLine('A linhagem agora se marca no Criador de Personagem (☰ → Aparência) e desperta no Rito do Despertar, com O Cronista, na Academia.');
     ui.chatInput.value = '';
     return;
   }

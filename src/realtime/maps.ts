@@ -961,6 +961,9 @@ function cave(): MapLayout {
     c(14, 27, 2, 2), c(38, 28, 2, 2),              // estalagmites grandes na galeria
     c(7, 10, 2, 2), c(47, 8, 2, 2),                // e na câmara
     wall('pool', 19, 7, 18, 6),                    // o lago de lodo: ninguém entra
+    // v93 (pedido do Victor, 22/11): o Salão do Rei Lodo. Uma parede de rocha fecha o leste da câmara (acima e abaixo do
+    // lago); só se entra pelo túnel leste. Lá dentro nascem só o chefe: nenhum Lodo Escuro.
+    c(37, 2, 1.4, 5), c(37, 13, 1.4, 3),
   ];
   return {
     id: 'caverna_lodo', name: 'Caverna do Lodo', kind: 'cave', width: W, height: H, safe: false, walls,
@@ -975,7 +978,12 @@ function cave(): MapLayout {
     safeZones: [{ x: 24, y: 37.6, w: 8, h: 5 }],     // quem chega não apanha na hora
     hunt: { x: 7, y: 2, w: 42, h: 30 },
     huntType: 'lodo_escuro',
-    zones: [{ name: 'caverna', type: 'lodo_escuro', weight: 1, x: 7, y: 2, w: 42, h: 30 }],
+    // os Lodos Escuros nascem na câmara do lago (oeste), no túnel oeste e na galeria; nunca no salão do chefe nem no túnel leste
+    zones: [
+      { name: 'camara', type: 'lodo_escuro', weight: 4, x: 7, y: 2, w: 30, h: 14 },
+      { name: 'tunel_oeste', type: 'lodo_escuro', weight: 1, x: 8, y: 16, w: 8, h: 8 },
+      { name: 'galeria', type: 'lodo_escuro', weight: 4, x: 7, y: 24, w: 42, h: 8 },
+    ],
     // O Rei Lodo (chefe opcional): canto leste da câmara, ao lado do lago. O túnel leste passa por ele; o oeste, não
     // (o fundo da M11 fica longe do salão dele).
     spawns: [{ type: 'rei_lodo', x: 43, y: 11, zone: { x: 38, y: 3, w: 10, h: 13 } }],
