@@ -246,6 +246,12 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v83: as Armas completas (sem migração)
+
+- Dança dos Mil Cortes (o redemoinho de lâminas em volta do ninja), Ascensão Dupla (o aviso, as lâminas sobem, os martelos
+  caem; toca uma vez só para as 4 ondas), Céu de Lâminas (os 5 alvos e as espadas caindo, no centro da área), Laço de
+  Ferro (a corrente voa, prende os alvos enquanto dura e quebra) e Arsenal Vivo (o círculo de invocação no chão).
+
 ### v82: animações desenhadas do resto do Vento e das Armas (sem migração)
 
 - Vórtice de Ar, Corte em Cadeia, Disco do Furacão e Fenda do Vento; Chuva de Kunais, Shuriken Espelhada, Corte Rápido,
