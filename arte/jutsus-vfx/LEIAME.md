@@ -77,7 +77,7 @@ no tempo dos quadros. O passo a passo e as lições estão em `arte/pixelfx/LEIA
 
 ## Situação (22/11/2026)
 
-**Feitos (142):**
+**Feitos (147):**
 
 - Fogo (17): Fogo, Sopro Incinerador, Névoa Inflamável, Linha de Fogo Rasante, Revoada de Brasas, Lança de Fogo, Cinzas Detonantes, Lâmina de Fogo, Varredura Flamejante, Projétil Dracônico, Chuva de Meteoros, Marca Incandescente, Chão Incandescente, Cometa Rasteiro, Rugido da Fornalha, Coroa de Chamas, Coluna Infernal.
 - Cura (17): Cura, Desintoxicação Celular, Corte Cirúrgico, Palma Curadora, Descontrole Muscular, Punho Sísmico, Regeneração de Área, Renovação Celular, Selo dos Meridianos, Agulha Calmante, Casca de Chakra, Lâmina Séptica, Banho de Chakra, Onda Anestésica, Milagre Verde, Santuário Vital, Punho do Colosso.
@@ -85,19 +85,19 @@ no tempo dos quadros. O passo a passo e as lições estão em `arte/pixelfx/LEIA
 - Pedra (17, v79/v80): Pedra, Coração de Montanha (`stone_4`, o tier 4 do escudo), Prisão de Pilares, Projétil de Rocha, Escavação Furtiva, Muralha de Terra, Lamaçal Profundo, Pisão da Montanha, Punho de Rocha, Chuva de Cascalho, Carga do Rochedo, Lanças da Terra, Resposta da Montanha, Couraça Mineral, Avalanche (uma folha só, duas crateras), Golem de Terra Titânico (o golem desenhado anda e soca no lugar do de código)., Sumidouro (v80).
 - Água (15, v80): Água, Serpente d’Água, Muro de Água, Duplo de Água (o desenhado anda e soca), Véu de Bruma, Estouro de Maré, Poça Viscosa, Cárcere Líquido, Prisão do Vórtice, Laço da Correnteza, Lâmina d’Água, Rajada de Gotas, Casulo de Água, Tromba d’Água, Grande Onda.
 - Sombra (18, v80): todas (a Sentinela desenhada anda e soca; o Véu Sombrio se desfaz no golpe).
-- Taijutsu (10, v80/v81): Taijutsu, Rasteira Baixa, Esquiva Rápida, Fôlego de Luta, Chute Ciclone, Despertar do Corpo, Flecha Humana, Fúria do Encurralado, Punho do Céu, Queda do Meteoro.
-- Vento (15, v81/v82): todos (Rajada Aberta, Passo Aéreo, Shuriken do Vento, Véu de Vento, Balas de Vento, Espelho de Ar, Lâmina em Arco, Passo Leve, Pulso de Vento, Tornado Cortante, Asa Cortante, Vórtice de Ar, Corte em Cadeia, Disco do Furacão, Fenda do Vento), menos Mil Cortes do Céu e Olho da Tempestade.
+- Taijutsu (14, v80/v81/v84): Taijutsu, Rasteira Baixa, Esquiva Rápida, Fôlego de Luta, Chute Ciclone, Despertar do Corpo, Flecha Humana, Fúria do Encurralado, Punho do Céu, Queda do Meteoro, Cem Golpes, Soco de Pressão, Bloqueio Firme, Chute Ascendente.
+- Vento (16, v81/v82/v84): Rajada Aberta, Passo Aéreo, Shuriken do Vento, Véu de Vento, Balas de Vento, Espelho de Ar, Lâmina em Arco, Passo Leve, Pulso de Vento, Tornado Cortante, Asa Cortante, Vórtice de Ar, Corte em Cadeia, Disco do Furacão, Fenda do Vento, Olho da Tempestade (falta o Mil Cortes do Céu).
 - Armas (17, v82/v83): todas (o Arsenal Vivo tem só o círculo de invocação; o corpo dele continua o de código).
 
-**Faltam (58), com o id e a forma no servidor:**
+**Faltam (53), com o id e a forma no servidor:**
 
 - **Cura (1):** Aura de Regeneração (`heal_aura`, zona).
 - **Relâmpago (1):** Relâmpago (`lightning`).
 - **Água (2):** Coluna d’Água (`water_coluna`, aviso); Corpo de Água (`water_corpo`, transformacao).
-- **Vento (2):** Mil Cortes do Céu (`wind_milcortes`, meteoros); Olho da Tempestade (`wind_olho`, transformacao).
+- **Vento (1):** Mil Cortes do Céu (`wind_milcortes`, meteoros).
 - **Pedra (1):** Esmagamento de Paredes (`stone_3`, alvo).
 - **Ilusão (18):** Ilusão (`illusion`); Dissipação (`illusion_kai`, limpeza); Visão do Abismo (`illusion_2`, linha); Estaca da Ilusão (`illusion_estaca`, linha); Noite Eterna (`illusion_noite`, alvo); Raízes do Pesadelo (`illusion_3`, alvo); Ciclo Sem Fim (`illusion_4`, alvo); Santuário das Penas (`illusion_templo`, zona); Empréstimo Forçado (`illusion_emprestimo`, alvo); Segunda Voz (`illusion_voz`, invocacao); Olho Errante (`illusion_olho`, projetil); Passo Falso (`illusion_passo`, recuo); Véu da Meia-Noite (`illusion_veu`, zona); Espelho Quebrado (`illusion_espelho`, alvo); Coro do Silêncio (`illusion_coro`, anel_golpe); Colapso Onírico (`illusion_colapso`, aviso); Canção de Ninar (`illusion_ninar`, linha); Reflexo Vazio (`illusion_reflexo`, invocacao).
-- **Taijutsu (7):** Cem Golpes (`taijutsu_3`, cone_golpe); Mergulho Esmagador (`taijutsu_lotus`, investida); Chute Ascendente (`taijutsu_ascendente`, investida); Bloqueio Firme (`taijutsu_bloqueio`, escudo); Soco de Pressão (`taijutsu_pressao`, projetil); Chave de Braço (`taijutsu_chave`, alvo); Impacto Circular (`taijutsu_impacto`, anel_golpe).
+- **Taijutsu (3):** Mergulho Esmagador (`taijutsu_lotus`, investida); Chave de Braço (`taijutsu_chave`, alvo); Impacto Circular (`taijutsu_impacto`, anel_golpe).
 - **Clã Rubro (6):** Olhar Rubro (`rubro_olho`, escudo); Transe Ocular (`rubro_transe`, linha); Brasa Sem Luz (`rubro_chamas`, linha); Sentinela Espectral (`rubro_guardiao`, escudo_vida); Mundo Espelhado (`rubro_lua`, linha); Colosso Espectral (`rubro_completo`, transformacao).
 - **Clã Umbra (4):** Deslize Noturno (`umbra_deslize`, recuo); Sombra Faminta (`umbra_faminta`, marca); Noite Fechada (`umbra_noite`, zona); Forma Umbral (`umbra_forma`, forma_sombra).
 - **Clã Bastião (4):** Muralha Interior (`bastiao_muralha`, escudo_vida); Guarda Compartilhada (`bastiao_guarda`, escudo_vida); Muro que Responde (`bastiao_resposta`, postura); Juramento do Escudo (`bastiao_juramento`, postura).

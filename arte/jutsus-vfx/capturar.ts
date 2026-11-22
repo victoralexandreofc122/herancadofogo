@@ -237,6 +237,14 @@ function PLANOS(X: number, Y: number): Record<string, Plan> {
     weapons_arsenal: { steps: [[0, CS('weapons_arsenal', 800)], [800, C('weapons_arsenal')],
       [900, { type: 'monster_spawned', monster: { id: 'ars1', type: 'arsenal', x: X + 1.5, y: Y, hp: 50, maxHp: 50 } }],
       [950, { type: 'summon', id: 'ars1', ownerId: '__ME__', kind: 'arsenal', hp: 50, maxHp: 50, ms: 10000 }]], shots: [850, 1000, 1300, 1700, 2100, 2500] },
+    // ---- v84
+    taijutsu_3: { steps: [[0, C('taijutsu_3')]], shots: [40, 140, 260, 380, 520, 800] },
+    taijutsu_pressao: { steps: [[0, C('taijutsu_pressao')], [80, proj(9790, 'taijutsu_pressao', 0, 14, 3.6)], [337, imp(9790, 'taijutsu_pressao', X + 4, Y)]], shots: [40, 150, 260, 360, 500, 800] },
+    taijutsu_bloqueio: { steps: [[0, C('taijutsu_bloqueio')], [1200, { type: 'hit', target: 'player', id: '__ME__', amount: 0, kind: 'damage', hp: 100, maxHp: 100, shielded: true }]],
+      shots: [60, 250, 500, 1250, 1450, 1800] },
+    taijutsu_ascendente: { steps: [[0, CS('taijutsu_ascendente', 200)], [200, C('taijutsu_ascendente', { tx: X + 4, ty: Y })]], shots: [240, 380, 520, 660, 820, 1200] },
+    wind_olho: { steps: [[0, CS('wind_olho', 500)], [500, C('wind_olho')], ...aviso(9791, 'wind_olho', X + 2.5, Y, 2.5, 3000).map(([t, m]) => [t + 500, m] as Step)],
+      shots: [560, 800, 1500, 2800, 3600, 4000] },
     // ---- exemplos de Cura (zona que anda com quem lançou)
     heal_santuario: { steps: [[0, CS('heal_santuario', 500)], [500, C('heal_santuario')], ...zona(9820, 'heal_santuario', 'cura', X, Y, 2.5, 5000, true).map(([t, m]) => [t + 500, m] as Step)],
       shots: [620, 820, 1100, 2000, 3300, 5500] },

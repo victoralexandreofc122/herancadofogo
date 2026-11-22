@@ -18,7 +18,7 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   `public/figure.js` cache e giro). Detalhes em `arte/personagem-rig/LEIAME.md`. O estilo segue a folha de referência
   do Victor (chibi, contorno escuro, sombreado em 2-3 tons). Toda mudança de arte é comparada lado a lado com a
   referência e conferida dentro do jogo antes de fechar.
-- **Versão atual:** v83 na `main` (PRs #33 a #52; o #52 trouxe a v83, as Armas completas). **Banco:** todas as
+- **Versão atual:** v84 na `main` (PRs #33 a #53; o #53 trouxe a v84, mais do Taijutsu e o Olho da Tempestade). **Banco:** todas as
   migrações até a **v40** rodaram no `production` do Neon (confirmado pelo Victor em 17/11/2026); nenhuma pendente.
   Jutsus v2 com 96 jutsus (10 classes, Vento nova, e o Clã Rubro), mais os 74 da Fase 2.5 e os 16 dos clãs novos;
   conjuração, sistemas próprios (muros, invocações, escuridão...), clãs por linhagem, Extração e maestria, rankeado 1v1 e
@@ -32,6 +32,7 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   aumenta a cura, item Shuriken (consumível, botão ✴️), invocações andam até o alvo e socam (Sentinela de Sombra e Arsenal
   Vivo com desenho próprio). v54: curas e escudos com valor fixo (sem % da vida), Cura rebalanceada, Cegueira como estado
   (perde o alvo), Duplo de Água bate. Mesclado (PR #34; a v32 rodou no Neon).
+- **v84 (sem migração):** Cem Golpes, Soco de Pressão, Bloqueio Firme, Chute Ascendente e Olho da Tempestade. Mesclado (PR #53).
 - **v83 (sem migração):** as 5 últimas das Armas (Dança dos Mil Cortes, Ascensão Dupla, Céu de Lâminas, Laço de Ferro,
   Arsenal Vivo): a classe Armas completa. Mesclado (PR #52).
 - **v82 (sem migração):** mais 4 do Vento e 12 das Armas (`public/folhasAnim.js`). Mesclado (PR #51).
@@ -95,9 +96,9 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
 
 ## Animações dos jutsus (folhas do Victor): como continuar numa aba nova
 
-O Victor manda folhas de 6 quadros (fundo verde ou magenta) e cada uma vira a animação de um jutsu. **Feitos 142** (Fogo,
-Cura, Sombra, Armas, 16 de Relâmpago, 17 da Pedra, 15 da Água, 10 do Taijutsu e 15 do Vento, v56 e v73 a v83); **faltam 58**
-(Ilusão, 7 do Taijutsu, 2 do Vento, 2 da Água, 1 da Pedra, Relâmpago, Aura de Regeneração e os clãs). A lista completa, com o id e a forma de cada um, e o passo a passo
+O Victor manda folhas de 6 quadros (fundo verde ou magenta) e cada uma vira a animação de um jutsu. **Feitos 147** (Fogo,
+Cura, Sombra, Armas, 16 de Relâmpago, 17 da Pedra, 15 da Água, 14 do Taijutsu e 16 do Vento, v56 e v73 a v84); **faltam 53**
+(Ilusão, 3 do Taijutsu, 1 do Vento, 2 da Água, 1 da Pedra, Relâmpago, Aura de Regeneração e os clãs). A lista completa, com o id e a forma de cada um, e o passo a passo
 estão em **`arte/jutsus-vfx/LEIAME.md`**: ler antes de mexer.
 
 - **Começo da sessão:** `bash scripts/ambiente-local.sh` (Postgres local na 5433, banco `jogo` com todas as migrações,

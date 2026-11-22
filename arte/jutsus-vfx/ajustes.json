@@ -8338,5 +8338,293 @@
         ]
       ]
     }
+  },
+  "taijutsu_3": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        6,
+        142,
+        851,
+        709
+      ],
+      [
+        866,
+        142,
+        1712,
+        709
+      ],
+      [
+        1725,
+        142,
+        2570,
+        709
+      ],
+      [
+        6,
+        857,
+        851,
+        1431
+      ],
+      [
+        866,
+        857,
+        1712,
+        1431
+      ],
+      [
+        1725,
+        857,
+        2570,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "01": {
+          "arte": 0,
+          "ancora": "esquerda"
+        },
+        "02": {
+          "arte": 0,
+          "ancora": "esquerda"
+        },
+        "03": {
+          "arte": 0,
+          "ancora": "esquerda"
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "esquerda"
+        },
+        "05": {
+          "arte": 0,
+          "ancora": "esquerda"
+        },
+        "06": {
+          "arte": 0,
+          "ancora": "esquerda"
+        }
+      }
+    }
+  },
+  "wind_olho": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        6,
+        90,
+        513,
+        670
+      ],
+      [
+        521,
+        90,
+        1028,
+        670
+      ],
+      [
+        1035,
+        90,
+        1542,
+        670
+      ],
+      [
+        1550,
+        90,
+        2056,
+        670
+      ],
+      [
+        2064,
+        90,
+        2570,
+        670
+      ],
+      [
+        521,
+        722,
+        1542,
+        1431
+      ],
+      [
+        1550,
+        722,
+        2056,
+        1431
+      ],
+      [
+        2064,
+        722,
+        2570,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal"
+    },
+    "apagar": {
+      "6": [
+        [
+          485,
+          0,
+          508,
+          2000
+        ]
+      ]
+    }
+  },
+  "taijutsu_pressao": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        6,
+        116,
+        851,
+        709
+      ],
+      [
+        866,
+        116,
+        1712,
+        709
+      ],
+      [
+        1725,
+        116,
+        2570,
+        709
+      ],
+      [
+        6,
+        838,
+        851,
+        1431
+      ],
+      [
+        866,
+        838,
+        1712,
+        1431
+      ],
+      [
+        1725,
+        838,
+        2570,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "02": {
+          "arte": 0,
+          "ancora": "cabeca"
+        },
+        "03": {
+          "arte": 0,
+          "ancora": "cabeca"
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "cabeca"
+        }
+      }
+    }
+  },
+  "taijutsu_bloqueio": {
+    "pixel": 11,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        490,
+        284,
+        2089,
+        1302
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal"
+    },
+    "alfa_suave": true
+  },
+  "taijutsu_ascendente": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        6,
+        97,
+        851,
+        709
+      ],
+      [
+        866,
+        97,
+        1712,
+        709
+      ],
+      [
+        1725,
+        97,
+        2570,
+        709
+      ],
+      [
+        6,
+        812,
+        851,
+        1431
+      ],
+      [
+        866,
+        812,
+        1712,
+        1431
+      ],
+      [
+        1725,
+        812,
+        2570,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.026,
+      "ancora": "base",
+      "blend": "normal"
+    }
   }
 }
