@@ -104,9 +104,9 @@ export const LUGAR = {
   // tronco
   stone: { lugar: 'torso', alto: 0.62 }, stone_resposta: { lugar: 'torso', alto: 0.62 }, shadow_estrangular: { lugar: 'torso', alto: 0.5, dy: -0.12 },
   // corpo com a metade de trás (anéis e redemoinhos em volta, chamas e portões que sobem dos pés)
-  taijutsu_folego: { lugar: 'corpo', tras: true, alto: 1.35 }, lightning_armadura: { lugar: 'corpo', tras: true, alto: 1.45 }, wind_veu: { lugar: 'corpo', tras: true, alto: 1.4 },
+  lightning_armadura: { lugar: 'corpo', tras: true, alto: 1.45 }, wind_veu: { lugar: 'corpo', tras: true, alto: 1.4 },
   wind_olho: { lugar: 'corpo', tras: true, alto: 1.5 }, water_corpo: { lugar: 'corpo', tras: true, alto: 1.45 },
-  zefiro_veu: { lugar: 'corpo', tras: true, alto: 1.4 }, weapons_2: { lugar: 'corpo', tras: true, alto: 1.3 },
+  zefiro_veu: { lugar: 'corpo', tras: true, alto: 1.75, dy: -0.06, corte: -0.95 },   // v95: cobre a cabeça também (marcação do Victor) weapons_2: { lugar: 'corpo', tras: true, alto: 1.3 },
   heal_4: { lugar: 'corpo', tras: true, alto: 1.3 }, taijutsu_portoes: { lugar: 'corpo', tras: true, alto: 1.4, corte: -0.3 },
   bastiao_juramento: { lugar: 'corpo', tras: true, alto: 1.6, corte: -0.2 }, aspide_constricao: { lugar: 'corpo', tras: true, alto: 1.2, corte: -0.3 },
   rubro_completo: { lugar: 'corpo', tras: true, alto: 2.1, corte: 0 },   // o guerreiro inteiro atrás do ninja
@@ -115,9 +115,11 @@ export const LUGAR = {
   heal_casca: { lugar: 'corpo', alto: 1.45, alpha: 0.55 }, stone_4: { lugar: 'corpo', alto: 1.45, alpha: 0.6 },
   stone_couraca: { lugar: 'corpo', alto: 1.3, alpha: 0.65 }, shadow_veu: { lugar: 'corpo', alto: 1.4, alpha: 0.6 },
   water_3: { lugar: 'corpo', alto: 1.45, alpha: 0.6 }, heal: { lugar: 'corpo', alto: 1.3, alpha: 0.75 },
-  heal_desintox: { lugar: 'corpo', alto: 1.35, alpha: 0.65 },   // v95: a folha refeita é uma cúpula
+  heal_desintox: { lugar: 'corpo', alto: 1.35, alpha: 0.65 }, taijutsu_bloqueio: { lugar: 'corpo', alto: 1.35, alpha: 0.7 },   // v95: a guarda em bolha   // v95: a folha refeita é uma cúpula
   // no chão, em volta dos pés
   illusion_veu: { lugar: 'pes', largura: 1.6, sy: 0.7 },
+  // v95 (marcação do Victor): o anel vermelho do Fôlego nos pés, deitado em perspectiva como a Forma Umbral
+  taijutsu_folego: { lugar: 'pes', largura: 1.6, sy: 0.6 },
 };
 /** O encaixe do LUGAR para um quadro (null = sem mudança: falta a imagem de referência). */
 function lugarDe(base, L, opts) {
@@ -128,7 +130,10 @@ function lugarDe(base, L, opts) {
   if (L.lugar === 'pes') return { y: L.y ?? 0.42, scale: (L.largura ?? 1.5) / fm.casas, split: true, ...(L.sy ? { sy: L.sy } : {}) };
   if (L.lugar === 'torso') return { y: -0.02 + (L.dy ?? 0), apoio: 'centro', scale: pelaAltura(L.alto ?? 0.5), split: false };
   // com a metade de trás, a frente fica no mesmo tom da de trás (sem a costura clara entre as duas: o pedido do Victor na Forma Umbral)
-  return { y: 0.47 + (L.dy ?? 0), apoio: 'base', scale: pelaAltura(L.alto ?? 1.45), split: !!L.tras, corte: L.corte ?? -0.69,
+  // v95 (marcações do Victor): o meio da arte no meio do corpo, assim os quadros pequenos da entrada também ficam centrados no
+  // ninja (antes ficavam pelos pés); o corte da metade de trás continua no pescoço (0,47 + corte, contado do pé)
+  const alto = L.alto ?? 1.45, yc = 0.47 - alto / 2 + (L.dy ?? 0);
+  return { y: yc, apoio: 'centro', scale: pelaAltura(alto), split: !!L.tras, corte: 0.47 + (L.corte ?? -0.69) - yc,
     ...(L.tras ? { frente: 1 } : { alpha: (opts.alpha ?? 1) * (L.alpha ?? 0.62) }) };
 }
 
