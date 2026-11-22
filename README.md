@@ -246,6 +246,19 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v90: os clãs Bastião, Áspide, Garra e Zéfiro e mais 5 folhas (sem migração)
+
+- Bastião: Muralha Interior, Guarda Compartilhada (cúpulas em volta), Muro que Responde (o anel de pontas no chão) e Juramento
+  do Escudo (os escudos atrás do ninja por 10 s).
+- Áspide: Cuspe, Névoa Tóxica, Constrição (a serpente enrola o alvo) e o círculo do Ninho (a serpente da folha veio com um
+  quadrado de grama: está na lista para refazer).
+- Garra: as feras da Matilha e do Rei andam (dois passos) e mordem com os quadros desenhados; o Rei usa as folhas de frente e
+  de costas quando anda na vertical; Uivo de Comando e Troca Instintiva.
+- Zéfiro: Passo do Vento, Véu de Ar, Eco do Vento e Mil Passos (tocam nos pontos do caminho que o servidor manda).
+- Forma Umbral, Faísca Rasante, Esmagamento de Paredes, Segunda Voz (o próprio boneco violeta, como o Reflexo) e Empréstimo
+  Forçado.
+- 199 jutsus desenhados; falta o Ciclo Sem Fim.
+
 ### v89: o Clã Rubro, 3 do Clã Umbra e mais 7 folhas; o Reflexo Vazio com o próprio boneco (sem migração)
 
 - Clã Rubro completo: Olhar Rubro (o olho em volta do corpo, que se desfaz no golpe), Transe Ocular, Brasa Sem Luz e Mundo

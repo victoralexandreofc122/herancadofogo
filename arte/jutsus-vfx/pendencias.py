@@ -271,6 +271,8 @@ FALTAM = [
 ]
 
 REFAZER = [
+    ('aspide_ninho', 'Ninho de Áspides', 'aspide', 'refazer', 'As serpentes F2 a F6 vieram em cima de um quadrado de grama; no jogo ficaria um pedaço de chão andando junto. Hoje só o círculo de invocação (F1) toca; a serpente é a de código.',
+     'Refazer só a serpente, sem chão embaixo: o fundo magenta direto em volta dela.', 'invocacao', 'one small green viper with no ground tile under it', MAGENTA),
     ('wind_veu', 'Véu de Vento', 'wind', 'refazer', 'O F1 sumiu no recorte: o rosa do véu é perto do fundo magenta.',
      'Refazer a folha inteira com fundo verde (o véu tem rosa).', 'corpo', 'a swirling veil of pale cyan and soft pink air', VERDE),
     ('wind_espelho', 'Espelho de Ar', 'wind', 'refazer', 'O F1 sumiu no recorte pelo mesmo motivo (rosa no fundo magenta).',
@@ -498,8 +500,11 @@ FEITOS = {
     'rubro_olho', 'rubro_transe', 'rubro_chamas', 'rubro_lua', 'rubro_guardiao', 'rubro_completo',   # v89
     'umbra_deslize', 'umbra_faminta', 'umbra_noite', 'water_corpo', 'water_coluna', 'wind_milcortes',
     'taijutsu_impacto', 'taijutsu_chave', 'taijutsu_lotus', 'heal_aura',
+    'lightning', 'stone_3', 'illusion_voz', 'illusion_emprestimo', 'umbra_forma', 'bastiao_muralha', 'bastiao_guarda',   # v90
+    'bastiao_resposta', 'bastiao_juramento', 'aspide_cuspe', 'aspide_nevoa', 'aspide_constricao', 'aspide_ninho',
+    'garra_matilha', 'garra_uivo', 'garra_troca', 'garra_rei', 'zefiro_passo', 'zefiro_veu', 'zefiro_eco', 'zefiro_mil',
 }
-DIR_FEITAS = {'illusion_estaca': ['baixo']}   # v88
+DIR_FEITAS = {'illusion_estaca': ['baixo'], 'garra_rei': ['baixo', 'cima']}   # v88, v90
 
 
 def item_resto(t):

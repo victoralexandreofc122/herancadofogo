@@ -3,7 +3,7 @@
 Gerado por `python3 arte/jutsus-vfx/pendencias.py`. A página de acompanhamento guarda o que já foi feito;
 este arquivo é a mesma lista em texto.
 
-## Faltam (folha nova) (22)
+## Faltam (folha nova) (1)
 
 ### Ciclo Sem Fim (`illusion_4`), Ilusão, efeito no alvo, fundo verde
 
@@ -24,280 +24,13 @@ F5: the release: three violet rune rings turning around the target like a clock 
 F6: the last particles fading.
 ```
 
-### Empréstimo Forçado (`illusion_emprestimo`), Ilusão, efeito no alvo, fundo verde
-
-No alvo (até 5 casas): dano leve, e o escudo e os bônus ativos dele (Básico, velocidade) passam para você pelo tempo que faltava.
-
-**Nota:** No jogo, os orbes voam do alvo até você entre o F4 e o F5.
-
-**No jogo:** Toca em cima do alvo; o meio do painel fica vazio para o boneco, com a parte de trás atrás dele.
-
-**Folha: Empréstimo Forçado** (`illusion_emprestimo`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Empréstimo Forçado" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Empréstimo Forçado": violet hands of light pulling glowing orbs out. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: a mark appears on the ground at the center, around an empty spot where the target stands.
-F2: violet hands of light pulling glowing orbs out rises and closes around the empty center.
-F3: violet hands of light pulling glowing orbs out at full strength around the target spot (loop frame A).
-F4: the same hold with small changes (loop frame B).
-F5: the release: violet hands of light pulling glowing orbs out loosens and opens up.
-F6: the last particles fading.
-```
-
-### Segunda Voz (`illusion_voz`), Ilusão, aura no corpo, fundo verde
-
-Cria um clone ao seu lado por 8 s: ele repete, do lugar dele, o seu próximo jutsu em linha, com 50% do dano.
-
-**Nota:** Proposta igual à do Reflexo Vazio: o clone usa o seu boneco com tom violeta; a folha é o surgir e o sumir.
-
-**No jogo:** F3 e F4 em laço enquanto dura. A metade de trás fica atrás do boneco e a da frente por cima (profundidade).
-
-**Folha: Segunda Voz** (`illusion_voz`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Segunda Voz" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Segunda Voz": a violet echo ring with small sound marks. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: thin light of a violet echo ring with small sound marks appears around an empty spot at the center where the ninja stands.
-F2: a violet echo ring with small sound marks forms a full shape around the empty center, seen from the 3/4 view (a ring or dome around the body).
-F3: a violet echo ring with small sound marks at full strength (loop frame A).
-F4: the same aura with small changes (loop frame B).
-F5: the moment it is hit or used: a bright flash and small cracks in a violet echo ring with small sound marks.
-F6: a violet echo ring with small sound marks breaking into fragments and fading.
-```
-
-### Esmagamento de Paredes (`stone_3`), Pedra, efeito no alvo, fundo verde
-
-Paredes esmagam o alvo (até 5 casas): dano alto e prende por 1,6 s.
-
-**Nota:** Prompt refeito com quadros próprios (as paredes inteiras, do começo ao fim).
-
-**No jogo:** F1 e F2 sobem, F3 fecham, F4 o golpe (dano alto), F5 em laço enquanto o alvo fica preso (1,6 s), F6 desmoronam.
-
-**Folha: Esmagamento de Paredes** (`stone_3`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Esmagamento de Paredes" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Esmagamento de Paredes": two thick rock walls, one on each side. Palette: warm amber, sandy brown and dark umber rock, with small gray dust. The sheet shows only the jutsu effect; the game draws the ninja separately, so the target is drawn by the game between the two walls.
-F1: a thin crack line on the ground across the middle of the panel, with small cracks opening on the left and on the right.
-F2: two thick rough rock walls burst up out of the ground, one on the left side and one on the right side of the panel, each standing upright and as tall as half the panel, with small rock chunks flying.
-F3: the two complete rock walls, each as tall as most of the panel, slide toward the middle and leave a narrow gap in the center.
-F4: the two walls slam together in the middle of the panel with a bright impact flash where they meet and rock dust bursting out of the top and the sides; both walls stay complete and fully visible.
-F5: the two walls still pressed together in the middle, cracked, with small rocks falling from their tops.
-F6: the walls crumble and sink back into the ground as rock chunks and dust.
-Each wall is one complete standing slab of rock with a flat top, a front face and a side face, seen in the 3/4 view; both walls stay fully inside the panel with a clear margin on every side, from F2 to F5.
-```
-
-### Faísca Rasante (`lightning`), Relâmpago, linha reta, fundo magenta
-
-Raio em linha (4,5 casas): atordoa o primeiro inimigo por 0,6 s e paralisa por 2 s. Em alvo molhado bate 30% mais.
-
-**Nota:** O primeiro jutsu do Relâmpago: o mais usado da classe.
-
-**No jogo:** A arte aponta para a direita; o jogo gira para a direção do golpe e estica até o alcance (com folha para baixo e para cima, usa elas nessas direções).
-
-**Folha: Faísca Rasante** (`lightning`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Faísca Rasante" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Faísca Rasante": a low zigzag lightning bolt skimming the ground. Palette: electric yellow and pale cyan-white, with a deep blue outline.
-F1: a small charge of a low zigzag lightning bolt skimming the ground at the left side of the panel.
-F2: a low zigzag lightning bolt skimming the ground extends to the right, reaching the middle of the panel.
-F3: a low zigzag lightning bolt skimming the ground reaches the right side of the panel, a straight horizontal line through the middle of the panel.
-F4: the full line at its brightest, the same height and position as F3.
-F5: the line thins out, the same position.
-F6: the last sparks along the line fading.
-```
-
-### Forma Umbral (`umbra_forma`), Clã Umbra, aura no corpo, fundo verde
-
-Vira sombra por 5 s: projéteis atravessam você, anda 20% mais rápido, e quem você atravessa leva dano e fica lento.
-
-**No jogo:** F3 e F4 em laço enquanto dura. A metade de trás fica atrás do boneco e a da frente por cima (profundidade).
-
-**Folha: Forma Umbral** (`umbra_forma`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Forma Umbral" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Forma Umbral": a cloak of living black shadow with violet edges. Palette: ink black and deep indigo shadow, with thin violet edges and two small pale eyes where noted. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: thin light of a cloak of living black shadow with violet edges appears around an empty spot at the center where the ninja stands.
-F2: a cloak of living black shadow with violet edges forms a full shape around the empty center, seen from the 3/4 view (a ring or dome around the body).
-F3: a cloak of living black shadow with violet edges at full strength (loop frame A).
-F4: the same aura with small changes (loop frame B).
-F5: the moment it is hit or used: a bright flash and small cracks in a cloak of living black shadow with violet edges.
-F6: a cloak of living black shadow with violet edges breaking into fragments and fading.
-```
-
-### Muralha Interior (`bastiao_muralha`), Clã Bastião, aura no corpo, fundo verde
-
-Escudo de 40 de dano por 4 s; quem te bater de perto leva 20% do golpe de volta.
-
-**No jogo:** F3 e F4 em laço enquanto dura. A metade de trás fica atrás do boneco e a da frente por cima (profundidade).
-
-**Folha: Muralha Interior** (`bastiao_muralha`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Muralha Interior" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Muralha Interior": a ring of upright stone shield plates with golden runes. Palette: steel blue-gray stone and iron, with golden rune light and a dark slate outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: thin light of a ring of upright stone shield plates with golden runes appears around an empty spot at the center where the ninja stands.
-F2: a ring of upright stone shield plates with golden runes forms a full shape around the empty center, seen from the 3/4 view (a ring or dome around the body).
-F3: a ring of upright stone shield plates with golden runes at full strength (loop frame A).
-F4: the same aura with small changes (loop frame B).
-F5: the moment it is hit or used: a bright flash and small cracks in a ring of upright stone shield plates with golden runes.
-F6: a ring of upright stone shield plates with golden runes breaking into fragments and fading.
-```
-
-### Guarda Compartilhada (`bastiao_guarda`), Clã Bastião, aura no corpo, fundo verde
-
-Escudo de 35 de dano por 4 s em você e no aliado mirado (até 6 casas).
-
-**Nota:** A mesma folha toca em você e no aliado.
-
-**No jogo:** F3 e F4 em laço enquanto dura. A metade de trás fica atrás do boneco e a da frente por cima (profundidade).
-
-**Folha: Guarda Compartilhada** (`bastiao_guarda`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Guarda Compartilhada" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Guarda Compartilhada": a dome of steel-blue hexagon light with golden runes. Palette: steel blue-gray stone and iron, with golden rune light and a dark slate outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: thin light of a dome of steel-blue hexagon light with golden runes appears around an empty spot at the center where the ninja stands.
-F2: a dome of steel-blue hexagon light with golden runes forms a full shape around the empty center, seen from the 3/4 view (a ring or dome around the body).
-F3: a dome of steel-blue hexagon light with golden runes at full strength (loop frame A).
-F4: the same aura with small changes (loop frame B).
-F5: the moment it is hit or used: a bright flash and small cracks in a dome of steel-blue hexagon light with golden runes.
-F6: a dome of steel-blue hexagon light with golden runes breaking into fragments and fading.
-```
-
-### Muro que Responde (`bastiao_resposta`), Clã Bastião, aura no corpo, fundo verde
-
-Por 2 s, quem te acertar é empurrado 2 casas e fica lento por 1,5 s.
-
-**Nota:** F5 é o empurrão (as pontas disparam para fora).
-
-**No jogo:** F3 e F4 em laço enquanto dura. A metade de trás fica atrás do boneco e a da frente por cima (profundidade).
-
-**Folha: Muro que Responde** (`bastiao_resposta`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Muro que Responde" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Muro que Responde": a low ring of stone with spikes pointing outward. Palette: steel blue-gray stone and iron, with golden rune light and a dark slate outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: thin light of a low ring of stone with spikes pointing outward appears around an empty spot at the center where the ninja stands.
-F2: a low ring of stone with spikes pointing outward forms a full shape around the empty center, seen from the 3/4 view (a ring or dome around the body).
-F3: a low ring of stone with spikes pointing outward at full strength (loop frame A).
-F4: the same aura with small changes (loop frame B).
-F5: the moment it is hit or used: a bright flash and small cracks in a low ring of stone with spikes pointing outward.
-F6: a low ring of stone with spikes pointing outward breaking into fragments and fading.
-```
-
-### Juramento do Escudo (`bastiao_juramento`), Clã Bastião, aura no corpo, fundo verde
-
-Por 10 s você leva 50% menos dano, e 50% do dano dos aliados a até 6 casas vem para você.
-
-**No jogo:** F3 e F4 em laço enquanto dura. A metade de trás fica atrás do boneco e a da frente por cima (profundidade).
-
-**Folha: Juramento do Escudo** (`bastiao_juramento`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Juramento do Escudo" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Juramento do Escudo": a large golden rune circle on the ground and a tall steel shield of light behind you. Palette: steel blue-gray stone and iron, with golden rune light and a dark slate outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: thin light of a large golden rune circle on the ground and a tall steel shield of light behind you appears around an empty spot at the center where the ninja stands.
-F2: a large golden rune circle on the ground and a tall steel shield of light behind you forms a full shape around the empty center, seen from the 3/4 view (a ring or dome around the body).
-F3: a large golden rune circle on the ground and a tall steel shield of light behind you at full strength (loop frame A).
-F4: the same aura with small changes (loop frame B).
-F5: the moment it is hit or used: a bright flash and small cracks in a large golden rune circle on the ground and a tall steel shield of light behind you.
-F6: a large golden rune circle on the ground and a tall steel shield of light behind you breaking into fragments and fading.
-```
-
-### Cuspe da Áspide (`aspide_cuspe`), Clã Áspide, projétil, fundo magenta
-
-Cuspe em linha (7 casas): envenena (3 por segundo por carga, até 3 cargas, por 6 s) e deixa lento por 2 s.
-
-**No jogo:** F2 a F4 em laço no caminho, F5 e F6 no alvo. O projétil fica no meio do painel em todos os quadros.
-
-**Folha: Cuspe da Áspide** (`aspide_cuspe`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Cuspe da Áspide" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Cuspe da Áspide": a glob of toxic green venom with drips. Palette: toxic lime green and sickly yellow-green, with dark purple shading and a dark green outline.
-F1: a launch flash at the center: a glob of toxic green venom with drips appears.
-F2: a glob of toxic green venom with drips flying to the right, centered in the panel (loop frame A).
-F3: the same projectile, centered, with small changes (loop frame B).
-F4: the same projectile, centered, with other small changes (loop frame C).
-F5: the impact burst where it hits, centered.
-F6: the impact fading into particles.
-```
-
-**Folha: Cuspe da Áspide (para baixo)** (`aspide_cuspe_baixo`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Cuspe da Áspide (para baixo)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Cuspe da Áspide": a glob of toxic green venom with drips. Palette: toxic lime green and sickly yellow-green, with dark purple shading and a dark green outline.
-This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, seen from above with its front facing the viewer, with the same size, colors and style as the version going right.
-F1: a launch flash at the center: a glob of toxic green venom with drips appears.
-F2: a glob of toxic green venom with drips flying down toward the bottom of the panel, centered in the panel (loop frame A).
-F3: the same projectile, centered, with small changes (loop frame B).
-F4: the same projectile, centered, with other small changes (loop frame C).
-F5: the impact burst where it hits, centered.
-F6: the impact fading into particles.
-```
-
-**Folha: Cuspe da Áspide (para cima)** (`aspide_cuspe_cima`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Cuspe da Áspide (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Cuspe da Áspide": a glob of toxic green venom with drips. Palette: toxic lime green and sickly yellow-green, with dark purple shading and a dark green outline.
-This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
-F1: a launch flash at the center: a glob of toxic green venom with drips appears.
-F2: a glob of toxic green venom with drips flying up toward the top of the panel, centered in the panel (loop frame A).
-F3: the same projectile, centered, with small changes (loop frame B).
-F4: the same projectile, centered, with other small changes (loop frame C).
-F5: the impact burst where it hits, centered.
-F6: the impact fading into particles.
-```
-
-### Névoa Tóxica (`aspide_nevoa`), Clã Áspide, área que dura, fundo magenta
-
-Névoa de raio 2,5 por 5 s onde você mirar: quem fica dentro ganha uma carga de veneno a cada segundo (até 4).
-
-**No jogo:** F1 e F2 na entrada, F3 a F5 em laço enquanto a área dura, F6 no fim. O tamanho no jogo segue o raio do servidor.
-
-**Folha: Névoa Tóxica** (`aspide_nevoa`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Névoa Tóxica" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Névoa Tóxica": a low cloud of toxic green mist with bubbles. Palette: toxic lime green and sickly yellow-green, with dark purple shading and a dark green outline.
-F1: the area starts small at the center: a low cloud of toxic green mist with bubbles appears.
-F2: the area grows to two thirds of its size.
-F3: the area at full size, filling about 85% of the panel width (loop frame A).
-F4: the same area at full size with small changes in the details (loop frame B).
-F5: the same area at full size with other small changes (loop frame C).
-F6: the area dissolving into light particles.
-```
-
-### Constrição (`aspide_constricao`), Clã Áspide, efeito no alvo, fundo magenta
-
-Enrola o alvo (até 5 casas): preso por 1,5 s e envenenado com 6 por segundo por 5 s.
-
-**No jogo:** Toca em cima do alvo; o meio do painel fica vazio para o boneco, com a parte de trás atrás dele.
-
-**Folha: Constrição** (`aspide_constricao`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Constrição" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Constrição": a large green serpent coiling. Palette: toxic lime green and sickly yellow-green, with dark purple shading and a dark green outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: a mark appears on the ground at the center, around an empty spot where the target stands.
-F2: a large green serpent coiling rises and closes around the empty center.
-F3: a large green serpent coiling at full strength around the target spot (loop frame A).
-F4: the same hold with small changes (loop frame B).
-F5: the release: a large green serpent coiling loosens and opens up.
-F6: the last particles fading.
-```
+## Refazer (10)
 
 ### Ninho de Áspides (`aspide_ninho`), Clã Áspide, invocação, fundo magenta
 
-3 serpentes por 8 s: correm no inimigo, mordem e envenenam (2 por segundo por carga).
+As serpentes F2 a F6 vieram em cima de um quadrado de grama; no jogo ficaria um pedaço de chão andando junto. Hoje só o círculo de invocação (F1) toca; a serpente é a de código.
 
-**Nota:** Uma serpente por folha; o jogo põe três.
+**Pedido:** Refazer só a serpente, sem chão embaixo: o fundo magenta direto em volta dela.
 
 **No jogo:** F1 ao surgir, F2 parado, F3 e F4 andando (laço), F5 no golpe, F6 ao sumir. A criatura fica com os pés no mesmo ponto em todos os quadros.
 
@@ -305,260 +38,42 @@ F6: the last particles fading.
 
 ```
 At the very top of the image, above the row of panels, a title band with the name "Ninho de Áspides" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The summon "Ninho de Áspides": one small green viper. Palette: toxic lime green and sickly yellow-green, with dark purple shading and a dark green outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
-F1: a summoning circle on the ground and one small green viper rising from it.
-F2: one small green viper standing, idle pose, facing right (side view).
-F3: one small green viper walking, step A, facing right (side view).
-F4: one small green viper walking, step B, facing right (side view).
-F5: one small green viper attacking to the right, facing right (side view).
-F6: one small green viper dissolving into particles.
+The summon "Ninho de Áspides": one small green viper with no ground tile under it. Palette: toxic lime green and sickly yellow-green, with dark purple shading and a dark green outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
+F1: a summoning circle on the ground and one small green viper with no ground tile under it rising from it.
+F2: one small green viper with no ground tile under it standing, idle pose, facing right (side view).
+F3: one small green viper with no ground tile under it walking, step A, facing right (side view).
+F4: one small green viper with no ground tile under it walking, step B, facing right (side view).
+F5: one small green viper with no ground tile under it attacking to the right, facing right (side view).
+F6: one small green viper with no ground tile under it dissolving into particles.
 ```
 
 **Folha: Ninho de Áspides (para baixo)** (`aspide_ninho_baixo`)
 
 ```
 At the very top of the image, above the row of panels, a title band with the name "Ninho de Áspides (para baixo)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The summon "Ninho de Áspides": one small green viper. Palette: toxic lime green and sickly yellow-green, with dark purple shading and a dark green outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
+The summon "Ninho de Áspides": one small green viper with no ground tile under it. Palette: toxic lime green and sickly yellow-green, with dark purple shading and a dark green outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
 This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, seen from above with its front facing the viewer, with the same size, colors and style as the version going right.
-F1: a summoning circle on the ground and one small green viper rising from it.
-F2: one small green viper standing, idle pose, facing the viewer (front view, moving down the screen).
-F3: one small green viper walking, step A, facing the viewer (front view, moving down the screen).
-F4: one small green viper walking, step B, facing the viewer (front view, moving down the screen).
-F5: one small green viper attacking down toward the bottom of the panel, facing the viewer (front view, moving down the screen).
-F6: one small green viper dissolving into particles.
+F1: a summoning circle on the ground and one small green viper with no ground tile under it rising from it.
+F2: one small green viper with no ground tile under it standing, idle pose, facing the viewer (front view, moving down the screen).
+F3: one small green viper with no ground tile under it walking, step A, facing the viewer (front view, moving down the screen).
+F4: one small green viper with no ground tile under it walking, step B, facing the viewer (front view, moving down the screen).
+F5: one small green viper with no ground tile under it attacking down toward the bottom of the panel, facing the viewer (front view, moving down the screen).
+F6: one small green viper with no ground tile under it dissolving into particles.
 ```
 
 **Folha: Ninho de Áspides (para cima)** (`aspide_ninho_cima`)
 
 ```
 At the very top of the image, above the row of panels, a title band with the name "Ninho de Áspides (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The summon "Ninho de Áspides": one small green viper. Palette: toxic lime green and sickly yellow-green, with dark purple shading and a dark green outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
+The summon "Ninho de Áspides": one small green viper with no ground tile under it. Palette: toxic lime green and sickly yellow-green, with dark purple shading and a dark green outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
 This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
-F1: a summoning circle on the ground and one small green viper rising from it.
-F2: one small green viper standing, idle pose, with its back to the viewer (back view, moving up the screen).
-F3: one small green viper walking, step A, with its back to the viewer (back view, moving up the screen).
-F4: one small green viper walking, step B, with its back to the viewer (back view, moving up the screen).
-F5: one small green viper attacking up toward the top of the panel, with its back to the viewer (back view, moving up the screen).
-F6: one small green viper dissolving into particles.
+F1: a summoning circle on the ground and one small green viper with no ground tile under it rising from it.
+F2: one small green viper with no ground tile under it standing, idle pose, with its back to the viewer (back view, moving up the screen).
+F3: one small green viper with no ground tile under it walking, step A, with its back to the viewer (back view, moving up the screen).
+F4: one small green viper with no ground tile under it walking, step B, with its back to the viewer (back view, moving up the screen).
+F5: one small green viper with no ground tile under it attacking up toward the top of the panel, with its back to the viewer (back view, moving up the screen).
+F6: one small green viper with no ground tile under it dissolving into particles.
 ```
-
-### Chamado da Matilha (`garra_matilha`), Clã Garra, invocação, fundo verde
-
-Invoca uma fera por 10 s (com 12% da sua vida) que corre no alvo e morde.
-
-**No jogo:** F1 ao surgir, F2 parado, F3 e F4 andando (laço), F5 no golpe, F6 ao sumir. A criatura fica com os pés no mesmo ponto em todos os quadros.
-
-**Folha: Chamado da Matilha** (`garra_matilha`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Chamado da Matilha" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The summon "Chamado da Matilha": one wolf beast with tawny fur. Palette: warm brown and tawny fur, amber eyes, ivory fangs and claws, with a dark brown outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
-F1: a summoning circle on the ground and one wolf beast with tawny fur rising from it.
-F2: one wolf beast with tawny fur standing, idle pose, facing right (side view).
-F3: one wolf beast with tawny fur walking, step A, facing right (side view).
-F4: one wolf beast with tawny fur walking, step B, facing right (side view).
-F5: one wolf beast with tawny fur attacking to the right, facing right (side view).
-F6: one wolf beast with tawny fur dissolving into particles.
-```
-
-**Folha: Chamado da Matilha (para baixo)** (`garra_matilha_baixo`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Chamado da Matilha (para baixo)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The summon "Chamado da Matilha": one wolf beast with tawny fur. Palette: warm brown and tawny fur, amber eyes, ivory fangs and claws, with a dark brown outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
-This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, seen from above with its front facing the viewer, with the same size, colors and style as the version going right.
-F1: a summoning circle on the ground and one wolf beast with tawny fur rising from it.
-F2: one wolf beast with tawny fur standing, idle pose, facing the viewer (front view, moving down the screen).
-F3: one wolf beast with tawny fur walking, step A, facing the viewer (front view, moving down the screen).
-F4: one wolf beast with tawny fur walking, step B, facing the viewer (front view, moving down the screen).
-F5: one wolf beast with tawny fur attacking down toward the bottom of the panel, facing the viewer (front view, moving down the screen).
-F6: one wolf beast with tawny fur dissolving into particles.
-```
-
-**Folha: Chamado da Matilha (para cima)** (`garra_matilha_cima`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Chamado da Matilha (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The summon "Chamado da Matilha": one wolf beast with tawny fur. Palette: warm brown and tawny fur, amber eyes, ivory fangs and claws, with a dark brown outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
-This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
-F1: a summoning circle on the ground and one wolf beast with tawny fur rising from it.
-F2: one wolf beast with tawny fur standing, idle pose, with its back to the viewer (back view, moving up the screen).
-F3: one wolf beast with tawny fur walking, step A, with its back to the viewer (back view, moving up the screen).
-F4: one wolf beast with tawny fur walking, step B, with its back to the viewer (back view, moving up the screen).
-F5: one wolf beast with tawny fur attacking up toward the top of the panel, with its back to the viewer (back view, moving up the screen).
-F6: one wolf beast with tawny fur dissolving into particles.
-```
-
-### Uivo de Comando (`garra_uivo`), Clã Garra, linha reta, fundo verde
-
-Uivo no alvo (até 8 casas): atordoa por 0,5 s, e as suas invocações saltam nele e mordem.
-
-**No jogo:** A arte aponta para a direita; o jogo gira para a direção do golpe e estica até o alcance (com folha para baixo e para cima, usa elas nessas direções).
-
-**Folha: Uivo de Comando** (`garra_uivo`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Uivo de Comando" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Uivo de Comando": amber sound waves of a howl. Palette: warm brown and tawny fur, amber eyes, ivory fangs and claws, with a dark brown outline.
-F1: a small charge of amber sound waves of a howl at the left side of the panel.
-F2: amber sound waves of a howl extends to the right, reaching the middle of the panel.
-F3: amber sound waves of a howl reaches the right side of the panel, a straight horizontal line through the middle of the panel.
-F4: the full line at its brightest, the same height and position as F3.
-F5: the line thins out, the same position.
-F6: the last sparks along the line fading.
-```
-
-### Troca Instintiva (`garra_troca`), Clã Garra, salto ou deslize, fundo verde
-
-Troca de lugar com a sua invocação mais perto (até 10 casas).
-
-**Nota:** Toca nos dois pontos: F1 onde você estava, F4 onde chega.
-
-**No jogo:** F1 na saída, F2 e F3 esticados pelo caminho, F4 a F6 na chegada.
-
-**Folha: Troca Instintiva** (`garra_troca`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Troca Instintiva" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Troca Instintiva": amber claw-mark swirls and tufts of fur. Palette: warm brown and tawny fur, amber eyes, ivory fangs and claws, with a dark brown outline.
-F1: a burst of amber claw-mark swirls and tufts of fur at the starting point, centered.
-F2: motion streaks of amber claw-mark swirls and tufts of fur stretched to the right across the panel.
-F3: thinner streaks, the same height as F2.
-F4: an arrival burst of amber claw-mark swirls and tufts of fur, centered, the same size as F1.
-F5: the burst opening into small particles.
-F6: the last particles fading.
-```
-
-### Rei da Matilha (`garra_rei`), Clã Garra, invocação, fundo verde
-
-Invoca o Rei da Matilha por 15 s: uma fera grande, com 40% da sua vida, que bate forte.
-
-**Nota:** Maior que a fera da Matilha (cerca de 2 casas).
-
-**No jogo:** F1 ao surgir, F2 parado, F3 e F4 andando (laço), F5 no golpe, F6 ao sumir. A criatura fica com os pés no mesmo ponto em todos os quadros.
-
-**Folha: Rei da Matilha** (`garra_rei`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Rei da Matilha" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The summon "Rei da Matilha": one large alpha wolf king with a scarred face and a mane. Palette: warm brown and tawny fur, amber eyes, ivory fangs and claws, with a dark brown outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
-F1: a summoning circle on the ground and one large alpha wolf king with a scarred face and a mane rising from it.
-F2: one large alpha wolf king with a scarred face and a mane standing, idle pose, facing right (side view).
-F3: one large alpha wolf king with a scarred face and a mane walking, step A, facing right (side view).
-F4: one large alpha wolf king with a scarred face and a mane walking, step B, facing right (side view).
-F5: one large alpha wolf king with a scarred face and a mane attacking to the right, facing right (side view).
-F6: one large alpha wolf king with a scarred face and a mane dissolving into particles.
-```
-
-**Folha: Rei da Matilha (para baixo)** (`garra_rei_baixo`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Rei da Matilha (para baixo)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The summon "Rei da Matilha": one large alpha wolf king with a scarred face and a mane. Palette: warm brown and tawny fur, amber eyes, ivory fangs and claws, with a dark brown outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
-This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, seen from above with its front facing the viewer, with the same size, colors and style as the version going right.
-F1: a summoning circle on the ground and one large alpha wolf king with a scarred face and a mane rising from it.
-F2: one large alpha wolf king with a scarred face and a mane standing, idle pose, facing the viewer (front view, moving down the screen).
-F3: one large alpha wolf king with a scarred face and a mane walking, step A, facing the viewer (front view, moving down the screen).
-F4: one large alpha wolf king with a scarred face and a mane walking, step B, facing the viewer (front view, moving down the screen).
-F5: one large alpha wolf king with a scarred face and a mane attacking down toward the bottom of the panel, facing the viewer (front view, moving down the screen).
-F6: one large alpha wolf king with a scarred face and a mane dissolving into particles.
-```
-
-**Folha: Rei da Matilha (para cima)** (`garra_rei_cima`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Rei da Matilha (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The summon "Rei da Matilha": one large alpha wolf king with a scarred face and a mane. Palette: warm brown and tawny fur, amber eyes, ivory fangs and claws, with a dark brown outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
-This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
-F1: a summoning circle on the ground and one large alpha wolf king with a scarred face and a mane rising from it.
-F2: one large alpha wolf king with a scarred face and a mane standing, idle pose, with its back to the viewer (back view, moving up the screen).
-F3: one large alpha wolf king with a scarred face and a mane walking, step A, with its back to the viewer (back view, moving up the screen).
-F4: one large alpha wolf king with a scarred face and a mane walking, step B, with its back to the viewer (back view, moving up the screen).
-F5: one large alpha wolf king with a scarred face and a mane attacking up toward the top of the panel, with its back to the viewer (back view, moving up the screen).
-F6: one large alpha wolf king with a scarred face and a mane dissolving into particles.
-```
-
-### Passo do Vento (`zefiro_passo`), Clã Zéfiro, salto ou deslize, fundo magenta
-
-Avança 3 casas e esquiva de todo golpe direto por 0,5 s.
-
-**No jogo:** F1 na saída, F2 e F3 esticados pelo caminho, F4 a F6 na chegada.
-
-**Folha: Passo do Vento** (`zefiro_passo`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Passo do Vento" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Passo do Vento": pale blue wind streaks and a white feather. Palette: pale sky blue and white air, with light silver sparkles and a light blue outline.
-F1: a burst of pale blue wind streaks and a white feather at the starting point, centered.
-F2: motion streaks of pale blue wind streaks and a white feather stretched to the right across the panel.
-F3: thinner streaks, the same height as F2.
-F4: an arrival burst of pale blue wind streaks and a white feather, centered, the same size as F1.
-F5: the burst opening into small particles.
-F6: the last particles fading.
-```
-
-### Véu de Ar (`zefiro_veu`), Clã Zéfiro, aura no corpo, fundo magenta
-
-Véu de ar por 4 s: você esquiva 25% dos golpes diretos.
-
-**No jogo:** F3 e F4 em laço enquanto dura. A metade de trás fica atrás do boneco e a da frente por cima (profundidade).
-
-**Folha: Véu de Ar** (`zefiro_veu`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Véu de Ar" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Véu de Ar": a thin spinning veil of pale blue air. Palette: pale sky blue and white air, with light silver sparkles and a light blue outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: thin light of a thin spinning veil of pale blue air appears around an empty spot at the center where the ninja stands.
-F2: a thin spinning veil of pale blue air forms a full shape around the empty center, seen from the 3/4 view (a ring or dome around the body).
-F3: a thin spinning veil of pale blue air at full strength (loop frame A).
-F4: the same aura with small changes (loop frame B).
-F5: the moment it is hit or used: a bright flash and small cracks in a thin spinning veil of pale blue air.
-F6: a thin spinning veil of pale blue air breaking into fragments and fading.
-```
-
-### Eco do Vento (`zefiro_eco`), Clã Zéfiro, salto ou deslize, fundo magenta
-
-O vento te devolve para onde você estava 3 s atrás.
-
-**Nota:** F1 marca o ponto de 3 s atrás; F4 a chegada nele.
-
-**No jogo:** F1 na saída, F2 e F3 esticados pelo caminho, F4 a F6 na chegada.
-
-**Folha: Eco do Vento** (`zefiro_eco`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Eco do Vento" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Eco do Vento": a pale blue wind spiral and a faint footprint marker. Palette: pale sky blue and white air, with light silver sparkles and a light blue outline.
-F1: a burst of a pale blue wind spiral and a faint footprint marker at the starting point, centered.
-F2: motion streaks of a pale blue wind spiral and a faint footprint marker stretched to the right across the panel.
-F3: thinner streaks, the same height as F2.
-F4: an arrival burst of a pale blue wind spiral and a faint footprint marker, centered, the same size as F1.
-F5: the burst opening into small particles.
-F6: the last particles fading.
-```
-
-### Mil Passos (`zefiro_mil`), Clã Zéfiro, salto ou deslize, fundo magenta
-
-Salta em até 5 inimigos a até 5 casas em volta, golpeando cada um, e termina ao lado do último.
-
-**Nota:** F4 vira o corte em cada inimigo; o jogo repete para cada salto.
-
-**No jogo:** F1 na saída, F2 e F3 esticados pelo caminho, F4 a F6 na chegada.
-
-**Folha: Mil Passos** (`zefiro_mil`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Mil Passos" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Mil Passos": pale blue dash streaks and a cross slash. Palette: pale sky blue and white air, with light silver sparkles and a light blue outline.
-F1: a burst of pale blue dash streaks and a cross slash at the starting point, centered.
-F2: motion streaks of pale blue dash streaks and a cross slash stretched to the right across the panel.
-F3: thinner streaks, the same height as F2.
-F4: an arrival burst of pale blue dash streaks and a cross slash, centered, the same size as F1.
-F5: the burst opening into small particles.
-F6: the last particles fading.
-```
-
-## Refazer (9)
 
 ### Véu de Vento (`wind_veu`), Vento, aura no corpo, fundo verde
 
@@ -975,7 +490,7 @@ F5: a small gust opening from the hit.
 F6: the last streaks fading.
 ```
 
-## Direções (para baixo e para cima) (13)
+## Direções (para baixo e para cima) (16)
 
 ### Estaca da Ilusão (`illusion_estaca_dir`), Ilusão, linha reta, fundo verde
 
@@ -1097,6 +612,110 @@ F3: a line of black fire with crimson edges reaches the top of the panel, a stra
 F4: the full line at its brightest, the same height and position as F3.
 F5: the line thins out, the same position.
 F6: the last sparks along the line fading.
+```
+
+### Cuspe da Áspide (`aspide_cuspe_dir`), Clã Áspide, projétil, fundo magenta
+
+A folha base já está no jogo. Faltam: Cuspe da Áspide (para baixo), Cuspe da Áspide (para cima).
+
+**No jogo:** F2 a F4 em laço no caminho, F5 e F6 no alvo. O projétil fica no meio do painel em todos os quadros.
+
+**Folha: Cuspe da Áspide (para baixo)** (`aspide_cuspe_baixo`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Cuspe da Áspide (para baixo)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Cuspe da Áspide": a glob of toxic green venom with drips. Palette: toxic lime green and sickly yellow-green, with dark purple shading and a dark green outline.
+This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, seen from above with its front facing the viewer, with the same size, colors and style as the version going right.
+F1: a launch flash at the center: a glob of toxic green venom with drips appears.
+F2: a glob of toxic green venom with drips flying down toward the bottom of the panel, centered in the panel (loop frame A).
+F3: the same projectile, centered, with small changes (loop frame B).
+F4: the same projectile, centered, with other small changes (loop frame C).
+F5: the impact burst where it hits, centered.
+F6: the impact fading into particles.
+```
+
+**Folha: Cuspe da Áspide (para cima)** (`aspide_cuspe_cima`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Cuspe da Áspide (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Cuspe da Áspide": a glob of toxic green venom with drips. Palette: toxic lime green and sickly yellow-green, with dark purple shading and a dark green outline.
+This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
+F1: a launch flash at the center: a glob of toxic green venom with drips appears.
+F2: a glob of toxic green venom with drips flying up toward the top of the panel, centered in the panel (loop frame A).
+F3: the same projectile, centered, with small changes (loop frame B).
+F4: the same projectile, centered, with other small changes (loop frame C).
+F5: the impact burst where it hits, centered.
+F6: the impact fading into particles.
+```
+
+### Ninho de Áspides (`aspide_ninho_dir`), Clã Áspide, invocação, fundo magenta
+
+A folha base já está no jogo. Faltam: Ninho de Áspides (para baixo), Ninho de Áspides (para cima).
+
+**Nota:** Uma serpente por folha; o jogo põe três.
+
+**No jogo:** F1 ao surgir, F2 parado, F3 e F4 andando (laço), F5 no golpe, F6 ao sumir. A criatura fica com os pés no mesmo ponto em todos os quadros.
+
+**Folha: Ninho de Áspides (para baixo)** (`aspide_ninho_baixo`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Ninho de Áspides (para baixo)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The summon "Ninho de Áspides": one small green viper. Palette: toxic lime green and sickly yellow-green, with dark purple shading and a dark green outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
+This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, seen from above with its front facing the viewer, with the same size, colors and style as the version going right.
+F1: a summoning circle on the ground and one small green viper rising from it.
+F2: one small green viper standing, idle pose, facing the viewer (front view, moving down the screen).
+F3: one small green viper walking, step A, facing the viewer (front view, moving down the screen).
+F4: one small green viper walking, step B, facing the viewer (front view, moving down the screen).
+F5: one small green viper attacking down toward the bottom of the panel, facing the viewer (front view, moving down the screen).
+F6: one small green viper dissolving into particles.
+```
+
+**Folha: Ninho de Áspides (para cima)** (`aspide_ninho_cima`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Ninho de Áspides (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The summon "Ninho de Áspides": one small green viper. Palette: toxic lime green and sickly yellow-green, with dark purple shading and a dark green outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
+This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
+F1: a summoning circle on the ground and one small green viper rising from it.
+F2: one small green viper standing, idle pose, with its back to the viewer (back view, moving up the screen).
+F3: one small green viper walking, step A, with its back to the viewer (back view, moving up the screen).
+F4: one small green viper walking, step B, with its back to the viewer (back view, moving up the screen).
+F5: one small green viper attacking up toward the top of the panel, with its back to the viewer (back view, moving up the screen).
+F6: one small green viper dissolving into particles.
+```
+
+### Chamado da Matilha (`garra_matilha_dir`), Clã Garra, invocação, fundo verde
+
+A folha base já está no jogo. Faltam: Chamado da Matilha (para baixo), Chamado da Matilha (para cima).
+
+**No jogo:** F1 ao surgir, F2 parado, F3 e F4 andando (laço), F5 no golpe, F6 ao sumir. A criatura fica com os pés no mesmo ponto em todos os quadros.
+
+**Folha: Chamado da Matilha (para baixo)** (`garra_matilha_baixo`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Chamado da Matilha (para baixo)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The summon "Chamado da Matilha": one wolf beast with tawny fur. Palette: warm brown and tawny fur, amber eyes, ivory fangs and claws, with a dark brown outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
+This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, seen from above with its front facing the viewer, with the same size, colors and style as the version going right.
+F1: a summoning circle on the ground and one wolf beast with tawny fur rising from it.
+F2: one wolf beast with tawny fur standing, idle pose, facing the viewer (front view, moving down the screen).
+F3: one wolf beast with tawny fur walking, step A, facing the viewer (front view, moving down the screen).
+F4: one wolf beast with tawny fur walking, step B, facing the viewer (front view, moving down the screen).
+F5: one wolf beast with tawny fur attacking down toward the bottom of the panel, facing the viewer (front view, moving down the screen).
+F6: one wolf beast with tawny fur dissolving into particles.
+```
+
+**Folha: Chamado da Matilha (para cima)** (`garra_matilha_cima`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Chamado da Matilha (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The summon "Chamado da Matilha": one wolf beast with tawny fur. Palette: warm brown and tawny fur, amber eyes, ivory fangs and claws, with a dark brown outline. The creature keeps its feet on the same ground point in every panel and keeps the same size in every panel.
+This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
+F1: a summoning circle on the ground and one wolf beast with tawny fur rising from it.
+F2: one wolf beast with tawny fur standing, idle pose, with its back to the viewer (back view, moving up the screen).
+F3: one wolf beast with tawny fur walking, step A, with its back to the viewer (back view, moving up the screen).
+F4: one wolf beast with tawny fur walking, step B, with its back to the viewer (back view, moving up the screen).
+F5: one wolf beast with tawny fur attacking up toward the top of the panel, with its back to the viewer (back view, moving up the screen).
+F6: one wolf beast with tawny fur dissolving into particles.
 ```
 
 ### Projétil Dracônico (`fire_hotan_dir`), Fogo, projétil, fundo verde
