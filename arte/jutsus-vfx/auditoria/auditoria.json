@@ -1,0 +1,5025 @@
+{
+ "maioria": "A: contorno escuro, sombreado em tons",
+ "faixas": {
+  "densidade": [
+   22.61904761904762,
+   50.0
+  ],
+  "cores": [
+   92.5,
+   612.5
+  ],
+  "sat": [
+   0.34324942552887716,
+   0.8896075312779024
+  ],
+  "ruido": [
+   0.0,
+   0.07447446824893827
+  ]
+ },
+ "familias": {
+  "A: contorno escuro, sombreado em tons": 112,
+  "B: sem contorno (energia, luz)": 97,
+  "C: brilho suave / gradiente": 11,
+  "D: silhueta branca lisa": 4
+ },
+ "jutsus": [
+  {
+   "jutsu": "aspide_constricao",
+   "quadros": 6,
+   "densidade": 62.5,
+   "cores": 660.5,
+   "sat": 0.6383133256443898,
+   "brilho": 0.5218245688226668,
+   "contorno": 0.9219393127213553,
+   "suave": 0.0,
+   "ruido": 0.011048684647980861,
+   "luz_v": 0.04253896019636991,
+   "luz_h": -0.012228506101184061,
+   "branco": 0.0,
+   "cor_borda": [
+    34,
+    70,
+    44
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "aspide_cuspe",
+   "quadros": 6,
+   "densidade": 50.0,
+   "cores": 196.5,
+   "sat": 0.7094090264436085,
+   "brilho": 0.5905605921409257,
+   "contorno": 0.7502597402597403,
+   "suave": 0.0,
+   "ruido": 0.013169642857142857,
+   "luz_v": 0.09187137770339138,
+   "luz_h": -0.06820577886637291,
+   "branco": 0.0,
+   "cor_borda": [
+    14,
+    33,
+    32
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "aspide_nevoa",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 271.5,
+   "sat": 0.5930516297238763,
+   "brilho": 0.684876947000993,
+   "contorno": 0.8472051356610821,
+   "suave": 0.0,
+   "ruido": 0.004684604419101924,
+   "luz_v": 0.11262315805053574,
+   "luz_h": -0.0008316649692146627,
+   "branco": 0.0,
+   "cor_borda": [
+    24,
+    45,
+    45
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "aspide_ninho",
+   "quadros": 6,
+   "densidade": 83.33333333333333,
+   "cores": 476.0,
+   "sat": 0.5423386412314115,
+   "brilho": 0.5085663910878521,
+   "contorno": 0.8809610484164543,
+   "suave": 0.0,
+   "ruido": 0.04814091969171567,
+   "luz_v": 0.03644802688037452,
+   "luz_h": -0.07233736203508173,
+   "branco": 0.0,
+   "cor_borda": [
+    14,
+    21,
+    25
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "pixel miúdo"
+   ]
+  },
+  {
+   "jutsu": "aspide_ninho_baixo",
+   "quadros": 6,
+   "densidade": 71.42857142857143,
+   "cores": 400.0,
+   "sat": 0.6988299321836943,
+   "brilho": 0.5249354125104683,
+   "contorno": 0.7417152835655039,
+   "suave": 0.0,
+   "ruido": 0.042513823124076096,
+   "luz_v": -0.05899119528408542,
+   "luz_h": 0.0028255173886791163,
+   "branco": 0.0,
+   "cor_borda": [
+    35,
+    61,
+    38
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "pixel miúdo"
+   ]
+  },
+  {
+   "jutsu": "aspide_ninho_cima",
+   "quadros": 6,
+   "densidade": 68.9655172413793,
+   "cores": 431.5,
+   "sat": 0.6452492024389274,
+   "brilho": 0.6168311015763928,
+   "contorno": 0.6254928408383482,
+   "suave": 0.0,
+   "ruido": 0.029901002719238613,
+   "luz_v": 0.04877080785328111,
+   "luz_h": 0.004845383982735929,
+   "branco": 0.0,
+   "cor_borda": [
+    46,
+    61,
+    43
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "pixel miúdo"
+   ]
+  },
+  {
+   "jutsu": "bastiao_guarda",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 570.5,
+   "sat": 0.3746049211533371,
+   "brilho": 0.6107538665135751,
+   "contorno": 0.5777251857812278,
+   "suave": 0.0,
+   "ruido": 0.041510061395577814,
+   "luz_v": -0.06121683749245482,
+   "luz_h": -0.005513324380175794,
+   "branco": 0.0,
+   "cor_borda": [
+    53,
+    64,
+    74
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "bastiao_juramento",
+   "quadros": 6,
+   "densidade": 38.46153846153847,
+   "cores": 877.0,
+   "sat": 0.440698298086052,
+   "brilho": 0.6951690231404601,
+   "contorno": 0.08411936222123868,
+   "suave": 0.0,
+   "ruido": 0.06981370143221312,
+   "luz_v": -0.10812755323793755,
+   "luz_h": 0.010890799118278394,
+   "branco": 0.004457447344743167,
+   "cor_borda": [
+    178,
+    192,
+    99
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "cores demais"
+   ]
+  },
+  {
+   "jutsu": "bastiao_muralha",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 612.5,
+   "sat": 0.3819188397459613,
+   "brilho": 0.4795150301951477,
+   "contorno": 0.4747768921588664,
+   "suave": 0.0,
+   "ruido": 0.0607019973510005,
+   "luz_v": -0.05819456562567471,
+   "luz_h": -0.00022847470798573188,
+   "branco": 0.0005434061236207961,
+   "cor_borda": [
+    83,
+    88,
+    46
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "bastiao_resposta",
+   "quadros": 6,
+   "densidade": 41.666666666666664,
+   "cores": 465.5,
+   "sat": 0.33245226817200396,
+   "brilho": 0.5751456839704747,
+   "contorno": 0.1606627146982824,
+   "suave": 0.0,
+   "ruido": 0.07266184432441328,
+   "luz_v": 0.028919341329049997,
+   "luz_h": 0.006007738715839456,
+   "branco": 0.006955591225254147,
+   "cor_borda": [
+    236,
+    235,
+    131
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "bind",
+   "quadros": 1,
+   "densidade": 0,
+   "cores": 3,
+   "sat": 0.5905277804347306,
+   "brilho": 0.23757939795636562,
+   "contorno": 0.9852941176470589,
+   "suave": 0.0,
+   "ruido": 0.04199475065616798,
+   "luz_v": 0.036737744251926996,
+   "luz_h": -0.004088828842190667,
+   "branco": 0.0,
+   "cor_borda": [
+    32,
+    20,
+    50
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "dust",
+   "quadros": 1,
+   "densidade": 0,
+   "cores": 4,
+   "sat": 0.14101416557252236,
+   "brilho": 0.7389089497185014,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.009668508287292817,
+   "luz_v": 0.12316162458817503,
+   "luz_h": -0.07959589901320008,
+   "branco": 0.0,
+   "cor_borda": [
+    157,
+    145,
+    133
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "explosion",
+   "quadros": 1,
+   "densidade": 0,
+   "cores": 13,
+   "sat": 0.46469654959793066,
+   "brilho": 0.7493987931469457,
+   "contorno": 0.4404527559055118,
+   "suave": 0.0,
+   "ruido": 0.001866019779809666,
+   "luz_v": 0.004813922896877987,
+   "luz_h": 0.07964681215891634,
+   "branco": 0.04820807333370147,
+   "cor_borda": [
+    155,
+    113,
+    91
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "fire_2",
+   "quadros": 9,
+   "densidade": 33.333333333333336,
+   "cores": 461,
+   "sat": 0.8684592085426088,
+   "brilho": 0.7819730652345864,
+   "contorno": 0.10967741935483871,
+   "suave": 0.0,
+   "ruido": 0.002088305489260143,
+   "luz_v": -0.040210088865229365,
+   "luz_h": -0.012953846442792183,
+   "branco": 0.0,
+   "cor_borda": [
+    188,
+    110,
+    8
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "fire_3",
+   "quadros": 6,
+   "densidade": 19.41808389264194,
+   "cores": 527.0,
+   "sat": 0.9082205940988326,
+   "brilho": 0.791799702303343,
+   "contorno": 0.8250252327015812,
+   "suave": 0.0,
+   "ruido": 0.008035559329051898,
+   "luz_v": -0.16250946010488043,
+   "luz_h": 0.0024890335152810694,
+   "branco": 0.0,
+   "cor_borda": [
+    62,
+    38,
+    7
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "fire_4",
+   "quadros": 12,
+   "densidade": 14.285714285714286,
+   "cores": 147.5,
+   "sat": 0.7450867409449502,
+   "brilho": 0.7278701916241579,
+   "contorno": 0.03521462639109698,
+   "suave": 0.0,
+   "ruido": 0.031121794871794874,
+   "luz_v": -0.01088825498873465,
+   "luz_h": -0.006355762183759592,
+   "branco": 0.0,
+   "cor_borda": [
+    144,
+    107,
+    54
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pixel grande"
+   ]
+  },
+  {
+   "jutsu": "fire_chao",
+   "quadros": 6,
+   "densidade": 27.77777777777778,
+   "cores": 622.0,
+   "sat": 0.721153573234228,
+   "brilho": 0.514846720229577,
+   "contorno": 0.3858652974932045,
+   "suave": 0.0,
+   "ruido": 0.008188463807064096,
+   "luz_v": 0.012765962620289527,
+   "luz_h": 0.01392596199982521,
+   "branco": 0.0,
+   "cor_borda": [
+    104,
+    61,
+    25
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "fire_coluna",
+   "quadros": 6,
+   "densidade": 15.99922898997687,
+   "cores": 314.0,
+   "sat": 0.9158411116670497,
+   "brilho": 0.9130265092458822,
+   "contorno": 0.003925096383330273,
+   "suave": 0.0,
+   "ruido": 0.0007538635506973238,
+   "luz_v": 0.05633992771597768,
+   "luz_h": 0.002951206060434808,
+   "branco": 0.0,
+   "cor_borda": [
+    199,
+    78,
+    7
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pixel grande"
+   ]
+  },
+  {
+   "jutsu": "fire_cometa",
+   "quadros": 6,
+   "densidade": 62.5,
+   "cores": 135.5,
+   "sat": 0.9246064877036946,
+   "brilho": 0.6730258483712491,
+   "contorno": 0.9878676470588236,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": -0.0075748040153942875,
+   "luz_h": -0.11216577676366465,
+   "branco": 0.0,
+   "cor_borda": [
+    67,
+    14,
+    4
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "fire_coroa",
+   "quadros": 6,
+   "densidade": 20.408163265306122,
+   "cores": 1026.0,
+   "sat": 0.8002189518251079,
+   "brilho": 0.6667474894347283,
+   "contorno": 0.6467093023255814,
+   "suave": 0.0,
+   "ruido": 0.03073732575402999,
+   "luz_v": -0.01690682475980848,
+   "luz_h": 0.0011830010654647338,
+   "branco": 0.0,
+   "cor_borda": [
+    103,
+    53,
+    18
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "cores demais"
+   ]
+  },
+  {
+   "jutsu": "fire_haiseki",
+   "quadros": 6,
+   "densidade": 18.867924528301888,
+   "cores": 401.0,
+   "sat": 0.27945947982043867,
+   "brilho": 0.6361204446740409,
+   "contorno": 0.0996505665370937,
+   "suave": 0.0,
+   "ruido": 0.0033578316069984874,
+   "luz_v": 0.005313678479122924,
+   "luz_h": 0.0019773186103010376,
+   "branco": 0.0,
+   "cor_borda": [
+    85,
+    49,
+    44
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "fire_hotan",
+   "quadros": 6,
+   "densidade": 33.33333333333333,
+   "cores": 452.5,
+   "sat": 0.8984257120098007,
+   "brilho": 0.6828635906203546,
+   "contorno": 0.7657209680699614,
+   "suave": 0.0,
+   "ruido": 0.04088612985077436,
+   "luz_v": 0.006946645849519151,
+   "luz_h": -0.01831098663174452,
+   "branco": 0.0,
+   "cor_borda": [
+    139,
+    70,
+    23
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "fire_lamina",
+   "quadros": 6,
+   "densidade": 50.0,
+   "cores": 225.5,
+   "sat": 0.9065481317532417,
+   "brilho": 0.8531480877323558,
+   "contorno": 0.5168380007089685,
+   "suave": 0.0,
+   "ruido": 0.028763225749088645,
+   "luz_v": 0.005277569144494121,
+   "luz_h": -0.027347777668376705,
+   "branco": 0.0,
+   "cor_borda": [
+    45,
+    12,
+    9
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "fire_marca",
+   "quadros": 6,
+   "densidade": 26.666666666666664,
+   "cores": 207.0,
+   "sat": 0.8265441539251431,
+   "brilho": 0.805752544165323,
+   "contorno": 0.14724658869395713,
+   "suave": 0.0,
+   "ruido": 0.0803270725388601,
+   "luz_v": -0.009470855110609216,
+   "luz_h": -0.010781019382038376,
+   "branco": 0.0,
+   "cor_borda": [
+    154,
+    126,
+    10
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "fire_rugido",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 531.5,
+   "sat": 0.793518668004888,
+   "brilho": 0.8778100233187904,
+   "contorno": 0.6174127073293321,
+   "suave": 0.0,
+   "ruido": 0.00250558855793195,
+   "luz_v": -0.012146826628012475,
+   "luz_h": -0.007957667049921846,
+   "branco": 0.0,
+   "cor_borda": [
+    139,
+    97,
+    49
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "fire_ryuka",
+   "quadros": 6,
+   "densidade": 22.22222222222222,
+   "cores": 200.0,
+   "sat": 0.83788629170782,
+   "brilho": 0.9048647561588739,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.007852441451094445,
+   "luz_v": -0.07239815463052296,
+   "luz_h": -0.07585817558180141,
+   "branco": 0.0,
+   "cor_borda": [
+    178,
+    116,
+    65
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "fireball",
+   "quadros": 1,
+   "densidade": 0,
+   "cores": 7,
+   "sat": 0.7340213698875946,
+   "brilho": 0.8996253860351223,
+   "contorno": 0.2990353697749196,
+   "suave": 0.0,
+   "ruido": 0.006561679790026247,
+   "luz_v": 0.006542133431989061,
+   "luz_h": -0.008692502376960176,
+   "branco": 0.05871388630009319,
+   "cor_borda": [
+    205,
+    83,
+    38
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "fogo",
+   "quadros": 3,
+   "densidade": 0,
+   "cores": 288,
+   "sat": 0.6633214541346935,
+   "brilho": 0.7249965720553956,
+   "contorno": 0.43119266055045874,
+   "suave": 0.0,
+   "ruido": 0.008264462809917356,
+   "luz_v": 0.005418868312937031,
+   "luz_h": 0.010632732173739057,
+   "branco": 0.008391608391608392,
+   "cor_borda": [
+    226,
+    159,
+    111
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "fuma",
+   "quadros": 1,
+   "densidade": 0,
+   "cores": 7,
+   "sat": 0.22070201036828302,
+   "brilho": 0.6275003082994205,
+   "contorno": 0.5906735751295337,
+   "suave": 0.0,
+   "ruido": 0.06338028169014084,
+   "luz_v": 0.019159288033871902,
+   "luz_h": -0.001980298375724443,
+   "branco": 0.06708595387840671,
+   "cor_borda": [
+    99,
+    100,
+    115
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "garra_matilha",
+   "quadros": 6,
+   "densidade": 58.8235294117647,
+   "cores": 465.0,
+   "sat": 0.6232953177044556,
+   "brilho": 0.5732134893734611,
+   "contorno": 0.763362342178747,
+   "suave": 0.0,
+   "ruido": 0.03686491079014444,
+   "luz_v": 0.08178525150735749,
+   "luz_h": -0.05011488314002582,
+   "branco": 0.0,
+   "cor_borda": [
+    17,
+    14,
+    9
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "garra_rei",
+   "quadros": 6,
+   "densidade": 41.666666666666664,
+   "cores": 422.0,
+   "sat": 0.6504305107366861,
+   "brilho": 0.560652354034707,
+   "contorno": 0.8465260614049541,
+   "suave": 0.0,
+   "ruido": 0.034152978042098714,
+   "luz_v": 0.06515104516606354,
+   "luz_h": -0.017725315175094236,
+   "branco": 0.0,
+   "cor_borda": [
+    62,
+    38,
+    26
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "garra_rei_baixo",
+   "quadros": 6,
+   "densidade": 41.666666666666664,
+   "cores": 439.0,
+   "sat": 0.6860108016823994,
+   "brilho": 0.5460122501202993,
+   "contorno": 0.6904674273095326,
+   "suave": 0.0,
+   "ruido": 0.05364774114774115,
+   "luz_v": 0.025477291241130295,
+   "luz_h": -0.02031044159631934,
+   "branco": 0.00014326647564469913,
+   "cor_borda": [
+    55,
+    38,
+    21
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "garra_rei_cima",
+   "quadros": 6,
+   "densidade": 41.66666666666667,
+   "cores": 273.0,
+   "sat": 0.48825233662476186,
+   "brilho": 0.3538094404109665,
+   "contorno": 0.8832824473785308,
+   "suave": 0.0,
+   "ruido": 0.009345464173431968,
+   "luz_v": 0.025554280365871054,
+   "luz_h": 0.0007639072393785529,
+   "branco": 0.0002944640753828033,
+   "cor_borda": [
+    24,
+    20,
+    16
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "garra_troca",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 503.5,
+   "sat": 0.7041022338567249,
+   "brilho": 0.5824939030906005,
+   "contorno": 0.921522215017381,
+   "suave": 0.0,
+   "ruido": 0.010796373905789892,
+   "luz_v": -0.005985939651323657,
+   "luz_h": 0.01929619604740157,
+   "branco": 0.0,
+   "cor_borda": [
+    61,
+    37,
+    17
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "garra_uivo",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 236.5,
+   "sat": 0.8099671169044662,
+   "brilho": 0.7352945424644968,
+   "contorno": 0.8707423714303186,
+   "suave": 0.0,
+   "ruido": 0.01435423090099349,
+   "luz_v": 0.009380349537718657,
+   "luz_h": 0.03385797263115842,
+   "branco": 0.0,
+   "cor_borda": [
+    102,
+    63,
+    11
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "heal",
+   "quadros": 6,
+   "densidade": 21.27659574468085,
+   "cores": 18.0,
+   "sat": 0.5312605647228097,
+   "brilho": 0.8605881732479082,
+   "contorno": 0.0,
+   "suave": 0.46034376104630614,
+   "ruido": 0.0,
+   "luz_v": 0.0032319775558072583,
+   "luz_h": 0.0022561287064278013,
+   "branco": 0.0,
+   "cor_borda": [
+    39,
+    42,
+    31
+   ],
+   "familia": "C: brilho suave / gradiente",
+   "fora": [
+    "C"
+   ]
+  },
+  {
+   "jutsu": "heal_2",
+   "quadros": 6,
+   "densidade": 16.666666666666668,
+   "cores": 223.0,
+   "sat": 0.7236720627161352,
+   "brilho": 0.7580840937034881,
+   "contorno": 0.0,
+   "suave": 0.29194863366847124,
+   "ruido": 0.022953367875647668,
+   "luz_v": 0.018246264681897467,
+   "luz_h": -0.0038228476208243545,
+   "branco": 0.0,
+   "cor_borda": [
+    14,
+    163,
+    63
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pixel grande"
+   ]
+  },
+  {
+   "jutsu": "heal_3",
+   "quadros": 5,
+   "densidade": 11.11111111111111,
+   "cores": 664,
+   "sat": 0.7811643743325531,
+   "brilho": 0.7450586408121781,
+   "contorno": 0.007326007326007326,
+   "suave": 0.3522857142857143,
+   "ruido": 0.013487099296325255,
+   "luz_v": -0.005465312169614989,
+   "luz_h": 0.0033996371502337808,
+   "branco": 0.0,
+   "cor_borda": [
+    36,
+    161,
+    53
+   ],
+   "familia": "C: brilho suave / gradiente",
+   "fora": [
+    "C",
+    "pixel grande"
+   ]
+  },
+  {
+   "jutsu": "heal_4",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 119.5,
+   "sat": 0.5384380249754388,
+   "brilho": 0.9095426760593881,
+   "contorno": 0.0,
+   "suave": 0.702551784314729,
+   "ruido": 0.0,
+   "luz_v": 0.003035684139497785,
+   "luz_h": 0.0008732454389381861,
+   "branco": 0.0,
+   "cor_borda": [
+    116,
+    234,
+    145
+   ],
+   "familia": "C: brilho suave / gradiente",
+   "fora": [
+    "C"
+   ]
+  },
+  {
+   "jutsu": "heal_agulha",
+   "quadros": 6,
+   "densidade": 43.47826086956522,
+   "cores": 117.5,
+   "sat": 0.523636879955794,
+   "brilho": 0.7385283218482843,
+   "contorno": 0.1121763153554346,
+   "suave": 0.0,
+   "ruido": 0.010977302012092377,
+   "luz_v": 0.0194707974183006,
+   "luz_h": 0.06050017869866445,
+   "branco": 0.0,
+   "cor_borda": [
+    61,
+    152,
+    87
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "heal_aura",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 518.0,
+   "sat": 0.34520346242968847,
+   "brilho": 0.7370606617345252,
+   "contorno": 0.3441323999559034,
+   "suave": 0.0,
+   "ruido": 0.027557094981637525,
+   "luz_v": 0.017793060151659157,
+   "luz_h": -0.0010816848765166642,
+   "branco": 0.0003003740410437621,
+   "cor_borda": [
+    86,
+    114,
+    104
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "heal_banho",
+   "quadros": 6,
+   "densidade": 23.80952380952381,
+   "cores": 182.5,
+   "sat": 0.6918867239960464,
+   "brilho": 0.9336845525285509,
+   "contorno": 0.0,
+   "suave": 0.2994167509137569,
+   "ruido": 0.009486034649674166,
+   "luz_v": -0.007689821145107023,
+   "luz_h": 0.0011289974618468035,
+   "branco": 0.0,
+   "cor_borda": [
+    73,
+    222,
+    164
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "heal_bisturi",
+   "quadros": 6,
+   "densidade": 62.5,
+   "cores": 364.5,
+   "sat": 0.715234235376611,
+   "brilho": 0.7847311980347694,
+   "contorno": 0.2105817068503636,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.07183739544314205,
+   "luz_h": -0.07525226772782373,
+   "branco": 0.003125,
+   "cor_borda": [
+    58,
+    150,
+    71
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "heal_casca",
+   "quadros": 6,
+   "densidade": 30.3030303030303,
+   "cores": 139.5,
+   "sat": 0.7115617472131658,
+   "brilho": 0.8577425521262155,
+   "contorno": 0.2126129945121043,
+   "suave": 0.0,
+   "ruido": 0.042174679855839274,
+   "luz_v": -0.007620042304862601,
+   "luz_h": 0.000247054001860203,
+   "branco": 0.0,
+   "cor_borda": [
+    1,
+    2,
+    31
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "heal_colosso",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 833.5,
+   "sat": 0.8003547283400729,
+   "brilho": 0.8004894916116612,
+   "contorno": 0.04765159652377697,
+   "suave": 0.0,
+   "ruido": 0.00953513276434698,
+   "luz_v": 0.0132069335462002,
+   "luz_h": -0.00031686596091701213,
+   "branco": 0.0,
+   "cor_borda": [
+    40,
+    180,
+    64
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "heal_desintox",
+   "quadros": 6,
+   "densidade": 37.735849056603776,
+   "cores": 592.0,
+   "sat": 0.39418690411127294,
+   "brilho": 0.8439168534439002,
+   "contorno": 0.040409160761547,
+   "suave": 0.26195630055950037,
+   "ruido": 0.022461814914645103,
+   "luz_v": -0.0015539931149626818,
+   "luz_h": 0.012787707023128592,
+   "branco": 0.028550376086965343,
+   "cor_borda": [
+    95,
+    170,
+    121
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "heal_disturbio",
+   "quadros": 6,
+   "densidade": 62.5,
+   "cores": 439.5,
+   "sat": 0.5751164100079856,
+   "brilho": 0.6508152599551393,
+   "contorno": 0.36341435494333574,
+   "suave": 0.3782458452824139,
+   "ruido": 0.02130814199779717,
+   "luz_v": 0.0030310699649833406,
+   "luz_h": 0.0020537397736385687,
+   "branco": 0.0,
+   "cor_borda": [
+    100,
+    147,
+    115
+   ],
+   "familia": "C: brilho suave / gradiente",
+   "fora": [
+    "C"
+   ]
+  },
+  {
+   "jutsu": "heal_meridianos",
+   "quadros": 6,
+   "densidade": 50.0,
+   "cores": 419.0,
+   "sat": 0.6832063853375149,
+   "brilho": 0.8687318276705152,
+   "contorno": 0.0,
+   "suave": 0.27513169446883234,
+   "ruido": 0.02037344398340249,
+   "luz_v": 0.0052453596958587645,
+   "luz_h": 0.000449139128222531,
+   "branco": 0.0,
+   "cor_borda": [
+    41,
+    169,
+    123
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "heal_milagre",
+   "quadros": 6,
+   "densidade": 7.407407407407408,
+   "cores": 28.5,
+   "sat": 0.574589679493785,
+   "brilho": 0.9007881584006153,
+   "contorno": 0.0,
+   "suave": 0.5721819061441703,
+   "ruido": 0.0007849293563579278,
+   "luz_v": -0.00014658770194164727,
+   "luz_h": 0.0008689358228720079,
+   "branco": 0.0,
+   "cor_borda": [
+    107,
+    221,
+    82
+   ],
+   "familia": "C: brilho suave / gradiente",
+   "fora": [
+    "C",
+    "pixel grande"
+   ]
+  },
+  {
+   "jutsu": "heal_onda",
+   "quadros": 6,
+   "densidade": 21.27659574468085,
+   "cores": 405.5,
+   "sat": 0.3959163613243731,
+   "brilho": 0.855992909821848,
+   "contorno": 0.565610436467503,
+   "suave": 0.12302185410479172,
+   "ruido": 0.031992315012046774,
+   "luz_v": -0.005605050164125769,
+   "luz_h": -0.013615695838444297,
+   "branco": 0.00035161744022503517,
+   "cor_borda": [
+    86,
+    88,
+    102
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "heal_palma",
+   "quadros": 7,
+   "densidade": 59.88967691095351,
+   "cores": 234,
+   "sat": 0.7288078393505969,
+   "brilho": 0.8194872722340282,
+   "contorno": 0.0,
+   "suave": 0.39318600368324125,
+   "ruido": 0.0011760094080752645,
+   "luz_v": 0.018669530276952062,
+   "luz_h": 0.009791935661656925,
+   "branco": 0.0,
+   "cor_borda": [
+    72,
+    195,
+    71
+   ],
+   "familia": "C: brilho suave / gradiente",
+   "fora": [
+    "C"
+   ]
+  },
+  {
+   "jutsu": "heal_santuario",
+   "quadros": 6,
+   "densidade": 32.25806451612903,
+   "cores": 1367.5,
+   "sat": 0.6807826906742638,
+   "brilho": 0.7810689362018737,
+   "contorno": 0.17315088934462203,
+   "suave": 0.126456924629254,
+   "ruido": 0.021458345467905364,
+   "luz_v": 0.026476276068429838,
+   "luz_h": -0.0024161102486890684,
+   "branco": 0.0,
+   "cor_borda": [
+    47,
+    140,
+    69
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "cores demais"
+   ]
+  },
+  {
+   "jutsu": "heal_septica",
+   "quadros": 6,
+   "densidade": 66.66666666666667,
+   "cores": 580.5,
+   "sat": 0.9057158878797772,
+   "brilho": 0.6794079945091989,
+   "contorno": 0.3582713533886182,
+   "suave": 0.0,
+   "ruido": 0.013439183845508589,
+   "luz_v": 0.045840605610421054,
+   "luz_h": -0.043283264793167686,
+   "branco": 0.0,
+   "cor_borda": [
+    42,
+    101,
+    19
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "pixel miúdo"
+   ]
+  },
+  {
+   "jutsu": "hit",
+   "quadros": 1,
+   "densidade": 0,
+   "cores": 4,
+   "sat": 0.46613632800017457,
+   "brilho": 0.9922449878827936,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.012633655509341923,
+   "luz_h": 0.019633575494714117,
+   "branco": 0.30337078651685395,
+   "cor_borda": [
+    253,
+    212,
+    127
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "illusion",
+   "quadros": 7,
+   "densidade": 28.57142857142857,
+   "cores": 273,
+   "sat": 0.42252794676983296,
+   "brilho": 0.5882185670476721,
+   "contorno": 0.30428769017980634,
+   "suave": 0.0,
+   "ruido": 0.03287671232876712,
+   "luz_v": 9.090370018971505e-05,
+   "luz_h": -0.01436652756606821,
+   "branco": 0.0,
+   "cor_borda": [
+    123,
+    92,
+    135
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "illusion_2",
+   "quadros": 6,
+   "densidade": 28.571428571428573,
+   "cores": 402.0,
+   "sat": 0.45108120115374944,
+   "brilho": 0.7121985272096261,
+   "contorno": 0.160844629822732,
+   "suave": 0.0,
+   "ruido": 0.04839124737531773,
+   "luz_v": -0.012192548188019958,
+   "luz_h": 0.0013243913191656465,
+   "branco": 0.025836519368127798,
+   "cor_borda": [
+    139,
+    114,
+    166
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "illusion_3",
+   "quadros": 6,
+   "densidade": 28.571428571428573,
+   "cores": 305.5,
+   "sat": 0.490872216214677,
+   "brilho": 0.3410175086748565,
+   "contorno": 0.7393806271918867,
+   "suave": 0.0,
+   "ruido": 0.02297032743960118,
+   "luz_v": 0.006309952192149942,
+   "luz_h": -0.003443851310765869,
+   "branco": 0.0,
+   "cor_borda": [
+    63,
+    46,
+    76
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "illusion_4",
+   "quadros": 9,
+   "densidade": 38.46153846153846,
+   "cores": 680,
+   "sat": 0.6513934892925861,
+   "brilho": 0.5045427331237838,
+   "contorno": 0.40700483091787437,
+   "suave": 0.0,
+   "ruido": 0.1,
+   "luz_v": 0.002257234103250516,
+   "luz_h": 0.0006379170741659945,
+   "branco": 0.002965892239248641,
+   "cor_borda": [
+    131,
+    82,
+    134
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "granulado"
+   ]
+  },
+  {
+   "jutsu": "illusion_colapso",
+   "quadros": 6,
+   "densidade": 28.571428571428573,
+   "cores": 606.5,
+   "sat": 0.36671437820424363,
+   "brilho": 0.7352073531062178,
+   "contorno": 0.028600445551041805,
+   "suave": 0.0,
+   "ruido": 0.032998271078766434,
+   "luz_v": -0.025027076325418007,
+   "luz_h": 0.003967887265542869,
+   "branco": 0.010965119833178437,
+   "cor_borda": [
+    163,
+    132,
+    185
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "illusion_coro",
+   "quadros": 6,
+   "densidade": 28.571428571428573,
+   "cores": 370.0,
+   "sat": 0.2951448813698446,
+   "brilho": 0.7777334242605238,
+   "contorno": 0.0020491803278688526,
+   "suave": 0.0,
+   "ruido": 0.061869740844151484,
+   "luz_v": -0.007908001306392187,
+   "luz_h": 0.0009004115661329082,
+   "branco": 0.002145922746781116,
+   "cor_borda": [
+    159,
+    148,
+    176
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "illusion_emprestimo",
+   "quadros": 6,
+   "densidade": 50.0,
+   "cores": 600.5,
+   "sat": 0.5080214008616186,
+   "brilho": 0.7593215260996837,
+   "contorno": 0.011014551824194167,
+   "suave": 0.0,
+   "ruido": 0.031011064925941103,
+   "luz_v": 0.13630738527178674,
+   "luz_h": -0.006382247948144293,
+   "branco": 0.021752349836260905,
+   "cor_borda": [
+    182,
+    132,
+    210
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "illusion_espelho",
+   "quadros": 5,
+   "densidade": 28.57142857142857,
+   "cores": 471,
+   "sat": 0.3582112195639016,
+   "brilho": 0.6453742060204364,
+   "contorno": 0.30237154150197626,
+   "suave": 0.0,
+   "ruido": 0.08568646543330087,
+   "luz_v": -0.006797422698133604,
+   "luz_h": 0.007193056811211407,
+   "branco": 0.0013245033112582781,
+   "cor_borda": [
+    110,
+    100,
+    139
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "illusion_estaca",
+   "quadros": 6,
+   "densidade": 28.571428571428573,
+   "cores": 240.5,
+   "sat": 0.43620046063311224,
+   "brilho": 0.7718247411324082,
+   "contorno": 0.44186643396129566,
+   "suave": 0.0,
+   "ruido": 0.009188284277984574,
+   "luz_v": 0.10141006960523669,
+   "luz_h": -0.06391901810731299,
+   "branco": 0.0034726812073143866,
+   "cor_borda": [
+    189,
+    139,
+    202
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "illusion_estaca_baixo",
+   "quadros": 6,
+   "densidade": 20.408163265306122,
+   "cores": 259.0,
+   "sat": 0.35590692180911476,
+   "brilho": 0.7100085866723268,
+   "contorno": 0.11343093938606369,
+   "suave": 0.0,
+   "ruido": 0.021579471717516997,
+   "luz_v": 0.0020837881048687557,
+   "luz_h": 0.04466571194271812,
+   "branco": 0.006914496083261826,
+   "cor_borda": [
+    208,
+    170,
+    215
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "illusion_kai",
+   "quadros": 6,
+   "densidade": 33.33333333333333,
+   "cores": 493.0,
+   "sat": 0.2810375983568426,
+   "brilho": 0.8256127782059282,
+   "contorno": 0.06747205622505907,
+   "suave": 0.0,
+   "ruido": 0.004351487928130264,
+   "luz_v": 0.09737691452573377,
+   "luz_h": 0.028709181939675754,
+   "branco": 0.015547764230825042,
+   "cor_borda": [
+    117,
+    84,
+    140
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "illusion_ninar",
+   "quadros": 6,
+   "densidade": 28.571428571428573,
+   "cores": 270.0,
+   "sat": 0.28101638817724217,
+   "brilho": 0.7265131216177649,
+   "contorno": 0.034782608695652174,
+   "suave": 0.0,
+   "ruido": 0.021834477498093058,
+   "luz_v": 0.009644667358727155,
+   "luz_h": 0.004447199197212703,
+   "branco": 0.0,
+   "cor_borda": [
+    190,
+    159,
+    191
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "illusion_noite",
+   "quadros": 6,
+   "densidade": 28.571428571428573,
+   "cores": 401.0,
+   "sat": 0.35754576322987264,
+   "brilho": 0.545105919380858,
+   "contorno": 0.3823045444139194,
+   "suave": 0.0,
+   "ruido": 0.018465340841913293,
+   "luz_v": 0.003521882966617651,
+   "luz_h": -0.0009621323267449133,
+   "branco": 0.0034404038695938777,
+   "cor_borda": [
+    75,
+    78,
+    109
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "illusion_olho",
+   "quadros": 6,
+   "densidade": 55.55555555555556,
+   "cores": 547.0,
+   "sat": 0.27589337118210494,
+   "brilho": 0.7940610843580285,
+   "contorno": 0.00625,
+   "suave": 0.0,
+   "ruido": 0.021750190066405214,
+   "luz_v": 0.018100793942757765,
+   "luz_h": -0.06773280714356106,
+   "branco": 0.09073626110087388,
+   "cor_borda": [
+    146,
+    112,
+    163
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "illusion_passo",
+   "quadros": 6,
+   "densidade": 28.571428571428573,
+   "cores": 416.5,
+   "sat": 0.3775891238742519,
+   "brilho": 0.7650559449521387,
+   "contorno": 0.14558131720430106,
+   "suave": 0.0,
+   "ruido": 0.057380001989166096,
+   "luz_v": 0.01744094393296569,
+   "luz_h": -0.016047110809260245,
+   "branco": 0.028375230434053964,
+   "cor_borda": [
+    146,
+    95,
+    186
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "illusion_reflexo",
+   "quadros": 6,
+   "densidade": 40.0,
+   "cores": 447.0,
+   "sat": 0.2441428774329018,
+   "brilho": 0.7095948491096926,
+   "contorno": 0.0936529933481153,
+   "suave": 0.0,
+   "ruido": 0.007206978677458356,
+   "luz_v": -0.012541514975638213,
+   "luz_h": 0.014935186183639648,
+   "branco": 0.0029092538454102874,
+   "cor_borda": [
+    98,
+    81,
+    119
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "illusion_templo",
+   "quadros": 6,
+   "densidade": 28.571428571428573,
+   "cores": 521.5,
+   "sat": 0.3926950596800147,
+   "brilho": 0.6876819840735897,
+   "contorno": 0.5675074857091007,
+   "suave": 0.0,
+   "ruido": 0.036084532982192365,
+   "luz_v": 0.0006231240143184658,
+   "luz_h": -0.004243211879148445,
+   "branco": 0.00833412874810805,
+   "cor_borda": [
+    87,
+    80,
+    121
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "illusion_veu",
+   "quadros": 6,
+   "densidade": 28.57142857142857,
+   "cores": 325.5,
+   "sat": 0.33114036388294077,
+   "brilho": 0.6083351926389169,
+   "contorno": 0.19040253896834325,
+   "suave": 0.0,
+   "ruido": 0.011941694486013583,
+   "luz_v": 0.01853117776298502,
+   "luz_h": 0.00443219695810701,
+   "branco": 0.003174651090248639,
+   "cor_borda": [
+    104,
+    97,
+    130
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "illusion_voz",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 462.0,
+   "sat": 0.5625158605130623,
+   "brilho": 0.7224387544850259,
+   "contorno": 0.6654196444696716,
+   "suave": 0.0,
+   "ruido": 0.010490149496883684,
+   "luz_v": -0.04473327962158663,
+   "luz_h": -0.0042856775103896905,
+   "branco": 0.0050415183867141165,
+   "cor_borda": [
+    60,
+    35,
+    84
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "kunai",
+   "quadros": 1,
+   "densidade": 0,
+   "cores": 11,
+   "sat": 0.34024420125042343,
+   "brilho": 0.34234129295282467,
+   "contorno": 0.7816901408450704,
+   "suave": 0.0,
+   "ruido": 0.16770186335403728,
+   "luz_v": 0.0053967718002633225,
+   "luz_h": -0.001623637736725858,
+   "branco": 0.0033003300330033004,
+   "cor_borda": [
+    54,
+    53,
+    71
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "granulado"
+   ]
+  },
+  {
+   "jutsu": "lightning",
+   "quadros": 7,
+   "densidade": 18.905253901956474,
+   "cores": 207,
+   "sat": 0.5024830154521391,
+   "brilho": 0.8649363771273406,
+   "contorno": 0.7415730337078652,
+   "suave": 0.0,
+   "ruido": 0.008928571428571428,
+   "luz_v": 0.009870301934739145,
+   "luz_h": 0.005617265103701641,
+   "branco": 0.14819427148194272,
+   "cor_borda": [
+    62,
+    80,
+    176
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "lightning_2",
+   "quadros": 8,
+   "densidade": 45.45454545454545,
+   "cores": 653.0,
+   "sat": 0.5786461203611835,
+   "brilho": 0.7993079774361919,
+   "contorno": 0.14996729888816218,
+   "suave": 0.3254863918172225,
+   "ruido": 0.044183349084972935,
+   "luz_v": 0.011452095634224724,
+   "luz_h": 0.003522273472503057,
+   "branco": 0.023362519800596348,
+   "cor_borda": [
+    100,
+    117,
+    143
+   ],
+   "familia": "C: brilho suave / gradiente",
+   "fora": [
+    "C"
+   ]
+  },
+  {
+   "jutsu": "lightning_3",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 1126.0,
+   "sat": 0.6888946780732184,
+   "brilho": 0.8365620639883615,
+   "contorno": 0.556424448461123,
+   "suave": 0.0,
+   "ruido": 0.035939804535516054,
+   "luz_v": -0.005349846312464268,
+   "luz_h": -0.12631056043278288,
+   "branco": 0.0006797354863537997,
+   "cor_borda": [
+    117,
+    108,
+    83
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "cores demais"
+   ]
+  },
+  {
+   "jutsu": "lightning_4",
+   "quadros": 6,
+   "densidade": 15.384615384615385,
+   "cores": 705.0,
+   "sat": 0.44353066515567097,
+   "brilho": 0.8904445621806694,
+   "contorno": 0.057801498977969566,
+   "suave": 0.1629192573664135,
+   "ruido": 0.00934936122881284,
+   "luz_v": 0.11900586157402043,
+   "luz_h": -0.019198138254400726,
+   "branco": 0.09529004573035424,
+   "cor_borda": [
+    203,
+    197,
+    151
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pixel grande"
+   ]
+  },
+  {
+   "jutsu": "lightning_armadura",
+   "quadros": 6,
+   "densidade": 37.03703703703704,
+   "cores": 541.5,
+   "sat": 0.6966483342485753,
+   "brilho": 0.9485023010241083,
+   "contorno": 0.0040137614678899085,
+   "suave": 0.33326191221795526,
+   "ruido": 0.01712450122287281,
+   "luz_v": -0.0027208748938173932,
+   "luz_h": -0.0008587816085924294,
+   "branco": 0.037979102465331274,
+   "cor_borda": [
+    139,
+    131,
+    171
+   ],
+   "familia": "C: brilho suave / gradiente",
+   "fora": [
+    "C"
+   ]
+  },
+  {
+   "jutsu": "lightning_ceu",
+   "quadros": 11,
+   "densidade": 14.285714285714285,
+   "cores": 192,
+   "sat": 0.7064048455549445,
+   "brilho": 0.666815398725862,
+   "contorno": 0.24572317262830481,
+   "suave": 0.0,
+   "ruido": 0.014492753623188406,
+   "luz_v": 0.057471121741003994,
+   "luz_h": -0.004373846831805084,
+   "branco": 0.0,
+   "cor_borda": [
+    56,
+    169,
+    208
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pixel grande"
+   ]
+  },
+  {
+   "jutsu": "lightning_corrente",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 602.0,
+   "sat": 0.4903973719947059,
+   "brilho": 0.744833472676528,
+   "contorno": 0.4532327720126763,
+   "suave": 0.32378385626209827,
+   "ruido": 0.019593728973008234,
+   "luz_v": -0.0038524397821621814,
+   "luz_h": -0.055777775723718906,
+   "branco": 0.07437270296112589,
+   "cor_borda": [
+    70,
+    86,
+    126
+   ],
+   "familia": "C: brilho suave / gradiente",
+   "fora": [
+    "C"
+   ]
+  },
+  {
+   "jutsu": "lightning_correntes",
+   "quadros": 6,
+   "densidade": 22.61904761904762,
+   "cores": 360.0,
+   "sat": 0.7973418667389396,
+   "brilho": 0.770603988752494,
+   "contorno": 0.6018204174011447,
+   "suave": 0.28736953443242014,
+   "ruido": 0.22092804620085282,
+   "luz_v": 0.0032283359642464315,
+   "luz_h": -0.004996334976254596,
+   "branco": 0.05743243243243243,
+   "cor_borda": [
+    63,
+    134,
+    186
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "granulado"
+   ]
+  },
+  {
+   "jutsu": "lightning_fluxo",
+   "quadros": 6,
+   "densidade": 22.22222222222222,
+   "cores": 553.5,
+   "sat": 0.67672069164442,
+   "brilho": 0.9062099799760266,
+   "contorno": 0.03231939163498099,
+   "suave": 0.3359253375188219,
+   "ruido": 0.06839821368385575,
+   "luz_v": 0.011113415038638608,
+   "luz_h": -0.01019135774605584,
+   "branco": 0.03034679455737824,
+   "cor_borda": [
+    125,
+    122,
+    140
+   ],
+   "familia": "C: brilho suave / gradiente",
+   "fora": [
+    "C"
+   ]
+  },
+  {
+   "jutsu": "lightning_impulso",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 468.0,
+   "sat": 0.5308898182659163,
+   "brilho": 0.9638860367351425,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.00926176773151402,
+   "luz_v": 0.014823757266614834,
+   "luz_h": -0.00892589949391831,
+   "branco": 0.16115919570451692,
+   "cor_borda": [
+    171,
+    196,
+    173
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "lightning_maos",
+   "quadros": 6,
+   "densidade": 90.9090909090909,
+   "cores": 1109.5,
+   "sat": 0.5636761998322842,
+   "brilho": 0.7132880464520641,
+   "contorno": 0.7603290974258716,
+   "suave": 0.156598118187259,
+   "ruido": 0.048462579940485,
+   "luz_v": -0.0065123495653009456,
+   "luz_h": 0.0006692162048179684,
+   "branco": 0.0068498168498168505,
+   "cor_borda": [
+    42,
+    48,
+    68
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "pixel miúdo",
+    "cores demais"
+   ]
+  },
+  {
+   "jutsu": "lightning_raio",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 441.0,
+   "sat": 0.5785156660980006,
+   "brilho": 0.8593650218275144,
+   "contorno": 0.12796178800587876,
+   "suave": 0.29971545216906037,
+   "ruido": 0.01567441108048163,
+   "luz_v": -0.035961995128469704,
+   "luz_h": -0.039463269734381745,
+   "branco": 0.011166503595334606,
+   "cor_borda": [
+    180,
+    148,
+    56
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "lightning_rede",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 895.5,
+   "sat": 0.5685026157833002,
+   "brilho": 0.7775273159511114,
+   "contorno": 0.6151440790490232,
+   "suave": 0.0,
+   "ruido": 0.13666283177807298,
+   "luz_v": 0.0005056073154090235,
+   "luz_h": -0.004482989135191184,
+   "branco": 0.0851916100855578,
+   "cor_borda": [
+    68,
+    98,
+    137
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "granulado",
+    "cores demais"
+   ]
+  },
+  {
+   "jutsu": "lightning_risco",
+   "quadros": 7,
+   "densidade": 33.333333333333336,
+   "cores": 212,
+   "sat": 0.511676742655299,
+   "brilho": 0.9705024221453288,
+   "contorno": 0.0,
+   "suave": 0.35550935550935553,
+   "ruido": 0.011644154634373545,
+   "luz_v": 0.03458590114393001,
+   "luz_h": -0.04455528990751212,
+   "branco": 0.21552941176470589,
+   "cor_borda": [
+    185,
+    179,
+    128
+   ],
+   "familia": "C: brilho suave / gradiente",
+   "fora": [
+    "C"
+   ]
+  },
+  {
+   "jutsu": "lightning_rugido",
+   "quadros": 6,
+   "densidade": 28.57142857142857,
+   "cores": 715.0,
+   "sat": 0.7664437700163661,
+   "brilho": 0.9468116928381807,
+   "contorno": 0.473184472944818,
+   "suave": 0.0,
+   "ruido": 0.035291113552404135,
+   "luz_v": -0.0033744096195242324,
+   "luz_h": -0.006312541704159569,
+   "branco": 0.07303937757491112,
+   "cor_borda": [
+    117,
+    137,
+    196
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "lightning_shuriken",
+   "quadros": 6,
+   "densidade": 62.5,
+   "cores": 529.0,
+   "sat": 0.7596232301287313,
+   "brilho": 0.9519987106043668,
+   "contorno": 0.0,
+   "suave": 0.24074074074074073,
+   "ruido": 0.0492725599743616,
+   "luz_v": -0.0033016712502356715,
+   "luz_h": -0.003102688149780375,
+   "branco": 0.0011191254242055282,
+   "cor_borda": [
+    49,
+    148,
+    223
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "lightning_volta",
+   "quadros": 6,
+   "densidade": 25.0,
+   "cores": 201.5,
+   "sat": 0.5689660349592874,
+   "brilho": 0.6014678961870019,
+   "contorno": 0.5419958096208839,
+   "suave": 0.1955709023941068,
+   "ruido": 0.010584308057313365,
+   "luz_v": 0.035143227989137465,
+   "luz_h": 0.00697629957104795,
+   "branco": 0.0,
+   "cor_borda": [
+    136,
+    189,
+    233
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "linha",
+   "quadros": 3,
+   "densidade": 0,
+   "cores": 233,
+   "sat": 0.6760757210436398,
+   "brilho": 0.6546911237613324,
+   "contorno": 0.2578947368421053,
+   "suave": 0.0,
+   "ruido": 0.0449438202247191,
+   "luz_v": -0.03952537328546446,
+   "luz_h": -0.014962336395559162,
+   "branco": 0.0,
+   "cor_borda": [
+    131,
+    79,
+    56
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "nevoa",
+   "quadros": 3,
+   "densidade": 0,
+   "cores": 511,
+   "sat": 0.8838080594360793,
+   "brilho": 0.7446977986770374,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.002834467120181406,
+   "luz_v": 0.008983356741244286,
+   "luz_h": -0.04269909327494226,
+   "branco": 0.0,
+   "cor_borda": [
+    188,
+    196,
+    38
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "punch",
+   "quadros": 1,
+   "densidade": 0,
+   "cores": 9,
+   "sat": 0.5545576377828801,
+   "brilho": 0.9042019459298872,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.03427446952806257,
+   "luz_h": 0.036066411254404906,
+   "branco": 0.06628787878787878,
+   "cor_borda": [
+    228,
+    181,
+    100
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "rubro_chamas",
+   "quadros": 6,
+   "densidade": 13.175595717819501,
+   "cores": 199.5,
+   "sat": 0.8644415440715814,
+   "brilho": 0.40509827603782156,
+   "contorno": 0.8716369457909015,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": -0.19106372241940547,
+   "luz_h": -0.015766545188764358,
+   "branco": 0.0,
+   "cor_borda": [
+    187,
+    92,
+    23
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "pixel grande"
+   ]
+  },
+  {
+   "jutsu": "rubro_completo",
+   "quadros": 6,
+   "densidade": 25.0,
+   "cores": 453.5,
+   "sat": 0.8328026776950679,
+   "brilho": 0.47252786340936614,
+   "contorno": 0.2920279268498601,
+   "suave": 0.0,
+   "ruido": 0.00686481493418953,
+   "luz_v": 0.027514354030673496,
+   "luz_h": 0.0075372827733020675,
+   "branco": 0.0,
+   "cor_borda": [
+    225,
+    60,
+    57
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "rubro_guardiao",
+   "quadros": 6,
+   "densidade": 38.46153846153846,
+   "cores": 460.5,
+   "sat": 0.7142647997482915,
+   "brilho": 0.6910478527534104,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.03511990318329552,
+   "luz_v": 0.038641220020112846,
+   "luz_h": -0.00242560222822899,
+   "branco": 0.0,
+   "cor_borda": [
+    224,
+    65,
+    21
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "rubro_lua",
+   "quadros": 6,
+   "densidade": 17.211537533397397,
+   "cores": 336.5,
+   "sat": 0.7927395051338054,
+   "brilho": 0.742522523197364,
+   "contorno": 0.061533620999640416,
+   "suave": 0.0,
+   "ruido": 0.023821136893959035,
+   "luz_v": -0.040588184013637896,
+   "luz_h": -0.018559768858856684,
+   "branco": 0.0,
+   "cor_borda": [
+    223,
+    69,
+    26
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pixel grande"
+   ]
+  },
+  {
+   "jutsu": "rubro_olho",
+   "quadros": 6,
+   "densidade": 41.666666666666664,
+   "cores": 411.5,
+   "sat": 0.8132465869658145,
+   "brilho": 0.5592447849810595,
+   "contorno": 0.15932447675147263,
+   "suave": 0.0,
+   "ruido": 0.002667833710487739,
+   "luz_v": -0.007200834304233586,
+   "luz_h": 0.0007285191424875881,
+   "branco": 0.0,
+   "cor_borda": [
+    199,
+    82,
+    46
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "rubro_transe",
+   "quadros": 6,
+   "densidade": 20.242415278078987,
+   "cores": 307.5,
+   "sat": 0.8776216647647412,
+   "brilho": 0.6905163538349813,
+   "contorno": 0.04649160568230736,
+   "suave": 0.0,
+   "ruido": 0.0019065197905363965,
+   "luz_v": -0.0013975034607363601,
+   "luz_h": -0.026896610807459365,
+   "branco": 0.0,
+   "cor_borda": [
+    222,
+    86,
+    40
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "shadow",
+   "quadros": 7,
+   "densidade": 33.333333333333336,
+   "cores": 76,
+   "sat": 0.8254033649381148,
+   "brilho": 0.2395178529015913,
+   "contorno": 0.9762470308788599,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": -0.0008062859937423353,
+   "luz_h": -0.001023064946790081,
+   "branco": 0.0,
+   "cor_borda": [
+    43,
+    4,
+    41
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_2",
+   "quadros": 8,
+   "densidade": 33.333333333333336,
+   "cores": 55.5,
+   "sat": 0.763033093602469,
+   "brilho": 0.1848247721685234,
+   "contorno": 0.98358189429618,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": -0.0072742324781371395,
+   "luz_h": -0.004042973208422134,
+   "branco": 0.0,
+   "cor_borda": [
+    77,
+    3,
+    88
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_3",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 145.0,
+   "sat": 0.8049208901386382,
+   "brilho": 0.2357674099921904,
+   "contorno": 0.9720090934924694,
+   "suave": 0.0,
+   "ruido": 0.0009293680297397769,
+   "luz_v": 0.0028366601337333278,
+   "luz_h": -0.024529399708957268,
+   "branco": 0.0,
+   "cor_borda": [
+    65,
+    8,
+    65
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_4",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 79.5,
+   "sat": 0.6927863233419334,
+   "brilho": 0.14842819473041863,
+   "contorno": 0.9720623195788758,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.0016018696331840197,
+   "luz_h": 0.000917645944704754,
+   "branco": 0.0,
+   "cor_borda": [
+    42,
+    5,
+    42
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_agarre",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 270.0,
+   "sat": 0.8555183933563659,
+   "brilho": 0.37303756747543837,
+   "contorno": 0.9285294861602948,
+   "suave": 0.0,
+   "ruido": 0.01637091559207273,
+   "luz_v": -0.007616802098022388,
+   "luz_h": 0.0030383287003004217,
+   "branco": 0.0,
+   "cor_borda": [
+    59,
+    12,
+    75
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_armadilha",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 73.5,
+   "sat": 0.4857913476210731,
+   "brilho": 0.062494073335548905,
+   "contorno": 0.9819114955317088,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.005380617813925109,
+   "luz_h": -0.0003209727312346415,
+   "branco": 0.0,
+   "cor_borda": [
+    74,
+    4,
+    68
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_beijo",
+   "quadros": 5,
+   "densidade": 33.333333333333336,
+   "cores": 71,
+   "sat": 0.8165071703101862,
+   "brilho": 0.1700692041522491,
+   "contorno": 0.9622641509433962,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.007676182770691556,
+   "luz_h": -0.025009897943484287,
+   "branco": 0.0,
+   "cor_borda": [
+    50,
+    8,
+    55
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_ciranda",
+   "quadros": 6,
+   "densidade": 33.33333333333333,
+   "cores": 249.5,
+   "sat": 0.8322674817290836,
+   "brilho": 0.23801581193330823,
+   "contorno": 0.9567333840965953,
+   "suave": 0.0,
+   "ruido": 0.000275178866263071,
+   "luz_v": 0.0004830115633349327,
+   "luz_h": -0.002445549038164775,
+   "branco": 0.0,
+   "cor_borda": [
+    74,
+    9,
+    90
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_espinho",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 92.5,
+   "sat": 0.8701669443981827,
+   "brilho": 0.2581119073805537,
+   "contorno": 0.9902171833141983,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.01321996554390601,
+   "luz_h": 0.010056510402116782,
+   "branco": 0.0,
+   "cor_borda": [
+    68,
+    6,
+    65
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_estrangular",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 184.0,
+   "sat": 0.5409016069062953,
+   "brilho": 0.23990448237432266,
+   "contorno": 0.9449142588677473,
+   "suave": 0.0,
+   "ruido": 0.002737399233777636,
+   "luz_v": -0.0002445785786207109,
+   "luz_h": -0.00010535041874489871,
+   "branco": 0.0,
+   "cor_borda": [
+    43,
+    5,
+    43
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_mancha",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 179.0,
+   "sat": 0.33988193169198033,
+   "brilho": 0.2043801012029938,
+   "contorno": 0.8998231132075472,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.0019882090055564575,
+   "luz_h": 0.0005737468756385269,
+   "branco": 0.0,
+   "cor_borda": [
+    72,
+    9,
+    89
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_mergulho",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 171.0,
+   "sat": 0.7242978197393626,
+   "brilho": 0.2878870234438037,
+   "contorno": 0.9413517441860465,
+   "suave": 0.0,
+   "ruido": 0.0012860682948888172,
+   "luz_v": 0.0024876386170551573,
+   "luz_h": -0.00028878628872191364,
+   "branco": 0.0,
+   "cor_borda": [
+    54,
+    8,
+    61
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_punho",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 198.0,
+   "sat": 0.6525179990540835,
+   "brilho": 0.4676772002070116,
+   "contorno": 0.32878945242628815,
+   "suave": 0.0,
+   "ruido": 0.0014734208257795194,
+   "luz_v": -0.07177614475989799,
+   "luz_h": 0.0004542431272573644,
+   "branco": 0.0,
+   "cor_borda": [
+    155,
+    73,
+    97
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "shadow_recuo",
+   "quadros": 5,
+   "densidade": 33.333333333333336,
+   "cores": 109,
+   "sat": 0.8306135534573064,
+   "brilho": 0.40133326813684744,
+   "contorno": 0.9887005649717514,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.019131896985797564,
+   "luz_h": -0.006834358193925694,
+   "branco": 0.0,
+   "cor_borda": [
+    90,
+    8,
+    101
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_saltadora",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 133.5,
+   "sat": 0.9015046511922179,
+   "brilho": 0.20495216338996472,
+   "contorno": 0.9776769058574803,
+   "suave": 0.0,
+   "ruido": 0.0023898990360455025,
+   "luz_v": 0.009204774087884806,
+   "luz_h": -0.0007401404553255241,
+   "branco": 0.0,
+   "cor_borda": [
+    50,
+    5,
+    49
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_sentinela",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 173.0,
+   "sat": 0.46918837710465977,
+   "brilho": 0.1813801694336718,
+   "contorno": 0.9733961340131938,
+   "suave": 0.0,
+   "ruido": 0.0009967032345688414,
+   "luz_v": -0.02860918828336368,
+   "luz_h": 0.0006049553663337245,
+   "branco": 0.0,
+   "cor_borda": [
+    85,
+    5,
+    94
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_troca",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 134.5,
+   "sat": 0.6355136447078522,
+   "brilho": 0.2661834312093636,
+   "contorno": 0.958315565031983,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.007943420296453507,
+   "luz_h": -0.00155663215361726,
+   "branco": 0.0,
+   "cor_borda": [
+    96,
+    13,
+    126
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "shadow_veu",
+   "quadros": 7,
+   "densidade": 33.333333333333336,
+   "cores": 140,
+   "sat": 0.8823569714637841,
+   "brilho": 0.3816860754454066,
+   "contorno": 0.9692307692307692,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.007539429423633226,
+   "luz_h": 0.0071582402123616246,
+   "branco": 0.0,
+   "cor_borda": [
+    49,
+    5,
+    63
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "slash",
+   "quadros": 1,
+   "densidade": 0,
+   "cores": 4,
+   "sat": 0.23005572218833664,
+   "brilho": 0.9694669212352638,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.012010993606729414,
+   "luz_h": 0.009425187331133955,
+   "branco": 0.25154559505409585,
+   "cor_borda": [
+    246,
+    234,
+    202
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "smoke",
+   "quadros": 1,
+   "densidade": 0,
+   "cores": 4,
+   "sat": 0.05866474690846101,
+   "brilho": 0.9202727311226868,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.0013617793917385383,
+   "luz_v": 0.07431723761656772,
+   "luz_h": -0.03420677499953295,
+   "branco": 0.5241180705543557,
+   "cor_borda": [
+    189,
+    194,
+    208
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "sopro",
+   "quadros": 3,
+   "densidade": 0,
+   "cores": 263,
+   "sat": 0.7636966955269736,
+   "brilho": 0.8492700506994075,
+   "contorno": 0.26785714285714285,
+   "suave": 0.0,
+   "ruido": 0.003490955252300857,
+   "luz_v": -0.010006913037303444,
+   "luz_h": 0.011663711042311675,
+   "branco": 0.0,
+   "cor_borda": [
+    134,
+    60,
+    51
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "spark",
+   "quadros": 1,
+   "densidade": 0,
+   "cores": 5,
+   "sat": 0.2843043757226068,
+   "brilho": 0.9607145565109262,
+   "contorno": 0.11862068965517242,
+   "suave": 0.0,
+   "ruido": 0.035211267605633804,
+   "luz_v": 0.001198559563169943,
+   "luz_h": -0.01732054627726265,
+   "branco": 0.3031709203402939,
+   "cor_borda": [
+    149,
+    184,
+    238
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "stone",
+   "quadros": 7,
+   "densidade": 33.33333333333333,
+   "cores": 213,
+   "sat": 0.31856904660298097,
+   "brilho": 0.4160100515868701,
+   "contorno": 0.9173553719008265,
+   "suave": 0.0,
+   "ruido": 0.04365345869711216,
+   "luz_v": 0.027507074725533986,
+   "luz_h": 0.009201403532500818,
+   "branco": 0.0,
+   "cor_borda": [
+    19,
+    19,
+    18
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "stone_2",
+   "quadros": 6,
+   "densidade": 29.411764705882355,
+   "cores": 100.0,
+   "sat": 0.581367124291218,
+   "brilho": 0.3497380674662527,
+   "contorno": 0.9557359307359308,
+   "suave": 0.0,
+   "ruido": 0.009735144088766051,
+   "luz_v": -0.002438472097327435,
+   "luz_h": 0.0036440066981890396,
+   "branco": 0.0,
+   "cor_borda": [
+    59,
+    30,
+    26
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "stone_3",
+   "quadros": 6,
+   "densidade": 33.33333333333333,
+   "cores": 421.5,
+   "sat": 0.5751211697918921,
+   "brilho": 0.5375522554169625,
+   "contorno": 0.4599073574383882,
+   "suave": 0.0,
+   "ruido": 0.003420642229477684,
+   "luz_v": 0.1177603188080879,
+   "luz_h": 0.005373626848515223,
+   "branco": 0.0,
+   "cor_borda": [
+    89,
+    72,
+    48
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "stone_4",
+   "quadros": 6,
+   "densidade": 35.714285714285715,
+   "cores": 205.5,
+   "sat": 0.5267905972284633,
+   "brilho": 0.30212373152670347,
+   "contorno": 1.0,
+   "suave": 0.0,
+   "ruido": 0.014695416084561246,
+   "luz_v": 0.022669371655813023,
+   "luz_h": -0.007006845792728797,
+   "branco": 0.0,
+   "cor_borda": [
+    7,
+    6,
+    6
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "stone_avalanche",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 172.5,
+   "sat": 0.5076700424976514,
+   "brilho": 0.6249546511925388,
+   "contorno": 0.45351690294438385,
+   "suave": 0.0,
+   "ruido": 0.01359076967448155,
+   "luz_v": 0.005264734683166711,
+   "luz_h": 0.0026342945193977285,
+   "branco": 0.0,
+   "cor_borda": [
+    84,
+    73,
+    60
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "stone_carga",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 159.5,
+   "sat": 0.4767499912578958,
+   "brilho": 0.39314750449507696,
+   "contorno": 0.47114627252930547,
+   "suave": 0.0,
+   "ruido": 0.011133186916028921,
+   "luz_v": 0.028439927516305447,
+   "luz_h": 0.054795173339317646,
+   "branco": 0.0,
+   "cor_borda": [
+    113,
+    74,
+    60
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "stone_cascalho",
+   "quadros": 10,
+   "densidade": 33.333333333333336,
+   "cores": 145.5,
+   "sat": 0.45497304949167566,
+   "brilho": 0.3829701900799061,
+   "contorno": 0.6873597359735975,
+   "suave": 0.0,
+   "ruido": 0.051181424249856916,
+   "luz_v": 0.023036068918852043,
+   "luz_h": 0.010268551436660805,
+   "branco": 0.0,
+   "cor_borda": [
+    110,
+    72,
+    63
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "stone_couraca",
+   "quadros": 6,
+   "densidade": 41.666666666666664,
+   "cores": 349.0,
+   "sat": 0.40286071144196867,
+   "brilho": 0.47991894932543844,
+   "contorno": 0.46644472187543345,
+   "suave": 0.0,
+   "ruido": 0.03299562394232848,
+   "luz_v": 0.0534049110876362,
+   "luz_h": 0.003936089374241114,
+   "branco": 0.0,
+   "cor_borda": [
+    133,
+    57,
+    55
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "stone_golem",
+   "quadros": 6,
+   "densidade": 45.45454545454546,
+   "cores": 341.5,
+   "sat": 0.36663510224258306,
+   "brilho": 0.3187637340405925,
+   "contorno": 0.7206908615514924,
+   "suave": 0.0,
+   "ruido": 0.027759613044140707,
+   "luz_v": 0.025817347787863085,
+   "luz_h": 0.0030797993237206,
+   "branco": 0.0,
+   "cor_borda": [
+    35,
+    29,
+    24
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "stone_lancas",
+   "quadros": 6,
+   "densidade": 40.0,
+   "cores": 443.5,
+   "sat": 0.4604631529535754,
+   "brilho": 0.5007672190497041,
+   "contorno": 0.23890797489808072,
+   "suave": 0.0,
+   "ruido": 0.007730914598581402,
+   "luz_v": -0.04576623233962701,
+   "luz_h": -0.003967474586029529,
+   "branco": 0.0,
+   "cor_borda": [
+    85,
+    63,
+    55
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "stone_muralha",
+   "quadros": 6,
+   "densidade": 62.5,
+   "cores": 301.0,
+   "sat": 0.4440987457512892,
+   "brilho": 0.3898297918539493,
+   "contorno": 0.6007133592736705,
+   "suave": 0.0,
+   "ruido": 0.008968699045008532,
+   "luz_v": 0.02331321246370735,
+   "luz_h": 0.012419523669751242,
+   "branco": 0.0,
+   "cor_borda": [
+    75,
+    43,
+    33
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "stone_pilares",
+   "quadros": 6,
+   "densidade": 62.5,
+   "cores": 230.0,
+   "sat": 0.37590531907518,
+   "brilho": 0.455609280218076,
+   "contorno": 0.5562105693252724,
+   "suave": 0.0,
+   "ruido": 0.007677214820664928,
+   "luz_v": -0.003845207275733814,
+   "luz_h": 0.003187311814598609,
+   "branco": 0.0,
+   "cor_borda": [
+    55,
+    40,
+    36
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "stone_pisao",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 282.5,
+   "sat": 0.4369867990097779,
+   "brilho": 0.5519049362958084,
+   "contorno": 0.19102084785501552,
+   "suave": 0.0,
+   "ruido": 0.048538738270963916,
+   "luz_v": 0.003808664013191826,
+   "luz_h": -0.017655772499271444,
+   "branco": 0.0,
+   "cor_borda": [
+    114,
+    87,
+    77
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "stone_punho",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 140.5,
+   "sat": 0.481586995999401,
+   "brilho": 0.3630552983812011,
+   "contorno": 0.8600226982550716,
+   "suave": 0.0,
+   "ruido": 0.015989626958062962,
+   "luz_v": 0.014670493534934922,
+   "luz_h": -0.006289684561298192,
+   "branco": 0.0,
+   "cor_borda": [
+    125,
+    69,
+    58
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "stone_resposta",
+   "quadros": 6,
+   "densidade": 35.714285714285715,
+   "cores": 268.0,
+   "sat": 0.5288298183183471,
+   "brilho": 0.5163514114889161,
+   "contorno": 0.6497045931008195,
+   "suave": 0.0,
+   "ruido": 0.04590661055191948,
+   "luz_v": 0.025363272582836854,
+   "luz_h": 0.001760875536990475,
+   "branco": 0.0,
+   "cor_borda": [
+    71,
+    86,
+    105
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "stone_rocha",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 114.0,
+   "sat": 0.4175788519612032,
+   "brilho": 0.4002177436627981,
+   "contorno": 0.709414178253932,
+   "suave": 0.0,
+   "ruido": 0.028141934311393075,
+   "luz_v": 0.09387174281728974,
+   "luz_h": -0.039296089269278744,
+   "branco": 0.0,
+   "cor_borda": [
+    62,
+    49,
+    40
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "stone_sumidouro",
+   "quadros": 6,
+   "densidade": 33.33333333333333,
+   "cores": 378.0,
+   "sat": 0.760883389029791,
+   "brilho": 0.7273893148753885,
+   "contorno": 0.041220854721998886,
+   "suave": 0.0,
+   "ruido": 0.021667949504429282,
+   "luz_v": 0.005129013211455952,
+   "luz_h": -0.006268724462772296,
+   "branco": 0.0,
+   "cor_borda": [
+    214,
+    120,
+    46
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "stone_toupeira",
+   "quadros": 6,
+   "densidade": 33.33333333333333,
+   "cores": 143.5,
+   "sat": 0.5570838966309057,
+   "brilho": 0.49259783733861495,
+   "contorno": 0.5301052418538758,
+   "suave": 0.0,
+   "ruido": 0.010190531004754281,
+   "luz_v": 0.02242786798021587,
+   "luz_h": 0.039598094015562135,
+   "branco": 0.0,
+   "cor_borda": [
+    66,
+    47,
+    38
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "substituicao",
+   "quadros": 3,
+   "densidade": 0,
+   "cores": 148,
+   "sat": 0.17609514607003302,
+   "brilho": 0.8104761585181707,
+   "contorno": 0.04176904176904177,
+   "suave": 0.0,
+   "ruido": 0.005516154452324665,
+   "luz_v": -0.1430510476748733,
+   "luz_h": 0.04266504086034717,
+   "branco": 0.41871078151739877,
+   "cor_borda": [
+    201,
+    190,
+    199
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "taijutsu",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 57.5,
+   "sat": 0.05690350873448537,
+   "brilho": 0.9635576173731341,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.002336448598130841,
+   "luz_v": 0.0015713118418278493,
+   "luz_h": -0.0028571473242788303,
+   "branco": 0.5985438057767969,
+   "cor_borda": [
+    226,
+    234,
+    242
+   ],
+   "familia": "D: silhueta branca lisa",
+   "fora": [
+    "D",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "taijutsu_2",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 374.5,
+   "sat": 0.24034710951945193,
+   "brilho": 0.7606171849307066,
+   "contorno": 0.41568039950062424,
+   "suave": 0.0,
+   "ruido": 0.05005678038064111,
+   "luz_v": 0.023092506455803963,
+   "luz_h": -0.0062653740179970385,
+   "branco": 0.22989238561490172,
+   "cor_borda": [
+    127,
+    116,
+    129
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "taijutsu_3",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 81.0,
+   "sat": 0.09861931287116951,
+   "brilho": 0.8702468239304487,
+   "contorno": 0.2522903453136011,
+   "suave": 0.0,
+   "ruido": 0.027205083610534194,
+   "luz_v": -0.00467290283243843,
+   "luz_h": -0.13553324075227774,
+   "branco": 0.6580496453900709,
+   "cor_borda": [
+    144,
+    149,
+    155
+   ],
+   "familia": "D: silhueta branca lisa",
+   "fora": [
+    "D",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "taijutsu_3_rajada",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 376.0,
+   "sat": 0.8505333251133306,
+   "brilho": 0.737717203671547,
+   "contorno": 0.26205609116520284,
+   "suave": 0.0,
+   "ruido": 0.012984541881983834,
+   "luz_v": 0.03337112501815018,
+   "luz_h": -0.03674651030661574,
+   "branco": 0.0,
+   "cor_borda": [
+    204,
+    116,
+    6
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "taijutsu_4",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 31.0,
+   "sat": 0.01786633292861725,
+   "brilho": 0.9900213708377608,
+   "contorno": 0.005627611149217435,
+   "suave": 0.0,
+   "ruido": 0.0009328358208955224,
+   "luz_v": 0.003573891958159048,
+   "luz_h": -0.004690052434141279,
+   "branco": 0.9658280766744133,
+   "cor_borda": [
+    246,
+    251,
+    250
+   ],
+   "familia": "D: silhueta branca lisa",
+   "fora": [
+    "D",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "taijutsu_4_rajada",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 498.0,
+   "sat": 0.4126922628925223,
+   "brilho": 0.8362323797551535,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.04027342790280198,
+   "luz_v": -0.00476414534901537,
+   "luz_h": 0.05548654402394304,
+   "branco": 0.14425070976195675,
+   "cor_borda": [
+    207,
+    185,
+    113
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "taijutsu_ascendente",
+   "quadros": 6,
+   "densidade": 38.46153846153846,
+   "cores": 274.0,
+   "sat": 0.3722389902041072,
+   "brilho": 0.7377230342701158,
+   "contorno": 0.39026723510450245,
+   "suave": 0.0,
+   "ruido": 0.0188003806328872,
+   "luz_v": 0.037857619426525824,
+   "luz_h": -0.01245611835906113,
+   "branco": 0.020512874467801555,
+   "cor_borda": [
+    92,
+    93,
+    91
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "taijutsu_bloqueio",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 588.5,
+   "sat": 0.6940220956710217,
+   "brilho": 0.8580496523913792,
+   "contorno": 0.03164556962025317,
+   "suave": 0.0,
+   "ruido": 0.022288961823940426,
+   "luz_v": -0.020344656208174328,
+   "luz_h": 0.00209189931865289,
+   "branco": 0.0,
+   "cor_borda": [
+    116,
+    76,
+    18
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "taijutsu_chave",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 688.0,
+   "sat": 0.7246491049616757,
+   "brilho": 0.7902718974535207,
+   "contorno": 0.15341149321731845,
+   "suave": 0.0,
+   "ruido": 0.0799065287564601,
+   "luz_v": -0.0015060095077481517,
+   "luz_h": 0.0032395038100080376,
+   "branco": 0.0,
+   "cor_borda": [
+    177,
+    137,
+    59
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "taijutsu_esquiva",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 149.0,
+   "sat": 0.48738316598654197,
+   "brilho": 0.6170194770104154,
+   "contorno": 0.3309657831752504,
+   "suave": 0.0,
+   "ruido": 0.008786212876481278,
+   "luz_v": 0.05631667158160608,
+   "luz_h": -0.01874994452653883,
+   "branco": 0.04452830188679245,
+   "cor_borda": [
+    70,
+    50,
+    45
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "taijutsu_flecha",
+   "quadros": 6,
+   "densidade": 33.33333333333333,
+   "cores": 266.5,
+   "sat": 0.18710146349739482,
+   "brilho": 0.7574280560719469,
+   "contorno": 0.06198347107438017,
+   "suave": 0.0,
+   "ruido": 0.016078631917597536,
+   "luz_v": 0.03810348715867928,
+   "luz_h": -0.03150484264800055,
+   "branco": 0.30538399538619354,
+   "cor_borda": [
+    188,
+    175,
+    172
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "taijutsu_folego",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 189.5,
+   "sat": 0.8542472667613872,
+   "brilho": 0.817174485888613,
+   "contorno": 0.846363364668804,
+   "suave": 0.0,
+   "ruido": 0.011054276783177039,
+   "luz_v": -0.002253080955279929,
+   "luz_h": -0.0003442033930820543,
+   "branco": 0.0,
+   "cor_borda": [
+    115,
+    13,
+    11
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "taijutsu_furia",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 273.0,
+   "sat": 0.7398774617734916,
+   "brilho": 0.8244173746122386,
+   "contorno": 0.5932408880806244,
+   "suave": 0.0,
+   "ruido": 0.047268197635961004,
+   "luz_v": 0.002659777169315647,
+   "luz_h": -0.027444940900800435,
+   "branco": 0.07032204695272026,
+   "cor_borda": [
+    172,
+    84,
+    82
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "taijutsu_impacto",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 439.5,
+   "sat": 0.638428778331499,
+   "brilho": 0.8042387500755621,
+   "contorno": 0.4343969218206787,
+   "suave": 0.0,
+   "ruido": 0.004381902529150959,
+   "luz_v": 0.0007352449797182747,
+   "luz_h": -0.009972222793771524,
+   "branco": 0.0,
+   "cor_borda": [
+    105,
+    80,
+    42
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "taijutsu_lotus",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 337.0,
+   "sat": 0.5746590255795347,
+   "brilho": 0.8043885449127588,
+   "contorno": 0.034082882034377204,
+   "suave": 0.0,
+   "ruido": 0.0146081731969325,
+   "luz_v": 0.016381053745518626,
+   "luz_h": -0.005919691857983245,
+   "branco": 0.0,
+   "cor_borda": [
+    180,
+    120,
+    28
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "taijutsu_portoes",
+   "quadros": 6,
+   "densidade": 38.46153846153846,
+   "cores": 62.5,
+   "sat": 0.8994245384311887,
+   "brilho": 0.9149326790705753,
+   "contorno": 0.5210676263307843,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": -0.028271547158407184,
+   "luz_h": -0.007286785599269846,
+   "branco": 0.0,
+   "cor_borda": [
+    218,
+    47,
+    18
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "taijutsu_pressao",
+   "quadros": 6,
+   "densidade": 20.74629059054147,
+   "cores": 129.5,
+   "sat": 0.677729367885336,
+   "brilho": 0.7026994825708062,
+   "contorno": 0.458041958041958,
+   "suave": 0.0,
+   "ruido": 0.024886877828054297,
+   "luz_v": 0.024893683414764833,
+   "luz_h": -0.1266238641892876,
+   "branco": 0.0,
+   "cor_borda": [
+    128,
+    94,
+    50
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "taijutsu_queda",
+   "quadros": 7,
+   "densidade": 33.333333333333336,
+   "cores": 114,
+   "sat": 0.3041849152323115,
+   "brilho": 0.8149564270152505,
+   "contorno": 0.07792207792207792,
+   "suave": 0.0,
+   "ruido": 0.04714226115978306,
+   "luz_v": 0.015793372743639233,
+   "luz_h": -0.0025767004400549798,
+   "branco": 0.15507452093683463,
+   "cor_borda": [
+    226,
+    229,
+    229
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "taijutsu_rasteira",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 44.5,
+   "sat": 0.06222357637003554,
+   "brilho": 0.8165410798026453,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.024269611497546556,
+   "luz_h": -0.0011495597967219329,
+   "branco": 0.3802591142265319,
+   "cor_borda": [
+    238,
+    241,
+    244
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "teleporte",
+   "quadros": 3,
+   "densidade": 0,
+   "cores": 38,
+   "sat": 0.04912648072230891,
+   "brilho": 0.8808875128998969,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.002297090352220521,
+   "luz_v": 0.09386450085446563,
+   "luz_h": -0.0015876331151887246,
+   "branco": 0.5229357798165137,
+   "cor_borda": [
+    209,
+    209,
+    209
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "umbra_deslize",
+   "quadros": 6,
+   "densidade": 40.0,
+   "cores": 153.5,
+   "sat": 0.47165933614325056,
+   "brilho": 0.14969373204085978,
+   "contorno": 0.9941300282597211,
+   "suave": 0.0,
+   "ruido": 0.0008802304157354695,
+   "luz_v": 0.000979624963065355,
+   "luz_h": 0.0020684203165270316,
+   "branco": 0.0,
+   "cor_borda": [
+    50,
+    41,
+    91
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "umbra_faminta",
+   "quadros": 6,
+   "densidade": 33.33333333333333,
+   "cores": 89.5,
+   "sat": 0.5398206900998865,
+   "brilho": 0.13436968695255908,
+   "contorno": 1.0,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.012799608578572187,
+   "luz_h": -0.0006246588827712937,
+   "branco": 0.0,
+   "cor_borda": [
+    1,
+    3,
+    1
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "umbra_forma",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 452.0,
+   "sat": 0.6231846265370243,
+   "brilho": 0.34701720331179137,
+   "contorno": 0.0664332962413452,
+   "suave": 0.0,
+   "ruido": 0.003709819247679531,
+   "luz_v": 0.0010389911731139775,
+   "luz_h": 0.0011025058089134468,
+   "branco": 0.0,
+   "cor_borda": [
+    126,
+    96,
+    198
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "umbra_noite",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 342.0,
+   "sat": 0.8065145116873313,
+   "brilho": 0.23474275323439014,
+   "contorno": 0.21121779290228487,
+   "suave": 0.0,
+   "ruido": 0.007159718350389381,
+   "luz_v": -0.0014860124094367919,
+   "luz_h": -0.0007486347826112169,
+   "branco": 0.0,
+   "cor_borda": [
+    96,
+    87,
+    142
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "water",
+   "quadros": 7,
+   "densidade": 33.333333333333336,
+   "cores": 203,
+   "sat": 0.8785475339138082,
+   "brilho": 0.849595696685754,
+   "contorno": 0.8823529411764706,
+   "suave": 0.0,
+   "ruido": 0.017438963627304436,
+   "luz_v": 0.05785623126008854,
+   "luz_h": -0.07758246732026142,
+   "branco": 0.0,
+   "cor_borda": [
+    27,
+    65,
+    111
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "water_2",
+   "quadros": 6,
+   "densidade": 33.33333333333333,
+   "cores": 205.5,
+   "sat": 0.8144566618953021,
+   "brilho": 0.8760163724095614,
+   "contorno": 0.242984693877551,
+   "suave": 0.0,
+   "ruido": 0.026752780124774903,
+   "luz_v": 0.02134535790976977,
+   "luz_h": -0.0028182248828408363,
+   "branco": 0.04068627450980392,
+   "cor_borda": [
+    132,
+    177,
+    203
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "water_3",
+   "quadros": 6,
+   "densidade": 35.714285714285715,
+   "cores": 179.5,
+   "sat": 0.935696135471156,
+   "brilho": 0.8332752020870382,
+   "contorno": 0.9670008354218881,
+   "suave": 0.0,
+   "ruido": 0.03926097337345985,
+   "luz_v": 0.03513464743695699,
+   "luz_h": -0.008389291404572174,
+   "branco": 0.0,
+   "cor_borda": [
+    2,
+    22,
+    78
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "water_4",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 198.5,
+   "sat": 0.819588751694492,
+   "brilho": 0.8079172144821756,
+   "contorno": 0.12249074991865981,
+   "suave": 0.0,
+   "ruido": 0.023594460520876395,
+   "luz_v": -0.0003147231114117577,
+   "luz_h": 0.003309827304379953,
+   "branco": 0.0,
+   "cor_borda": [
+    131,
+    184,
+    217
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "water_casulo",
+   "quadros": 8,
+   "densidade": 23.80952380952381,
+   "cores": 133.5,
+   "sat": 0.7457014058450746,
+   "brilho": 0.8890556682527251,
+   "contorno": 0.41297957723078493,
+   "suave": 0.0,
+   "ruido": 0.04175417221091107,
+   "luz_v": 0.032256649717209374,
+   "luz_h": 0.014434241121719565,
+   "branco": 0.0,
+   "cor_borda": [
+    14,
+    42,
+    91
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "water_clone",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 499.0,
+   "sat": 0.7668495854942441,
+   "brilho": 0.638038616444611,
+   "contorno": 0.8492707039715587,
+   "suave": 0.0,
+   "ruido": 0.03620859225745046,
+   "luz_v": 0.13642139929347266,
+   "luz_h": -0.0017345510416164334,
+   "branco": 0.051286150005064854,
+   "cor_borda": [
+    12,
+    23,
+    50
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "water_clone_baixo",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 509.5,
+   "sat": 0.8037572768738379,
+   "brilho": 0.6451571762610926,
+   "contorno": 0.7702637925610798,
+   "suave": 0.0,
+   "ruido": 0.043812662575447636,
+   "luz_v": 0.1147565218431178,
+   "luz_h": -0.009794977214237777,
+   "branco": 0.06441901956742009,
+   "cor_borda": [
+    10,
+    17,
+    46
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "water_clone_cima",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 476.0,
+   "sat": 0.7919813990109248,
+   "brilho": 0.641224746013273,
+   "contorno": 0.7535256232302482,
+   "suave": 0.0,
+   "ruido": 0.03086380565430845,
+   "luz_v": 0.13808003497218058,
+   "luz_h": -0.022384147643182917,
+   "branco": 0.029383052995803884,
+   "cor_borda": [
+    14,
+    24,
+    51
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "water_coluna",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 711.5,
+   "sat": 0.7335514708524138,
+   "brilho": 0.7221771381333117,
+   "contorno": 0.4785714285714286,
+   "suave": 0.0,
+   "ruido": 0.014968263093673738,
+   "luz_v": -0.038267583668180255,
+   "luz_h": 0.0037203252459466762,
+   "branco": 0.04493623150050319,
+   "cor_borda": [
+    148,
+    163,
+    161
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "water_corpo",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 705.0,
+   "sat": 0.8507949897982832,
+   "brilho": 0.7224645979576767,
+   "contorno": 0.8890389271745204,
+   "suave": 0.0,
+   "ruido": 0.06092240573387348,
+   "luz_v": 0.022699802070717368,
+   "luz_h": -0.04183540675985353,
+   "branco": 0.02055996782949633,
+   "cor_borda": [
+    10,
+    31,
+    55
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "water_dragao",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 387.5,
+   "sat": 0.9005014525401114,
+   "brilho": 0.7879613227809015,
+   "contorno": 0.918104921394395,
+   "suave": 0.0,
+   "ruido": 0.0618163854996755,
+   "luz_v": 0.025887356696249364,
+   "luz_h": -0.017323326276578704,
+   "branco": 0.0,
+   "cor_borda": [
+    16,
+    53,
+    155
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "water_gotas",
+   "quadros": 9,
+   "densidade": 33.333333333333336,
+   "cores": 167,
+   "sat": 0.9017585558354189,
+   "brilho": 0.5615831517792302,
+   "contorno": 0.9247311827956989,
+   "suave": 0.0,
+   "ruido": 0.16342412451361868,
+   "luz_v": 0.015922754361764158,
+   "luz_h": -0.0012517406853848612,
+   "branco": 0.0,
+   "cor_borda": [
+    12,
+    53,
+    85
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "granulado"
+   ]
+  },
+  {
+   "jutsu": "water_laco",
+   "quadros": 6,
+   "densidade": 35.714285714285715,
+   "cores": 744.0,
+   "sat": 0.7593163508116623,
+   "brilho": 0.7983174401779245,
+   "contorno": 0.6798153662291362,
+   "suave": 0.0,
+   "ruido": 0.07365618282351047,
+   "luz_v": 0.0207741375720438,
+   "luz_h": -0.012336890066193429,
+   "branco": 0.03262325114063386,
+   "cor_borda": [
+    27,
+    64,
+    95
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "water_lamina",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 374.0,
+   "sat": 0.82321805009106,
+   "brilho": 0.85244976606597,
+   "contorno": 0.5365508202266193,
+   "suave": 0.0,
+   "ruido": 0.032049196849955865,
+   "luz_v": 0.016490276841413853,
+   "luz_h": -0.05173616297984365,
+   "branco": 0.0,
+   "cor_borda": [
+    75,
+    84,
+    161
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "water_muro",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 162.5,
+   "sat": 0.622344228684077,
+   "brilho": 0.755990348198682,
+   "contorno": 0.17251760963417404,
+   "suave": 0.0,
+   "ruido": 0.0031372638844350785,
+   "luz_v": 0.12348786543095577,
+   "luz_h": 0.005423607291636295,
+   "branco": 0.0,
+   "cor_borda": [
+    89,
+    117,
+    142
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "water_nevoa",
+   "quadros": 5,
+   "densidade": 25.0,
+   "cores": 76,
+   "sat": 0.14617224562688744,
+   "brilho": 0.9878095238095238,
+   "contorno": 0.005813953488372093,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.007031045887884835,
+   "luz_h": 0.010305732570806247,
+   "branco": 0.4057142857142857,
+   "cor_borda": [
+    202,
+    227,
+    250
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "water_onda",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 381.5,
+   "sat": 0.9290064773799556,
+   "brilho": 0.8416070529166495,
+   "contorno": 0.8226711560044894,
+   "suave": 0.0,
+   "ruido": 0.02894471261991902,
+   "luz_v": 0.001972926011197862,
+   "luz_h": 0.0008764442581389309,
+   "branco": 0.0005712420434143953,
+   "cor_borda": [
+    37,
+    96,
+    141
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "water_tromba",
+   "quadros": 6,
+   "densidade": 23.586550691959168,
+   "cores": 592.0,
+   "sat": 0.8541669544127874,
+   "brilho": 0.6767143433929429,
+   "contorno": 0.9041011855527985,
+   "suave": 0.0,
+   "ruido": 0.014172015739919004,
+   "luz_v": -0.016571271292386197,
+   "luz_h": -0.007030868074367341,
+   "branco": 0.014117752463759067,
+   "cor_borda": [
+    16,
+    28,
+    58
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "water_xarope",
+   "quadros": 6,
+   "densidade": 33.33333333333333,
+   "cores": 175.0,
+   "sat": 0.8896075312779024,
+   "brilho": 0.734814418278905,
+   "contorno": 0.7492478444322143,
+   "suave": 0.0,
+   "ruido": 0.012883935682994823,
+   "luz_v": 0.008777125638312677,
+   "luz_h": -0.002159040729974443,
+   "branco": 0.0,
+   "cor_borda": [
+    14,
+    42,
+    88
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "weapons",
+   "quadros": 9,
+   "densidade": 33.333333333333336,
+   "cores": 284,
+   "sat": 0.3076495845752119,
+   "brilho": 0.5949080407356742,
+   "contorno": 0.4415204678362573,
+   "suave": 0.0,
+   "ruido": 0.05019305019305019,
+   "luz_v": -0.06916168859431093,
+   "luz_h": -0.010726594459726457,
+   "branco": 0.05910852713178295,
+   "cor_borda": [
+    118,
+    126,
+    142
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "weapons_2",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 212.0,
+   "sat": 0.204492061411376,
+   "brilho": 0.7438720306058709,
+   "contorno": 0.21110031314112945,
+   "suave": 0.0,
+   "ruido": 0.04260722667543452,
+   "luz_v": 0.019739935967633238,
+   "luz_h": -0.022916906087322053,
+   "branco": 0.20101812094170057,
+   "cor_borda": [
+    146,
+    164,
+    202
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "weapons_3",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 96.0,
+   "sat": 0.03227094545908246,
+   "brilho": 0.7200911002530224,
+   "contorno": 0.018256507682565076,
+   "suave": 0.0,
+   "ruido": 0.07289002557544758,
+   "luz_v": -0.010863746024663279,
+   "luz_h": -0.008176028901631771,
+   "branco": 0.29523873323173283,
+   "cor_borda": [
+    144,
+    147,
+    148
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "weapons_4",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 205.0,
+   "sat": 0.11009630618710763,
+   "brilho": 0.7772326023584832,
+   "contorno": 0.10694732818907723,
+   "suave": 0.0,
+   "ruido": 0.07284570748945789,
+   "luz_v": 0.0037578964571171047,
+   "luz_h": -0.0009413962367038065,
+   "branco": 0.20670863159204264,
+   "cor_borda": [
+    140,
+    150,
+    164
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "weapons_arco",
+   "quadros": 6,
+   "densidade": 29.411764705882355,
+   "cores": 181.0,
+   "sat": 0.1858468451241711,
+   "brilho": 0.596048420655115,
+   "contorno": 0.33295454545454545,
+   "suave": 0.0,
+   "ruido": 0.07300181653042688,
+   "luz_v": -0.009207001907552803,
+   "luz_h": -0.09952453701845998,
+   "branco": 0.1222574757138832,
+   "cor_borda": [
+    177,
+    182,
+    189
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "weapons_arsenal",
+   "quadros": 6,
+   "densidade": 38.46153846153846,
+   "cores": 420.0,
+   "sat": 0.3174022410745002,
+   "brilho": 0.5056263951983901,
+   "contorno": 0.4440112511571601,
+   "suave": 0.0,
+   "ruido": 0.1391941391941392,
+   "luz_v": 0.08234108517382846,
+   "luz_h": 0.010236290527809278,
+   "branco": 0.04126254180602007,
+   "cor_borda": [
+    95,
+    99,
+    98
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "granulado"
+   ]
+  },
+  {
+   "jutsu": "weapons_arsenal_baixo",
+   "quadros": 6,
+   "densidade": 38.46153846153847,
+   "cores": 558.5,
+   "sat": 0.3392863284727637,
+   "brilho": 0.4560891536420445,
+   "contorno": 0.6902081563296516,
+   "suave": 0.0,
+   "ruido": 0.13752498236082145,
+   "luz_v": 0.07067287448643303,
+   "luz_h": -0.0005779714118042956,
+   "branco": 0.032627359636939746,
+   "cor_borda": [
+    64,
+    67,
+    63
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "granulado"
+   ]
+  },
+  {
+   "jutsu": "weapons_arsenal_cima",
+   "quadros": 6,
+   "densidade": 38.46153846153847,
+   "cores": 478.0,
+   "sat": 0.23007330959018363,
+   "brilho": 0.4653396339607363,
+   "contorno": 0.5857578729432276,
+   "suave": 0.0,
+   "ruido": 0.0899522526626943,
+   "luz_v": 0.09237089072802704,
+   "luz_h": 0.0030977170241817953,
+   "branco": 0.03862296419104022,
+   "cor_borda": [
+    80,
+    83,
+    77
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "weapons_ceu",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 153.5,
+   "sat": 0.23490504738673285,
+   "brilho": 0.6476838627733399,
+   "contorno": 0.525495809476392,
+   "suave": 0.0,
+   "ruido": 0.041462208528281794,
+   "luz_v": 0.0020364783293317923,
+   "luz_h": 0.061319435672291256,
+   "branco": 0.08388850864399697,
+   "cor_borda": [
+    129,
+    125,
+    99
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": [
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "weapons_corte",
+   "quadros": 5,
+   "densidade": 33.333333333333336,
+   "cores": 14,
+   "sat": 0.010739611954979765,
+   "brilho": 0.9867007672634271,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.0,
+   "luz_v": 0.004350272331154703,
+   "luz_h": -0.006715987933635148,
+   "branco": 0.946969696969697,
+   "cor_borda": [
+    248,
+    250,
+    250
+   ],
+   "familia": "D: silhueta branca lisa",
+   "fora": [
+    "D",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "weapons_dragoes",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 310.5,
+   "sat": 0.43967140007494837,
+   "brilho": 0.6928426800040768,
+   "contorno": 0.23580153949129853,
+   "suave": 0.0,
+   "ruido": 0.03292885217831222,
+   "luz_v": -0.0012985770628656523,
+   "luz_h": 0.004207408216838293,
+   "branco": 0.038082124356741236,
+   "cor_borda": [
+    170,
+    108,
+    106
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "weapons_gigante",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 232.0,
+   "sat": 0.34324942552887716,
+   "brilho": 0.4846475210790089,
+   "contorno": 0.5181401208049355,
+   "suave": 0.0,
+   "ruido": 0.055023070815608505,
+   "luz_v": 0.0019361288501692775,
+   "luz_h": 0.028404440465191055,
+   "branco": 0.001190821396122098,
+   "cor_borda": [
+    63,
+    66,
+    81
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "weapons_kunai",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 274.5,
+   "sat": 0.47925783090793117,
+   "brilho": 0.5799398546508661,
+   "contorno": 0.3760371572871573,
+   "suave": 0.0,
+   "ruido": 0.013113839285714284,
+   "luz_v": 0.052132072573032304,
+   "luz_h": -0.011087374371419767,
+   "branco": 0.0,
+   "cor_borda": [
+    144,
+    48,
+    21
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "weapons_laco",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 455.0,
+   "sat": 0.5430083100829431,
+   "brilho": 0.3330234189140785,
+   "contorno": 0.7474195205195752,
+   "suave": 0.0,
+   "ruido": 0.07447446824893827,
+   "luz_v": -0.023584724436869764,
+   "luz_h": -0.06867354485256477,
+   "branco": 0.0,
+   "cor_borda": [
+    56,
+    63,
+    57
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "weapons_multi",
+   "quadros": 9,
+   "densidade": 33.333333333333336,
+   "cores": 242,
+   "sat": 0.6179884175645568,
+   "brilho": 0.5757944557133199,
+   "contorno": 0.5319148936170213,
+   "suave": 0.0,
+   "ruido": 0.08683473389355742,
+   "luz_v": -0.00039776844070948947,
+   "luz_h": 0.0012395631964259302,
+   "branco": 0.03389830508474576,
+   "cor_borda": [
+    19,
+    28,
+    67
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "weapons_peconha",
+   "quadros": 7,
+   "densidade": 33.333333333333336,
+   "cores": 290,
+   "sat": 0.6959970147827776,
+   "brilho": 0.6472080654123997,
+   "contorno": 0.28321678321678323,
+   "suave": 0.0,
+   "ruido": 0.022288261515601784,
+   "luz_v": 0.012345338162493724,
+   "luz_h": -0.08554522956326194,
+   "branco": 0.0,
+   "cor_borda": [
+    101,
+    184,
+    53
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "weapons_polida",
+   "quadros": 6,
+   "densidade": 83.33333333333333,
+   "cores": 197.0,
+   "sat": 0.14498409795126943,
+   "brilho": 0.5742861331038978,
+   "contorno": 0.27999434602336976,
+   "suave": 0.0,
+   "ruido": 0.006919557040196341,
+   "luz_v": 0.06613634091748369,
+   "luz_h": 0.1541285039406402,
+   "branco": 0.050659668266629834,
+   "cor_borda": [
+    112,
+    119,
+    130
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pixel miúdo",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "weapons_pregos",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 320.0,
+   "sat": 0.3902405134221313,
+   "brilho": 0.6534052854605575,
+   "contorno": 0.32620131641770683,
+   "suave": 0.0,
+   "ruido": 0.020071804404492993,
+   "luz_v": -0.04809026553179932,
+   "luz_h": -0.002613423764398326,
+   "branco": 0.010372524513150166,
+   "cor_borda": [
+    117,
+    105,
+    93
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "weapons_serrilhada",
+   "quadros": 6,
+   "densidade": 33.33333333333333,
+   "cores": 294.0,
+   "sat": 0.5046088139604326,
+   "brilho": 0.6428328354971953,
+   "contorno": 0.34395663956639566,
+   "suave": 0.0,
+   "ruido": 0.07332373684031208,
+   "luz_v": 0.04483295182116159,
+   "luz_h": -0.06117181512398334,
+   "branco": 0.022717525897737914,
+   "cor_borda": [
+    142,
+    87,
+    97
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "wind",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 314.0,
+   "sat": 0.38510944857054963,
+   "brilho": 0.8576598087966232,
+   "contorno": 0.27200259035401503,
+   "suave": 0.0,
+   "ruido": 0.025650423442910728,
+   "luz_v": 0.007222210386734429,
+   "luz_h": -0.008780172867325464,
+   "branco": 0.2334876103223027,
+   "cor_borda": [
+    98,
+    139,
+    118
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "wind_2",
+   "quadros": 9,
+   "densidade": 33.33333333333333,
+   "cores": 220,
+   "sat": 0.41277377946350113,
+   "brilho": 0.7926590881751473,
+   "contorno": 0.5052910052910053,
+   "suave": 0.0,
+   "ruido": 0.06707317073170732,
+   "luz_v": 0.009471950828524256,
+   "luz_h": -0.010065969977734679,
+   "branco": 0.17254601226993865,
+   "cor_borda": [
+    156,
+    168,
+    163
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "wind_3",
+   "quadros": 6,
+   "densidade": 31.25,
+   "cores": 252.0,
+   "sat": 0.27290182156440795,
+   "brilho": 0.9611053802023226,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.004692595343287885,
+   "luz_v": -0.06483851994198009,
+   "luz_h": -0.0015804161769758518,
+   "branco": 0.16030090861035476,
+   "cor_borda": [
+    126,
+    235,
+    220
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "wind_4",
+   "quadros": 6,
+   "densidade": 33.33333333333333,
+   "cores": 442.5,
+   "sat": 0.5910217608924824,
+   "brilho": 0.7201031817926595,
+   "contorno": 0.5724185990833847,
+   "suave": 0.0,
+   "ruido": 0.08466271510982645,
+   "luz_v": 0.002199319551454748,
+   "luz_h": -0.0048295756148148405,
+   "branco": 0.11660604387313839,
+   "cor_borda": [
+    176,
+    200,
+    199
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "wind_arco",
+   "quadros": 6,
+   "densidade": 29.411764705882355,
+   "cores": 161.5,
+   "sat": 0.43954305438708957,
+   "brilho": 0.8034984041179241,
+   "contorno": 0.48660941475826974,
+   "suave": 0.0,
+   "ruido": 0.017156789570582674,
+   "luz_v": -0.0040047331456049,
+   "luz_h": -0.13420549590779923,
+   "branco": 0.0,
+   "cor_borda": [
+    220,
+    228,
+    224
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "wind_asa",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 272.0,
+   "sat": 0.4048624903979346,
+   "brilho": 0.8907897747178977,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.040699654551646966,
+   "luz_v": -0.016259362289147206,
+   "luz_h": -0.08966005554694806,
+   "branco": 0.31227815085741695,
+   "cor_borda": [
+    221,
+    241,
+    233
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "wind_cadeia",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 307.5,
+   "sat": 0.5215069144279989,
+   "brilho": 0.6901802526756257,
+   "contorno": 0.6173510971786834,
+   "suave": 0.0,
+   "ruido": 0.08341087758703675,
+   "luz_v": 0.0021435649276909663,
+   "luz_h": -0.015991404405287124,
+   "branco": 0.0,
+   "cor_borda": [
+    58,
+    107,
+    78
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "wind_espelho",
+   "quadros": 6,
+   "densidade": 32.14852146240098,
+   "cores": 228.0,
+   "sat": 0.27104814742019845,
+   "brilho": 0.906819875324145,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.007530669963537661,
+   "luz_v": 0.0008095497174659405,
+   "luz_h": -0.0007996948159734174,
+   "branco": 0.019666337707105526,
+   "cor_borda": [
+    124,
+    194,
+    207
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "wind_fenda",
+   "quadros": 6,
+   "densidade": 31.349206349206348,
+   "cores": 184.5,
+   "sat": 0.339045811172644,
+   "brilho": 0.8610758359910808,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.01659573464744232,
+   "luz_v": 0.00784344389842484,
+   "luz_h": -0.019668528996356183,
+   "branco": 0.05916642200039147,
+   "cor_borda": [
+    93,
+    168,
+    185
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "wind_leve",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 154.0,
+   "sat": 0.27153240020555336,
+   "brilho": 0.8237455269189016,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.0003929273084479371,
+   "luz_v": 0.0029564153457633524,
+   "luz_h": -0.0006831438542417856,
+   "branco": 0.07477025898078529,
+   "cor_borda": [
+    190,
+    239,
+    203
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "wind_milcortes",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 127.0,
+   "sat": 0.3007663193877741,
+   "brilho": 0.9496555254814725,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.0033482142857142855,
+   "luz_v": 0.0009482214814998668,
+   "luz_h": 0.007899172786581865,
+   "branco": 0.11149162861491628,
+   "cor_borda": [
+    142,
+    221,
+    220
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "wind_olho",
+   "quadros": 6,
+   "densidade": 48.302872062663184,
+   "cores": 248.5,
+   "sat": 0.4749265909047743,
+   "brilho": 0.8999460994509698,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.02217274220672369,
+   "luz_v": 0.0029298857009989465,
+   "luz_h": -0.0016783068964905112,
+   "branco": 0.07149505907273074,
+   "cor_borda": [
+    52,
+    181,
+    185
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "wind_pulso",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 215.5,
+   "sat": 0.25429769014011444,
+   "brilho": 0.6815834176212163,
+   "contorno": 0.640922093218913,
+   "suave": 0.0,
+   "ruido": 0.05814148909906113,
+   "luz_v": 0.02360638596601372,
+   "luz_h": -0.0036337174708857,
+   "branco": 0.1754467792615868,
+   "cor_borda": [
+    79,
+    79,
+    79
+   ],
+   "familia": "A: contorno escuro, sombreado em tons",
+   "fora": []
+  },
+  {
+   "jutsu": "wind_salto",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 173.0,
+   "sat": 0.1960891150255127,
+   "brilho": 0.9072332524903742,
+   "contorno": 0.07593123209169055,
+   "suave": 0.0,
+   "ruido": 0.0057483172593932085,
+   "luz_v": 0.010340845353924766,
+   "luz_h": -0.05531352535513823,
+   "branco": 0.3991169515739692,
+   "cor_borda": [
+    134,
+    188,
+    114
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "wind_shuriken",
+   "quadros": 6,
+   "densidade": 33.333333333333336,
+   "cores": 269.0,
+   "sat": 0.33239017383573644,
+   "brilho": 0.8164296802353812,
+   "contorno": 0.21127337392897558,
+   "suave": 0.0,
+   "ruido": 0.05073687125461228,
+   "luz_v": 0.011156097008556742,
+   "luz_h": -0.008036767911215159,
+   "branco": 0.11391629920587039,
+   "cor_borda": [
+    142,
+    175,
+    152
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "wind_veu",
+   "quadros": 6,
+   "densidade": 30.769230769230766,
+   "cores": 275.5,
+   "sat": 0.22252017845031605,
+   "brilho": 0.9154426124442994,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.0010392677732550784,
+   "luz_v": -0.007707625872694912,
+   "luz_h": 0.003500610765858503,
+   "branco": 0.039211551977509425,
+   "cor_borda": [
+    115,
+    203,
+    202
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B",
+    "pouca cor"
+   ]
+  },
+  {
+   "jutsu": "wind_vortice",
+   "quadros": 6,
+   "densidade": 33.33333333333333,
+   "cores": 319.5,
+   "sat": 0.7693545760932595,
+   "brilho": 0.8785127722061454,
+   "contorno": 0.11439382118895304,
+   "suave": 0.0,
+   "ruido": 0.014806298964034105,
+   "luz_v": -0.005186775900184237,
+   "luz_h": -0.0012342750406796332,
+   "branco": 0.08158011266616498,
+   "cor_borda": [
+    23,
+    111,
+    179
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "zefiro_eco",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 265.0,
+   "sat": 0.3010888672279378,
+   "brilho": 0.8994107817609316,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.0032215626219504983,
+   "luz_v": -0.0050943164686785836,
+   "luz_h": -0.010909194640372044,
+   "branco": 0.015195875378059887,
+   "cor_borda": [
+    152,
+    178,
+    227
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "zefiro_mil",
+   "quadros": 5,
+   "densidade": 45.45454545454545,
+   "cores": 263,
+   "sat": 0.2966053202976804,
+   "brilho": 0.9670774976657331,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.05722070844686648,
+   "luz_v": -0.004463105777688159,
+   "luz_h": -0.0014179186267968547,
+   "branco": 0.0418702023726448,
+   "cor_borda": [
+    150,
+    186,
+    250
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "zefiro_passo",
+   "quadros": 6,
+   "densidade": 62.5,
+   "cores": 344.0,
+   "sat": 0.3270739703306548,
+   "brilho": 0.9336188410400392,
+   "contorno": 0.0029806259314456036,
+   "suave": 0.0,
+   "ruido": 0.04210231451233638,
+   "luz_v": 0.008193602664161581,
+   "luz_h": -0.006745526736584295,
+   "branco": 0.08041649030863052,
+   "cor_borda": [
+    124,
+    229,
+    244
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  },
+  {
+   "jutsu": "zefiro_veu",
+   "quadros": 6,
+   "densidade": 45.45454545454545,
+   "cores": 294.5,
+   "sat": 0.29943951102693755,
+   "brilho": 0.9816514595969839,
+   "contorno": 0.0,
+   "suave": 0.0,
+   "ruido": 0.0102842702722377,
+   "luz_v": -0.0062496361563949,
+   "luz_h": -0.0011090562303802676,
+   "branco": 0.03548883798126215,
+   "cor_borda": [
+    145,
+    180,
+    249
+   ],
+   "familia": "B: sem contorno (energia, luz)",
+   "fora": [
+    "B"
+   ]
+  }
+ ]
+}

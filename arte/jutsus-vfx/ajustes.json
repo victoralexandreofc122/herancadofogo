@@ -12257,7 +12257,8 @@
     "jogo": {
       "pxCasa": 0.03,
       "ancora": "centro",
-      "blend": "normal"
+      "blend": "normal",
+      "arte": 0
     }
   },
   "taijutsu_4_rajada": {
@@ -12306,7 +12307,8 @@
     "jogo": {
       "pxCasa": 0.03,
       "ancora": "centro",
-      "blend": "normal"
+      "blend": "normal",
+      "arte": 0
     }
   }
 }

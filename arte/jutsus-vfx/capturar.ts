@@ -196,7 +196,7 @@ function PLANOS(X: number, Y: number): Record<string, Plan> {
     taijutsu_portoes: { steps: [[0, CS('taijutsu_portoes', 500)], [500, C('taijutsu_portoes')]], shots: [560, 760, 1000, 2500, 4500, 5700] },
     taijutsu_flecha: { steps: [[0, C('taijutsu_flecha', { tx: X + 6, ty: Y })]], shots: [40, 180, 300, 460, 700, 1200] },
     taijutsu_furia: { steps: [[0, C('taijutsu_furia', { tx: X + 3, ty: Y })]], shots: [40, 140, 260, 380, 520, 800] },
-    taijutsu_4: { steps: [[0, CS('taijutsu_4', 600)], [600, C('taijutsu_4')]], shots: [650, 860, 960, 1120, 1300, 1480] },
+    taijutsu_4: { steps: [[0, CS('taijutsu_4', 600)], [600, C('taijutsu_4')]], shots: [660, 760, 900, 1080, 1230, 1400] },
     taijutsu_queda: { steps: [[0, C('taijutsu_queda', { tx: X + 4, ty: Y })], ...aviso(9750, 'taijutsu_queda', X + 4, Y, 2.5, 700)], shots: [200, 450, 600, 760, 1050, 1600] },
     wind: { steps: [[0, C('wind')]], shots: [40, 150, 280, 420, 560, 900] },
     wind_salto: { steps: [[0, C('wind_salto')]], shots: [40, 150, 260, 380, 560, 900] },
