@@ -246,6 +246,18 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v89: o Clã Rubro, 3 do Clã Umbra e mais 7 folhas; o Reflexo Vazio com o próprio boneco (sem migração)
+
+- Clã Rubro completo: Olhar Rubro (o olho em volta do corpo, que se desfaz no golpe), Transe Ocular, Brasa Sem Luz e Mundo
+  Espelhado (saem da mão até o alcance), Sentinela Espectral (as costelas em volta) e Colosso Espectral (o guerreiro atrás
+  do ninja e o corte à frente no fim).
+- Clã Umbra: Deslize Noturno, Sombra Faminta (a boca fica no alvo os 6 s da marca) e Noite Fechada.
+- Corpo de Água, Coluna d’Água, Mil Cortes do Céu (uma lâmina em cada golpe sorteado), Impacto Circular, Chave de Braço,
+  Mergulho Esmagador e Aura de Regeneração.
+- Reflexo Vazio (escolha do Victor, 22/11): o duplo é o boneco de quem lançou, em tom violeta e meio transparente, no lugar
+  do Duplo de Água; some na fumaça desenhada.
+- A explosão antiga sai dos avisos desenhados do Rubro, do Umbra, da Água e do Vento.
+
 ### v88: as 15 primeiras folhas da Ilusão (sem migração)
 
 - Ilusão (espiral no chão, girando), Visão do Abismo, Estaca da Ilusão e Canção de Ninar (saem da mão e crescem até o

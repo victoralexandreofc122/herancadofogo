@@ -139,6 +139,25 @@ const TIPO = {
   illusion_passo: { t: 'rastro', recuo: true, saida: ['01'], estica: ['02', '03'], chegada: ['04', '05', '06'] },
   illusion_colapso: { t: 'aviso', ref: '01', avisa: ['01'], cai: ['02', '03'], bate: ['04', '05', '06'] },
   illusion_reflexo: { t: 'invoca', sobe: ['01', '02', '03', '04', '05', '06'] },
+  // v89: o Clã Rubro completo, 3 do Clã Umbra, e mais Água, Taijutsu, Vento e Cura
+  rubro_olho: { t: 'escudo', monta: ['01', '02', '03', '04'], quebra: ['05', '06'] },
+  rubro_transe: { t: 'linha', mao: ['01'], estica: ['02', '03', '04', '05', '06'] },
+  rubro_chamas: { t: 'linha', mao: [], estica: ['01', '02', '03', '04', '05', '06'] },
+  rubro_lua: { t: 'linha', mao: ['01'], estica: ['02', '03', '04', '05', '06'] },
+  rubro_guardiao: { t: 'corpo', escudo: true, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  // o colosso fica atrás do ninja (apoio nos pés) e, no fim, corta à frente e se desfaz
+  rubro_completo: { t: 'corpo', pes: true, intro: ['01', '02'], meio: ['03', '04'], fim: [], golpe: ['05', '06'] },
+  umbra_deslize: { t: 'rastro', saida: ['01'], estica: ['02', '03'], chegada: ['04', '05', '06'] },
+  umbra_faminta: { t: 'alvo', ms: 6000, esc: 0.6, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },   // markMs
+  umbra_noite: { t: 'zona', gira: 0.6, intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
+  water_corpo: { t: 'corpo', escudo: true, intro: ['01'], meio: ['02', '03', '04'], fim: [], golpe: ['05', '06'] },
+  water_coluna: { t: 'aviso', ref: '01', avisa: ['01'], cai: ['02', '03'], bate: ['04', '05', '06'] },
+  wind_milcortes: { t: 'aviso', ref: '04', avisa: ['01'], cai: ['02', '03'], bate: ['04', '05', '06'] },   // uma lâmina por golpe
+  taijutsu_impacto: { t: 'anel', chao: true },
+  taijutsu_chave: { t: 'alvo', ms: 1300, esc: 0.55, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },   // rootMs
+  // o F1 da folha traz um ninja desenhado: fica de fora (o jogo já desenha o boneco)
+  taijutsu_lotus: { t: 'rastro', saida: ['02'], estica: [], chegada: ['03', '04', '05', '06'] },
+  heal_aura: { t: 'zona', intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
 };
 /** Avisos que vêm em ondas no mesmo lugar (a Ascensão Dupla): o desenho toca uma vez só. */
 const ONDA = new Map();

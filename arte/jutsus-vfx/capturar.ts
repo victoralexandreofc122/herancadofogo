@@ -264,8 +264,28 @@ function PLANOS(X: number, Y: number): Record<string, Plan> {
     illusion_olho: { steps: [[0, C('illusion_olho')], [100, proj(9803, 'illusion_olho', 0, 9, 6)], [760, imp(9803, 'illusion_olho', X + 6.4, Y)]], shots: [40, 250, 450, 650, 800, 1000] },
     illusion_passo: { steps: [[0, C('illusion_passo')]], shots: [40, 180, 280, 380, 520, 700] },
     illusion_colapso: { steps: [[0, C('illusion_colapso', { tx: X + 4, ty: Y })], ...aviso(9804, 'illusion_colapso', X + 4, Y, 2.5, 1000)], shots: [300, 700, 880, 1010, 1300, 1700] },
-    illusion_reflexo: { steps: [[0, C('illusion_reflexo')], [60, { type: 'monster_spawned', monster: { id: 'refl1', type: 'clone_agua', x: X + 1.5, y: Y, hp: 30, maxHp: 30 } }],
-      [100, { type: 'summon', id: 'refl1', ownerId: '__ME__', kind: 'clone_agua', hp: 30, maxHp: 30, ms: 6000 }]], shots: [40, 240, 440, 640, 840, 1100] },
+    illusion_reflexo: { steps: [[0, C('illusion_reflexo', { playerId: '__ME__' })], [60, { type: 'monster_spawned', monster: { id: 'refl1', type: 'clone_agua', x: X + 1.5, y: Y, hp: 30, maxHp: 30 } }],
+      [100, { type: 'summon', id: 'refl1', ownerId: '__ME__', kind: 'clone_agua', hp: 30, maxHp: 30, ms: 6000 }],
+      [1700, { type: 'monster_died', id: 'refl1', killerId: '' }]], shots: [40, 240, 640, 1200, 1750, 2000] },
+    // ---- v89: o Clã Rubro, o Clã Umbra (3), Água, Taijutsu, Vento e Cura
+    rubro_olho: { steps: [[0, C('rubro_olho')]], shots: [60, 200, 350, 600, 1500, 3000] },
+    rubro_transe: { steps: [[0, C('rubro_transe', { tx: X + 4, ty: Y })]], shots: [40, 160, 260, 360, 460, 640] },
+    rubro_chamas: { steps: [[0, C('rubro_chamas', { tx: X + 6, ty: Y })]], shots: [40, 160, 260, 360, 460, 640] },
+    rubro_lua: { steps: [[0, CS('rubro_lua', 800)], [800, C('rubro_lua', { tx: X + 5, ty: Y })]], shots: [840, 960, 1060, 1160, 1260, 1440] },
+    rubro_guardiao: { steps: [[0, C('rubro_guardiao')]], shots: [60, 250, 800, 2000, 3750, 3950] },
+    rubro_completo: { steps: [[0, CS('rubro_completo', 500)], [500, C('rubro_completo')], ...aviso(9816, 'rubro_completo', X + 2.5, Y, 2.5, 5000).map(([t, m]) => [t + 500, m] as Step)],
+      shots: [560, 800, 2000, 4000, 5450, 5700] },
+    umbra_deslize: { steps: [[0, C('umbra_deslize')]], shots: [40, 180, 280, 380, 520, 700] },
+    umbra_faminta: { steps: [[0, C('umbra_faminta', { tx: X + 4, ty: Y })]], shots: [60, 200, 600, 3000, 5750, 5950] },
+    umbra_noite: { steps: [[0, C('umbra_noite')], ...zona(9811, 'umbra_noite', 'sombra', X, Y, 3, 4000, true)], shots: [100, 300, 1200, 2500, 3800, 4200] },
+    water_corpo: { steps: [[0, CS('water_corpo', 500)], [500, C('water_corpo')], ...aviso(9812, 'water_corpo', X + 2.5, Y, 2.5, 5000).map(([t, m]) => [t + 500, m] as Step)],
+      shots: [560, 800, 2000, 4000, 5450, 5700] },
+    water_coluna: { steps: [[0, C('water_coluna', { tx: X + 4, ty: Y })], ...aviso(9813, 'water_coluna', X + 4, Y, 2.5, 900)], shots: [200, 600, 780, 920, 1150, 1500] },
+    wind_milcortes: { steps: chuva('wind_milcortes', 9814), shots: [300, 700, 900, 1100, 1400, 2000] },
+    taijutsu_impacto: { steps: [[0, C('taijutsu_impacto')]], shots: [40, 150, 260, 370, 480, 800] },
+    taijutsu_chave: { steps: [[0, C('taijutsu_chave', { tx: X + 1.5, ty: Y })]], shots: [60, 200, 450, 800, 1050, 1250] },
+    taijutsu_lotus: { steps: [[0, C('taijutsu_lotus', { tx: X + 3, ty: Y })]], shots: [40, 180, 300, 450, 600, 900] },
+    heal_aura: { steps: [[0, C('heal_aura')], ...zona(9815, 'heal_aura', 'cura', X, Y, 2, 3000, true)], shots: [100, 300, 1000, 2000, 2750, 3100] },
     // ---- exemplos de Cura (zona que anda com quem lançou)
     heal_santuario: { steps: [[0, CS('heal_santuario', 500)], [500, C('heal_santuario')], ...zona(9820, 'heal_santuario', 'cura', X, Y, 2.5, 5000, true).map(([t, m]) => [t + 500, m] as Step)],
       shots: [620, 820, 1100, 2000, 3300, 5500] },
@@ -288,6 +308,7 @@ await ctx.addInitScript(`(() => { const SLOW = ${1 / SL}; const real = performan
 await ctx.addInitScript(`localStorage.setItem('nin.token', ${JSON.stringify(token)}); localStorage.setItem('nin.debug','1');`);
 const p = await ctx.newPage();
 p.on('pageerror', (e: Error) => console.log('ERRO no jogo:', e.message));
+if (process.env.CONSOLE) p.on('console', (m) => console.log('console:', m.text()));
 await p.goto(`http://localhost:${process.env.PORT ?? 3000}`);
 await wait(4500);
 for (const sel of ['text=Entendi', 'text=Fechar (já entendi)', 'text=Guardar']) { try { await p.click(sel, { timeout: 800 }); } catch { /* sem aviso */ } }
