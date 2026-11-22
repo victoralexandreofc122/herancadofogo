@@ -104,14 +104,14 @@ export const LUGAR = {
   // tronco
   stone: { lugar: 'torso', alto: 0.62 }, stone_resposta: { lugar: 'torso', alto: 0.62 }, shadow_estrangular: { lugar: 'torso', alto: 0.5, dy: -0.12 },
   // corpo com a metade de trás (anéis e redemoinhos em volta, chamas e portões que sobem dos pés)
-  lightning_armadura: { lugar: 'corpo', tras: true, alto: 1.45 }, wind_veu: { lugar: 'corpo', tras: true, alto: 1.4 },
-  wind_olho: { lugar: 'corpo', tras: true, alto: 1.5 }, water_corpo: { lugar: 'corpo', tras: true, alto: 1.45 },
+  lightning_armadura: { lugar: 'corpo', tras: true, alto: 1.45 },
+  water_corpo: { lugar: 'corpo', tras: true, alto: 1.45 },
   zefiro_veu: { lugar: 'corpo', tras: true, alto: 1.75, dy: -0.06, corte: -0.95 },   // v95: cobre a cabeça também (marcação do Victor) weapons_2: { lugar: 'corpo', tras: true, alto: 1.3 },
   heal_4: { lugar: 'corpo', tras: true, alto: 1.3 }, taijutsu_portoes: { lugar: 'corpo', tras: true, alto: 1.4, corte: -0.3 },
   bastiao_juramento: { lugar: 'corpo', tras: true, alto: 1.6, corte: -0.2 }, aspide_constricao: { lugar: 'corpo', tras: true, alto: 1.2, corte: -0.3 },
   rubro_completo: { lugar: 'corpo', tras: true, alto: 2.1, corte: 0 },   // o guerreiro inteiro atrás do ninja
   // bolha por cima (o ninja dentro, translúcido)
-  wind_espelho: { lugar: 'corpo', alto: 1.45, alpha: 0.6 }, illusion_kai: { lugar: 'corpo', alto: 1.45, alpha: 0.6 },
+  illusion_kai: { lugar: 'corpo', alto: 1.45, alpha: 0.6 },
   heal_casca: { lugar: 'corpo', alto: 1.45, alpha: 0.55 }, stone_4: { lugar: 'corpo', alto: 1.45, alpha: 0.6 },
   stone_couraca: { lugar: 'corpo', alto: 1.3, alpha: 0.65 }, shadow_veu: { lugar: 'corpo', alto: 1.4, alpha: 0.6 },
   water_3: { lugar: 'corpo', alto: 1.45, alpha: 0.6 }, heal: { lugar: 'corpo', alto: 1.3, alpha: 0.75 },
@@ -120,6 +120,8 @@ export const LUGAR = {
   illusion_veu: { lugar: 'pes', largura: 1.6, sy: 0.7 },
   // v95 (marcação do Victor): o anel vermelho do Fôlego nos pés, deitado em perspectiva como a Forma Umbral
   taijutsu_folego: { lugar: 'pes', largura: 1.6, sy: 0.6 },
+  // v95 (marcação do Victor): os redemoinhos do Vento também nos pés, em perspectiva
+  wind_veu: { lugar: 'pes', largura: 1.7, sy: 0.6 }, wind_espelho: { lugar: 'pes', largura: 1.6, sy: 0.6 }, wind_olho: { lugar: 'pes', largura: 1.8, sy: 0.6 },
 };
 /** O encaixe do LUGAR para um quadro (null = sem mudança: falta a imagem de referência). */
 function lugarDe(base, L, opts) {
@@ -127,7 +129,7 @@ function lugarDe(base, L, opts) {
   if (!ref) return null;
   const im = imgs[ref], fm = FRAMES[ref];
   const pelaAltura = (alto) => (alto * im.width) / (im.height * fm.casas);
-  if (L.lugar === 'pes') return { y: L.y ?? 0.42, scale: (L.largura ?? 1.5) / fm.casas, split: true, ...(L.sy ? { sy: L.sy } : {}) };
+  if (L.lugar === 'pes') return { y: L.y ?? 0.42, scale: (L.largura ?? 1.5) / fm.casas, split: true, frente: 1, ...(L.sy ? { sy: L.sy } : {}) };   // v95: a frente no tom da de trás
   if (L.lugar === 'torso') return { y: -0.02 + (L.dy ?? 0), apoio: 'centro', scale: pelaAltura(L.alto ?? 0.5), split: false };
   // com a metade de trás, a frente fica no mesmo tom da de trás (sem a costura clara entre as duas: o pedido do Victor na Forma Umbral)
   // v95 (marcações do Victor): o meio da arte no meio do corpo, assim os quadros pequenos da entrada também ficam centrados no
