@@ -17,9 +17,9 @@ const BASE = { fire: 'fogo', fire_endan: 'sopro', fire_kasumi: 'nevoa', fire_hib
 const ready = (skill) => !!skill && jutsuSpritesReady(BASE[skill] ?? skill);
 /** O elemento da camada pelo prefixo do jutsu (fire_, heal_, lightning_). */
 const elOf = (skill) => (/^heal/.test(skill) ? 'cura' : /^lightning/.test(skill) ? 'raio' : /^stone/.test(skill) ? 'pedra'
-  : /^wind/.test(skill) ? 'vento' : /^weapons/.test(skill) ? 'armas' : /^water/.test(skill) ? 'agua' : /^(shadow|illusion)/.test(skill) ? 'sombra' : /^taijutsu/.test(skill) ? 'taijutsu' : 'fogo');   // v88: a Ilusão usa as faíscas violeta da Sombra
+  : /^wind/.test(skill) ? 'vento' : /^weapons/.test(skill) ? 'armas' : /^water/.test(skill) ? 'agua' : /^(shadow|illusion|umbra)/.test(skill) ? 'sombra' : /^taijutsu/.test(skill) ? 'taijutsu' : 'fogo');   // v88: a Ilusão usa as faíscas violeta da Sombra
 /** v80: Água, Sombra e Taijutsu: a carga dos selos e a faísca do acerto na cor da classe (sem coreografia própria por jutsu). */
-const LEVA80 = (skill) => /^(water|shadow|taijutsu|wind|weapons|illusion)/.test(skill);   // v81: + Vento; v88: + Ilusão
+const LEVA80 = (skill) => /^(water|shadow|taijutsu|wind|weapons|illusion|umbra|rubro)/.test(skill);   // v89: + Umbra e Rubro (faísca de fogo)   // v81: + Vento; v88: + Ilusão
 
 // Raio de cada camada em casas (para casar com a área do servidor): o anel de fogo corre 92 px, o de cura, o estalo do
 // trovão e a poeira 104 px; as runas têm ~2 casas; brasas, cruzes e faíscas se espalham ~0,6 casa (× 0,035 casa/px).
@@ -348,6 +348,7 @@ export function camadasGround(jfx, msg, now, follow = () => null) {
       }
       return true;
     }
+    case 'heal_aura':   // v89: Aura de Regeneração: o mesmo, andando com quem lançou
     case 'heal_3':   // Regeneração de Área: o círculo de runas gira no chão e as cruzes sobem enquanto dura
     case 'heal_santuario': {   // Santuário Vital: o mesmo, andando com quem lançou
       if (aviso) return false;

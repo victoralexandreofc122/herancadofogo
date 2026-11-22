@@ -68,6 +68,7 @@ const FOGO_BASES = new Set(Object.keys(FOGO_FRAMES).map((n) => n.replace(/_0\d\w
  * de cima; o que já está no chão continua no chão.
  */
 export const PROFUNDIDADE = new Set([
+  'rubro_olho', 'rubro_guardiao', 'rubro_completo', 'umbra_faminta', 'water_corpo', 'heal_aura', 'taijutsu_chave',   // v89
   'illusion_3', 'illusion_noite', 'illusion_espelho', 'illusion_kai', 'illusion_reflexo', 'illusion_veu',   // v88: a Ilusão
   'fire_coroa', 'heal', 'heal_casca', 'heal_4', 'heal_desintox', 'heal_banho', 'heal_santuario', 'heal_disturbio',
   'lightning_armadura', 'lightning_fluxo', 'lightning_correntes', 'lightning_maos',
@@ -83,7 +84,7 @@ export const PROFUNDIDADE = new Set([
   'pfx_fogo_anel', 'pfx_cura_anel', 'pfx_raio_estalo',
 ]);
 /** v85: as bolhas e escudos em volta do corpo: a metade da frente translúcida (o ninja aparece dentro, como num vidro). */
-const FRENTE = { illusion_kai: 0.5, illusion_espelho: 0.6, illusion_veu: 0.55, illusion_noite: 0.7, illusion_reflexo: 0.75, water_casulo: 0.5, heal_casca: 0.55, stone_4: 0.6, stone: 0.65, stone_couraca: 0.6, wind_veu: 0.55, wind_espelho: 0.5,
+const FRENTE = { rubro_olho: 0.6, rubro_guardiao: 0.65, water_corpo: 0.6, heal_aura: 0.6, umbra_faminta: 0.75, illusion_kai: 0.5, illusion_espelho: 0.6, illusion_veu: 0.55, illusion_noite: 0.7, illusion_reflexo: 0.75, water_casulo: 0.5, heal_casca: 0.55, stone_4: 0.6, stone: 0.65, stone_couraca: 0.6, wind_veu: 0.55, wind_espelho: 0.5,
   wind_olho: 0.55, shadow_veu: 0.55, water_3: 0.55, lightning_armadura: 0.8, taijutsu_bloqueio: 0.7 };
 const baseDe = (name) => name.replace(/_0\d\w?$/, '');
 

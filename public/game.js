@@ -882,7 +882,7 @@ function handleMessage(msg) {
       }
       if (z?.kind === 'aviso') sfxAt('impact', z.x, z.y, 1, { el: z.skill ? elementOfSkill(z.skill) : 'neutral' });   // v58
       // v88: a Ilusão desenhada já tem o estouro no quadro (a fumaça branca antiga cobria o Colapso)
-      if (z?.kind === 'aviso' && !(z.skill && elementOfSkill(z.skill) === 'illusion' && folhaPronta(z.skill))) particles.burst(z.skill ? elementOfSkill(z.skill) : 'neutral', z.x, z.y, 2.2, z.r);   // v47: o golpe avisado caiu
+      if (z?.kind === 'aviso' && !(z.skill && (elementOfSkill(z.skill) === 'illusion' || /^(rubro|umbra|water_corpo|water_coluna|wind_milcortes)/.test(z.skill)) && folhaPronta(z.skill))) particles.burst(z.skill ? elementOfSkill(z.skill) : 'neutral', z.x, z.y, 2.2, z.r);   // v47: o golpe avisado caiu
       const nevoa = z?.kind === 'aviso' && z.skill && formOf(z.skill) === 'nuvem_detona'
         && jfx.show('nevoa_03', z.x, z.y, now, 520, { scale: z.r / 2.5, fadeIn: 30, fadeOut: 220, grow: 0.12 });
       if (nevoa) hitShake(120);
@@ -899,6 +899,9 @@ function handleMessage(msg) {
       // v30: a invocação já chegou como monstro; aqui só a vida certa (parte da vida de quem invocou)
       const m = state.monsters.get(msg.id);
       if (m) Object.assign(m, { hp: msg.hp, maxHp: msg.maxHp, ownerId: msg.ownerId });
+      // v89 (escolha do Victor, 22/11): o Reflexo Vazio é o próprio boneco de quem lançou, em tom violeta (o servidor cria o duplo
+      // como 'clone_agua'; o lançamento do Reflexo logo antes diz qual é)
+      if (m && m.type === 'clone_agua' && performance.now() - (reflexoAt.get(msg.ownerId) ?? -1e9) < 2500) m.reflexo = msg.ownerId;
       break;
     }
     case 'summon_punch': {
@@ -1413,6 +1416,7 @@ function handleMessage(msg) {
       const form = formOf(msg.skill);
       const color = CLAN_COLOR[info.clan] || CAST_COLOR[fxKind] || '#f4ecd8';   // v63: os clãs novos têm a cor própria
       const lineEnd = { tx: msg.tx ?? msg.x + msg.fx * (info.range ?? 5), ty: msg.ty ?? msg.y + msg.fy * (info.range ?? 5) };
+      if (msg.skill === 'illusion_reflexo') reflexoAt.set(msg.playerId, now);   // v89: a invocação que vier logo depois é o duplo
       const fogoDrawn = fogoCast(jfx, msg, info, lineEnd, now, posOf, whoAt, whoNear);
       camadasCast(jfx, msg, info, lineEnd, now, posOf, whoAt, whoNear);   // v78: as camadas por cima das folhas desenhadas
       if (fogoDrawn) { /* v73: os 10 jutsus de Fogo desenhados (fogoAnim.js) */ }
@@ -1602,7 +1606,8 @@ function handleMessage(msg) {
       const m = state.monsters.get(msg.id);
       if (m) { m.diedAt = now; m.hp = 0; if (!isCreature(m)) sfxAt('slime_die', m.x, m.y, 0.9); }   // v58
       if (m && fogoGolemFim(jfx, m, now)) m.drawnGone = true;   // v79: o Golem desenhado desmancha
-      if (m && summonFrames(m.type)) { m.drawnGone = true; const sf = summonFrames(m.type); if (sf.some) jfx.show(sf.some, m.x, m.y + 0.2, now, 700, { fadeIn: 0, fadeOut: 500, layer: 'ground' }); else jfx.show(sf.parado, m.x, m.y + 0.3, now, 300, { fadeIn: 0, fadeOut: 300, grow: 0.15 }); }   // v80
+      if (m && m.reflexo && jutsuSpritesReady('illusion_reflexo')) { m.drawnGone = true; jfx.show('illusion_reflexo_05', m.x, m.y + 0.25, now, 260, { fadeIn: 0, fadeOut: 120 }); jfx.show('illusion_reflexo_06', m.x, m.y + 0.25, now + 220, 600, { fadeIn: 0, fadeOut: 450 }); }   // v89: o duplo some na fumaça
+      else if (m && summonFrames(m.type)) { m.drawnGone = true; const sf = summonFrames(m.type); if (sf.some) jfx.show(sf.some, m.x, m.y + 0.2, now, 700, { fadeIn: 0, fadeOut: 500, layer: 'ground' }); else jfx.show(sf.parado, m.x, m.y + 0.3, now, 300, { fadeIn: 0, fadeOut: 300, grow: 0.15 }); }   // v80
       if (state.vinculo?.summoned?.includes(msg.id)) { state.vinculo.summoned = state.vinculo.summoned.filter((x) => x !== msg.id); renderVinculo(); }   // v60
       if (state.focusId === msg.id) setFocus(null);
       break;
@@ -2832,7 +2837,7 @@ function drawParticles(toScreenX, toScreenY, T, viewW, viewH, now) {
     if (now > z.end) continue;
     const owner = z.follow ? state.players.get(z.follow) : null;
     const el = z.kind === 'aviso' ? (z.skill ? elementOfSkill(z.skill) : 'neutral') : GROUND_ELEMENT[z.kind] || 'neutral';
-    if (el === 'illusion' && folhaPronta(z.skill)) continue;   // v88: a área desenhada da Ilusão sem a fumaça antiga por cima
+    if ((el === 'illusion' || /^umbra/.test(z.skill || '')) && folhaPronta(z.skill)) continue;   // v88: a área desenhada da Ilusão sem a fumaça antiga por cima
     particles.zone(el, owner ? owner.x : z.x, owner ? owner.y : z.y, z.r, dt * (z.kind === 'aviso' ? 0.6 : 1), `z${id}`);
   }
   // Selos: aura na cor do elemento em volta de quem conjura (um anel pulsando no chão e partículas subindo)
@@ -9192,7 +9197,38 @@ const SUMMON_PUNCH_MS = 460;
  *   fera_rei         v63, Rei da Matilha: a fera grande, juba dourada e marcas de guerra; no golpe dá a patada
  * Andando: balança (passo). Socando (`summon_punch`): prepara (braço para trás) e bate na direção do alvo.
  */
+/** v89: o Reflexo Vazio: o boneco de quem lançou, num canvas à parte, pintado de violeta e meio transparente. */
+const reflexoAt = new Map();
+let reflexoCanvas = null;
+function drawReflexo(m, sx, sy, T, now) {
+  const p = state.players.get(m.reflexo);
+  if (!p) return false;
+  if (m.drawnGone) return true;
+  const W = Math.ceil(T * 3), H = Math.ceil(T * 3.4), ay = H * 0.66;
+  const c = reflexoCanvas || (reflexoCanvas = document.createElement('canvas'));
+  if (c.width !== Math.ceil(W * dpr) || c.height !== Math.ceil(H * dpr)) { c.width = Math.ceil(W * dpr); c.height = Math.ceil(H * dpr); }
+  const g = c.getContext('2d');
+  g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, c.width, c.height); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const look = p.id === state.meId && state.me.look ? state.me.look : p.look;
+  const dir = m.faceV === 'cima' ? dirFrom(0, -1) : m.faceV === 'baixo' ? dirFrom(0, 1) : dirFrom(m.face === -1 ? -1 : 1, 0);
+  // um boneco só do duplo (o cache e o pano dele não se misturam com os de quem lançou)
+  const doll = Object.assign(m.doll || (m.doll = {}), { ...p, moving: now - (m.walkAt || 0) < 260, act: null, meditating: false, thrown: null, _fig: m.doll?._fig });
+  const top = drawSpriteCharacter(g, doll, W / 2, ay, T, look, dir, now, p.gear);
+  if (top == null) return false;
+  g.globalCompositeOperation = 'source-atop';
+  g.fillStyle = 'rgba(150, 100, 255, 0.5)';
+  g.fillRect(0, 0, W, H);
+  g.globalCompositeOperation = 'source-over';
+  const born = Math.max(0.1, Math.min(1, (now - (m.bornAt || now)) / 300));
+  ctx.save();
+  ctx.globalAlpha = 0.8 * born;
+  ctx.drawImage(c, sx - W / 2, sy - ay, W, H);
+  ctx.restore();
+  if (m.hp !== undefined && m.maxHp) drawHpBar(sx, sy - T * 1.45, T * 0.7, m.hp / m.maxHp, '#b07cff');
+  return true;
+}
 function drawSummon(m, sx, sy, T, now) {
+  if (m.reflexo && drawReflexo(m, sx, sy, T, now)) return;   // v89
   const kind = m.type;
   const big = kind === 'golem' ? 1.5 : kind === 'clone_agua' ? 1 : kind === 'serpente_aspide' ? 0.75 : kind === 'fera_garra' ? 1.05 : kind === 'fera_rei' ? 1.7 : 1.3;
   const w = T * 0.62 * big, h = T * 0.95 * big;

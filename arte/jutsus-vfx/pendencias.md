@@ -3,7 +3,7 @@
 Gerado por `python3 arte/jutsus-vfx/pendencias.py`. A página de acompanhamento guarda o que já foi feito;
 este arquivo é a mesma lista em texto.
 
-## Faltam (folha nova) (38)
+## Faltam (folha nova) (22)
 
 ### Ciclo Sem Fim (`illusion_4`), Ilusão, efeito no alvo, fundo verde
 
@@ -107,352 +107,6 @@ F3: a low zigzag lightning bolt skimming the ground reaches the right side of th
 F4: the full line at its brightest, the same height and position as F3.
 F5: the line thins out, the same position.
 F6: the last sparks along the line fading.
-```
-
-### Aura de Regeneração (`heal_aura`), Cura, aura no corpo, fundo magenta
-
-Aura que anda com você por 3 s (raio 2) e cura 10 em quem está dentro a cada segundo.
-
-**Nota:** Anda com o ninja; a metade de trás fica atrás do boneco.
-
-**No jogo:** F3 e F4 em laço enquanto dura. A metade de trás fica atrás do boneco e a da frente por cima (profundidade).
-
-**Folha: Aura de Regeneração** (`heal_aura`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Aura de Regeneração" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Aura de Regeneração": a soft green ring of leaves and small plus-sign sparkles on the ground around you. Palette: fresh leaf green and mint, with soft white-gold light and a dark green outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: thin light of a soft green ring of leaves and small plus-sign sparkles on the ground around you appears around an empty spot at the center where the ninja stands.
-F2: a soft green ring of leaves and small plus-sign sparkles on the ground around you forms a full shape around the empty center, seen from the 3/4 view (a ring or dome around the body).
-F3: a soft green ring of leaves and small plus-sign sparkles on the ground around you at full strength (loop frame A).
-F4: the same aura with small changes (loop frame B).
-F5: the moment it is hit or used: a bright flash and small cracks in a soft green ring of leaves and small plus-sign sparkles on the ground around you.
-F6: a soft green ring of leaves and small plus-sign sparkles on the ground around you breaking into fragments and fading.
-```
-
-### Mergulho Esmagador (`taijutsu_lotus`), Taijutsu, investida, fundo verde
-
-Mergulha no alvo (até 3 casas): dano alto e 1,3 s no ar. Custa 5% da sua vida atual.
-
-**No jogo:** F1 na saída, F2 e F3 no caminho, F4 a F6 no alvo.
-
-**Folha: Mergulho Esmagador** (`taijutsu_lotus`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Mergulho Esmagador" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Mergulho Esmagador": orange speed light and a spinning lotus of wind. Palette: warm orange and golden yellow impact light, with tan dust and a dark brown outline.
-F1: a crouch: dust and orange speed light and a spinning lotus of wind gathering at the center.
-F2: a rising trail of orange speed light and a spinning lotus of wind going up.
-F3: a diving streak of orange speed light and a spinning lotus of wind coming down to the center.
-F4: the crash impact at the center, the biggest frame.
-F5: debris and rock chips flying out.
-F6: dust settling and fading.
-```
-
-### Chave de Braço (`taijutsu_chave`), Taijutsu, efeito no alvo, fundo verde
-
-Agarra o alvo colado: dano e prende por 1,3 s.
-
-**Nota:** Efeito pequeno, colado no alvo (1 casa).
-
-**No jogo:** Toca em cima do alvo; o meio do painel fica vazio para o boneco, com a parte de trás atrás dele.
-
-**Folha: Chave de Braço** (`taijutsu_chave`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Chave de Braço" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Chave de Braço": orange grip lines and small impact stars. Palette: warm orange and golden yellow impact light, with tan dust and a dark brown outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: a mark appears on the ground at the center, around an empty spot where the target stands.
-F2: orange grip lines and small impact stars rises and closes around the empty center.
-F3: orange grip lines and small impact stars at full strength around the target spot (loop frame A).
-F4: the same hold with small changes (loop frame B).
-F5: the release: orange grip lines and small impact stars loosens and opens up.
-F6: the last particles fading.
-```
-
-### Impacto Circular (`taijutsu_impacto`), Taijutsu, anel em volta de você, fundo verde
-
-Pisão forte: dano em volta de você (raio 2) e atordoa por 0,8 s.
-
-**No jogo:** Toca em volta do ninja; a metade de trás do anel fica atrás do boneco e a da frente por cima.
-
-**Folha: Impacto Circular** (`taijutsu_impacto`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Impacto Circular" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Impacto Circular": a ground shockwave with cracked earth and tan dust. Palette: warm orange and golden yellow impact light, with tan dust and a dark brown outline.
-F1: a small bright glow gathering at the center: a ground shockwave with cracked earth and tan dust begins.
-F2: a thin ring of a ground shockwave with cracked earth and tan dust forms close around the center.
-F3: the ring expands to half of the panel.
-F4: the ring at full size, filling about 85% of the panel width, the brightest frame: the moment of the hit.
-F5: the ring thins out and breaks into fragments.
-F6: the last faint particles fading away.
-```
-
-### Coluna d’Água (`water_coluna`), Água, golpe com aviso no chão, fundo verde
-
-Jorro que sobe na área mirada (raio 2,5), com aviso de 0,9 s: dano e 1 s no ar.
-
-**Nota:** A base do jorro fica sempre no mesmo ponto do chão; ele cresce para cima.
-
-**No jogo:** F1 e F2 durante o aviso, F3 e F4 no golpe, F5 e F6 depois. A largura do impacto casa com o círculo do aviso.
-
-**Folha: Coluna d’Água** (`water_coluna`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Coluna d’Água" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Coluna d’Água": a tall geyser of water rising from the ground. Palette: clear ocean blue and cyan, with white foam highlights and a navy outline.
-F1: a flat warning circle drawn on the ground, seen from above, filling about 85% of the panel width.
-F2: the warning circle glows brighter while a tall geyser of water rising from the ground gathers above it.
-F3: a tall geyser of water rising from the ground starts to strike the ground.
-F4: the full impact, the biggest and brightest frame, the same width as the warning circle.
-F5: the aftermath: a tall geyser of water rising from the ground breaking apart over the ground.
-F6: the last particles and a faint mark on the ground fading.
-```
-
-### Corpo de Água (`water_corpo`), Água, transformação, fundo verde
-
-Por 5 s: escudo de 65 e Ataque Básico 15% mais forte. No fim, uma onda à frente levanta os inimigos por 0,8 s.
-
-**No jogo:** F1 e F2 ao virar, F3 e F4 em laço por 5 s, F5 e F6 na onda do fim.
-
-**Folha: Corpo de Água** (`water_corpo`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Corpo de Água" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Corpo de Água": a flowing armor of clear water. Palette: clear ocean blue and cyan, with white foam highlights and a navy outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: a flowing armor of clear water starts to wrap around an empty spot at the center where the ninja stands.
-F2: a flowing armor of clear water at full size around the empty center, seen from the 3/4 view.
-F3: the same form (loop frame A).
-F4: the same form with small changes (loop frame B).
-F5: the final wave of a flowing armor of clear water launched forward, to the right.
-F6: the wave fading.
-```
-
-### Mil Cortes do Céu (`wind_milcortes`), Vento, golpes que caem, fundo magenta
-
-5 lâminas de ar caem na área mirada (até 7 casas), cada uma com aviso no chão de 0,8 s.
-
-**No jogo:** Uma peça só por folha: o jogo repete a folha em cada um dos golpes, no ponto sorteado pelo servidor.
-
-**Folha: Mil Cortes do Céu** (`wind_milcortes`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Mil Cortes do Céu" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Mil Cortes do Céu": crescent blade of air. Palette: pale cyan and white air streaks, with a light teal outline.
-F1: a small warning mark on the ground at the center.
-F2: one crescent blade of air falling from high above the mark.
-F3: the same crescent blade of air close to the ground.
-F4: the hit on the ground: a cross slash and a burst.
-F5: a small gust opening from the hit.
-F6: the last streaks fading.
-```
-
-### Olhar Rubro (`rubro_olho`), Clã Rubro, aura no corpo, fundo verde
-
-O próximo golpe que você receber perde 50% da força.
-
-**No jogo:** F3 e F4 em laço enquanto dura. A metade de trás fica atrás do boneco e a da frente por cima (profundidade).
-
-**Folha: Olhar Rubro** (`rubro_olho`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Olhar Rubro" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Olhar Rubro": a crimson eye-shaped ward with a black pupil mark. Palette: crimson red and black, with a bright scarlet glow and a near-black outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: thin light of a crimson eye-shaped ward with a black pupil mark appears around an empty spot at the center where the ninja stands.
-F2: a crimson eye-shaped ward with a black pupil mark forms a full shape around the empty center, seen from the 3/4 view (a ring or dome around the body).
-F3: a crimson eye-shaped ward with a black pupil mark at full strength (loop frame A).
-F4: the same aura with small changes (loop frame B).
-F5: the moment it is hit or used: a bright flash and small cracks in a crimson eye-shaped ward with a black pupil mark.
-F6: a crimson eye-shaped ward with a black pupil mark breaking into fragments and fading.
-```
-
-### Transe Ocular (`rubro_transe`), Clã Rubro, linha reta, fundo verde
-
-Olhar em linha (4 casas): atordoa o primeiro inimigo por 1,3 s.
-
-**No jogo:** A arte aponta para a direita; o jogo gira para a direção do golpe e estica até o alcance (com folha para baixo e para cima, usa elas nessas direções).
-
-**Folha: Transe Ocular** (`rubro_transe`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Transe Ocular" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Transe Ocular": a crimson gaze beam with small black tomoe-like marks. Palette: crimson red and black, with a bright scarlet glow and a near-black outline.
-F1: a small charge of a crimson gaze beam with small black tomoe-like marks at the left side of the panel.
-F2: a crimson gaze beam with small black tomoe-like marks extends to the right, reaching the middle of the panel.
-F3: a crimson gaze beam with small black tomoe-like marks reaches the right side of the panel, a straight horizontal line through the middle of the panel.
-F4: the full line at its brightest, the same height and position as F3.
-F5: the line thins out, the same position.
-F6: the last sparks along the line fading.
-```
-
-### Brasa Sem Luz (`rubro_chamas`), Clã Rubro, linha reta, fundo verde
-
-Chama escura em linha (6 casas): o alvo queima por 4 s.
-
-**No jogo:** A arte aponta para a direita; o jogo gira para a direção do golpe e estica até o alcance (com folha para baixo e para cima, usa elas nessas direções).
-
-**Folha: Brasa Sem Luz** (`rubro_chamas`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Brasa Sem Luz" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Brasa Sem Luz": a line of black fire with crimson edges. Palette: crimson red and black, with a bright scarlet glow and a near-black outline.
-F1: a small charge of a line of black fire with crimson edges at the left side of the panel.
-F2: a line of black fire with crimson edges extends to the right, reaching the middle of the panel.
-F3: a line of black fire with crimson edges reaches the right side of the panel, a straight horizontal line through the middle of the panel.
-F4: the full line at its brightest, the same height and position as F3.
-F5: the line thins out, the same position.
-F6: the last sparks along the line fading.
-```
-
-**Folha: Brasa Sem Luz (para baixo)** (`rubro_chamas_baixo`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Brasa Sem Luz (para baixo)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Brasa Sem Luz": a line of black fire with crimson edges. Palette: crimson red and black, with a bright scarlet glow and a near-black outline.
-This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, seen from above with its front facing the viewer, with the same size, colors and style as the version going right.
-F1: a small charge of a line of black fire with crimson edges at the top of the panel.
-F2: a line of black fire with crimson edges extends down toward the bottom of the panel, reaching the middle of the panel.
-F3: a line of black fire with crimson edges reaches the bottom of the panel, a straight vertical line through the middle of the panel.
-F4: the full line at its brightest, the same height and position as F3.
-F5: the line thins out, the same position.
-F6: the last sparks along the line fading.
-```
-
-**Folha: Brasa Sem Luz (para cima)** (`rubro_chamas_cima`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Brasa Sem Luz (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Brasa Sem Luz": a line of black fire with crimson edges. Palette: crimson red and black, with a bright scarlet glow and a near-black outline.
-This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
-F1: a small charge of a line of black fire with crimson edges at the bottom of the panel.
-F2: a line of black fire with crimson edges extends up toward the top of the panel, reaching the middle of the panel.
-F3: a line of black fire with crimson edges reaches the top of the panel, a straight vertical line through the middle of the panel.
-F4: the full line at its brightest, the same height and position as F3.
-F5: the line thins out, the same position.
-F6: the last sparks along the line fading.
-```
-
-### Sentinela Espectral (`rubro_guardiao`), Clã Rubro, aura no corpo, fundo verde
-
-Escudo de 65 de dano por 4 s e um corte em cone à frente.
-
-**Nota:** O F5 é o corte em cone à frente (para a direita).
-
-**No jogo:** F3 e F4 em laço enquanto dura. A metade de trás fica atrás do boneco e a da frente por cima (profundidade).
-
-**Folha: Sentinela Espectral** (`rubro_guardiao`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Sentinela Espectral" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Sentinela Espectral": a crimson spectral ribcage of light. Palette: crimson red and black, with a bright scarlet glow and a near-black outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: thin light of a crimson spectral ribcage of light appears around an empty spot at the center where the ninja stands.
-F2: a crimson spectral ribcage of light forms a full shape around the empty center, seen from the 3/4 view (a ring or dome around the body).
-F3: a crimson spectral ribcage of light at full strength (loop frame A).
-F4: the same aura with small changes (loop frame B).
-F5: the moment it is hit or used: a bright flash and small cracks in a crimson spectral ribcage of light.
-F6: a crimson spectral ribcage of light breaking into fragments and fading.
-```
-
-### Mundo Espelhado (`rubro_lua`), Clã Rubro, linha reta, fundo verde
-
-Olhar em linha (5 casas) depois de 0,8 s de selos parado: dano alto e atordoa por 2,4 s. Qualquer dano nos selos faz falhar.
-
-**Nota:** O F1 pode durar os 0,8 s dos selos (lua surgindo).
-
-**No jogo:** A arte aponta para a direita; o jogo gira para a direção do golpe e estica até o alcance (com folha para baixo e para cima, usa elas nessas direções).
-
-**Folha: Mundo Espelhado** (`rubro_lua`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Mundo Espelhado" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Mundo Espelhado": a crimson beam under a red moon reflection. Palette: crimson red and black, with a bright scarlet glow and a near-black outline.
-F1: a small charge of a crimson beam under a red moon reflection at the left side of the panel.
-F2: a crimson beam under a red moon reflection extends to the right, reaching the middle of the panel.
-F3: a crimson beam under a red moon reflection reaches the right side of the panel, a straight horizontal line through the middle of the panel.
-F4: the full line at its brightest, the same height and position as F3.
-F5: the line thins out, the same position.
-F6: the last sparks along the line fading.
-```
-
-### Colosso Espectral (`rubro_completo`), Clã Rubro, transformação, fundo verde
-
-Por 5 s: escudo de 85 e Ataque Básico 15% mais forte. No fim, uma onda à frente levanta os inimigos por 0,8 s.
-
-**Nota:** O colosso é luz espectral (sem rosto detalhado), maior que o boneco.
-
-**No jogo:** F1 e F2 ao virar, F3 e F4 em laço por 5 s, F5 e F6 na onda do fim.
-
-**Folha: Colosso Espectral** (`rubro_completo`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Colosso Espectral" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Colosso Espectral": a towering crimson spectral warrior of light behind and around you. Palette: crimson red and black, with a bright scarlet glow and a near-black outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: a towering crimson spectral warrior of light behind and around you starts to wrap around an empty spot at the center where the ninja stands.
-F2: a towering crimson spectral warrior of light behind and around you at full size around the empty center, seen from the 3/4 view.
-F3: the same form (loop frame A).
-F4: the same form with small changes (loop frame B).
-F5: the final wave of a towering crimson spectral warrior of light behind and around you launched forward, to the right.
-F6: the wave fading.
-```
-
-### Deslize Noturno (`umbra_deslize`), Clã Umbra, salto ou deslize, fundo verde
-
-Desliza 4 casas; por 1,5 s ninguém trava o alvo em você, e o seu próximo golpe (em até 4 s) bate 15% mais.
-
-**No jogo:** F1 na saída, F2 e F3 esticados pelo caminho, F4 a F6 na chegada.
-
-**Folha: Deslize Noturno** (`umbra_deslize`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Deslize Noturno" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Deslize Noturno": a flat ink-black shadow smear. Palette: ink black and deep indigo shadow, with thin violet edges and two small pale eyes where noted.
-F1: a burst of a flat ink-black shadow smear at the starting point, centered.
-F2: motion streaks of a flat ink-black shadow smear stretched to the right across the panel.
-F3: thinner streaks, the same height as F2.
-F4: an arrival burst of a flat ink-black shadow smear, centered, the same size as F1.
-F5: the burst opening into small particles.
-F6: the last particles fading.
-```
-
-### Sombra Faminta (`umbra_faminta`), Clã Umbra, efeito no alvo, fundo verde
-
-Marca um alvo (até 6 casas) por 6 s: o seu próximo golpe nele bate 25% mais e deixa lento por 1 s.
-
-**Nota:** F3 e F4 em laço enquanto a marca dura; F5 é a mordida quando o golpe acerta.
-
-**No jogo:** Toca em cima do alvo; o meio do painel fica vazio para o boneco, com a parte de trás atrás dele.
-
-**Folha: Sombra Faminta** (`umbra_faminta`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Sombra Faminta" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Sombra Faminta": a hungry shadow mouth with two small pale eyes. Palette: ink black and deep indigo shadow, with thin violet edges and two small pale eyes where noted. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: a mark appears on the ground at the center, around an empty spot where the target stands.
-F2: a hungry shadow mouth with two small pale eyes rises and closes around the empty center.
-F3: a hungry shadow mouth with two small pale eyes at full strength around the target spot (loop frame A).
-F4: the same hold with small changes (loop frame B).
-F5: the release: a hungry shadow mouth with two small pale eyes loosens and opens up.
-F6: the last particles fading.
-```
-
-### Noite Fechada (`umbra_noite`), Clã Umbra, área que dura, fundo verde
-
-Noite em volta de você (raio 3) por 4 s: os inimigos dentro quase não enxergam e você leva 15% menos dano.
-
-**No jogo:** F1 e F2 na entrada, F3 a F5 em laço enquanto a área dura, F6 no fim. O tamanho no jogo segue o raio do servidor.
-
-**Folha: Noite Fechada** (`umbra_noite`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Noite Fechada" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Noite Fechada": a circle of deep indigo night with drifting shadow wisps. Palette: ink black and deep indigo shadow, with thin violet edges and two small pale eyes where noted.
-F1: the area starts small at the center: a circle of deep indigo night with drifting shadow wisps appears.
-F2: the area grows to two thirds of its size.
-F3: the area at full size, filling about 85% of the panel width (loop frame A).
-F4: the same area at full size with small changes in the details (loop frame B).
-F5: the same area at full size with other small changes (loop frame C).
-F6: the area dissolving into light particles.
 ```
 
 ### Forma Umbral (`umbra_forma`), Clã Umbra, aura no corpo, fundo verde
@@ -1321,7 +975,7 @@ F5: a small gust opening from the hit.
 F6: the last streaks fading.
 ```
 
-## Direções (para baixo e para cima) (12)
+## Direções (para baixo e para cima) (13)
 
 ### Estaca da Ilusão (`illusion_estaca_dir`), Ilusão, linha reta, fundo verde
 
@@ -1406,6 +1060,40 @@ This sheet is the UP version of the jutsu: it travels from the bottom of each pa
 F1: a small charge of a soft line of violet music notes and small moons at the bottom of the panel.
 F2: a soft line of violet music notes and small moons extends up toward the top of the panel, reaching the middle of the panel.
 F3: a soft line of violet music notes and small moons reaches the top of the panel, a straight vertical line through the middle of the panel.
+F4: the full line at its brightest, the same height and position as F3.
+F5: the line thins out, the same position.
+F6: the last sparks along the line fading.
+```
+
+### Brasa Sem Luz (`rubro_chamas_dir`), Clã Rubro, linha reta, fundo verde
+
+A folha base já está no jogo. Faltam: Brasa Sem Luz (para baixo), Brasa Sem Luz (para cima).
+
+**No jogo:** A arte aponta para a direita; o jogo gira para a direção do golpe e estica até o alcance (com folha para baixo e para cima, usa elas nessas direções).
+
+**Folha: Brasa Sem Luz (para baixo)** (`rubro_chamas_baixo`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Brasa Sem Luz (para baixo)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Brasa Sem Luz": a line of black fire with crimson edges. Palette: crimson red and black, with a bright scarlet glow and a near-black outline.
+This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, seen from above with its front facing the viewer, with the same size, colors and style as the version going right.
+F1: a small charge of a line of black fire with crimson edges at the top of the panel.
+F2: a line of black fire with crimson edges extends down toward the bottom of the panel, reaching the middle of the panel.
+F3: a line of black fire with crimson edges reaches the bottom of the panel, a straight vertical line through the middle of the panel.
+F4: the full line at its brightest, the same height and position as F3.
+F5: the line thins out, the same position.
+F6: the last sparks along the line fading.
+```
+
+**Folha: Brasa Sem Luz (para cima)** (`rubro_chamas_cima`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Brasa Sem Luz (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Brasa Sem Luz": a line of black fire with crimson edges. Palette: crimson red and black, with a bright scarlet glow and a near-black outline.
+This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
+F1: a small charge of a line of black fire with crimson edges at the bottom of the panel.
+F2: a line of black fire with crimson edges extends up toward the top of the panel, reaching the middle of the panel.
+F3: a line of black fire with crimson edges reaches the top of the panel, a straight vertical line through the middle of the panel.
 F4: the full line at its brightest, the same height and position as F3.
 F5: the line thins out, the same position.
 F6: the last sparks along the line fading.
