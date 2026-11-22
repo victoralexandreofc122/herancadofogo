@@ -246,6 +246,14 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v82: animações desenhadas do resto do Vento e das Armas (sem migração)
+
+- Vórtice de Ar, Corte em Cadeia, Disco do Furacão e Fenda do Vento; Chuva de Kunais, Shuriken Espelhada, Corte Rápido,
+  Tapete de Pregos, Fio Peçonhento, Lâminas Flutuantes, Shuriken Colossal, Lâmina Serrilhada, Lâmina Polida, Arco de
+  Aço, Corte Relâmpago e Kunai Explosiva.
+- Camadas: a carga dos selos e a faísca do acerto das Armas, em metal.
+- Faltam: 2 do Vento e 5 das Armas.
+
 ### v81: animações desenhadas do Vento e mais do Taijutsu (sem migração)
 
 - 11 do Vento (Rajada Aberta, Passo Aéreo, Shuriken do Vento, Véu de Vento, Balas de Vento, Espelho de Ar, Lâmina em

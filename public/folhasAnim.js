@@ -105,7 +105,7 @@ const TIPO = {
   weapons_polida: { t: 'corpo', mao: true, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   weapons_arco: { t: 'lamina', fixo: true },
   weapons_3: { t: 'rastro', saida: ['01', '02'], estica: ['03', '04'], chegada: ['05', '06'] },
-  weapons_kunai: { t: 'aviso', avisa: ['01', '02'], cai: ['03'], bate: ['04', '05', '06'] },
+  weapons_kunai: { t: 'aviso', ref: '05', avisa: ['01', '02'], cai: ['03'], bate: ['04', '05', '06'] },
 };
 
 /** O jutsu tem a folha desta leva (para o fogoAnim saber se chama). */
@@ -300,7 +300,7 @@ export function folhaChao(jfx, msg, now, follow = () => null) {
     return true;
   }
   if (k.t === 'aviso' && msg.kind === 'aviso') {   // o aviso no chão, a queda no fim (o punho, o meteoro, o tornado), o golpe e o rastro
-    const sc = (2 * r) / largura(s, k.avisa[0]);
+    const sc = (2 * r) / largura(s, k.ref ?? k.avisa[0]);   // ref: o quadro do anel (o tamanho da área)
     const st = [[k.avisa[0], 0, ms * 0.55, { layer: 'ground', fadeIn: 120 }]];
     k.avisa.slice(1).forEach((f, i) => st.push([f, ms * (0.45 + i * 0.1), ms * 0.55 - i * ms * 0.1, { layer: 'ground' }]));
     const queda = Math.min(360, ms * 0.6);
