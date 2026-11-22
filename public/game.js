@@ -3518,7 +3518,7 @@ function drawGround(toScreenX, toScreenY, T, now) {
     if (z.kind !== 'aviso' && ZONE_ART[z.skill] && particles.quality !== 'off'
       && drawZoneArt(ctx, z.skill, x, y, r, T, Math.max(0, Math.min(1, (now - z.start) / Math.max(1, z.end - z.start))), now, seedOf(id))) continue;
     if (z.skill === 'vinculo_aranha' || z.skill === 'vinculo_aranha_aura') { drawWeb(x, y, r, now, z.skill === 'vinculo_aranha_aura'); continue; }   // v60
-    if ((z.skill === 'stone_2' && z.kind !== 'aviso' || z.skill === 'stone_lancas') && jutsuSpritesReady(z.skill)) continue;   // v79: a lama e as lanças desenhadas
+    if ((z.skill === 'stone_2' && z.kind !== 'aviso' || z.skill === 'stone_lancas' || z.skill === 'stone_avalanche') && jutsuSpritesReady(z.skill)) continue;   // v95: + a Avalanche (o X desenhado)   // v79: a lama e as lanças desenhadas
     const [fill, edge] = GROUND_COLORS[z.kind] || GROUND_COLORS.fogo;
     ctx.save();
     ctx.beginPath(); ctx.ellipse(x, y, r, r * 0.9, 0, 0, Math.PI * 2);

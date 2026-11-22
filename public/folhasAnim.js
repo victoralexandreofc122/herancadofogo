@@ -472,13 +472,15 @@ export function folhaClanFx(jfx, msg, now) {
  * em dois quadros no fim (02 mais alto, 03 quase no chão), o impacto (04) quando o aviso acaba, a poeira (05) e o resto (06).
  */
 export function folhaCai(jfx, s, msg, now) {
-  if (!ready(s)) return false;
-  const ms = msg.ms ?? 900, r = msg.r ?? 1.3, sc = (2 * r) / largura(s, '04');
+  if (!jutsuSpritesReady(s)) return false;   // a Avalanche é do fogoAnim (fora do TIPO)
+  const ms = msg.ms ?? 900, r = msg.r ?? 1.3, sc = (1.5 * r) / largura(s, '04');
   const fall = Math.min(260, ms * 0.4);
-  jfx.marca(msg.x, msg.y, now + ms - fall - 120, fall + 120, { sombra: r * 0.55 });   // a sombra chegando
-  seq(jfx, s, msg.x, msg.y, now, [['01', 0, ms, { layer: 'ground', fadeIn: 120, fadeOut: 60, scale: sc * 1.6 }]]);
-  jfx.show(`${s}_02`, msg.x, msg.y - 1.0, now + ms - fall, fall * 0.55, { fadeIn: 0, fadeOut: 0, scale: sc });
-  jfx.show(`${s}_03`, msg.x, msg.y - 0.35, now + ms - fall * 0.45, fall * 0.45 + 20, { fadeIn: 0, fadeOut: 0, scale: sc });
+  // onde o pé do desenho fica em cada quadro da queda (casas acima do ponto): a lâmina já vem com o X no pé; a rocha desce
+  const [a2, a3] = { weapons_ceu: [0, 0], stone_avalanche: [-0.9, -0.25] }[s] ?? [-0.9, -0.25];
+  jfx.marca(msg.x, msg.y, now + ms - fall - 120, fall + 120, { sombra: r * 0.5 });   // a sombra chegando
+  seq(jfx, s, msg.x, msg.y, now, [['01', 0, ms - (a2 === 0 ? fall : 0), { layer: 'ground', fadeIn: 120, fadeOut: 60, scale: (0.8 * r) / largura(s, '01') }]]);
+  jfx.show(`${s}_02`, msg.x, msg.y + a2, now + ms - fall, fall * 0.55, { fadeIn: 0, fadeOut: 0, scale: sc });
+  jfx.show(`${s}_03`, msg.x, msg.y + a3, now + ms - fall * 0.45, fall * 0.45 + 20, { fadeIn: 0, fadeOut: 0, scale: sc });
   seq(jfx, s, msg.x, msg.y, now, [['04', ms, 240, { fadeIn: 0, scale: sc }], ['05', ms + 200, 420, { layer: 'ground', scale: sc }], ['06', ms + 560, 700, { layer: 'ground', fadeOut: 500, scale: sc }]]);
   return true;
 }
