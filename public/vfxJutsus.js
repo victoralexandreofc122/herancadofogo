@@ -61,6 +61,28 @@ export const jutsuSpritesReady = (base) => (FOGO_BASES.has(base)
   : [1, 2, 3].every((i) => imgs[`${base}_0${i}`]));
 const FOGO_BASES = new Set(Object.keys(FOGO_FRAMES).map((n) => n.replace(/_0\d\w?$/, '')));
 
+/**
+ * v85: PROFUNDIDADE: o que fica em volta do corpo ou nos pés (anéis, escudos, auras, prisões) é desenhado em duas partes:
+ * a de cima do ponto de apoio (o lado de trás) por baixo do boneco, a de baixo (o lado da frente) por cima dele. Sem isso o
+ * anel inteiro ficava na frente (ou inteiro atrás) do ninja. Vale para todos os quadros desses jutsus que estejam na camada
+ * de cima; o que já está no chão continua no chão.
+ */
+export const PROFUNDIDADE = new Set([
+  'fire_coroa', 'heal', 'heal_casca', 'heal_4', 'heal_desintox', 'heal_banho', 'heal_santuario', 'heal_disturbio',
+  'lightning_armadura', 'lightning_fluxo', 'lightning_correntes', 'lightning_maos',
+  'stone', 'stone_4', 'stone_couraca', 'stone_resposta', 'stone_pisao', 'stone_pilares', 'stone_punho',
+  'water_casulo', 'water_2', 'water_onda', 'water_3', 'water_nevoa',
+  'shadow_veu', 'shadow_ciranda', 'shadow_agarre', 'shadow_estrangular', 'shadow_4',
+  'taijutsu_2', 'taijutsu_folego', 'taijutsu_portoes', 'taijutsu_bloqueio',
+  'wind_pulso', 'wind_veu', 'wind_espelho', 'wind_leve', 'wind_olho',
+  'weapons_2', 'weapons_4', 'weapons_polida', 'weapons_laco',
+  // as camadas do PixelFX que ficam em volta de alguém
+  'pfx_cura_corpo', 'pfx_cura_cruzes', 'pfx_raio_faiscas', 'pfx_fogo_brasas', 'pfx_pedra_poeira',
+  // os anéis com altura (chamas, raios, cruzes subindo): a frente deles passa por cima de quem está dentro
+  'pfx_fogo_anel', 'pfx_cura_anel', 'pfx_raio_estalo',
+]);
+const baseDe = (name) => name.replace(/_0\d\w?$/, '');
+
 /** Quadros por segundo da tremida (o mesmo quadro espelhado e balançando, para o fogo não ficar parado). */
 export const FLICKER_FPS = 12;
 
@@ -79,7 +101,11 @@ export class JutsuSprites {
     if (!imgs[name]) return false;
     this.list.push({ name, x, y, start, end: start + ms, angle: opts.angle ?? 0, scale: opts.scale ?? 1, fadeIn: opts.fadeIn ?? 60, fadeOut: opts.fadeOut ?? 120,
       flicker: opts.flicker ?? false, grow: opts.grow ?? 0, layer: opts.layer ?? 'top',
-      len: opts.len ?? 0, follow: opts.follow ?? null, tag: opts.tag ?? null, rate: opts.rate ?? 1, alpha: opts.alpha ?? 1 });
+      len: opts.len ?? 0, follow: opts.follow ?? null, tag: opts.tag ?? null, rate: opts.rate ?? 1, alpha: opts.alpha ?? 1,
+      // v85: split = metade de trás por baixo do boneco; spin = gira (rad/s); pop = entra crescendo (ms);
+      // sombra = mancha no chão (raio em casas) que cresce quando a coisa cai; luz = poça de luz no chão [cor, raio em casas]
+      split: opts.split ?? ((opts.layer ?? 'top') === 'top' && PROFUNDIDADE.has(baseDe(name))), spin: opts.spin ?? 0, pop: opts.pop ?? 0,
+      sombra: opts.sombra ?? 0, luz: opts.luz ?? null });
     return true;
   }
 
@@ -111,14 +137,41 @@ export class JutsuSprites {
     for (const s of this.list) {
       if (now >= s.end) continue;
       this.list[alive++] = s;
-      if (s.layer !== layer || now < s.start) continue;
+      if (now < s.start) continue;
+      const extras = layer === 'ground' && (s.sombra || s.luz);
+      if (s.layer !== layer && !(s.split && (layer === 'ground' || layer === 'top')) && !extras) continue;
       const k = Math.min(1, (now - s.start) / Math.max(1, s.fadeIn), (s.end - now) / Math.max(1, s.fadeOut));
       const life = (now - s.start) / Math.max(1, s.end - s.start);
       // v73: quadro que acompanha alguém (a marca no alvo, a lâmina na mão); sumiu do mapa = o quadro some
       const at = s.follow ? s.follow() : s;
       if (!at) continue;
-      drawSprite(g, s.name, toX(at.x + (s.follow ? s.x : 0)), toY(at.y + (s.follow ? s.y : 0)), T, s.angle, s.scale * (1 + s.grow * life), Math.max(0, k) * s.alpha, s.flicker ? now : 0, s.len,
-        ((now - s.start) * s.rate));
+      const px = toX(at.x + (s.follow ? s.x : 0)), py = toY(at.y + (s.follow ? s.y : 0));
+      const alpha = Math.max(0, k) * s.alpha;
+      if (extras) {   // v85: a sombra e a luz no chão (embaixo de tudo), no pé do desenho
+        const gy = s.follow ? toY(at.y) + 0.42 * T : py;   // os pés de quem a coisa acompanha, ou o próprio ponto
+        if (s.sombra) {
+          const r = s.sombra * T * (0.6 + 0.4 * life);
+          g.save(); g.globalAlpha = 0.32 * alpha * (0.5 + 0.5 * life); g.fillStyle = '#000';
+          g.beginPath(); g.ellipse(px, gy, r, r * 0.45, 0, 0, Math.PI * 2); g.fill(); g.restore();
+        }
+        if (s.luz) {
+          const [cor, raio] = s.luz, r = raio * T;
+          const gr = g.createRadialGradient(px, gy, 0, px, gy, r);
+          gr.addColorStop(0, cor); gr.addColorStop(1, 'rgba(0,0,0,0)');
+          g.save(); g.globalCompositeOperation = 'lighter'; g.globalAlpha = 0.45 * alpha; g.fillStyle = gr;
+          g.beginPath(); g.ellipse(px, gy, r, r * 0.6, 0, 0, Math.PI * 2); g.fill(); g.restore();
+        }
+        if (s.layer !== layer && !s.split) continue;
+      }
+      const pop = s.pop ? 0.7 + 0.3 * Math.min(1, (now - s.start) / s.pop) : 1;
+      const ang = s.angle + (s.spin ? (s.spin * (now - s.start)) / 1000 : 0);
+      if (s.split) {   // v85: a metade de trás (acima do apoio) no chão, por baixo do boneco; a da frente por cima
+        g.save(); g.beginPath();
+        if (layer === 'ground') g.rect(-1e5, -1e5, 2e5, 1e5 + py); else g.rect(-1e5, py, 2e5, 1e5);
+        g.clip();
+      }
+      drawSprite(g, s.name, px, py, T, ang, s.scale * (1 + s.grow * life) * pop, alpha, s.flicker ? now : 0, s.len, ((now - s.start) * s.rate));
+      if (s.split) g.restore();
     }
     this.list.length = alive;
     if (layer !== 'top') return;
