@@ -37,7 +37,7 @@ def fundo(a, corte=45):
     return alfa
 
 
-def fundo_cor(sub, modo='magenta', limiar_m=None, cor=None):
+def fundo_cor(sub, modo='magenta', limiar_m=None, cor=None, escuro=True, claro=True):
     """Fundo de cor lisa (o magenta): a cor dos cantos do painel; o alfa pela distância a ela; a franja sem o tom do fundo."""
     c = 14
     cantos = np.concatenate([sub[:c, :c].reshape(-1, 3), sub[:c, -c:].reshape(-1, 3), sub[-c:, :c].reshape(-1, 3), sub[-c:, -c:].reshape(-1, 3)])
@@ -57,7 +57,9 @@ def fundo_cor(sub, modo='magenta', limiar_m=None, cor=None):
     alfa = np.where(d < 55, 0, alfa)
     # o próprio fundo clareado (brilho branco por cima) ou escurecido (sombra da moldura, vinheta): sai; branco e preto
     # de verdade (faíscas, contornos) ficam
-    for alvo in (255.0, 0.0):
+    if not escuro:   # v80: a arte da Sombra é roxo-escuro: tom escuro longe do fundo fica opaco (não meio transparente)
+        alfa = np.where(f.max(axis=2) < 150, np.maximum(alfa, np.clip((d - 55) / 60.0, 0, 1)), alfa)
+    for alvo in tuple(a for a, ok in ((255.0, claro), (0.0, escuro)) if ok):   # v80: claro=False mantém o clarão lilás
         v0 = alvo - bg
         t0 = ((f - bg) * v0).sum(axis=2) / max(1.0, float((v0 * v0).sum()))
         resto0 = np.sqrt(((f - (bg + np.clip(t0, 0, 1)[..., None] * v0)) ** 2).sum(axis=2))
@@ -201,6 +203,15 @@ def recorta(nome, debug=None):
     a = np.asarray(img).copy()
     for (tx0, ty0, tx1, ty1) in ajuste.get('texto_preto', []):
         a[ty0:ty1, tx0:tx1] = preenche_preto(a[ty0:ty1, tx0:tx1])
+    # v79: fundo pintado dentro do painel (o chão de terra, a grama, o retângulo escuro): a cor vira magenta antes do
+    # recorte. [r, g, b, tolerância] ou [r, g, b, tolerância, x0, y0, x1, y1] (só naquela área da folha)
+    for t in ajuste.get('trocar', []):
+        r0, g0, b0, tol = t[:4]
+        x0, y0, x1, y1 = t[4:8] if len(t) >= 8 else (0, 0, a.shape[1], a.shape[0])
+        reg = a[y0:y1, x0:x1].astype(int)
+        perto = np.sqrt(((reg - np.array([r0, g0, b0])) ** 2).sum(axis=2)) < tol
+        reg[perto] = (255, 0, 255)
+        a[y0:y1, x0:x1] = reg.astype(np.uint8)
     caixas = paineis(a, ajuste)
     px = ajuste.get('pixel', 8)
     quadros = ajuste.get('quadros', list(range(1, len(caixas) + 1)))
@@ -209,9 +220,18 @@ def recorta(nome, debug=None):
     for k, (x0, y0, x1, y1) in zip(quadros, caixas):
         m = ajuste.get('margem', 6)
         sub = a[y0 + m:y1 - m, x0 + m:x1 - m].copy()
+        # v79: o chão pintado no painel que encosta na borda dele vira magenta (o que está dentro do desenho fica):
+        # [r, g, b, tolerância], várias cores se o chão tiver mais de uma (o céu e a grama)
+        if ajuste.get('inundar'):
+            perto = np.zeros(sub.shape[:2], bool)
+            for (r0, g0, b0, tol) in ajuste['inundar']:
+                perto |= np.sqrt(((sub.astype(int) - np.array([r0, g0, b0])) ** 2).sum(axis=2)) < tol
+            lab, n = ndi.label(perto)
+            borda = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))) - {0}
+            sub[np.isin(lab, list(borda))] = (255, 0, 255)
         magenta = ajuste.get('fundo') in ('magenta', 'escuro')
         if magenta:
-            alfa, sub = fundo_cor(sub, ajuste.get('fundo'), ajuste.get('limiar_m'), ajuste.get('cor_fundo'))
+            alfa, sub = fundo_cor(sub, ajuste.get('fundo'), ajuste.get('limiar_m'), ajuste.get('cor_fundo'), not ajuste.get('manter_escuro'), not ajuste.get('manter_claro'))
         else:
             alfa = fundo(sub, ajuste.get('verde', 45))
         if str(k) in ajuste.get('circulo', {}):
@@ -265,6 +285,12 @@ def recorta(nome, debug=None):
         peq = reduz(rgba, px, ajuste.get('alfa_suave', False))
         if peq is None:
             continue
+        # v79: pontinho magenta que sobrou da franja (o chão trocado por magenta na borda do desenho): sai
+        if ajuste.get('inundar') or ajuste.get('limpa_magenta'):
+            pr, pg, pb = peq[..., 0].astype(int), peq[..., 1].astype(int), peq[..., 2].astype(int)
+            peq[..., 3] = np.where((np.minimum(pr, pb) - pg > 60) & (pr > 120), 0, peq[..., 3])
+            if ajuste.get('limpa_verde'):   # a grama/o chão verde que ficou na franja
+                peq[..., 3] = np.where(pg - np.maximum(pr, pb) > 25, 0, peq[..., 3])
         # corte reto (o desenho encostava na borda do painel): desfaz em pixels soltos, como fumaça/chama se abrindo
         lado_frac = ajuste.get('roer', {}).get(str(k))
         if lado_frac:

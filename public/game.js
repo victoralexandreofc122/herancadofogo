@@ -25,8 +25,9 @@ import { FRAGMENTS, FRAGMENT_REACH, SHOP_BARKS, personalize } from './lore.js'; 
 import { pickAnim } from './rig.js';
 import { Predictor, pushSnapshot, quantize, sampleSnapshots } from './prediction.js';
 import { VFXManager, loadVfx, vfxReady } from './vfx.js';
-import { JutsuSprites, jutsuSpritesReady, loadJutsuSprites } from './vfxJutsus.js';
-import { fogoCast, fogoCastStart, fogoDetona, fogoGround, fogoImpact, fogoMarca, fogoProjectileFrame } from './fogoAnim.js';
+import { JutsuSprites, drawJutsuFrame, jutsuSpritesReady, loadJutsuSprites } from './vfxJutsus.js';
+import { fogoBarrier, fogoBarrierEnd, fogoCast, fogoCastStart, fogoDetona, fogoEscudoHit, fogoGolemFim, fogoGround, fogoImpact, fogoMarca, fogoProjectileFrame } from './fogoAnim.js';
+import { folhaEscudoHit, folhaMuro, folhaMuroFim, folhaPronta, summonFrames } from './folhasAnim.js';
 import { camadasCast, camadasCastStart, camadasDetona, camadasGround, camadasImpact, camadasMarca } from './camadasJutsus.js';
 import { AudioManager } from './audio.js';
 import { GROUND_ELEMENT, Particles, elementOf } from './particles.js';
@@ -931,11 +932,12 @@ function handleMessage(msg) {
       const walls = state.maps[state.mapId]?.walls;
       const box = { k: 'iwall', x: msg.x, y: msg.y, w: msg.w, h: msg.h };
       if (walls) walls.push(box);
-      (state.barriers ||= new Map()).set(msg.id, { ...msg, box, map: state.mapId, start: now });
+      (state.barriers ||= new Map()).set(msg.id, { ...msg, box, map: state.mapId, start: now, drawn: fogoBarrier(jfx, msg, now) || folhaMuro(jfx, msg, now) });   // v79: a Muralha de Terra desenhada
       break;
     }
     case 'barrier_end': {
       const b = state.barriers?.get(msg.id);
+      if (b?.drawn) { fogoBarrierEnd(jfx, b, now); folhaMuroFim(jfx, b, now); }   // v79/v80: o muro desmancha
       if (b) {
         const walls = state.maps[b.map]?.walls;
         const k = walls ? walls.indexOf(b.box) : -1;
@@ -1540,6 +1542,7 @@ function handleMessage(msg) {
       const text = heal ? `+${msg.amount}` : `-${msg.amount}${msg.shielded ? ' 🛡' : ''}`;
       addFloater(target.x, target.y - 0.6, text, color, mine || msg.target === 'monster' ? 1.15 : 0.9);
       if (!heal) vfx.play('hit', target.x, target.y - 0.15, { start: now, scale: 0.8 });
+      if (msg.shielded && msg.target === 'player' && !fogoEscudoHit(jfx, msg.id, now, posOf)) folhaEscudoHit(jfx, msg.id, now, posOf);   // v79: a Resposta devolve / o escudo de Pedra quebra
       sfxAt(heal ? 'healed' : 'thud', target.x, target.y, mine ? 1 : 0.75);   // v57
       if (heal) particles.burst('heal', target.x, target.y, 0.8, 0.3);   // v47
       else hitParticles(msg, target, mine);
@@ -1594,6 +1597,8 @@ function handleMessage(msg) {
     case 'monster_died': {
       const m = state.monsters.get(msg.id);
       if (m) { m.diedAt = now; m.hp = 0; if (!isCreature(m)) sfxAt('slime_die', m.x, m.y, 0.9); }   // v58
+      if (m && fogoGolemFim(jfx, m, now)) m.drawnGone = true;   // v79: o Golem desenhado desmancha
+      if (m && summonFrames(m.type)) { m.drawnGone = true; const sf = summonFrames(m.type); if (sf.some) jfx.show(sf.some, m.x, m.y + 0.2, now, 700, { fadeIn: 0, fadeOut: 500, layer: 'ground' }); else jfx.show(sf.parado, m.x, m.y + 0.3, now, 300, { fadeIn: 0, fadeOut: 300, grow: 0.15 }); }   // v80
       if (state.vinculo?.summoned?.includes(msg.id)) { state.vinculo.summoned = state.vinculo.summoned.filter((x) => x !== msg.id); renderVinculo(); }   // v60
       if (state.focusId === msg.id) setFocus(null);
       break;
@@ -3471,10 +3476,12 @@ function drawGround(toScreenX, toScreenY, T, now) {
     if (now > z.end + 300) { state.ground.delete(id); continue; }
     const owner = z.follow ? state.players.get(z.follow) : null;      // v30: zona que anda junto (Aura, Lâminas, Dança)
     const x = toScreenX(owner ? owner.x : z.x), y = toScreenY(owner ? owner.y : z.y), r = z.r * T;
+    if (folhaPronta(z.skill)) continue;   // v80: as zonas e o Punho do Abismo desenhados (folhasAnim.js)
     // v48: zona com desenho próprio (poça, redemoinho, domínio de sombras, santuário, lâminas, cura...)
     if (z.kind !== 'aviso' && ZONE_ART[z.skill] && particles.quality !== 'off'
       && drawZoneArt(ctx, z.skill, x, y, r, T, Math.max(0, Math.min(1, (now - z.start) / Math.max(1, z.end - z.start))), now, seedOf(id))) continue;
     if (z.skill === 'vinculo_aranha' || z.skill === 'vinculo_aranha_aura') { drawWeb(x, y, r, now, z.skill === 'vinculo_aranha_aura'); continue; }   // v60
+    if ((z.skill === 'stone_2' && z.kind !== 'aviso' || z.skill === 'stone_lancas') && jutsuSpritesReady(z.skill)) continue;   // v79: a lama e as lanças desenhadas
     const [fill, edge] = GROUND_COLORS[z.kind] || GROUND_COLORS.fogo;
     ctx.save();
     ctx.beginPath(); ctx.ellipse(x, y, r, r * 0.9, 0, 0, Math.PI * 2);
@@ -7757,7 +7764,7 @@ function updateCamera(dt, me) {
 function drawBarriers(toScreenX, toScreenY, T, now) {
   if (!state.barriers || state.barriers.size === 0) return;
   for (const b of state.barriers.values()) {
-    if (b.map !== state.mapId) continue;
+    if (b.map !== state.mapId || b.drawn) continue;   // v79: a Muralha de Terra desenhada (fogoAnim.js) no lugar dos blocos
     const x = toScreenX(b.x), y = toScreenY(b.y), w = b.w * T, h = b.h * T;
     const k = Math.min(1, (now - b.start) / 180);              // sobe do chão
     ctx.save();
@@ -9197,6 +9204,26 @@ function drawSummon(m, sx, sy, T, now) {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
   ctx.beginPath(); ctx.ellipse(sx, sy + T * 0.3, w * 0.7, T * 0.16 * big, 0, 0, Math.PI * 2); ctx.fill();
   const top = sy + T * 0.3 - h * born - Math.abs(step) * T * 0.05;
+  const sf = summonFrames(kind);
+  if (sf) {
+    // v80: o Duplo de Água e a Sentinela de Sombra desenhados pelo Victor (parado e no golpe)
+    if (m.drawnGone) { ctx.restore(); return; }
+    const frame = punching && pk > 0.2 && pk < 0.85 ? sf.golpe : sf.parado;
+    drawJutsuFrame(ctx, frame, sx + lean * dx, sy + T * 0.32 - Math.abs(step) * T * 0.05, T, { scale: born, flip: face < 0 });
+    ctx.restore();
+    if (m.hp !== undefined && m.maxHp) drawHpBar(sx, sy + T * 0.3 - T * 1.75 * born - 6, w + 6, m.hp / m.maxHp, kind === 'clone_agua' ? '#8fd6ff' : '#b07cff');
+    return;
+  }
+  if (kind === 'golem' && jutsuSpritesReady('stone_golem')) {
+    // v79: o Golem desenhado pelo Victor: parado/andando (quadro 4, balançando no passo) e socando (quadro 5, braços no alto);
+    // ao sumir, o fogoAnim toca o quadro 6 (as pedras soltando)
+    if (m.drawnGone) { ctx.restore(); return; }
+    const frame = punching && pk > 0.2 && pk < 0.85 ? 'stone_golem_05' : 'stone_golem_04';
+    drawJutsuFrame(ctx, frame, sx + lean * dx, sy + T * 0.32 - Math.abs(step) * T * 0.05, T, { scale: born * (1 + (punching ? 0.04 * Math.max(0, reach) : 0)), flip: face < 0 });
+    ctx.restore();
+    if (m.hp !== undefined && m.maxHp) drawHpBar(sx, sy + T * 0.3 - T * 1.75 * born - 6, w + 6, m.hp / m.maxHp, '#c9a678');
+    return;
+  }
   const cx = sx + lean * dx;
   const ink = '#1a120c';
   const box = (x, y, bw, bh, fill, line = ink) => {

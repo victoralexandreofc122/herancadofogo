@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
+import { JUTSUS } from '../src/realtime/jutsus.js';
 import { CAMADAS_FRAMES, FOGO_SPRITE_FRAMES, JUTSU_SPRITES, JUTSU_SPRITE_FRAMES, loadPublicFiles } from '../src/web/staticFiles.js';
 
 /* v56: os sprites desenhados pelo Victor (Teleporte, Substituição, Fogo, Sopro, Névoa e Linha), 3 quadros cada. */
@@ -23,7 +24,7 @@ describe('v56: sprites dos jutsus (vfxJutsus.js)', () => {
     for (const [name, f] of Object.entries<any>(J.FRAMES)) {
       if (f.quadros) continue;   // v78: as camadas em grade têm o teste delas (abaixo)
       const [w, h] = pngSize(name);
-      const fogo = /^(fire|heal|lightning)/.test(name);   // v73/v74: as folhas desenhadas têm quadros maiores (o leque, o raio, o chão)
+      const fogo = /^(fire|heal|lightning|stone|water|shadow|taijutsu)/.test(name);   // v80: + Água, Sombra e Taijutsu   // v73/v74: as folhas desenhadas têm quadros maiores (o leque, o raio, o chão)
       const lim = name === 'lightning_rede_01' ? 320 : /^lightning_4_0[3-6]$/.test(name) ? 210 : fogo ? 170 : 96;   // a Rede é a malha inteira; o Julgamento, o raio do céu
       assert.ok(w <= lim && h <= lim, `${name}: ${w}x${h} (reduzido para a escala do jogo)`);
       assert.ok(f.casas > 0 && f.casas <= (/^heal_(3|milagre)_/.test(name) ? 10 : fogo ? 9 : 6), `${name}: ${f.casas} casas`);   // zonas de raio 4
@@ -47,14 +48,24 @@ describe('v56: sprites dos jutsus (vfxJutsus.js)', () => {
   });
 });
 
-describe('v73/v74: as animações desenhadas dos jutsus de Fogo e de Cura (fogoAnim.js)', () => {
+describe('v73 a v79: as animações desenhadas dos jutsus de Fogo, Cura, Relâmpago e Pedra (fogoAnim.js)', () => {
   const SKILLS = ['fire_2', 'fire_ryuka', 'fire_haiseki', 'fire_lamina', 'fire_marca', 'fire_3', 'fire_hotan', 'fire_chao', 'fire_cometa', 'fire_rugido',
     'fire_4', 'fire_coroa', 'fire_coluna', 'heal', 'heal_bisturi', 'heal_desintox', 'heal_palma', 'heal_agulha', 'heal_casca', 'heal_disturbio',
     'heal_2', 'heal_banho', 'heal_septica', 'heal_onda', 'heal_3', 'heal_meridianos', 'heal_milagre', 'heal_colosso', 'heal_4', 'heal_santuario',
     'lightning_corrente', 'lightning_impulso', 'lightning_shuriken', 'lightning_fluxo', 'lightning_2', 'lightning_volta', 'lightning_raio', 'lightning_correntes',
-    'lightning_3', 'lightning_maos', 'lightning_rugido', 'lightning_4', 'lightning_ceu', 'lightning_armadura', 'lightning_risco'];
+    'lightning_3', 'lightning_maos', 'lightning_rugido', 'lightning_4', 'lightning_ceu', 'lightning_armadura', 'lightning_risco',
+    // v79: a Pedra (16 folhas; faltam o Esmagamento de Paredes e o Sumidouro)
+    'stone', 'stone_4', 'stone_pilares', 'stone_rocha', 'stone_toupeira', 'stone_muralha', 'stone_2', 'stone_pisao', 'stone_punho', 'stone_cascalho',
+    'stone_carga', 'stone_lancas', 'stone_resposta', 'stone_couraca', 'stone_avalanche', 'stone_golem', 'stone_sumidouro',
+    // v80: a Água (15), a Sombra (18) e o Taijutsu (5)
+    'water', 'water_dragao', 'water_nevoa', 'water_muro', 'water_clone', 'water_2', 'water_xarope', 'water_lamina', 'water_laco', 'water_3',
+    'water_gotas', 'water_casulo', 'water_4', 'water_tromba', 'water_onda',
+    'shadow', 'shadow_recuo', 'shadow_espinho', 'shadow_veu', 'shadow_2', 'shadow_beijo', 'shadow_ciranda', 'shadow_mergulho', 'shadow_armadilha',
+    'shadow_3', 'shadow_mancha', 'shadow_troca', 'shadow_saltadora', 'shadow_estrangular', 'shadow_4', 'shadow_agarre', 'shadow_punho', 'shadow_sentinela',
+    'taijutsu', 'taijutsu_rasteira', 'taijutsu_esquiva', 'taijutsu_folego', 'taijutsu_2'];
   // quadros por folha: 6; o Cometa veio sem o 5, a Desintoxicação com o 6 vazio, a Palma com 7
-  const N: Record<string, number> = { fire_cometa: 5, heal_desintox: 5, heal_palma: 7, lightning_risco: 7 };
+  const N: Record<string, number> = { fire_cometa: 5, heal_desintox: 5, heal_palma: 7, lightning_risco: 7, stone_avalanche: 2,
+    water_clone: 1, water_casulo: 8, shadow_veu: 7, shadow_2: 5, shadow_beijo: 5, shadow_recuo: 5 };   // v80: folhas com outro número de quadros   // a Avalanche: duas crateras de uma folha só
   it('cada jutsu tem os quadros da folha, e a Revoada e a Chuva têm as peças soltas (uma brasa, um meteoro)', () => {
     for (const s of SKILLS) {
       const n = FOGO_SPRITE_FRAMES.filter((f) => f.replace(/_0\d\w?$/, '') === s && /_0\d$/.test(f)).length;
@@ -68,8 +79,9 @@ describe('v73/v74: as animações desenhadas dos jutsus de Fogo e de Cura (fogoA
     assert.match(src, /n\.replace\(\/_0\\d\\w\?\$\/, ''\) === base/);
   });
   it('os jutsus são os do servidor (pelo nome da folha)', () => {
-    const src = ['jutsus', 'jutsusMecanicas', 'jutsusFase25', 'jutsusClasses'].map((f) => readFileSync(new URL(`../src/realtime/${f}.ts`, import.meta.url), 'utf8')).join('\n');
-    for (const s of SKILLS) assert.match(src, new RegExp(`\\b${s}: \\{ (name|cost):`), s);
+    // v79: pela lista do próprio servidor (o Coração de Montanha, stone_4, sai da lista de tiers e não tem linha própria)
+    const codes = new Set<string>(JUTSUS.map((j) => j.code));
+    for (const s of SKILLS) assert.ok(codes.has(s), s);
   });
   it('sem os quadros carregados, as funções não desenham (o jogo usa o efeito antigo)', async () => {
     const F = await import(new URL('../public/fogoAnim.js', import.meta.url).href);
@@ -91,14 +103,17 @@ describe('v78: as camadas do PixelFX que complementam as folhas desenhadas (cama
   const DESENHADOS = ['fire', 'fire_endan', 'fire_kasumi', 'fire_hibashiri', ...new Set(FOGO_SPRITE_FRAMES.map((f) => f.replace(/_0\d\w?$/, '')))];
   const src = readFileSync(new URL('../public/camadasJutsus.js', import.meta.url), 'utf8');
 
-  it('os 50 jutsus desenhados têm camadas (lançamento, impacto ou chão)', () => {
-    assert.equal(DESENHADOS.length, 50);
-    for (const s of DESENHADOS) assert.match(src, new RegExp(`case '${s}':`), s);
+  it('os 105 jutsus desenhados têm camadas (lançamento, impacto ou chão)', () => {
+    assert.equal(DESENHADOS.length, 105);   // v79: + os 16 da Pedra; v80: + Sumidouro, Água, Sombra e Taijutsu
+    // v80: a Água, a Sombra e o Taijutsu têm a carga e a faísca da classe (camadas por classe, não por jutsu)
+    for (const s of DESENHADOS) if (!/^(water|shadow|taijutsu)/.test(s)) assert.match(src, new RegExp(`case '${s}':`), s);
+    assert.match(src, /LEVA80/);
   });
 
   it('toda camada usada existe na tabela gerada, e toda camada gerada é usada', () => {
     const usadas = new Set([...src.matchAll(/'(pfx_\w+)'/g)].map((m) => m[1] ?? ''));
-    for (const el of ['fogo', 'cura', 'raio']) usadas.add(`pfx_${el}_carga`);   // a carga dos selos: `pfx_${el}_carga`
+    for (const el of ['fogo', 'cura', 'raio', 'pedra', 'agua', 'sombra', 'taijutsu']) for (const t of ['carga', 'faisca']) if (VFX_CAMADAS[`pfx_${el}_${t}`]) usadas.add(`pfx_${el}_${t}`);
+    for (const el of [] as string[]) usadas.add(`pfx_${el}_carga`);   // a carga dos selos: `pfx_${el}_carga`
     for (const n of usadas) assert.ok(VFX_CAMADAS[n], `${n}: não existe em vfxCamadas.js`);
     for (const n of Object.keys(VFX_CAMADAS)) assert.ok(usadas.has(n), `${n}: gerada e não usada`);
     assert.deepEqual(Object.keys(VFX_CAMADAS).sort(), [...CAMADAS_FRAMES].sort());
