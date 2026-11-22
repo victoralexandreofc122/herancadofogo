@@ -21,7 +21,7 @@ function seq(jfx, base, x, y, now, steps, common = {}) {
 }
 /** Os quadros um depois do outro (cada um `ms`), o último fica mais e apaga devagar. */
 function corrida(fs, t0, ms, fim = 500, extra = {}) {
-  return fs.map((n, i) => [n, t0 + i * ms * 0.9, i === fs.length - 1 ? fim : ms + 30, i === fs.length - 1 ? { ...extra, fadeOut: fim * 0.65 } : extra]);
+  return fs.map((n, i) => [n, t0 + i * ms * 0.9, i === fs.length - 1 ? fim : ms + 30, i === fs.length - 1 ? { ...extra, fadeOut: fim * 0.65 } : i === 0 ? { pop: 90, ...extra } : extra]);   // v85: o 1º entra crescendo
 }
 /** Entra (intro), repete o meio (laço) até `ms` e sai (fim): zonas, escudos e buffs. */
 function laco(intro, meio, fim, ms, passo = 360) {
@@ -39,9 +39,9 @@ function laco(intro, meio, fim, ms, passo = 360) {
  *   proj: sai/voa/bate · linha: mão → alvo · rastro: investida ou recuo · alvo: em cima do alvo · cone · invoca · muro
  */
 const TIPO = {
-  stone_sumidouro: { t: 'zona', chao: true, intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
+  stone_sumidouro: { t: 'zona', gira: 0.8, chao: true, intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
   water_xarope: { t: 'zona', chao: true, intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
-  water_4: { t: 'zona', chao: true, intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
+  water_4: { t: 'zona', gira: 1.2, chao: true, intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
   water_nevoa: { t: 'zona', intro: ['01', '02'], meio: ['03', '04'], fim: ['05'] },
   shadow_armadilha: { t: 'zona', chao: true, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   shadow_4: { t: 'zona', chao: true, intro: ['01', '02'], meio: ['03', '05'], fim: ['04', '06'] },
@@ -82,7 +82,7 @@ const TIPO = {
   wind_salto: { t: 'rastro', saida: ['01', '02'], estica: ['03', '04'], chegada: ['05'], chao: ['06'] },
   wind_shuriken: { t: 'proj', sai: ['01', '02'], voa: '03', bate: ['05', '06'] },
   wind_2: { t: 'proj', sai: ['01', '02', '03'], gira: true, voa: '04b', bate: ['05b', '06b'] },
-  wind_veu: { t: 'corpo', escudo: true, intro: ['02', '03'], meio: ['04', '05'], fim: ['06'] },
+  wind_veu: { t: 'corpo', gira: 1.5, escudo: true, intro: ['02', '03'], meio: ['04', '05'], fim: ['06'] },
   wind_espelho: { t: 'corpo', escudo: true, dur: 'reflectMs', intro: ['02', '03'], meio: ['03', '04'], fim: ['05', '06'] },
   wind_arco: { t: 'lamina', fixo: true },
   wind_leve: { t: 'corpo', chao: true, intro: ['01', '02', '03'], meio: ['03', '05'], fim: ['04', '06'] },
@@ -90,7 +90,7 @@ const TIPO = {
   wind_3: { t: 'aviso', avisa: ['01', '02'], cai: ['03', '04'], bate: ['05', '06'] },
   wind_asa: { t: 'rastro', saida: ['01', '02'], voa: '03', estica: [], chegada: ['05', '06'] },
   // v82: o resto do Vento e as Armas
-  wind_vortice: { t: 'zona', chao: true, intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
+  wind_vortice: { t: 'zona', gira: 1.6, chao: true, intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
   wind_cadeia: { t: 'entre', mao: ['01'] },
   wind_4: { t: 'proj', sai: ['01', '02'], voa: '04', bate: ['05', '06'] },
   wind_fenda: { t: 'ao_longo', fr: [['01', 0], ['02', 0.25], ['04', 0.45], ['03', 0.65], ['05', 0.8], ['06', 0.85]] },
@@ -99,7 +99,7 @@ const TIPO = {
   weapons_corte: { t: 'linha', mao: ['01'], estica: ['02', '03', '04'], fimLinha: ['05'] },
   weapons_pregos: { t: 'zona', chao: true, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   weapons_peconha: { t: 'proj', sai: ['01', '02'], voa: '03', bate: ['05b', '06'] },
-  weapons_2: { t: 'zona', intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
+  weapons_2: { t: 'zona', gira: 2.5, intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
   weapons_gigante: { t: 'proj', sai: ['01', '02'], voa: '03', bate: ['02'] },
   weapons_serrilhada: { t: 'proj', sai: ['01', '02'], voa: '03', bate: ['05', '06'] },
   weapons_polida: { t: 'corpo', mao: true, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
@@ -107,8 +107,8 @@ const TIPO = {
   weapons_3: { t: 'rastro', saida: ['01', '02'], estica: ['03', '04'], chegada: ['05', '06'] },
   weapons_kunai: { t: 'aviso', ref: '05', avisa: ['01', '02'], cai: ['03'], bate: ['04', '05', '06'] },
   // v83: as Armas completas
-  weapons_4: { t: 'zona', intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
-  weapons_dragoes: { t: 'aviso', unico: true, avisa: ['01'], cai: ['02', '03', '04'], bate: ['05', '06'] },
+  weapons_4: { t: 'zona', gira: 3, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  weapons_dragoes: { t: 'aviso', unico: true, avisa: ['01'], cai: ['02', '03', '04'], bate: ['05', '06'], bateEscala: 0.7 },   // as lâminas passavam 57% da área
   weapons_ceu: { t: 'chuva' },
   weapons_laco: { t: 'corrente' },
   weapons_arsenal: { t: 'invoca', circulo: '01' },
@@ -117,7 +117,7 @@ const TIPO = {
   taijutsu_pressao: { t: 'proj', sai: ['01', '02'], voa: '03', bate: ['05'] },
   taijutsu_bloqueio: { t: 'escudo', curto: true, monta: ['01'], quebra: ['01'] },
   taijutsu_ascendente: { t: 'rastro', saida: ['01'], estica: [], chegada: ['02', '03', '04', '05', '06'] },
-  wind_olho: { t: 'corpo', escudo: true, intro: ['01', '02', '03'], meio: ['04', '05'], fim: [], golpe: ['07', '08'] },   // o 06 tem duas espirais cortadas pela divisória da folha
+  wind_olho: { t: 'corpo', gira: 2, escudo: true, intro: ['01', '02', '03'], meio: ['04', '05'], fim: [], golpe: ['07', '08'] },   // o 06 tem duas espirais cortadas pela divisória da folha
 };
 /** Avisos que vêm em ondas no mesmo lugar (a Ascensão Dupla): o desenho toca uma vez só. */
 const ONDA = new Map();
@@ -160,7 +160,7 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       // escudo: em volta do corpo; pes: a aura sobe dos pés (o apoio é a base do desenho); chao: o redemoinho deitado no chão
       const y = k.escudo ? -0.5 : k.pes ? 0.32 : k.chao ? 0.15 : -0.35;
       const extra = k.escudo || k.pes ? {} : k.chao ? { layer: 'ground' } : k.mao ? {} : { scale: 1.1, alpha: 0.85 };
-      seq(jfx, s, k.mao ? msg.fx * 0.4 : 0, k.mao ? -0.35 : y, now, laco(k.intro, k.meio, k.fim, dur), { ...me, tag, ...extra });
+      seq(jfx, s, k.mao ? msg.fx * 0.4 : 0, k.mao ? -0.35 : y, now, laco(k.intro, k.meio, k.fim, dur), { ...me, tag, spin: k.gira ?? 0, ...extra });
       return true;
     }
     case 'escudo': {
@@ -333,7 +333,7 @@ export function folhaChao(jfx, msg, now, follow = () => null) {
     const sc = (2 * r) / largura(s, k.meio[0] ?? fs[2]);
     const o = msg.follow ? { follow: () => follow(msg.follow) } : {};
     const x0 = msg.follow ? 0 : msg.x, y0 = msg.follow ? 0 : msg.y;
-    seq(jfx, s, x0, y0, now, laco(k.intro, k.meio, k.fim, ms), { ...o, scale: sc, tag: `zona:${msg.id}`, ...(k.chao ? { layer: 'ground' } : {}) });
+    seq(jfx, s, x0, y0, now, laco(k.intro, k.meio, k.fim, ms), { ...o, scale: sc, tag: `zona:${msg.id}`, spin: k.gira ?? 0, ...(k.chao ? { layer: 'ground' } : {}) });
     return true;
   }
   if (k.t === 'chuva') return msg.kind === 'aviso';   // o desenho veio no lançamento
@@ -353,7 +353,10 @@ export function folhaChao(jfx, msg, now, follow = () => null) {
     k.avisa.slice(1).forEach((f, i) => st.push([f, ms * (0.45 + i * 0.1), ms * 0.55 - i * ms * 0.1, { layer: 'ground' }]));
     const queda = Math.min(360, ms * 0.6);
     k.cai.forEach((f, i) => st.push([f, ms - queda + (i * queda) / k.cai.length, queda / k.cai.length + 40]));
-    k.bate.forEach((f, i) => st.push([f, ms + i * 300, i === k.bate.length - 1 ? 900 : 340, i === k.bate.length - 1 ? { fadeOut: 600 } : {}]));
+    // v85: a sombra do que cai cresce no chão até o impacto
+    jfx.marca(msg.x, msg.y, now + ms - queda - 120, queda + 160, { sombra: r * 0.45, fadeIn: 120, fadeOut: 60 });
+    const be = k.bateEscala ? { scale: sc * k.bateEscala } : {};
+    k.bate.forEach((f, i) => st.push([f, ms + i * 300, i === k.bate.length - 1 ? 900 : 340, i === k.bate.length - 1 ? { fadeOut: 600, ...be } : be]));
     seq(jfx, s, msg.x, msg.y, now, st, { scale: sc });
     return true;
   }

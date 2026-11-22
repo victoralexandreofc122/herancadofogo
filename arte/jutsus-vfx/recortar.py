@@ -332,6 +332,10 @@ def ancora_de(img, regra):
     H, W = a.shape
     if isinstance(regra, list):
         return regra
+    if regra == 'massa':       # v85: o centro de massa do desenho (anéis e auras: o quadro não pula entre um e outro)
+        al = np.asarray(img)[..., 3].astype(float)
+        yy, xx = np.mgrid[0:H, 0:W]
+        return [int(round((xx * al).sum() / al.sum())), int(round((yy * al).sum() / al.sum()))]
     if regra == 'base':        # ponta de baixo (o leque e o raio saem da mão)
         return [int(np.median(xs[ys >= ys.max() - 2])), H]
     if regra == 'topo':

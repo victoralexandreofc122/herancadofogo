@@ -81,6 +81,9 @@ export const PROFUNDIDADE = new Set([
   // os anéis com altura (chamas, raios, cruzes subindo): a frente deles passa por cima de quem está dentro
   'pfx_fogo_anel', 'pfx_cura_anel', 'pfx_raio_estalo',
 ]);
+/** v85: as bolhas e escudos em volta do corpo: a metade da frente translúcida (o ninja aparece dentro, como num vidro). */
+const FRENTE = { water_casulo: 0.5, heal_casca: 0.55, stone_4: 0.6, stone: 0.65, stone_couraca: 0.6, wind_veu: 0.55, wind_espelho: 0.5,
+  wind_olho: 0.55, shadow_veu: 0.55, water_3: 0.55, lightning_armadura: 0.8, taijutsu_bloqueio: 0.7 };
 const baseDe = (name) => name.replace(/_0\d\w?$/, '');
 
 /** Quadros por segundo da tremida (o mesmo quadro espelhado e balançando, para o fogo não ficar parado). */
@@ -99,6 +102,8 @@ export class JutsuSprites {
   /** Toca um quadro em (x, y) (casas) de `start` até `start + ms`. */
   show(name, x, y, start, ms, opts = {}) {
     if (!imgs[name]) return false;
+    // v85: auditoria (arte/jutsus-vfx/auditar.ts): o tamanho desenhado de cada quadro, para comparar com a área do servidor
+    if (globalThis.__jfxLog) globalThis.__jfxLog.push({ name, x, y, scale: opts.scale ?? 1, grow: opts.grow ?? 0, len: opts.len ?? 0, casas: FRAMES[name]?.casas ?? 0, eixo: !!FRAMES[name]?.eixoPx, arte: FRAMES[name]?.arte !== undefined, follow: !!opts.follow, layer: opts.layer ?? 'top' });
     this.list.push({ name, x, y, start, end: start + ms, angle: opts.angle ?? 0, scale: opts.scale ?? 1, fadeIn: opts.fadeIn ?? 60, fadeOut: opts.fadeOut ?? 120,
       flicker: opts.flicker ?? false, grow: opts.grow ?? 0, layer: opts.layer ?? 'top',
       len: opts.len ?? 0, follow: opts.follow ?? null, tag: opts.tag ?? null, rate: opts.rate ?? 1, alpha: opts.alpha ?? 1,
@@ -118,6 +123,13 @@ export class JutsuSprites {
     if (!f?.quadros) return false;
     const natural = (f.quadros * f.ms) / (opts.rate ?? 1);
     return this.show(name, x, y, start, opts.ms ?? (f.laco ? 1000 : natural), { fadeIn: 0, fadeOut: f.laco ? 250 : Math.min(400, natural * 0.3), ...opts });   // o fim cortado (ate) apaga suave
+  }
+
+  /** v85: só a sombra e/ou a luz no chão em (x, y), sem desenho por cima (o meteoro que vem do céu, o clarão da explosão). */
+  marca(x, y, start, ms, { sombra = 0, luz = null, tag = null, fadeIn = 80, fadeOut = 200 } = {}) {
+    this.list.push({ name: null, x, y, start, end: start + ms, angle: 0, scale: 1, fadeIn, fadeOut, flicker: false, grow: 0, layer: 'ground',
+      len: 0, follow: null, tag, rate: 1, alpha: 1, split: false, spin: 0, pop: 0, sombra, luz });
+    return true;
   }
 
   /** v73: tira os quadros de uma etiqueta (a marca que detonou antes da hora, o buff que acabou). */
@@ -170,7 +182,8 @@ export class JutsuSprites {
         if (layer === 'ground') g.rect(-1e5, -1e5, 2e5, 1e5 + py); else g.rect(-1e5, py, 2e5, 1e5);
         g.clip();
       }
-      drawSprite(g, s.name, px, py, T, ang, s.scale * (1 + s.grow * life) * pop, alpha, s.flicker ? now : 0, s.len, ((now - s.start) * s.rate));
+      const fr = s.split && layer === 'top' ? FRENTE[baseDe(s.name)] ?? 1 : 1;   // a frente das bolhas, translúcida
+      drawSprite(g, s.name, px, py, T, ang, s.scale * (1 + s.grow * life) * pop, alpha * fr, s.flicker ? now : 0, s.len, ((now - s.start) * s.rate));
       if (s.split) g.restore();
     }
     this.list.length = alive;

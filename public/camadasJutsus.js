@@ -104,6 +104,7 @@ export function camadasCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => 
       return L('pfx_fogo_faisca', lineEnd.tx, lineEnd.ty, 470, { angle });
     }
     case 'fire_coroa': {   // Coroa de Chamas: o anel de fogo corre no chão até a borda e as brasas ficam
+      jfx.marca(msg.x, msg.y + 0.1, now + 280, 1100, { luz: ['#ff7a20', (info.radius ?? 3.5) * 1.1], fadeIn: 120, fadeOut: 600 });   // v85: a luz do fogo no chão
       const r = info.radius ?? 3.5;
       L('pfx_fogo_anel', msg.x, msg.y + 0.1, 200, { scale: r / R.anelFogo, rate: 1.25 });
       for (let i = 0; i < 6; i++) {
@@ -287,6 +288,7 @@ export function camadasImpact(jfx, msg, skill, now, dir = null) {
     case 'fire':
     case 'fire_hotan': {   // Fogo e Projétil Dracônico: o anel de fogo corre no chão do tamanho da explosão, poeira e brasas
       const r = msg.r > 0 ? msg.r : 1;
+      jfx.marca(msg.x, msg.y + 0.2, now, 600, { luz: ['#ff8a2a', r * 1.4], fadeIn: 20, fadeOut: 450 });   // v85: o clarão da explosão no chão
       L('pfx_fogo_anel', msg.x, msg.y + 0.3, 0, { scale: r / R.anelFogo, rate: 1.4 });
       if (skill === 'fire_hotan') L('pfx_poeira', msg.x, msg.y + 0.3, 40, { scale: (r * 1.1) / R.poeira, alpha: 0.85 });
       return L('pfx_fogo_brasas', msg.x, msg.y + 0.3, 300, { ms: 1100, scale: Math.max(1, r / 1.4) });
@@ -333,6 +335,7 @@ export function camadasGround(jfx, msg, now, follow = () => null) {
     }
     case 'fire_coluna':   // Coluna Infernal: brasas juntando no aviso; no fim a coluna de fogo do PixelFX sobe com a dele
       if (!aviso) return false;
+      jfx.marca(msg.x, msg.y, now + ms, 1200, { luz: ['#ff7a20', r * 1.3], fadeIn: 60, fadeOut: 700 });   // v85: a coluna ilumina o chão
       L('pfx_fogo_brasas', msg.x, msg.y, ms * 0.35, { ms: ms * 0.65, scale: (r * 0.5) / R.brasas, layer: 'ground', fadeIn: 200 });
       L('pfx_fogo_pilar', msg.x, msg.y, ms - 500, { scale: r / 2.6, rate: 1.4 });   // o pilar do PixelFX leva 0,55 s para irromper
       return L('pfx_fogo_anel', msg.x, msg.y, ms, { scale: r / R.anelFogo, rate: 1.4 });
@@ -377,6 +380,7 @@ export function camadasGround(jfx, msg, now, follow = () => null) {
       return L('pfx_pedra_chao', msg.x, msg.y, ms, { scale: (r * 1.2) / R.chao });
     case 'lightning_4':   // Julgamento do Trovão: o raio cai e o trovão estoura na área toda, com poeira
       if (!aviso) return false;
+      jfx.marca(msg.x, msg.y, now + ms, 500, { luz: ['#9ad8ff', r * 1.2], fadeIn: 10, fadeOut: 400 });   // v85: o clarão do raio
       L('pfx_raio_estalo', msg.x, msg.y + 0.1, ms + 40, { scale: r / R.estalo });
       return L('pfx_poeira', msg.x, msg.y + 0.1, ms + 80, { scale: (r * 0.9) / R.poeira, alpha: 0.75 });
     case 'lightning_ceu':   // Céu em Fúria: cada raio que cai estala no chão
