@@ -33,6 +33,8 @@ CLASSES = {
 }
 
 ESTILO = (
+    'At the very top of the image, above the row of panels, a title band with the name {titulo} written in large, '
+    'clear, easy-to-read white letters with a dark outline; the title stays outside the panels. '
     'Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, '
     'chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. '
     'One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label '
@@ -69,16 +71,16 @@ FORMAS = {
         'the last particles and a faint mark on the ground fading',
     ], 'F1 e F2 durante o aviso, F3 e F4 no golpe, F5 e F6 depois. A largura do impacto casa com o círculo do aviso.'),
     'linha': ('Linha reta', [
-        'a small charge of {fx} at the left side of the panel',
-        '{fx} extends to the right, reaching the middle of the panel',
-        '{fx} reaches the right side, a straight horizontal line at the vertical middle of the panel',
+        'a small charge of {fx} at {ini} of the panel',
+        '{fx} extends {para}, reaching the middle of the panel',
+        '{fx} reaches {fim} of the panel, a straight {eixo} line through the middle of the panel',
         'the full line at its brightest, the same height and position as F3',
         'the line thins out, the same position',
         'the last sparks along the line fading',
-    ], 'A arte aponta para a direita; o jogo gira para a direção do golpe e estica até o alcance.'),
+    ], 'A arte aponta para a direita; o jogo gira para a direção do golpe e estica até o alcance (com folha para baixo e para cima, usa elas nessas direções).'),
     'projetil': ('Projétil', [
         'a launch flash at the center: {fx} appears',
-        '{fx} flying, centered in the panel (loop frame A)',
+        '{fx} flying {para}, centered in the panel (loop frame A)',
         'the same projectile, centered, with small changes (loop frame B)',
         'the same projectile, centered, with other small changes (loop frame C)',
         'the impact burst where it hits, centered',
@@ -102,7 +104,7 @@ FORMAS = {
     ], 'F3 e F4 em laço enquanto dura. A metade de trás fica atrás do boneco e a da frente por cima (profundidade).'),
     'recuo': ('Salto ou deslize', [
         'a burst of {fx} at the starting point, centered',
-        'motion streaks of {fx} stretched horizontally across the panel',
+        'motion streaks of {fx} stretched {para} across the panel',
         'thinner streaks, the same height as F2',
         'an arrival burst of {fx}, centered, the same size as F1',
         'the burst opening into small particles',
@@ -118,10 +120,10 @@ FORMAS = {
     ], 'F1 na saída, F2 e F3 no caminho, F4 a F6 no alvo.'),
     'invocacao': ('Invocação', [
         'a summoning circle on the ground and {fx} rising from it',
-        '{fx} standing, idle pose, facing the viewer and slightly to the right',
-        '{fx} walking, step A, facing right',
-        '{fx} walking, step B, facing right',
-        '{fx} attacking to the right',
+        '{fx} standing, idle pose, {olhar}',
+        '{fx} walking, step A, {olhar}',
+        '{fx} walking, step B, {olhar}',
+        '{fx} attacking {para}, {olhar}',
         '{fx} dissolving into particles',
     ], 'F1 ao surgir, F2 parado, F3 e F4 andando (laço), F5 no golpe, F6 ao sumir. A criatura fica com os pés no mesmo ponto em todos os quadros.'),
     'transformacao': ('Transformação', [
@@ -129,9 +131,17 @@ FORMAS = {
         '{fx} at full size around the empty center, seen from the 3/4 view',
         'the same form (loop frame A)',
         'the same form with small changes (loop frame B)',
-        'the final wave of {fx} launched forward to the right',
+        'the final wave of {fx} launched forward, {para}',
         'the wave fading',
     ], 'F1 e F2 ao virar, F3 e F4 em laço por 5 s, F5 e F6 na onda do fim.'),
+    'muro': ('Muro', [
+        'a {eixo} crack line on the ground through the middle of the panel',
+        'a {eixo} wall of {fx} rising halfway out of the ground',
+        'the full {eixo} wall of {fx}, standing tall (loop frame A)',
+        'the same wall with small changes (loop frame B)',
+        'the same wall with cracks, the moment it is hit',
+        'the wall crumbling down into pieces',
+    ], 'O muro sobe no eixo da parede: deitado (de lado a lado) usa a folha base, em pé (de cima a baixo) usa a vertical.'),
     'meteoros': ('Golpes que caem', [
         'a small warning mark on the ground at the center',
         'one {fx} falling from high above the mark',
@@ -291,11 +301,35 @@ QUADROS = [
 ]
 
 
-def prompt(nome_en, classe, molde, fx, fundo=None, extra=''):
+# v86: as direções. A folha base aponta para a direita (o jogo espelha para a esquerda); o que tem volume ganha também
+# a folha para baixo (de frente para a câmera) e para cima (de costas), que o jogo usa no lugar de deitar a arte de lado.
+DIR = {
+    'direita': {'ini': 'the left side', 'fim': 'the right side', 'eixo': 'horizontal', 'para': 'to the right',
+                'olhar': 'facing right (side view)', 'sufixo': '', 'arquivo': ''},
+    'vertical': {'ini': 'the top', 'fim': 'the bottom', 'eixo': 'vertical', 'para': 'down toward the bottom of the panel',
+                 'olhar': 'facing the viewer', 'sufixo': ' (vertical)', 'arquivo': '_baixo'},
+    'baixo': {'ini': 'the top', 'fim': 'the bottom', 'eixo': 'vertical', 'para': 'down toward the bottom of the panel',
+              'olhar': 'facing the viewer (front view, moving down the screen)', 'sufixo': ' (para baixo)', 'arquivo': '_baixo'},
+    'cima': {'ini': 'the bottom', 'fim': 'the top', 'eixo': 'vertical', 'para': 'up toward the top of the panel',
+             'olhar': 'with its back to the viewer (back view, moving up the screen)', 'sufixo': ' (para cima)', 'arquivo': '_cima'},
+}
+FRASE_DIR = {
+    'vertical': 'This sheet is the VERTICAL version: the wall runs from the top of each panel to the bottom, seen from above '
+                'at the 3/4 view, so its long side face shows and its thin end faces the viewer, with the same size, colors '
+                'and style as the horizontal version.',
+    'baixo': 'This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, '
+             'seen from above with its front facing the viewer, with the same size, colors and style as the version going right.',
+    'cima': 'This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, '
+            'seen from above and from behind, with the same size, colors and style as the version going right.',
+}
+
+
+def prompt(nome_en, classe, molde, fx, fundo=None, extra='', direcao='direita'):
     _, pal, fundo_padrao = CLASSES[classe]
     fundo = fundo or fundo_padrao
     _, quadros, _ = FORMAS[molde]
-    linhas = [ESTILO.format(fundo=COR_FUNDO[fundo])]
+    d = DIR[direcao]
+    linhas = [ESTILO.format(fundo=COR_FUNDO[fundo], titulo='"' + nome_en + d['sufixo'] + '"')]
     linhas.append(f'The jutsu "{nome_en}": {fx}. Palette: {pal}. The sheet shows only the jutsu effect; '
                   'the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.'
                   if molde in ('corpo', 'transformacao', 'alvo') else
@@ -303,34 +337,95 @@ def prompt(nome_en, classe, molde, fx, fundo=None, extra=''):
     if molde == 'invocacao':
         linhas[-1] = (f'The summon "{nome_en}": {fx}. Palette: {pal}. The creature keeps its feet on the same ground point '
                       'in every panel and keeps the same size in every panel.')
+    if direcao in FRASE_DIR:
+        linhas.append(FRASE_DIR[direcao])
     for i, q in enumerate(quadros, 1):
-        linhas.append(f'F{i}: ' + q.format(fx=fx) + '.')
+        linhas.append(f'F{i}: ' + q.format(fx=fx, **d) + '.')
     if extra:
         linhas.append(extra)
     return '\n'.join(linhas)
 
 
+# v86: o que tem volume (objeto, criatura, chama que sobe) e anda numa direção: folhas para baixo e para cima também
+DIRECOES = {
+    'illusion_estaca': ['baixo', 'cima'], 'illusion_olho': ['baixo', 'cima'], 'illusion_ninar': ['baixo', 'cima'],
+    'rubro_chamas': ['baixo', 'cima'], 'aspide_cuspe': ['baixo', 'cima'], 'aspide_ninho': ['baixo', 'cima'],
+    'garra_matilha': ['baixo', 'cima'], 'garra_rei': ['baixo', 'cima'],
+    'weapons_arsenal': ['baixo', 'cima'], 'water_clone': ['baixo', 'cima'],
+}
+
+
+def folhas(code, nome, classe, molde, fx, fundo=None, base=True, extra=''):
+    """As folhas a gerar: a base (para a direita) e as das direções que o jutsu pede."""
+    lista = ['direita'] if base else []
+    lista += DIRECOES.get(code, [])
+    return [{'titulo': nome + DIR[d]['sufixo'], 'arquivo': code + DIR[d]['arquivo'],
+             'prompt': prompt(nome, classe, molde, fx, fundo, extra, d)} for d in lista]
+
+
+def quadros_de(molde, fx):
+    return [q.format(fx=fx, **DIR['direita']) for q in FORMAS[molde][1]]
+
+
 def item_falta(t):
     code, nome, forma, molde, texto, fx, classe, nota = t
-    titulo, quadros, toca = FORMAS[molde]
+    titulo, _, toca = FORMAS[molde]
     fundo = CLASSES[classe][2]
     return {
         'id': code, 'grupo': 'falta', 'nome': nome, 'classe': CLASSES[classe][0], 'forma': forma,
         'molde': titulo, 'descricao': texto, 'fundo': 'verde' if fundo == VERDE else 'magenta',
-        'quadros': [q.format(fx=fx) for q in quadros], 'comoToca': toca, 'nota': nota,
-        'prompt': prompt(nome, classe, molde, fx),
+        'quadros': quadros_de(molde, fx), 'comoToca': toca, 'nota': nota,
+        'folhas': folhas(code, nome, classe, molde, fx),
     }
 
 
 def item_ajuste(t):
     code, nome, classe, grupo, problema, pedido, molde, fx, fundo = t
-    titulo, quadros, toca = FORMAS[molde]
+    titulo, _, toca = FORMAS[molde]
     return {
         'id': code, 'grupo': grupo, 'nome': nome, 'classe': CLASSES[classe][0],
         'forma': molde, 'molde': titulo, 'descricao': problema, 'pedido': pedido,
-        'fundo': 'verde' if fundo == VERDE else 'magenta', 'quadros': [q.format(fx=fx) for q in quadros],
+        'fundo': 'verde' if fundo == VERDE else 'magenta', 'quadros': quadros_de(molde, fx),
         'comoToca': toca, 'nota': '',
-        'prompt': prompt(nome, classe, molde, fx, fundo),
+        'folhas': folhas(code, nome, classe, molde, fx, fundo),
+    }
+
+
+# v86: folhas já feitas que o jogo deita de lado quando o golpe vai para baixo ou para cima
+# (id, nome, classe, molde, efeito, fundo, direções, o que acontece hoje, nota)
+DIRECOES_FEITAS = [
+    ('fire_hotan', 'Projétil Dracônico', 'fire', 'projetil', 'a large fire dragon head with a short flame body trail', VERDE, ['baixo', 'cima'],
+     'A cabeça do dragão foi desenhada de lado; indo para baixo ou para cima, o jogo deita ela de lado.', ''),
+    ('water_dragao', 'Serpente d’Água', 'water', 'linha', 'a water serpent with a dragon head', VERDE, ['baixo'],
+     'A serpente foi desenhada subindo; indo para baixo, o jogo vira ela de cabeça para baixo.', 'Só falta a folha para baixo (a de cima é a que já existe).'),
+    ('fire_rugido', 'Rugido da Fornalha', 'fire', 'linha', 'a roaring column of fire with rising flames', VERDE, ['baixo'],
+     'A coluna foi desenhada subindo; indo para baixo, as chamas ficam de ponta-cabeça.', 'Só falta a folha para baixo.'),
+    ('shadow_saltadora', 'Sombra Saltadora', 'shadow', 'linha', 'dark shadow spikes bursting up out of the ground one after another', VERDE, ['baixo', 'cima'],
+     'As pontas saem do chão para o alto; indo para baixo ou para cima, ficam deitadas de lado.', ''),
+    ('wind_asa', 'Asa Cortante', 'wind', 'projetil', 'a bird made of cutting wind with open wings', MAGENTA, ['baixo', 'cima'],
+     'A ave foi desenhada de lado; indo para baixo ou para cima, voa de lado.', ''),
+    ('stone_muralha', 'Muralha de Terra', 'stone', 'muro', 'thick earth and rock', VERDE, ['vertical'],
+     'O muro foi desenhado de lado a lado; quando a parede fica de cima a baixo, o jogo deita o desenho.', 'Uma folha só (vertical) serve para cima e para baixo.'),
+    ('water_muro', 'Muro de Água', 'water', 'muro', 'a standing wave of water', VERDE, ['vertical'],
+     'Igual à Muralha de Terra: na vertical, o desenho fica deitado.', 'Uma folha só (vertical).'),
+    ('stone_golem', 'Golem de Terra Titânico', 'stone', 'invocacao', 'one rock golem', VERDE, ['baixo', 'cima'],
+     'O Golem só tem o desenho de lado; andando para baixo ou para cima, continua de lado.', 'No jogo: F2 parado, F3/F4 andando, F5 o soco.'),
+    ('shadow_sentinela', 'Sentinela de Sombra', 'shadow', 'invocacao', 'one shadow sentinel warrior', VERDE, ['baixo', 'cima'],
+     'A Sentinela só tem o desenho de lado.', ''),
+]
+CLASSES['shadow'] = ('Sombra', 'deep purple and black shadow, with magenta-violet highlights and a black outline', VERDE)
+
+
+def item_direcao(t):
+    code, nome, classe, molde, fx, fundo, dirs, problema, nota = t
+    titulo, _, toca = FORMAS[molde]
+    lista = [{'titulo': nome + DIR[d]['sufixo'], 'arquivo': code + DIR[d]['arquivo'],
+              'prompt': prompt(nome, classe, molde, fx, fundo, '', d)} for d in dirs]
+    return {
+        'id': code + '_dir', 'grupo': 'direcoes', 'nome': nome, 'classe': CLASSES[classe][0], 'forma': molde,
+        'molde': titulo, 'descricao': problema, 'pedido': 'Folhas: ' + ', '.join(f['titulo'] for f in lista) + '.',
+        'fundo': 'verde' if fundo == VERDE else 'magenta', 'quadros': quadros_de(molde, fx), 'comoToca': toca,
+        'nota': nota, 'folhas': lista,
     }
 
 
@@ -353,15 +448,17 @@ def auditoria():
 
 
 def main():
-    itens = [item_falta(t) for t in FALTAM] + [item_ajuste(t) for t in REFAZER + QUADROS]
+    itens = ([item_falta(t) for t in FALTAM] + [item_ajuste(t) for t in REFAZER + QUADROS]
+             + [item_direcao(t) for t in DIRECOES_FEITAS])
     with open(os.path.join(AQUI, 'pendencias.json'), 'w', encoding='utf-8') as f:
         json.dump({'gerado': '2026-11-22', 'itens': itens, 'auditoria': auditoria()}, f, ensure_ascii=False, separators=(',', ':'))
         f.write('\n')
-    nomes = {'falta': 'Faltam (folha nova)', 'refazer': 'Refazer', 'quadros': 'Mais quadros', 'opcional': 'Opcional'}
+    nomes = {'falta': 'Faltam (folha nova)', 'refazer': 'Refazer', 'quadros': 'Mais quadros',
+             'direcoes': 'Direções (para baixo e para cima)', 'opcional': 'Opcional'}
     md = ['# Pendências das folhas dos jutsus', '',
           'Gerado por `python3 arte/jutsus-vfx/pendencias.py`. A página de acompanhamento guarda o que já foi feito;',
           'este arquivo é a mesma lista em texto.', '']
-    for g in ('falta', 'refazer', 'quadros', 'opcional'):
+    for g in ('falta', 'refazer', 'quadros', 'direcoes', 'opcional'):
         grupo = [i for i in itens if i['grupo'] == g]
         md.append(f'## {nomes[g]} ({len(grupo)})')
         md.append('')
@@ -378,10 +475,13 @@ def main():
             md.append('')
             md.append('**No jogo:** ' + i['comoToca'])
             md.append('')
-            md.append('```')
-            md.append(i['prompt'])
-            md.append('```')
-            md.append('')
+            for f in i['folhas']:
+                md.append(f"**Folha: {f['titulo']}** (`{f['arquivo']}`)")
+                md.append('')
+                md.append('```')
+                md.append(f['prompt'])
+                md.append('```')
+                md.append('')
     with open(os.path.join(AQUI, 'pendencias.md'), 'w', encoding='utf-8') as f:
         f.write('\n'.join(md))
     print(len(itens), 'itens;', {g: sum(1 for i in itens if i['grupo'] == g) for g in nomes})

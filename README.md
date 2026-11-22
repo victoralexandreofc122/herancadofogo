@@ -246,6 +246,15 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v86: folhas de direção e o nome do jutsu no topo das folhas (sem migração)
+
+- O jogo usa folhas desenhadas para baixo e para cima (`<id>_baixo`, `<id>_cima`) quando o golpe vai na vertical, em vez
+  de deitar de lado o que tem volume; as invocações usam a de frente ou a de costas quando andam na vertical.
+- Os prompts do Flow pedem o nome do jutsu escrito no topo da imagem (para não repetir folha e para achar o id) e, nos
+  jutsus que precisam, as folhas para baixo e para cima: 10 dos que faltam e 9 dos já feitos (os dois dragões, a Asa
+  Cortante, a Sombra Saltadora, o Rugido da Fornalha, os dois muros, o Golem e a Sentinela). 103 folhas na lista.
+- Os jutsus da Ilusão e dos clãs entram na lista de quadros servidos (`src/web/staticFiles.ts`), prontos para as folhas novas.
+
 ### v85: profundidade, giro, sombra e luz nas animações; auditoria de hitbox; pendências das folhas (sem migração)
 
 - Profundidade: as auras, escudos, anéis e curas que ficam no corpo tocam em duas metades: a de trás por baixo do boneco

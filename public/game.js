@@ -1567,6 +1567,9 @@ function handleMessage(msg) {
         const m = state.monsters.get(id);
         if (m) {
           if (Math.abs(x - m.x) > 0.02) m.face = x > m.x ? 1 : -1;   // olha para onde anda
+          // v86: andando mais na vertical: de frente (baixo) ou de costas (cima), para as folhas de direção das invocações
+          if (Math.abs(y - m.y) > 0.02 && Math.abs(y - m.y) > Math.abs(x - m.x) * 1.2) m.faceV = y > m.y ? 'baixo' : 'cima';
+          else if (Math.abs(x - m.x) > 0.02) m.faceV = null;
           if (Math.abs(x - m.x) + Math.abs(y - m.y) > 0.01) m.walkAt = performance.now();   // v53: invocação andando (passo)
           m.tx = x; m.ty = y;
         }
@@ -9210,7 +9213,8 @@ function drawSummon(m, sx, sy, T, now) {
     // v80: o Duplo de Água e a Sentinela de Sombra desenhados pelo Victor (parado e no golpe)
     if (m.drawnGone) { ctx.restore(); return; }
     const frame = punching && pk > 0.2 && pk < 0.85 ? sf.golpe : sf.parado;
-    drawJutsuFrame(ctx, frame, sx + lean * dx, sy + T * 0.32 - Math.abs(step) * T * 0.05, T, { scale: born, flip: face < 0 });
+    const dirV = punching ? (Math.abs(dy) > Math.abs(dx) * 1.2 ? (dy > 0 ? 'baixo' : 'cima') : null) : m.faceV;
+    drawJutsuFrame(ctx, frame, sx + lean * dx, sy + T * 0.32 - Math.abs(step) * T * 0.05, T, { scale: born, flip: face < 0, dir: dirV });
     ctx.restore();
     if (m.hp !== undefined && m.maxHp) drawHpBar(sx, sy + T * 0.3 - T * 1.75 * born - 6, w + 6, m.hp / m.maxHp, kind === 'clone_agua' ? '#8fd6ff' : '#b07cff');
     return;
