@@ -268,7 +268,10 @@ function PLANOS(X: number, Y: number): Record<string, Plan> {
       [100, { type: 'summon', id: 'refl1', ownerId: '__ME__', kind: 'clone_agua', hp: 30, maxHp: 30, ms: 6000 }],
       [1700, { type: 'monster_died', id: 'refl1', killerId: '' }]], shots: [40, 240, 640, 1200, 1750, 2000] },
     // ---- v89: o Clã Rubro, o Clã Umbra (3), Água, Taijutsu, Vento e Cura
-    rubro_olho: { steps: [[0, C('rubro_olho')]], shots: [60, 200, 350, 600, 1500, 3000] },
+    rubro_olho: { steps: [[0, C('rubro_olho', { playerId: '__ME__' })]], shots: [60, 200, 350, 600, 1500, 3000] },
+    // v92: a fileira de ícones em cima da cabeça: o Olhar Rubro, depois atordoado e em silêncio ao mesmo tempo
+    cabeca_teste: { steps: [[0, C('rubro_olho', { playerId: '__ME__' })], [600, { type: 'player_status', playerId: '__ME__', status: 'stunned', ms: 1500 }],
+      [900, { type: 'effect', target: 'player', id: '__ME__', effect: 'silencio', ms: 1500 }]], shots: [200, 500, 750, 1100, 1400, 2300] },
     rubro_transe: { steps: [[0, C('rubro_transe', { tx: X + 4, ty: Y })]], shots: [40, 160, 260, 360, 460, 640] },
     rubro_chamas: { steps: [[0, C('rubro_chamas', { tx: X + 6, ty: Y })]], shots: [40, 160, 260, 360, 460, 640] },
     rubro_lua: { steps: [[0, CS('rubro_lua', 800)], [800, C('rubro_lua', { tx: X + 5, ty: Y })]], shots: [840, 960, 1060, 1160, 1260, 1440] },

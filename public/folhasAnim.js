@@ -140,7 +140,7 @@ const TIPO = {
   illusion_colapso: { t: 'aviso', ref: '01', avisa: ['01'], cai: ['02', '03'], bate: ['04', '05', '06'] },
   illusion_reflexo: { t: 'invoca', sobe: ['01', '02', '03', '04', '05', '06'] },
   // v89: o Clã Rubro completo, 3 do Clã Umbra, e mais Água, Taijutsu, Vento e Cura
-  rubro_olho: { t: 'escudo', monta: ['01', '02', '03', '04'], quebra: ['05', '06'] },
+  rubro_olho: { t: 'escudo', cabeca: true, monta: ['01', '02', '03', '04'], quebra: ['05', '06'] },
   rubro_transe: { t: 'linha', mao: ['01'], estica: ['02', '03', '04', '05', '06'] },
   rubro_chamas: { t: 'linha', mao: [], estica: ['01', '02', '03', '04', '05', '06'] },
   rubro_lua: { t: 'linha', mao: ['01'], estica: ['02', '03', '04', '05', '06'] },
@@ -148,7 +148,7 @@ const TIPO = {
   // o colosso fica atrás do ninja (apoio nos pés) e, no fim, corta à frente e se desfaz
   rubro_completo: { t: 'corpo', pes: true, intro: ['01', '02'], meio: ['03', '04'], fim: [], golpe: ['05', '06'] },
   umbra_deslize: { t: 'rastro', saida: ['01'], estica: ['02', '03'], chegada: ['04', '05', '06'] },
-  umbra_faminta: { t: 'alvo', ms: 6000, esc: 0.6, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },   // markMs
+  umbra_faminta: { t: 'alvo', cabeca: true, ms: 6000, esc: 0.6, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },   // markMs
   umbra_noite: { t: 'zona', gira: 0.6, intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
   water_corpo: { t: 'corpo', escudo: true, intro: ['01'], meio: ['02', '03', '04'], fim: [], golpe: ['05', '06'] },
   water_coluna: { t: 'aviso', ref: '01', avisa: ['01'], cai: ['02', '03'], bate: ['04', '05', '06'] },
@@ -242,7 +242,9 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       jfx.drop(tag);
       ESCUDO.set(msg.playerId, s);
       // o escudo fica (no último quadro) até um golpe bater nele, ou some sozinho em 10 s
-      seq(jfx, s, 0, -0.5, now, corrida(k.monta, 0, 150, k.curto ? 650 : 10_000), { ...me, tag, ...(k.curto ? { scale: 0.7 } : {}) });
+      // v92: cabeca = o ícone em cima da cabeça (o Olhar Rubro ativo), em laço, ao lado dos outros ícones
+      if (k.cabeca) seq(jfx, s, 0, 0, now, laco(k.monta.slice(0, 2), k.monta.slice(2), [], 10_000, 260), { tag, cabeca: msg.playerId });
+      else seq(jfx, s, 0, -0.5, now, corrida(k.monta, 0, 150, k.curto ? 650 : 10_000), { ...me, tag, ...(k.curto ? { scale: 0.7 } : {}) });
       return true;
     }
     case 'proj':
@@ -385,6 +387,10 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
     case 'alvo': {
       const id = msg.tx !== undefined ? whoAt(end.x, end.y) : null;
       const o = id ? { follow: () => follow(id) } : {};
+      if (k.cabeca && id) {   // v92: a marca vira um ícone em cima da cabeça do alvo enquanto dura (a Sombra Faminta)
+        seq(jfx, s, 0, 0, now, laco(k.intro, k.meio, k.fim, k.ms ?? 1500, 300), { tag: `marca:${s}:${id}`, cabeca: id });
+        return true;
+      }
       if (k.meio) {   // v88: fica no alvo o tempo do efeito (as Raízes prendem, a Noite escurece, o Espelho embaralha)
         seq(jfx, s, id ? 0 : end.x, id ? -0.3 : end.y - 0.3, now, laco(k.intro, k.meio, k.fim, k.ms ?? info[k.dur] ?? 1500, 300), { ...o, scale: k.esc ?? 0.7 });
         return true;
@@ -534,7 +540,8 @@ export function folhaEscudoHit(jfx, id, now, follow) {
   if (!s || !ready(s)) return false;
   ESCUDO.delete(id);
   jfx.drop(`escudo:${id}`);
-  seq(jfx, s, 0, -0.5, now, TIPO[s].quebra.map((n, i) => [n, i * 120, 650, { fadeOut: 450 }]), { follow: () => follow(id) });
+  if (TIPO[s].cabeca) seq(jfx, s, 0, 0, now, TIPO[s].quebra.map((n, i) => [n, i * 140, 300, { fadeOut: 220 }]), { tag: `escudo:${id}`, cabeca: id });   // v92: some no ícone
+  else seq(jfx, s, 0, -0.5, now, TIPO[s].quebra.map((n, i) => [n, i * 120, 650, { fadeOut: 450 }]), { follow: () => follow(id) });
   return true;
 }
 

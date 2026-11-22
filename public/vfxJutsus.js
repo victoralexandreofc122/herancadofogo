@@ -116,7 +116,9 @@ export class JutsuSprites {
       sombra: opts.sombra ?? 0, luz: opts.luz ?? null,
       // v91: o encaixe no corpo: apoio 'base' = o pé da arte no ponto (sobe dos pés), 'centro' = o meio da arte no ponto;
       // alto = a altura da arte em casas (o corpo inteiro, só o tronco); corte = onde a metade de trás acaba (casas, a partir do ponto)
-      apoio: opts.apoio ?? null, alto: opts.alto ?? 0, corte: opts.corte ?? 0 });
+      apoio: opts.apoio ?? null, alto: opts.alto ?? 0, corte: opts.corte ?? 0,
+      // v92: ícone em cima da cabeça de alguém (o id): o jogo põe os ícones ativos lado a lado (drawCabeca)
+      cabeca: opts.cabeca ?? null });
     return true;
   }
 
@@ -138,6 +140,32 @@ export class JutsuSprites {
     return true;
   }
 
+  /** v92: os ícones de cabeça ativos de alguém agora, um por jutsu (a etiqueta), do mais antigo para o mais novo. */
+  cabecaDe(key, now) {
+    const g = new Map();
+    for (const s of this.list) {
+      if (s.cabeca !== key || now < s.start || now >= s.end) continue;
+      const t = s.tag || s.name, o = g.get(t);
+      // o quadro novo só entra quando já apareceu (o fadeIn): na troca do laço o ícone não pisca
+      const pronto = (x) => now - x.start >= x.fadeIn;
+      if (!o || (pronto(s) && (!pronto(o) || s.start >= o.start)) || (!pronto(o) && s.start < o.start)) g.set(t, s);
+    }
+    return [...g.values()].sort((a, b) => (a.tag || '').localeCompare(b.tag || ''));
+  }
+
+  /** v92: desenha um ícone de cabeça em (sx, sy) da tela, com `w` px de largura. */
+  drawCabeca(g, s, sx, sy, w, T, now) {
+    const im = imgs[s.name], fm = FRAMES[s.name];
+    if (!im || !fm) return;
+    const k = Math.min(1, (now - s.start) / Math.max(1, s.fadeIn), (s.end - now) / Math.max(1, s.fadeOut));
+    const bob = Math.sin(now / 320) * T * 0.03;
+    // o selo redondo claro com borda escura atrás do ícone: a arte escura (a boca da Sombra Faminta) aparece em qualquer chão
+    g.save(); g.globalAlpha = Math.max(0, k);
+    g.fillStyle = 'rgba(244, 238, 255, 0.88)'; g.strokeStyle = '#1a1424'; g.lineWidth = Math.max(1.5, w * 0.06);
+    g.beginPath(); g.arc(sx, sy + bob, w * 0.52, 0, Math.PI * 2); g.fill(); g.stroke(); g.restore();
+    drawSprite(g, s.name, sx, sy + bob, T, 0, (w * 0.86) / (fm.casas * T), Math.max(0, k) * s.alpha, 0, 0, now - s.start, 'centro');
+  }
+
   /** v73: tira os quadros de uma etiqueta (a marca que detonou antes da hora, o buff que acabou). */
   drop(tag) { this.list = this.list.filter((s) => s.tag !== tag); }
 
@@ -156,6 +184,7 @@ export class JutsuSprites {
       if (now >= s.end) continue;
       this.list[alive++] = s;
       if (now < s.start) continue;
+      if (s.cabeca) continue;   // v92: desenhado na fileira de cima da cabeça (drawCabeca)
       const extras = layer === 'ground' && (s.sombra || s.luz);
       if (s.layer !== layer && !(s.split && (layer === 'ground' || layer === 'top')) && !extras) continue;
       const k = Math.min(1, (now - s.start) / Math.max(1, s.fadeIn), (s.end - now) / Math.max(1, s.fadeOut));

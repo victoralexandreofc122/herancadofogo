@@ -31,7 +31,7 @@ import { folhaClanFx, folhaEscudoHit, folhaMuro, folhaMuroFim, folhaPronta, summ
 import { camadasCast, camadasCastStart, camadasDetona, camadasGround, camadasImpact, camadasMarca } from './camadasJutsus.js';
 import { AudioManager } from './audio.js';
 import { GROUND_ELEMENT, Particles, elementOf } from './particles.js';
-import { STRIKE_ART, ZONE_ART, drawBolt, drawDecal, drawStatusArt, drawStrikeArt, drawWindDisc, drawZoneArt } from './jutsuArt.js';
+import { STRIKE_ART, ZONE_ART, drawBolt, drawDecal, drawStatusArt, drawStrikeArt, drawWindDisc, drawZoneArt, iconesCabeca } from './jutsuArt.js';
 import { drawBackWeapon, drawHandWeapon, drawWeaponIcon, drawnForStrike, isThrown, loadWeapons, weaponReady } from './weapons.js';
 import { VILLAGE_NAMES, egOn, factionStyle, mapAccess, mountEndgameUI, shopFactor, zoneFoe } from './endgame.js';
 import { mountAdminUI } from './adminPanel.js';
@@ -636,6 +636,25 @@ function drawTelegraphs(toScreenX, toScreenY, T, now) {
 }
 
 /** Linha de ícones de efeito em cima da cabeça (ninja ou monstro). */
+/**
+ * v92 (pedido do Victor, 22/11): a fileira de cima da cabeça: os estados (atordoado, silêncio, sono...) e os jutsus que se
+ * mostram como ícone (o Olhar Rubro ativo, a Sombra Faminta no alvo), um ao lado do outro, centrados; `bottom` é a base.
+ */
+function drawHeadRow(e, sx, bottom, T, now) {
+  if (e.dead || e.diedAt) return;
+  const w = Math.max(18, T * 0.5), gap = 4;
+  const itens = [
+    ...iconesCabeca(e.fx, now < (e.stunnedUntil || 0), now).map(([, f]) => f),
+    ...jfx.cabecaDe(e.id, now).map((s) => (g, cx, cy, ww) => jfx.drawCabeca(g, s, cx, cy, ww, T, now)),
+  ];
+  if (!itens.length) return;
+  const total = itens.length * w + (itens.length - 1) * gap, cy = bottom - w / 2 - 2;
+  ctx.save();
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;   // o desenho de antes (o raio, a escuridão) pode ter deixado outra mistura
+  itens.forEach((f, i) => f(ctx, sx - total / 2 + w / 2 + i * (w + gap), cy, w));
+  ctx.restore();
+}
+
 function drawFxIcons(e, sx, y, T, now) {
   const icons = fxIcons(e, now);
   if (!icons.length) return;
@@ -2743,7 +2762,7 @@ function drawArtTop(toScreenX, toScreenY, T, now) {
   const status = (e, lift) => {
     if (e.dead || e.diedAt || (e.map && e.map !== state.mapId)) return;
     if (!(e.fx && Object.keys(e.fx).length) && now >= (e.rootedUntil || 0) && now >= (e.stunnedUntil || 0)) return;
-    drawStatusArt(ctx, e.fx, now < (e.rootedUntil || 0), now < (e.stunnedUntil || 0), toScreenX(e.x), toScreenY(e.y) - lift * T, T, now, seedOf(e.id));
+    drawStatusArt(ctx, e.fx, now < (e.rootedUntil || 0), now < (e.stunnedUntil || 0), toScreenX(e.x), toScreenY(e.y) - lift * T, T, now, seedOf(e.id), true);
   };
   for (const p of state.players.values()) status(p, 0.25);
   for (const m of state.monsters.values()) status(m, 0.15);
@@ -9474,6 +9493,7 @@ function drawMonster(m, sx, sy, T, now) {
   }
   const isBoss = !!state.world.bosses?.[m.type];                  // o chefe tem a barra no topo (e a coroa na cabeça)
   if (!dying && !isBoss) drawHpBar(sx, head - Math.max(6, T * 0.16), T * 0.8, m.hp / m.maxHp, '#ff5a4a');
+  if (!dying) drawHeadRow(m, sx, head - Math.max(6, T * 0.16) - Math.max(5, T * 0.12), T, now);   // v92: os ícones em cima da barra de vida
   ctx.restore();
   if (!dying) drawFxIcons(m, sx, (tall === null ? sy - r * (isBoss ? 1.55 : 1) : head - T * 0.1) - Math.max(9, T * 0.24), T, now);   // molhado, queimadura, sono...
   if (m.id === state.focusId && !dying) drawFocusMarker(sx, tall === null ? sy : head + r, r, T, now, 'arrow');
@@ -9976,13 +9996,7 @@ function drawPlayer(p, sx, sy, T, isMe, now) {
   const dirNow = p.dead ? 0 : p.dir;
   const headTop = drawSpriteCharacter(ctx, p, sx, sy, T, look, dirNow, now, p.gear)
     ?? drawCharacter(ctx, sx, sy, T, fallbackColors(look), dirNow, p.walk, p.moving && !p.dead, p.gear);
-  if (!p.dead && now < (p.stunnedUntil || 0)) {   // PvP: atordoado (estrelinhas girando em cima da cabeça)
-    ctx.fillStyle = '#ffe066';
-    for (let k = 0; k < 3; k++) {
-      const a = now / 250 + (k * Math.PI * 2) / 3;
-      ctx.fillRect(Math.round(sx + Math.cos(a) * r * 0.9) - 2, Math.round(headTop - 4 + Math.sin(a) * r * 0.25) - 2, 4, 4);
-    }
-  }
+  // v92: o atordoado (as estrelinhas) vai na fileira de ícones em cima do nome (drawHeadRow)
   if (!p.dead && now < (p.basicBuffUntil || 0)) drawBasicBuff(sx, sy, r, T, now, p.basicBuffColor);   // v29: Lâmina de Fogo; v30: os outros buffs de Básico
   if (!p.dead && now < (p.primalUntil || 0)) drawPrimalAura(sx, sy, r, T, now, p.primalKind, p.titanColor);   // v60: Estado Primal; v61: Suprema
   if (!p.dead && p.casting && now < p.casting.end + 120) drawCastBar(p, sx, headTop, r, T, now);   // v29: selos
@@ -10030,6 +10044,8 @@ function drawPlayer(p, sx, sy, T, isMe, now) {
   ctx.strokeText(label, sx, nameY);
   ctx.fillText(label, sx, nameY);
   if (!p.dead) drawFxIcons(p, sx, nameY - fontSize - (style.bounty > 0 ? fontSize + 4 : 3), T, now);   // efeitos com tempo
+  // v92: a fileira de ícones (estados e jutsus ativos) logo acima dos emojis de efeito
+  if (!p.dead) drawHeadRow(p, sx, nameY - fontSize - (style.bounty > 0 ? fontSize + 4 : 3) - (fxIcons(p, now).length ? Math.max(11, Math.round(T * 0.3)) + 2 : 0), T, now);
   if (style.bounty > 0) {
     ctx.font = `800 ${Math.max(10, Math.round(T * 0.28))}px system-ui, -apple-system, sans-serif`;
     ctx.fillStyle = '#ffd23f';
