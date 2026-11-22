@@ -267,6 +267,16 @@ def recorta(nome, debug=None):
             franja = alfa < 1
             g2 = np.where(franja, np.minimum(g, np.maximum(r, b)), g)
             sub[..., 1] = g2.astype(np.uint8)
+            if ajuste.get('vidro'):
+                # v88: vidro e corpo de luz translúcidos sobre o verde (Dissipação, Passo Falso): o miolo é a mistura do lilás
+                # da arte com o verde do fundo; separa as duas: a transparência pela parte de verde e a cor de volta ao lilás
+                bg = np.array([25, 235, 25], float); L = np.array(ajuste.get('cor_vidro', [205, 165, 225]), float)
+                c = np.dstack([r, g, b]).astype(float)
+                av = np.clip(((c - bg) * (L - bg)).sum(2) / ((L - bg) ** 2).sum(), 0.05, 1)
+                esv = g > np.minimum(r, b) + 10   # o verde passa do vermelho ou do azul: tem fundo misturado
+                alfa = np.where(esv, np.minimum(alfa, av), alfa)
+                cor = np.clip(bg + (c - bg) / av[..., None], 0, 255)
+                sub[...] = np.where(esv[..., None], cor, sub).astype(np.uint8)
         # só os pedaços grandes (tira grãos soltos de JPEG)
         mm = alfa > 0.5
         lab, n = ndi.label(mm)

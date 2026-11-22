@@ -381,10 +381,39 @@ def quadros_de(molde, fx):
     return [q.format(fx=fx, **DIR['direita']) for q in FORMAS[molde][1]]
 
 
+# v88: quadros próprios quando o molde genérico não descreve o jutsu (nota do Victor no Esmagamento de Paredes:
+# "pareceu cortado as paredes e a animação é somente um impacto com poeira no meio")
+QUADROS_PROPRIOS = {
+    'stone_3': ([
+        'a thin crack line on the ground across the middle of the panel, with small cracks opening on the left and on the right',
+        'two thick rough rock walls burst up out of the ground, one on the left side and one on the right side of the panel, '
+        'each standing upright and as tall as half the panel, with small rock chunks flying',
+        'the two complete rock walls, each as tall as most of the panel, slide toward the middle and leave a narrow gap in the center',
+        'the two walls slam together in the middle of the panel with a bright impact flash where they meet and rock dust bursting '
+        'out of the top and the sides; both walls stay complete and fully visible',
+        'the two walls still pressed together in the middle, cracked, with small rocks falling from their tops',
+        'the walls crumble and sink back into the ground as rock chunks and dust',
+    ], 'Each wall is one complete standing slab of rock with a flat top, a front face and a side face, seen in the 3/4 view; '
+       'both walls stay fully inside the panel with a clear margin on every side, from F2 to F5.',
+       'F1 e F2 sobem, F3 fecham, F4 o golpe (dano alto), F5 em laço enquanto o alvo fica preso (1,6 s), F6 desmoronam.'),
+}
+
+
 def item_falta(t):
     code, nome, forma, molde, texto, fx, classe, nota = t
     titulo, _, toca = FORMAS[molde]
     fundo = CLASSES[classe][2]
+    if code in QUADROS_PROPRIOS:
+        qs, extra, toca2 = QUADROS_PROPRIOS[code]
+        pr = prompt(nome, classe, molde, fx, extra=extra)
+        cab = pr.split('\nF1: ')[0].replace(
+            'so the middle of the panel stays as open background where the ninja stands.',
+            'so the target is drawn by the game between the two walls.')
+        pr = cab + '\n' + '\n'.join(f'F{i}: {q}.' for i, q in enumerate(qs, 1)) + '\n' + extra
+        return {'id': code, 'grupo': 'falta', 'nome': nome, 'classe': CLASSES[classe][0], 'forma': forma,
+                'molde': titulo, 'descricao': texto, 'fundo': 'verde' if fundo == VERDE else 'magenta',
+                'quadros': qs, 'comoToca': toca2, 'nota': 'Prompt refeito com quadros próprios (as paredes inteiras, do começo ao fim).',
+                'folhas': [{'titulo': nome, 'arquivo': code, 'prompt': pr}]}
     return {
         'id': code, 'grupo': 'falta', 'nome': nome, 'classe': CLASSES[classe][0], 'forma': forma,
         'molde': titulo, 'descricao': texto, 'fundo': 'verde' if fundo == VERDE else 'magenta',
@@ -461,9 +490,31 @@ def auditoria():
     return linhas
 
 
+# Já entregues pelo Victor e no jogo: saem da lista (o que ainda falta deles são as folhas de direção)
+FEITOS = {
+    'illusion', 'illusion_2', 'illusion_3', 'illusion_kai', 'illusion_estaca', 'illusion_templo', 'illusion_noite',   # v88
+    'illusion_olho', 'illusion_passo', 'illusion_veu', 'illusion_espelho', 'illusion_coro', 'illusion_colapso',
+    'illusion_ninar', 'illusion_reflexo',
+}
+DIR_FEITAS = {'illusion_estaca': ['baixo']}   # v88
+
+
+def item_resto(t):
+    """Jutsu já desenhado: só as folhas de direção que faltam (ou nada)."""
+    code = t[0]
+    dirs = [d for d in DIRECOES.get(code, []) if d not in DIR_FEITAS.get(code, [])]
+    if not dirs:
+        return None
+    it = item_falta(t)
+    it['folhas'] = [f for f in it['folhas'] if any(f['arquivo'].endswith(DIR[d]['arquivo']) for d in dirs)]
+    it.update({'id': code + '_dir', 'grupo': 'direcoes',
+               'descricao': 'A folha base já está no jogo. Faltam: ' + ', '.join(f['titulo'] for f in it['folhas']) + '.'})
+    return it
+
+
 def main():
-    itens = ([item_falta(t) for t in FALTAM] + [item_ajuste(t) for t in REFAZER + QUADROS]
-             + [item_direcao(t) for t in DIRECOES_FEITAS])
+    itens = ([item_falta(t) for t in FALTAM if t[0] not in FEITOS] + [i for i in (item_resto(t) for t in FALTAM if t[0] in FEITOS) if i]
+             + [item_ajuste(t) for t in REFAZER + QUADROS] + [item_direcao(t) for t in DIRECOES_FEITAS])
     with open(os.path.join(AQUI, 'pendencias.json'), 'w', encoding='utf-8') as f:
         json.dump({'gerado': '2026-11-22', 'itens': itens, 'auditoria': auditoria()}, f, ensure_ascii=False, separators=(',', ':'))
         f.write('\n')
