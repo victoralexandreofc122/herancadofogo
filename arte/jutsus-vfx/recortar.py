@@ -37,7 +37,7 @@ def fundo(a, corte=45):
     return alfa
 
 
-def fundo_cor(sub, modo='magenta', limiar_m=None, cor=None):
+def fundo_cor(sub, modo='magenta', limiar_m=None, cor=None, escuro=True, claro=True):
     """Fundo de cor lisa (o magenta): a cor dos cantos do painel; o alfa pela distância a ela; a franja sem o tom do fundo."""
     c = 14
     cantos = np.concatenate([sub[:c, :c].reshape(-1, 3), sub[:c, -c:].reshape(-1, 3), sub[-c:, :c].reshape(-1, 3), sub[-c:, -c:].reshape(-1, 3)])
@@ -57,7 +57,9 @@ def fundo_cor(sub, modo='magenta', limiar_m=None, cor=None):
     alfa = np.where(d < 55, 0, alfa)
     # o próprio fundo clareado (brilho branco por cima) ou escurecido (sombra da moldura, vinheta): sai; branco e preto
     # de verdade (faíscas, contornos) ficam
-    for alvo in (255.0, 0.0):
+    if not escuro:   # v80: a arte da Sombra é roxo-escuro: tom escuro longe do fundo fica opaco (não meio transparente)
+        alfa = np.where(f.max(axis=2) < 150, np.maximum(alfa, np.clip((d - 55) / 60.0, 0, 1)), alfa)
+    for alvo in tuple(a for a, ok in ((255.0, claro), (0.0, escuro)) if ok):   # v80: claro=False mantém o clarão lilás
         v0 = alvo - bg
         t0 = ((f - bg) * v0).sum(axis=2) / max(1.0, float((v0 * v0).sum()))
         resto0 = np.sqrt(((f - (bg + np.clip(t0, 0, 1)[..., None] * v0)) ** 2).sum(axis=2))
@@ -229,7 +231,7 @@ def recorta(nome, debug=None):
             sub[np.isin(lab, list(borda))] = (255, 0, 255)
         magenta = ajuste.get('fundo') in ('magenta', 'escuro')
         if magenta:
-            alfa, sub = fundo_cor(sub, ajuste.get('fundo'), ajuste.get('limiar_m'), ajuste.get('cor_fundo'))
+            alfa, sub = fundo_cor(sub, ajuste.get('fundo'), ajuste.get('limiar_m'), ajuste.get('cor_fundo'), not ajuste.get('manter_escuro'), not ajuste.get('manter_claro'))
         else:
             alfa = fundo(sub, ajuste.get('verde', 45))
         if str(k) in ajuste.get('circulo', {}):

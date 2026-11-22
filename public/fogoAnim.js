@@ -7,6 +7,7 @@
  * Cada função devolve true quando desenhou (o jogo então não desenha o efeito antigo daquele jutsu).
  */
 import { jutsuSpritesReady } from './vfxJutsus.js';
+import { folhaCast, folhaChao, folhaImpacto, folhaProjetil } from './folhasAnim.js';
 
 const ready = (skill) => jutsuSpritesReady(skill);
 /** Ida e Volta: a runa marcada de cada ninja (até usar de novo ou acabar o tempo). */
@@ -419,7 +420,7 @@ export function fogoCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nul
       return true;
     }
     default:
-      return false;
+      return folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt, near);   // v80: Água, Sombra, Taijutsu (folhasAnim.js)
   }
 }
 
@@ -457,7 +458,7 @@ export function fogoProjectileFrame(msg) {
   if (msg.skill === 'fire_hotan' && ready('fire_hotan')) return 'fire_hotan_03';
   if (msg.skill === 'stone_rocha' && ready('stone_rocha')) return 'stone_rocha_03';   // v79: a pedra com o borrão da velocidade
   if (msg.skill === 'stone_cascalho' && ready('stone_cascalho')) return 'stone_cascalho_04b';   // v79: uma lasca com o rastro de poeira
-  return null;
+  return folhaProjetil(msg);   // v80
 }
 
 /** O projétil bateu (mensagem `impact`). */
@@ -493,7 +494,7 @@ export function fogoImpact(jfx, msg, skill, now) {
     seq(jfx, 'stone_cascalho', msg.x, msg.y, now, [['05b', 0, 260], ['06b', 230, 650, { fadeOut: 420 }]]);
     return true;
   }
-  return false;
+  return folhaImpacto(jfx, msg, skill, now);   // v80
 }
 
 /** Aviso ou zona no chão (mensagem `ground`): Cinzas Detonantes, Chão Incandescente, cada meteoro e a Coluna Infernal. */
@@ -602,7 +603,7 @@ export function fogoGround(jfx, msg, now, follow = () => null) {
     seq(jfx, 'fire_chao', msg.x, msg.y, now, steps, g);
     return true;
   }
-  return false;
+  return folhaChao(jfx, msg, now, follow);   // v80: as zonas e avisos da Água, da Sombra e o Sumidouro
 }
 
 /** A Marca Incandescente pegou alguém (mensagem `combo`, combo 'marca'): o selo fica nele até detonar ou acabar. */

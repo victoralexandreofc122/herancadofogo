@@ -16,7 +16,10 @@ import { jutsuSpritesReady } from './vfxJutsus.js';
 const BASE = { fire: 'fogo', fire_endan: 'sopro', fire_kasumi: 'nevoa', fire_hibashiri: 'linha' };
 const ready = (skill) => !!skill && jutsuSpritesReady(BASE[skill] ?? skill);
 /** O elemento da camada pelo prefixo do jutsu (fire_, heal_, lightning_). */
-const elOf = (skill) => (/^heal/.test(skill) ? 'cura' : /^lightning/.test(skill) ? 'raio' : /^stone/.test(skill) ? 'pedra' : 'fogo');
+const elOf = (skill) => (/^heal/.test(skill) ? 'cura' : /^lightning/.test(skill) ? 'raio' : /^stone/.test(skill) ? 'pedra'
+  : /^water/.test(skill) ? 'agua' : /^shadow/.test(skill) ? 'sombra' : /^taijutsu/.test(skill) ? 'taijutsu' : 'fogo');
+/** v80: Água, Sombra e Taijutsu: a carga dos selos e a faísca do acerto na cor da classe (sem coreografia própria por jutsu). */
+const LEVA80 = (skill) => /^(water|shadow|taijutsu)/.test(skill);
 
 // Raio de cada camada em casas (para casar com a área do servidor): o anel de fogo corre 92 px, o de cura, o estalo do
 // trovão e a poeira 104 px; as runas têm ~2 casas; brasas, cruzes e faíscas se espalham ~0,6 casa (× 0,035 casa/px).
@@ -279,6 +282,7 @@ export function camadasImpact(jfx, msg, skill, now, dir = null) {
   if (!ready(skill)) return false;
   const angle = dir ? Math.atan2(dir.fy, dir.fx) : 0;
   const L = (name, x, y, at, o = {}) => jfx.layer(name, x, y, now + at, o);
+  if (LEVA80(skill)) return L(`pfx_${elOf(skill)}_faisca`, msg.x, msg.y - 0.3, 0, { angle, scale: 0.6 });
   switch (skill) {
     case 'fire':
     case 'fire_hotan': {   // Fogo e Projétil Dracônico: o anel de fogo corre no chão do tamanho da explosão, poeira e brasas
@@ -360,7 +364,8 @@ export function camadasGround(jfx, msg, now, follow = () => null) {
       }
       return true;
     }
-    case 'stone_2':   // Lamaçal Profundo: o chão cede quando a lama aparece
+    case 'stone_2':   // Lamaçal Profundo e Sumidouro (v80): o chão cede quando a lama aparece
+    case 'stone_sumidouro':
       if (aviso) return false;
       return L('pfx_pedra_chao', msg.x, msg.y, 0, { scale: r / R.chao, layer: 'ground' });
     case 'stone_lancas':   // Lanças da Terra: o chão afunda e a poeira sobe quando as lanças rompem

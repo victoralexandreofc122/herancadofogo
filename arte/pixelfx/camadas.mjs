@@ -28,6 +28,9 @@ const FOGO = ['#3a0800', '#7a1000', '#c81800', '#f04000', '#f07000', '#f0a000', 
 const CURA = ['#0a3018', '#106a28', '#10a030', '#30b050', '#50d070', '#70f080', '#a0f0a0', '#d0f0d0', '#ffffff'];
 const POEIRA = ['#1c1610', '#33281c', '#4f3f2c', '#6e5a40', '#927a58', '#b89f78', '#dcc8a2', '#fff4dc'];   // terra: serve aos três
 const AMBAR = ['#2a1a10', '#5a3a1c', '#8a5a2a', '#c07a30', '#e8a040', '#ffcf70', '#fff0c0', '#ffffff'];   // v79: a luz nas rachas da Pedra
+const AGUA = ['#081830', '#0e2e5a', '#14508c', '#1c76bc', '#36a2e0', '#78ccf4', '#c4ecff', '#ffffff'];   // v80
+const SOMBRA = ['#050308', '#140a24', '#2a1248', '#46207a', '#6a34b0', '#9a5ae0', '#c8a0ff', '#f0e0ff'];
+const VENTO = ['#3a4050', '#6a7488', '#9aa6ba', '#c8d2e0', '#e6ecf4', '#f6f8fc', '#ffffff', '#ffffff'];
 const RAIO = ['#0a1840', '#0040a0', '#0080f0', '#00a0f0', '#70c8ff', '#f0f040', '#f0f0a0', '#fffff0', '#ffffff'];
 
 /** Casas do jogo por pixel do efeito: perto do pixel das folhas do Victor (0,03 a 0,04 casa por pixel). */
@@ -59,6 +62,13 @@ const CAMADAS = [
   { nome: 'pfx_pedra_carga', id: 'arcane/spell-charge', fps: 15, foco: [18, -22], opcoes: { palette: AMBAR }, blend: 'normal' },
   { nome: 'pfx_pedra_chao', id: 'impacts/heavy-landing', fps: 15, ate: 1.2, opcoes: { palette: POEIRA }, sy: 1.3, blend: 'normal' },
   { nome: 'pfx_pedra_poeira', id: 'heranca/brasas', fps: 15, opcoes: { palette: POEIRA }, blend: 'normal' },
+  // ---- Água, Sombra e Taijutsu (v80): a carga dos selos e a faísca do acerto
+  { nome: 'pfx_agua_carga', id: 'arcane/spell-charge', fps: 15, foco: [18, -22], opcoes: { palette: AGUA }, blend: 'normal' },
+  { nome: 'pfx_agua_faisca', id: 'impacts/hit-spark', fps: 20, arte: 0, opcoes: { palette: AGUA }, blend: 'normal' },
+  { nome: 'pfx_sombra_carga', id: 'arcane/spell-charge', fps: 15, foco: [18, -22], opcoes: { palette: SOMBRA }, blend: 'normal' },
+  { nome: 'pfx_sombra_faisca', id: 'impacts/hit-spark', fps: 20, arte: 0, opcoes: { palette: SOMBRA }, blend: 'normal' },
+  { nome: 'pfx_taijutsu_carga', id: 'arcane/spell-charge', fps: 15, foco: [18, -22], opcoes: { palette: VENTO }, blend: 'normal' },
+  { nome: 'pfx_taijutsu_faisca', id: 'impacts/hit-spark', fps: 20, arte: 0, opcoes: { palette: VENTO }, blend: 'normal' },
   // ---- Relâmpago
   { nome: 'pfx_raio_faiscas', id: 'heranca/faiscas', fps: 15, opcoes: { palette: RAIO }, blend: 'normal' },
   { nome: 'pfx_raio_choque', id: 'lightning/zap-hit', fps: 20, arte: 0, opcoes: { palette: RAIO }, blend: 'normal' },
