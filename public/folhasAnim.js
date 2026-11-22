@@ -51,7 +51,7 @@ const TIPO = {
   shadow_4: { t: 'zona', chao: true, intro: ['01', '02'], meio: ['03', '05'], fim: ['04', '06'] },
   shadow_mancha: { t: 'zona', chao: true, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   water_2: { t: 'anel' }, water_onda: { t: 'anel' }, shadow_ciranda: { t: 'anel' }, taijutsu_2: { t: 'anel' },
-  water_casulo: { t: 'corpo', lugar: 'corpo', tras: true, alto: 1.5, intro: ['01', '02', '03', '04'], meio: ['05', '06'], fim: ['07', '08'] },
+  water_casulo: { t: 'corpo', lugar: 'corpo', alpha: 0.62, alto: 1.5, intro: ['01', '02', '03', '04'], meio: ['05', '06'], fim: ['07', '08'] },
   shadow_veu: { t: 'escudo', monta: ['01', '02', '03', '04', '05', '06'], quebra: ['07'] },
   taijutsu_folego: { t: 'corpo', intro: ['01', '02', '03'], meio: ['04', '05'], fim: ['06'] },
   water_dragao: { t: 'proj', sai: ['01'], voa: '03', bate: ['05', '06'] },
@@ -157,16 +157,16 @@ const TIPO = {
   taijutsu_chave: { t: 'alvo', ms: 1300, esc: 0.55, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },   // rootMs
   // o F1 da folha traz um ninja desenhado: fica de fora (o jogo já desenha o boneco)
   taijutsu_lotus: { t: 'rastro', saida: ['02'], estica: [], chegada: ['03', '04', '05', '06'] },
-  heal_aura: { t: 'zona', lugar: 'pes', intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  heal_aura: { t: 'zona', lugar: 'pes', submerso: true, alpha: 0.6, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   // v90: os clãs Bastião, Áspide, Garra e Zéfiro, a Forma Umbral, a Faísca Rasante, o Esmagamento, a Segunda Voz e o Empréstimo
   lightning: { t: 'linha', mao: ['01'], estica: ['02', '03', '04', '05', '06'] },
   stone_3: { t: 'alvo', ms: 1600, esc: 1.1, intro: ['01', '02', '03'], meio: ['04', '05'], fim: ['06'] },   // rootMs
   illusion_voz: { t: 'invoca', sobe: ['01', '02', '03', '04'] },   // o clone é o próprio boneco (como o Reflexo)
   illusion_emprestimo: { t: 'alvo', ms: 1200, esc: 0.75, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
-  umbra_forma: { t: 'corpo', lugar: 'corpo', alto: 1.6, alpha: 0.85, gira: 0, ms: 5000, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  umbra_forma: { t: 'corpo', lugar: 'corpo', tras: true, corte: -0.69, alto: 1.6, alpha: 0.85, gira: 0, ms: 5000, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   bastiao_muralha: { t: 'corpo', lugar: 'corpo', tras: true, alto: 1.2, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
-  bastiao_guarda: { t: 'corpo', lugar: 'corpo', alpha: 0.75, alto: 1.5, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
-  bastiao_resposta: { t: 'corpo', lugar: 'pes', largura: 1.6, dur: 'durationMs', intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  bastiao_guarda: { t: 'corpo', lugar: 'corpo', tras: true, corte: -0.69, alpha: 0.8, alto: 1.5, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  bastiao_resposta: { t: 'corpo', lugar: 'pes', y: 0.34, largura: 1.6, dur: 'durationMs', intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   bastiao_juramento: { t: 'corpo', pes: true, ms: 10_000, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },   // os escudos atrás do ninja
   aspide_cuspe: { t: 'proj', sai: ['01'], voa: '02', bate: ['05', '06'] },
   aspide_nevoa: { t: 'zona', intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
@@ -226,8 +226,9 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       if (k.lugar) {
         const L = {
           torso: { y: -0.02, o: { apoio: 'centro', alto: k.alto ?? 0.5, split: false } },
-          corpo: { y: 0.47, o: { apoio: 'base', alto: k.alto ?? 1.45, split: !!k.tras, corte: -0.3 } },
-          pes: { y: 0.42, o: { scale: (k.largura ?? 1.5) / largura(s, k.meio[0]), split: true } },
+          // corte: onde a parte de trás acaba (casas, a partir dos pés); -0,69 = o pescoço (a cabeça fica na frente da arte)
+          corpo: { y: 0.47, o: { apoio: 'base', alto: k.alto ?? 1.45, split: !!k.tras, corte: k.corte ?? -0.3 } },
+          pes: { y: k.y ?? 0.42, o: { scale: (k.largura ?? 1.5) / largura(s, k.meio[0]), split: true } },
         }[k.lugar];
         seq(jfx, s, 0, L.y, now, laco(k.intro, k.meio, k.fim, dur), { ...me, tag, spin: k.gira ?? 0, ...L.o, ...(k.alpha ? { alpha: k.alpha } : {}) });
         return true;
@@ -474,8 +475,10 @@ export function folhaChao(jfx, msg, now, follow = () => null) {
     const sc = (2 * r) / largura(s, k.meio[0] ?? fs[2]);
     const o = msg.follow ? { follow: () => follow(msg.follow) } : {};
     // v91: a zona que anda com o ninja e é um círculo no chão (lugar 'pes') fica nos pés dele, com a metade de trás atrás
+    // submerso (a Aura de Regeneração): o ninja fica dentro da arte, que vai inteira por cima, translúcida
     const x0 = msg.follow ? 0 : msg.x, y0 = msg.follow ? (k.lugar === 'pes' ? 0.42 : 0) : msg.y;
-    seq(jfx, s, x0, y0, now, laco(k.intro, k.meio, k.fim, ms), { ...o, scale: sc, tag: `zona:${msg.id}`, spin: k.gira ?? 0, ...(k.chao ? { layer: 'ground' } : {}), ...(k.lugar === 'pes' ? { split: true } : {}) });
+    seq(jfx, s, x0, y0, now, laco(k.intro, k.meio, k.fim, ms), { ...o, scale: sc, tag: `zona:${msg.id}`, spin: k.gira ?? 0, ...(k.chao ? { layer: 'ground' } : {}),
+      ...(k.lugar === 'pes' ? { split: !k.submerso } : {}), ...(k.submerso ? { alpha: k.alpha ?? 0.6 } : {}) });
     return true;
   }
   if (k.t === 'chuva') return msg.kind === 'aviso';   // o desenho veio no lançamento
