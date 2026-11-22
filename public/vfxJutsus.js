@@ -113,7 +113,10 @@ export class JutsuSprites {
       // v85: split = metade de trás por baixo do boneco; spin = gira (rad/s); pop = entra crescendo (ms);
       // sombra = mancha no chão (raio em casas) que cresce quando a coisa cai; luz = poça de luz no chão [cor, raio em casas]
       split: opts.split ?? ((opts.layer ?? 'top') === 'top' && PROFUNDIDADE.has(baseDe(name))), spin: opts.spin ?? 0, pop: opts.pop ?? 0,
-      sombra: opts.sombra ?? 0, luz: opts.luz ?? null });
+      sombra: opts.sombra ?? 0, luz: opts.luz ?? null,
+      // v91: o encaixe no corpo: apoio 'base' = o pé da arte no ponto (sobe dos pés), 'centro' = o meio da arte no ponto;
+      // alto = a altura da arte em casas (o corpo inteiro, só o tronco); corte = onde a metade de trás acaba (casas, a partir do ponto)
+      apoio: opts.apoio ?? null, alto: opts.alto ?? 0, corte: opts.corte ?? 0 });
     return true;
   }
 
@@ -181,12 +184,16 @@ export class JutsuSprites {
       const pop = s.pop ? 0.7 + 0.3 * Math.min(1, (now - s.start) / s.pop) : 1;
       const ang = s.angle + (s.spin ? (s.spin * (now - s.start)) / 1000 : 0);
       if (s.split) {   // v85: a metade de trás (acima do apoio) no chão, por baixo do boneco; a da frente por cima
+        const cy = py + s.corte * T;   // v91: a linha do corte pode ficar acima do apoio (a cintura de quem a arte cobre)
         g.save(); g.beginPath();
-        if (layer === 'ground') g.rect(-1e5, -1e5, 2e5, 1e5 + py); else g.rect(-1e5, py, 2e5, 1e5);
+        if (layer === 'ground') g.rect(-1e5, -1e5, 2e5, 1e5 + cy); else g.rect(-1e5, cy, 2e5, 1e5);
         g.clip();
       }
       const fr = s.split && layer === 'top' ? FRENTE[baseDe(s.name)] ?? 1 : 1;   // a frente das bolhas, translúcida
-      drawSprite(g, s.name, px, py, T, ang, s.scale * (1 + s.grow * life) * pop, alpha * fr, s.flicker ? now : 0, s.len, ((now - s.start) * s.rate));
+      // v91: com `alto`, a escala sai da altura da imagem (a arte do tamanho do corpo, qualquer que seja a folha)
+      const im = imgs[s.name], fm = FRAMES[s.name];
+      const base = s.alto && im && fm && !fm.quadros ? (s.alto * im.width) / (im.height * fm.casas) : s.scale;
+      drawSprite(g, s.name, px, py, T, ang, base * (1 + s.grow * life) * pop, alpha * fr, s.flicker ? now : 0, s.len, ((now - s.start) * s.rate), s.apoio);
       if (s.split) g.restore();
     }
     this.list.length = alive;
@@ -221,7 +228,7 @@ export function drawJutsuFrame(g, name, sx, sy, T, { scale = 1, alpha = 1, flip 
  * Um quadro. angle: para onde o golpe vai (radianos; a arte é girada a partir da direção em que foi desenhada).
  * flickerNow: > 0 faz o fogo "respirar" (escala e espelho a FLICKER_FPS), já que cada fase tem um quadro só.
  */
-function drawSprite(g, name, sx, sy, T, angle, scale, alpha, flickerNow, len = 0, age = 0) {
+function drawSprite(g, name, sx, sy, T, angle, scale, alpha, flickerNow, len = 0, age = 0, apoio = null) {
   // v86: indo para baixo ou para cima, usa a folha desenhada naquela direção (<id>_baixo_0N, <id>_cima_0N), se existir,
   // em vez de deitar de lado a arte desenhada para a direita (o que tem volume: estaca, olho, chamas, onda)
   if (FRAMES[name]?.arte !== undefined && Math.abs(Math.sin(angle)) > 0.75) name = variante(name, Math.sin(angle) > 0 ? 'baixo' : 'cima');
@@ -239,7 +246,7 @@ function drawSprite(g, name, sx, sy, T, angle, scale, alpha, flickerNow, len = 0
   const w = f.casas * T * scale;
   const k = w / iw;
   const h = ih * k;
-  const [ax, ay] = f.ancora ?? [iw / 2, f.pe ? ih : ih / 2];
+  const [ax, ay] = apoio === 'base' ? [iw / 2, ih] : apoio === 'centro' ? [iw / 2, ih / 2] : f.ancora ?? [iw / 2, f.pe ? ih : ih / 2];   // v91
   let sxk = 1, syk = 1;
   if (flickerNow) {
     const step = Math.floor(flickerNow / (1000 / FLICKER_FPS));
