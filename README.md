@@ -246,6 +246,19 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v91: o lugar da arte no corpo, a fileira de ícones em cima da cabeça e a página das texturas salvando (sem migração)
+
+- O lugar no corpo (pedido do Victor, 22/11), em `folhasAnim.js` (`lugar`): `torso` (do pescoço ao quadril, sem cobrir a
+  cabeça: a Sentinela Espectral), `corpo` (sobe dos pés e cobre o boneco inteiro; `tras` põe a metade de trás atrás dele: a
+  Muralha Interior, o Casulo de Água; sem `tras`, tudo por cima: a Forma Umbral, a Guarda Compartilhada) e `pes` (o círculo
+  no chão em volta dos pés: o Muro que Responde, a Aura de Regeneração). O motor ganhou `apoio`, `alto` e `corte`
+  (`vfxJutsus.js`); o boneco medido: pés +0,42, quadril +0,18, pescoço -0,22, topo da cabeça -0,88 (casas).
+- A fileira de ícones em cima da cabeça (`drawHeadRow` em `game.js`): os estados de cabeça (atordoado, controles trocados,
+  silêncio, sono) e os jutsus que se mostram como ícone (o Olhar Rubro ativo; a Sombra Faminta no alvo marcado), lado a
+  lado, num selo redondo claro, acima dos emojis de efeito (jogador) ou da barra de vida (monstro).
+- Texturas do Mapa no Flow: cada peça com A fazer, Feita, Revisar, Refazer e Aprovada, nota e o prompt novo que eu escrever,
+  salvos no banco da página (qualquer aparelho); nenhuma peça sai da lista (`arte/mapas/flow/pagina.html`).
+
 ### v90: os clãs Bastião, Áspide, Garra e Zéfiro e mais 5 folhas (sem migração)
 
 - Bastião: Muralha Interior, Guarda Compartilhada (cúpulas em volta), Muro que Responde (o anel de pontas no chão) e Juramento

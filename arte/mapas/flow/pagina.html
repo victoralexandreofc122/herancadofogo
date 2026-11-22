@@ -70,8 +70,24 @@ button.cp.main { background: var(--ink); color: var(--bg); border-color: var(--i
 button.cp:focus-visible, select:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 button.cp.copied { background: var(--ok); color: #fff; border-color: var(--ok); }
 details summary { cursor: pointer; font-size: 13px; color: var(--muted); min-height: 32px; display: flex; align-items: center; }
-.donebox { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; min-height: 44px; white-space: nowrap; }
-.donebox input { width: 20px; height: 20px; }
+.estado { display: flex; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.estado button { font: 600 12.5px/1 var(--font-display); min-height: 44px; padding: 0 10px; border: 0; border-right: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; flex: 1 1 auto; }
+.estado button:last-child { border-right: 0; }
+.estado button[aria-pressed="true"][data-e="afazer"] { background: var(--b); color: #fff; }
+.estado button[aria-pressed="true"][data-e="feita"] { background: var(--s); color: #fff; }
+.estado button[aria-pressed="true"][data-e="revisar"] { background: var(--l); color: #1c2320; }
+.estado button[aria-pressed="true"][data-e="refazer"] { background: var(--accent); color: #fff; }
+.estado button[aria-pressed="true"][data-e="aprovada"] { background: var(--ok); color: #fff; }
+.estado button:disabled { opacity: .55; cursor: not-allowed; }
+.pill { font: 600 11.5px/1 var(--font-display); padding: 4px 7px; border-radius: 4px; border: 1px solid currentColor; white-space: nowrap; }
+.pill[data-e="afazer"] { color: var(--b); } .pill[data-e="feita"] { color: var(--s); } .pill[data-e="revisar"] { color: var(--l); }
+.pill[data-e="refazer"] { color: var(--accent); } .pill[data-e="aprovada"] { color: var(--ok); }
+.card textarea { width: 100%; min-height: 56px; font: 400 13.5px var(--font-body); padding: 8px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); resize: vertical; }
+.card .salvo { font-size: 12px; color: var(--muted); }
+.novo { border: 1px solid var(--accent); border-radius: 6px; padding: 10px; display: grid; gap: 6px; }
+.novo b { font-family: var(--font-display); color: var(--accent); font-size: 13px; }
+.aviso { font-size: 13px; color: var(--muted); }
+.aviso[data-tom="erro"] { color: var(--accent); }
 .toast { position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 6px; font-size: 14px; z-index: 20; }
 </style>
 
@@ -89,7 +105,7 @@ details summary { cursor: pointer; font-size: 13px; color: var(--muted); min-hei
     <ol class="steps">
       <li><b>Escolha a região</b> no filtro e comece pela Aldeia da Chama Eterna (ela substitui a vila de hoje e vira o padrão de qualidade para o resto).</li>
       <li><b>Copie o prompt</b> do cartão e cole no Flow, em criação de imagem, no formato quadrado. O prompt já descreve tudo (estilo, ângulo, cores, fundo e tamanho dos pixels), sem imagem de referência. Gere 4 variações e fique com a mais parecida com a vila de hoje (as imagens abaixo).</li>
-      <li><b>Salve com o id do cartão</b>: <code>chama_casa_pequena.png</code>. Marque o cartão como feito (o progresso fica salvo neste aparelho).</li>
+      <li><b>Salve com o id do cartão</b>: <code>chama_casa_pequena.png</code>. Marque no cartão em que pé está: <b>Feita</b> quando gerar, <b>Revisar</b> se quiser olhar de novo, <b>Refazer</b> se não gostou, <b>Aprovada</b> quando ficou boa para o jogo. Tudo fica salvo (em qualquer aparelho) e eu leio daqui; nenhuma peça sai da lista. Quando uma peça precisar de outro jeito, eu escrevo o prompt novo no próprio cartão.</li>
       <li><b>Só uma imagem por peça.</b> A Sombra, a Luz e o Movimento eu faço a partir dessa imagem, no código; o cartão mostra o que vai brilhar e o que vai se mexer.</li>
       <li><b>Me mande as imagens</b> em lotes. Eu tiro o fundo magenta, acerto a grade de pixels, uno as cores na paleta da região, separo o que passa por cima do ninja (copas e telhados) e encaixo no mapa.</li>
     </ol>
@@ -136,9 +152,14 @@ details summary { cursor: pointer; font-size: 13px; color: var(--muted); min-hei
       <select id="fRegion" aria-label="Região"></select>
       <select id="fCat" aria-label="Categoria"></select>
       <input type="search" id="fText" placeholder="Buscar (ex.: lanterna, ponte)" aria-label="Buscar">
-      <label class="chk"><input type="checkbox" id="fPend"> Só o que falta</label>
+      <select id="fEstado" aria-label="Situação">
+        <option value="">Qualquer situação</option><option value="afazer">A fazer</option><option value="feita">Feita</option>
+        <option value="revisar">Revisar</option><option value="refazer">Refazer</option><option value="aprovada">Aprovada</option>
+        <option value="novo">Com prompt novo</option>
+      </select>
       <span class="prog" id="prog"></span>
     </div>
+    <p class="aviso" id="aviso" role="status">Conectando ao que já foi marcado…</p>
     <div id="list"></div>
   </section>
 
@@ -165,10 +186,16 @@ const CAM_OBJ = "Camera: the oblique top-down front view of classic 16-bit RPG t
 const CAM_FLAT = "Camera: looking straight down from above at the flat ground, the whole surface evenly lit and evenly in focus.";
 const CAM_FX = "Camera: a flat front view of the effect, as an overlay for a top-down 2D map.";
 const KEY_CASA = "The building's front wall faces the viewer straight on, with its doors and windows on it, and fills the lower part of the object; the roof covers the upper part, seen from above, and its lower edge, the eaves, is one straight horizontal line just above the front wall. The building sits on a short strip of its own stone or wooden foundation along the bottom.";
-const KEY = 'flow-texturas-feitos';
-let done = {};
-try { done = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { done = {}; }
-function saveDone() { try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) {} }
+/* As marcações ficam no banco da página (coleção "texturas", um documento por peça: estado, nota e, quando eu escrevo,
+   promptNovo e motivo). Nenhuma peça sai da lista: o estado só muda a etiqueta. As marcas antigas deste aparelho podem ser trazidas. */
+const ESTADOS = [['afazer', 'A fazer'], ['feita', 'Feita'], ['revisar', 'Revisar'], ['refazer', 'Refazer'], ['aprovada', 'Aprovada']];
+const NOME_E = Object.fromEntries(ESTADOS);
+let st = {}, db = null, ligado = false;
+let antigos = {};
+try { antigos = JSON.parse(localStorage.getItem('flow-texturas-feitos') || '{}') || {}; } catch (e) { antigos = {}; }
+const estadoDe = (id) => (st[id] && st[id].estado) || 'afazer';
+const aviso = (t, tom) => { const a = document.getElementById('aviso'); a.textContent = t; if (tom) a.dataset.tom = tom; else delete a.dataset.tom; };
+const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 
 function dims(a) { return [a.s[0] * PX, a.s[1] * PX]; }
 function scaleText(a) { const [W, H] = dims(a); return `Pixel density: drawn on a ${W}x${H} pixel canvas (${a.s[0]}x${a.s[1]} map tiles of 24x24 pixels) and enlarged with nearest-neighbor, so every pixel is a large, uniform, crisp square and the detail stays at that density.`; }
@@ -198,7 +225,7 @@ const REFCAP = { chama: 'Aldeia da Chama (a provisória de hoje)', floresta: 'Fl
 document.getElementById('refs').innerHTML = Object.keys(REFCAP).map((k) => `<figure><img src="${REFS[k]}" alt="${REFCAP[k]}"><figcaption>${REFCAP[k]}</figcaption></figure>`).join('');
 
 /* ---- filtros ---- */
-const fRegion = document.getElementById('fRegion'), fCat = document.getElementById('fCat'), fText = document.getElementById('fText'), fPend = document.getElementById('fPend');
+const fRegion = document.getElementById('fRegion'), fCat = document.getElementById('fCat'), fText = document.getElementById('fText'), fEstado = document.getElementById('fEstado');
 fRegion.innerHTML = '<option value="">Todas as regiões</option>' + Object.entries(REGIONS).map(([k, r]) => `<option value="${k}">${r.nome}</option>`).join('');
 fCat.innerHTML = '<option value="">Todas as categorias</option>' + Object.entries(CATS).map(([k, n]) => `<option value="${k}">${n}</option>`).join('');
 
@@ -208,33 +235,46 @@ function card(a) {
   const btns = [`<button class="cp main" data-id="${a.id}" data-p="B">Copiar o prompt</button>`];
   const extra = [a.l ? `<li><span class="lay L">L</span> brilho: ${a.l}</li>` : '', a.m ? `<li><span class="lay M">M</span> movimento (${a.f} quadros): ${a.m}</li>` : ''].join('');
   const shNote = '';
-  return `<article class="card${done[a.id] ? ' done' : ''}" id="card-${a.id}">
+  const e = estadoDe(a.id), d = st[a.id] || {};
+  const quando = d.em ? 'Atualizado em ' + new Date(d.em).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : '';
+  const novo = d.promptNovo ? `<div class="novo"><b>Prompt novo${d.motivo ? ': ' + esc(d.motivo) : ''}</b>
+      <div class="btns"><button class="cp main" data-id="${a.id}" data-p="N">Copiar o prompt novo</button></div>
+      <details><summary>Ver o prompt novo</summary><pre class="block">${esc(d.promptNovo)}</pre></details></div>` : '';
+  return `<article class="card" id="card-${a.id}">
     <div class="top"><div><h3>${a.n}</h3><div class="id">${a.id}.png</div></div>
-      <label class="donebox"><input type="checkbox" data-done="${a.id}" ${done[a.id] ? 'checked' : ''}> feito</label></div>
+      <span class="pill" data-e="${e}">${NOME_E[e]}</span></div>
     <div class="meta"><span>${a.s[0]}×${a.s[1]} casas · ${W}×${H} px</span>${L.map((x) => `<span class="lay ${x}" title="${ICON[x]}">${x}</span>`).join('')}${shNote}${a.m ? `<span>${a.f} quadros</span>` : ''}</div>
     <p class="desc muted">${a.d}</p>
     <div class="btns">${btns.join('')}</div>${extra ? `<ul class="layers-note"><li class="muted">Camadas que eu faço a partir desta imagem:</li>${extra}</ul>` : ''}
     <details><summary>Ver o prompt inteiro</summary><pre class="block">${basePrompt(a).replace(/</g, '&lt;')}</pre></details>
+    ${novo}
+    <div class="estado" role="group" aria-label="Situação de ${esc(a.n)}">${ESTADOS.map(([k, n]) => `<button type="button" data-id="${a.id}" data-e="${k}" aria-pressed="${e === k}" ${ligado ? '' : 'disabled'}>${n}</button>`).join('')}</div>
+    <textarea id="nota-${a.id}" data-nota="${a.id}" placeholder="${ligado ? 'Anotação (o que não ficou bom, o que mudar)' : 'Entre na conta para anotar'}" ${ligado ? '' : 'disabled'}>${esc(d.nota || '')}</textarea>
+    <span class="salvo" id="salvo-${a.id}">${quando}</span>
   </article>`;
 }
 function render() {
-  const r = fRegion.value, c = fCat.value, q = fText.value.trim().toLowerCase(), pend = fPend.checked;
-  const sel = A.filter((a) => (!r || a.r === r) && (!c || a.c === c) && (!pend || !done[a.id]) && (!q || (a.n + ' ' + a.id + ' ' + a.d).toLowerCase().includes(q)));
+  const r = fRegion.value, c = fCat.value, q = fText.value.trim().toLowerCase(), fe = fEstado.value;
+  const okE = (a) => !fe || (fe === 'novo' ? !!(st[a.id] && st[a.id].promptNovo) : estadoDe(a.id) === fe);
+  const sel = A.filter((a) => (!r || a.r === r) && (!c || a.c === c) && okE(a) && (!q || (a.n + ' ' + a.id + ' ' + a.d).toLowerCase().includes(q)));
   let html = '';
   for (const k of Object.keys(REGIONS)) {
     const items = sel.filter((a) => a.r === k);
     if (!items.length) continue;
-    const feitos = A.filter((a) => a.r === k && done[a.id]).length, total = A.filter((a) => a.r === k).length;
-    html += `<div class="regionhead"><h3>${REGIONS[k].nome}</h3><span class="muted" style="font-size:13px">${feitos} de ${total} feitas${REGIONS[k].pal ? ' · paleta (em inglês, vai no prompt): ' + REGIONS[k].pal.replace(/^Palette of [^:]+: /, '') : ''}</span></div><div class="grid">${items.map(card).join('')}</div>`;
+    const feitos = A.filter((a) => a.r === k && estadoDe(a.id) !== 'afazer').length, total = A.filter((a) => a.r === k).length;
+    html += `<div class="regionhead"><h3>${REGIONS[k].nome}</h3><span class="muted" style="font-size:13px">${feitos} de ${total} geradas${REGIONS[k].pal ? ' · paleta (em inglês, vai no prompt): ' + REGIONS[k].pal.replace(/^Palette of [^:]+: /, '') : ''}</span></div><div class="grid">${items.map(card).join('')}</div>`;
   }
   document.getElementById('list').innerHTML = html || '<p class="muted">Nada com esse filtro. Limpe a busca ou escolha outra região.</p>';
-  const n = Object.keys(done).filter((k) => done[k]).length;
-  document.getElementById('prog').textContent = `${n} de ${A.length} feitas`;
+  progresso();
 }
-[fRegion, fCat, fPend].forEach((el) => el.addEventListener('change', render));
+function progresso() {
+  const c = {}; for (const a of A) { const e = estadoDe(a.id); c[e] = (c[e] || 0) + 1; }
+  document.getElementById('prog').textContent = ESTADOS.filter(([k]) => k !== 'afazer').map(([k, n]) => `${c[k] || 0} ${n.toLowerCase()}`).join(' · ') + ` · ${c.afazer || 0} a fazer (de ${A.length})`;
+}
+[fRegion, fCat, fEstado].forEach((el) => el.addEventListener('change', render));
 fText.addEventListener('input', render);
 
-function promptFor(id) { return basePrompt(A.find((x) => x.id === id)); }
+function promptFor(id, p) { return p === 'N' && st[id] && st[id].promptNovo ? st[id].promptNovo : basePrompt(A.find((x) => x.id === id)); }
 function toast(t) { const el = document.createElement('div'); el.className = 'toast'; el.textContent = t; document.body.appendChild(el); setTimeout(() => el.remove(), 2600); }
 function fallbackCopy(text) {
   const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.top = '0'; ta.style.opacity = '0';
@@ -250,12 +290,72 @@ document.getElementById('list').addEventListener('click', (e) => {
   const fail = () => { if (fallbackCopy(text)) okUI(); else { toast('Não deu para copiar. Abra "Ver o prompt" e copie o texto.'); } };
   try { navigator.clipboard.writeText(text).then(okUI, fail); } catch (err) { fail(); }
 });
+/* ---- salvar ---- */
+const fila = {};
+function salvar(id, mudanca) {
+  if (!db) return Promise.resolve();
+  const atual = st[id] || {};
+  const novo = { ...atual, estado: atual.estado || 'afazer', nota: atual.nota || '', ...mudanca, em: new Date().toISOString() };
+  st[id] = novo;
+  const marca = document.getElementById('salvo-' + id);
+  if (marca) marca.textContent = 'Salvando…';
+  // uma escrita de cada vez por peça
+  fila[id] = (fila[id] || Promise.resolve()).then(() => db.collection('texturas').doc(id).set(novo)).then(
+    () => { if (marca) marca.textContent = 'Salvo'; },
+    (err) => { if (marca) marca.textContent = 'Não salvou (' + ((err && (err.code || err.message)) || 'erro do banco') + '). Tente de novo.'; });
+  return fila[id];
+}
+document.getElementById('list').addEventListener('click', (e) => {
+  const b = e.target.closest('.estado button'); if (!b || b.disabled) return;
+  const id = b.dataset.id, k = b.dataset.e;
+  if (estadoDe(id) === k) return;
+  salvar(id, { estado: k });
+  const card = document.getElementById('card-' + id);
+  card.querySelectorAll('.estado button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.e === k)));
+  const pill = card.querySelector('.pill'); pill.dataset.e = k; pill.textContent = NOME_E[k];
+  progresso();
+});
 document.getElementById('list').addEventListener('change', (e) => {
-  const id = e.target.dataset && e.target.dataset.done; if (!id) return;
-  done[id] = e.target.checked; saveDone();
-  document.getElementById('card-' + id).classList.toggle('done', e.target.checked);
-  const n = Object.keys(done).filter((k) => done[k]).length;
-  document.getElementById('prog').textContent = `${n} de ${A.length} feitas`;
+  const id = e.target.dataset && e.target.dataset.nota; if (!id) return;
+  if (e.target.value !== ((st[id] && st[id].nota) || '')) salvar(id, { nota: e.target.value });
 });
 render();
+
+/* ---- o banco ---- */
+(function ligar() {
+  const limite = setTimeout(() => aviso('O banco não respondeu em 10 s: dá para copiar os prompts, mas as marcações não aparecem agora.', 'erro'), 10000);
+  const use = window.claude && window.claude.use;
+  if (!use) { clearTimeout(limite); aviso('Fora do Claude: dá para copiar os prompts, sem salvar as marcações.'); return; }
+  use('db').then((d) => {
+    if (!d) { clearTimeout(limite); aviso('Entre na sua conta do Claude para salvar as marcações. Os prompts dá para copiar assim mesmo.'); return; }
+    db = d;
+    db.collection('texturas').onSnapshot((snap) => {
+      clearTimeout(limite);
+      const novo = {}; for (const doc of snap.docs) { const v = doc.data(); if (v) novo[doc.id] = v; }
+      st = novo;
+      const primeira = !ligado; ligado = true;
+      const velhos = Object.keys(antigos).filter((k) => antigos[k] && !st[k] && A.some((a) => a.id === k));
+      if (velhos.length) aviso(`Marcações salvas. Este aparelho tem ${velhos.length} peças marcadas como feitas na versão antiga: toque no botão para passar para Feita.`);
+      else aviso('Marcações salvas. O que você marcar aqui eu leio na próxima entrega.');
+      mostrarTrazer(velhos);
+      const ativo = document.activeElement;
+      if (primeira || !(ativo && ativo.tagName === 'TEXTAREA')) render(); else progresso();
+    }, (err) => { clearTimeout(limite); aviso('Não deu para ler as marcações (' + ((err && (err.code || err.message)) || 'erro') + ').', 'erro'); });
+  });
+})();
+function mostrarTrazer(velhos) {
+  let b = document.getElementById('trazer');
+  if (!velhos.length) { if (b) b.remove(); return; }
+  if (!b) {
+    b = document.createElement('button'); b.id = 'trazer'; b.className = 'cp'; b.type = 'button';
+    document.getElementById('aviso').after(b);
+    b.addEventListener('click', async () => {
+      b.disabled = true;
+      const ids = Object.keys(antigos).filter((k) => antigos[k] && !st[k] && A.some((a) => a.id === k));
+      for (const id of ids) await salvar(id, { estado: 'feita' });
+      b.remove(); render();
+    });
+  }
+  b.textContent = `Trazer as ${velhos.length} marcações deste aparelho`;
+}
 </script>

@@ -361,7 +361,44 @@ function drop(g, x, y, s, color, light) {
  * Os efeitos que o alvo tem agora, desenhados nele. `fx` = { efeito: até quando }; `rooted`/`stunned` = preso/atordoado.
  * (sx, sy) = centro do corpo na tela. Devolve quantos desenhou.
  */
-export function drawStatusArt(g, fx, rooted, stunned, sx, sy, T, now, seed) {
+/**
+ * v92 (pedido do Victor, 22/11): os estados que vão em cima da cabeça (silêncio, atordoado, controles trocados, sono) viram
+ * ícones da fileira de cima da cabeça, um ao lado do outro (o jogo junta com os ícones dos jutsus). Cada um desenha
+ * centrado em (cx, cy), com `w` px de largura.
+ */
+export function iconesCabeca(fx, stunned, now) {
+  const on = (code) => fx && fx[code] > now;
+  const out = [];
+  if (stunned) out.push(['atordoado', (g, cx, cy, w) => estrelas(g, cx, cy, w, now, '#ffe08a')]);
+  if (on('invertido')) out.push(['invertido', (g, cx, cy, w) => estrelas(g, cx, cy, w, now, '#c9a8ff')]);
+  if (on('silencio')) out.push(['silencio', (g, cx, cy, w) => {
+    const ww = w * 0.62, h = w * 0.74;
+    g.fillStyle = OUT; g.fillRect(cx - ww / 2 - 1.5, cy - h / 2 - 1.5, ww + 3, h + 3);
+    g.fillStyle = '#f4ecd8'; g.fillRect(cx - ww / 2, cy - h / 2, ww, h);
+    g.strokeStyle = '#c8321a'; g.lineWidth = Math.max(1.5, w * 0.1); g.lineCap = 'round';
+    g.beginPath(); g.moveTo(cx - ww * 0.28, cy - h * 0.28); g.lineTo(cx + ww * 0.28, cy + h * 0.28); g.moveTo(cx + ww * 0.28, cy - h * 0.28); g.lineTo(cx - ww * 0.28, cy + h * 0.28); g.stroke();
+  }]);
+  if (on('sono')) out.push(['sono', (g, cx, cy, w) => {
+    g.font = `800 ${Math.round(w * 0.6)}px system-ui, sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
+    for (let i = 0; i < 2; i++) {
+      const k = ((now / 1400 + i / 2) % 1);
+      g.globalAlpha = 1 - k; g.lineWidth = 3; g.strokeStyle = OUT; g.fillStyle = '#d6efff';
+      g.strokeText('z', cx - w * 0.15 + k * w * 0.3, cy + w * 0.2 - k * w * 0.5); g.fillText('z', cx - w * 0.15 + k * w * 0.3, cy + w * 0.2 - k * w * 0.5);
+    }
+    g.globalAlpha = 1;
+  }]);
+  return out;
+}
+function estrelas(g, cx, cy, w, now, cor) {
+  for (let i = 0; i < 3; i++) {
+    const a = now / 240 + i * ((Math.PI * 2) / 3), x = cx + Math.cos(a) * w * 0.36, y = cy + Math.sin(a) * w * 0.14, s = w * 0.15;
+    g.fillStyle = OUT; g.beginPath(); g.arc(x, y, s + 1.5, 0, Math.PI * 2); g.fill();
+    g.fillStyle = cor;
+    g.beginPath(); g.moveTo(x, y - s); g.lineTo(x + s * 0.35, y - s * 0.3); g.lineTo(x + s, y); g.lineTo(x + s * 0.35, y + s * 0.3); g.lineTo(x, y + s); g.lineTo(x - s * 0.35, y + s * 0.3); g.lineTo(x - s, y); g.lineTo(x - s * 0.35, y - s * 0.3); g.closePath(); g.fill();
+  }
+}
+
+export function drawStatusArt(g, fx, rooted, stunned, sx, sy, T, now, seed, semCabeca = false) {
   const on = (code) => fx && fx[code] > now;
   let n = 0;
   g.save(); g.lineCap = 'round'; g.lineJoin = 'round';
@@ -419,7 +456,7 @@ export function drawStatusArt(g, fx, rooted, stunned, sx, sy, T, now, seed) {
       drawBolt(g, x0, y0, x0 + (rnd(seed, f + 1) - 0.5) * T * 0.5, y0 + (rnd(seed, f + 2) - 0.5) * T * 0.5, T, now, seed + i, 0.9, 0.4);
     }
   }
-  if (on('silencio')) {                                   // selo em cima da cabeça
+  if (!semCabeca && on('silencio')) {                     // selo em cima da cabeça (v92: na fileira de ícones)
     n++;
     const y = sy - T * 0.95 + Math.sin(now / 300) * T * 0.03, w = T * 0.3, h = T * 0.36;
     g.fillStyle = OUT; g.fillRect(sx - w / 2 - 1.5, y - h / 2 - 1.5, w + 3, h + 3);
@@ -427,7 +464,7 @@ export function drawStatusArt(g, fx, rooted, stunned, sx, sy, T, now, seed) {
     g.strokeStyle = '#c8321a'; g.lineWidth = Math.max(1.5, T * 0.05);
     g.beginPath(); g.moveTo(sx - w * 0.28, y - h * 0.28); g.lineTo(sx + w * 0.28, y + h * 0.28); g.moveTo(sx + w * 0.28, y - h * 0.28); g.lineTo(sx - w * 0.28, y + h * 0.28); g.stroke();
   }
-  if (stunned || on('invertido')) {                       // estrelas girando em cima da cabeça
+  if (!semCabeca && (stunned || on('invertido'))) {       // estrelas girando em cima da cabeça (v92: na fileira de ícones)
     n++;
     for (let i = 0; i < 3; i++) {
       const a = now / 240 + i * ((Math.PI * 2) / 3), x = sx + Math.cos(a) * T * 0.3, y = sy - T * 0.92 + Math.sin(a) * T * 0.09, s = T * 0.075;
@@ -436,7 +473,7 @@ export function drawStatusArt(g, fx, rooted, stunned, sx, sy, T, now, seed) {
       g.beginPath(); g.moveTo(x, y - s); g.lineTo(x + s * 0.35, y - s * 0.3); g.lineTo(x + s, y); g.lineTo(x + s * 0.35, y + s * 0.3); g.lineTo(x, y + s); g.lineTo(x - s * 0.35, y + s * 0.3); g.lineTo(x - s, y); g.lineTo(x - s * 0.35, y - s * 0.3); g.closePath(); g.fill();
     }
   }
-  if (on('sono')) {                                       // Z subindo
+  if (!semCabeca && on('sono')) {                         // Z subindo (v92: na fileira de ícones)
     n++;
     g.font = `800 ${Math.round(T * 0.3)}px system-ui, sans-serif`; g.textAlign = 'center';
     for (let i = 0; i < 2; i++) {

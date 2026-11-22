@@ -18,7 +18,7 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   `public/figure.js` cache e giro). Detalhes em `arte/personagem-rig/LEIAME.md`. O estilo segue a folha de referência
   do Victor (chibi, contorno escuro, sombreado em 2-3 tons). Toda mudança de arte é comparada lado a lado com a
   referência e conferida dentro do jogo antes de fechar.
-- **Versão atual:** v90 na `main` (PRs #33 a #59; o #59 trouxe a v90, os clãs Bastião, Áspide, Garra e Zéfiro). **Banco:** todas as
+- **Versão atual:** v91 na `main` (PRs #33 a #60; o #60 trouxe a v91, o lugar da arte no corpo e os ícones em cima da cabeça). **Banco:** todas as
   migrações até a **v40** rodaram no `production` do Neon (confirmado pelo Victor em 17/11/2026); nenhuma pendente.
   Jutsus v2 com 96 jutsus (10 classes, Vento nova, e o Clã Rubro), mais os 74 da Fase 2.5 e os 16 dos clãs novos;
   conjuração, sistemas próprios (muros, invocações, escuridão...), clãs por linhagem, Extração e maestria, rankeado 1v1 e
@@ -32,6 +32,9 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   aumenta a cura, item Shuriken (consumível, botão ✴️), invocações andam até o alvo e socam (Sentinela de Sombra e Arsenal
   Vivo com desenho próprio). v54: curas e escudos com valor fixo (sem % da vida), Cura rebalanceada, Cegueira como estado
   (perde o alvo), Duplo de Água bate. Mesclado (PR #34; a v32 rodou no Neon).
+- **v91 (sem migração, pedidos do Victor de 22/11):** o lugar da arte no corpo (`lugar`: torso, corpo com ou sem a metade de
+  trás, pes) em 7 jutsus de exemplo (o resto espera o OK dele), a fileira de ícones em cima da cabeça (estados e jutsus
+  lado a lado; o Olhar Rubro e a Sombra Faminta) e a página das texturas do Flow com estado salvo no banco. Mesclado (PR #60).
 - **v90 (sem migração):** os clãs Bastião, Áspide, Garra (feras andando e mordendo; o Rei de frente e de costas) e Zéfiro, a
   Forma Umbral, a Faísca Rasante, o Esmagamento de Paredes, a Segunda Voz e o Empréstimo Forçado. Mesclado (PR #59).
 - **v89 (sem migração):** o Clã Rubro, 3 do Clã Umbra, Corpo de Água, Coluna d’Água, Mil Cortes do Céu, 3 do Taijutsu e a
