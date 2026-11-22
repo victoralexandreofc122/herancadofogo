@@ -246,6 +246,12 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v84: mais 4 do Taijutsu e o Olho da Tempestade (sem migração)
+
+- Cem Golpes (o cone de golpes na frente), Soco de Pressão (o projétil de ar e o anel no impacto), Bloqueio Firme (o
+  brilho quando o escudo sobe e quando o golpe bate nele), Chute Ascendente (o tornado no ponto de chegada) e Olho da
+  Tempestade (a espiral em volta do ninja enquanto dura e o golpe final com folhas no ponto avisado).
+
 ### v83: as Armas completas (sem migração)
 
 - Dança dos Mil Cortes (o redemoinho de lâminas em volta do ninja), Ascensão Dupla (o aviso, as lâminas sobem, os martelos

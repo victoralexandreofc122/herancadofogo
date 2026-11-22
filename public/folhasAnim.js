@@ -112,6 +112,12 @@ const TIPO = {
   weapons_ceu: { t: 'chuva' },
   weapons_laco: { t: 'corrente' },
   weapons_arsenal: { t: 'invoca', circulo: '01' },
+  // v84: mais do Taijutsu e o Olho da Tempestade
+  taijutsu_3: { t: 'cone', meio: ['01', '02', '03', '04', '05'], resto: ['06'] },
+  taijutsu_pressao: { t: 'proj', sai: ['01', '02'], voa: '03', bate: ['05'] },
+  taijutsu_bloqueio: { t: 'escudo', curto: true, monta: ['01'], quebra: ['01'] },
+  taijutsu_ascendente: { t: 'rastro', saida: ['01'], estica: [], chegada: ['02', '03', '04', '05', '06'] },
+  wind_olho: { t: 'corpo', escudo: true, intro: ['01', '02', '03'], meio: ['04', '05'], fim: [], golpe: ['07', '08'] },   // o 06 tem duas espirais cortadas pela divisória da folha
 };
 /** Avisos que vêm em ondas no mesmo lugar (a Ascensão Dupla): o desenho toca uma vez só. */
 const ONDA = new Map();
@@ -162,7 +168,7 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       jfx.drop(tag);
       ESCUDO.set(msg.playerId, s);
       // o escudo fica (no último quadro) até um golpe bater nele, ou some sozinho em 10 s
-      seq(jfx, s, 0, -0.5, now, corrida(k.monta, 0, 150, 10_000), { ...me, tag });
+      seq(jfx, s, 0, -0.5, now, corrida(k.monta, 0, 150, k.curto ? 650 : 10_000), { ...me, tag, ...(k.curto ? { scale: 0.7 } : {}) });
       return true;
     }
     case 'proj':
@@ -172,7 +178,7 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       const range = info.range ?? 3;
       const meio = k.meio ?? fs.slice(0, 4), resto = k.resto ?? fs.slice(4);
       const sc = range / largura(s, meio[meio.length - 1]);
-      seq(jfx, s, h.x, h.y, now, corrida(meio, 0, 110, 220), { angle, scale: s === 'water' || s === 'wind' ? sc : Math.max(0.6, sc * 0.6) });
+      seq(jfx, s, h.x, h.y, now, corrida(meio, 0, 110, 220), { angle, scale: s === 'water' || s === 'wind' || s === 'taijutsu_3' ? sc : Math.max(0.6, sc * 0.6) });
       const p = { x: h.x + msg.fx * range * 0.7, y: h.y + msg.fy * range * 0.7 + 0.1 };
       seq(jfx, s, p.x, p.y, now, corrida(resto, 420, 150, 600), { scale: 0.7 });
       return true;
@@ -331,6 +337,11 @@ export function folhaChao(jfx, msg, now, follow = () => null) {
     return true;
   }
   if (k.t === 'chuva') return msg.kind === 'aviso';   // o desenho veio no lançamento
+  if (k.golpe && msg.kind === 'aviso') {   // o fim da transformação: o golpe cai no ponto avisado (o Olho da Tempestade)
+    const sc = (2 * r) / largura(s, k.golpe[0]);
+    seq(jfx, s, msg.x, msg.y, now, corrida(k.golpe, ms - 80, 220, 800), { scale: sc });
+    return true;
+  }   // o desenho veio no lançamento
   if (k.t === 'aviso' && msg.kind === 'aviso' && k.unico) {
     const key = `${s}:${Math.round(msg.x * 2)}:${Math.round(msg.y * 2)}`;
     if (now - (ONDA.get(key) ?? -1e9) < 2500) return true;
