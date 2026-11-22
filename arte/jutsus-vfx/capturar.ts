@@ -20,7 +20,10 @@ const { chromium } = createRequire(import.meta.url)('playwright');
 const OUT = process.argv[2];
 const ONLY = process.argv[3] ? process.argv[3].split(',') : null;
 if (!OUT) throw new Error('uso: npx tsx arte/jutsus-vfx/capturar.ts <pasta de saída> [jutsu,jutsu,...]');
-const SL = 5;   // o relógio do jogo anda 5x mais devagar
+// v85: AUDITAR=1 não fotografa: registra o tamanho de cada quadro desenhado (auditoria.json, lido pelo auditar.ts)
+const AUDITAR = !!process.env.AUDITAR;
+const SL = AUDITAR ? 1 : 5;   // o relógio do jogo anda 5x mais devagar (na auditoria, no tempo real)
+const LOG: Record<string, unknown[]> = {};
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 type Step = [number, Record<string, unknown>];
@@ -284,12 +287,14 @@ await p.evaluate(([x, y]) => {   // dois alvos falsos (só no desenho)
 await p.evaluate(() => (window as any).__slow());
 for (const [skill, plan] of Object.entries(PLANOS(X, Y))) {
   if (ONLY && !ONLY.includes(skill)) continue;
+  if (AUDITAR) await p.evaluate(() => { (globalThis as any).__jfxLog = []; });
   const t0 = Date.now();
   const timeline = [...plan.steps.map(([t, m]) => ({ t, m, shot: false })), ...plan.shots.map((t) => ({ t, m: null, shot: true }))].sort((a, b) => a.t - b.t);
   let k = 0;
   for (const ev of timeline) {
     const dt = ev.t * SL - (Date.now() - t0);
     if (dt > 0) await wait(dt);
+    if (ev.shot && AUDITAR) continue;
     if (ev.shot) {
       const [sx, sy] = await p.evaluate(() => { const D = (window as any).ninDebug; return D.screenOf(D.meId()); });
       await p.screenshot({ path: `${OUT}/${skill}_${++k}.png`, clip: { x: Math.max(0, sx - 200), y: Math.max(0, sy - 230), width: 760, height: 400 } });
@@ -297,9 +302,11 @@ for (const [skill, plan] of Object.entries(PLANOS(X, Y))) {
       await p.evaluate((m: any) => { const D = (window as any).ninDebug; m.playerId = D.meId(); for (const k of Object.keys(m)) if (m[k] === '__ME__') m[k] = D.meId(); D.sim(m); }, ev.m);
     }
   }
+  if (AUDITAR) { await wait(400); LOG[skill] = await p.evaluate(() => (globalThis as any).__jfxLog); }
   console.log(skill, k, 'fotos');
-  await wait(1500 * SL);
+  await wait(AUDITAR ? 1500 : 1500 * SL);
 }
+if (AUDITAR) (await import('node:fs')).writeFileSync(`${OUT}/auditoria.json`, JSON.stringify(LOG));
 await ctx.close();
 await br.close();
 await db.end();

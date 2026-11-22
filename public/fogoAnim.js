@@ -537,6 +537,8 @@ export function fogoGround(jfx, msg, now, follow = () => null) {
     const ms = msg.ms ?? 800, sc = (msg.r ?? 1.3) / 1.3, fall = Math.min(420, ms * 0.6), h = 5;
     seq(jfx, 'fire_4', msg.x, msg.y, now, [['01b', 0, ms, { layer: 'ground', fadeIn: 120 }]]);
     jfx.launch(`met:${msg.id}`, 'fire_4_04b', msg.x, msg.y - h, 0, 1, h / (fall / 1000), h, now + ms - fall, 0);
+    jfx.marca(msg.x, msg.y, now + ms - fall - 100, fall + 100, { sombra: 0.7 });   // v85: a sombra do meteoro chegando
+    jfx.marca(msg.x, msg.y, now + ms, 500, { luz: ['#ff8a2a', 2.2], fadeIn: 20, fadeOut: 380 });   // e o clarão no chão
     seq(jfx, 'fire_4', msg.x, msg.y, now, [['05b', ms, 300, { scale: sc, flicker: true }], ['06b', ms + 240, 1100, { scale: sc, layer: 'ground', fadeOut: 700 }]]);
     return true;
   }
@@ -545,6 +547,7 @@ export function fogoGround(jfx, msg, now, follow = () => null) {
     const ms = msg.ms ?? 800, sc = (msg.r ?? 1.3) / 1.3, fall = Math.min(220, ms * 0.35), h = 5;
     seq(jfx, 'lightning_ceu', msg.x, msg.y, now, [['01b', 0, ms, { layer: 'ground', fadeIn: 120 }], ['02b', ms * 0.45, ms * 0.55, { layer: 'ground', flicker: true }]]);
     jfx.launch(`ceu:${msg.id}`, 'lightning_ceu_03b', msg.x, msg.y - h, 0, 1, h / (fall / 1000), h, now + ms - fall, 0);
+    jfx.marca(msg.x, msg.y, now + ms, 380, { luz: ['#70c8ff', 2], fadeIn: 10, fadeOut: 300 });   // v85: o clarão azul no chão
     seq(jfx, 'lightning_ceu', msg.x, msg.y + 0.2, now, [['05b', ms, 260, { scale: sc, flicker: true }], ['06b', ms + 220, 800, { scale: sc, fadeOut: 500 }]]);
     return true;
   }
@@ -590,6 +593,7 @@ export function fogoGround(jfx, msg, now, follow = () => null) {
     // v79: Avalanche: uma rocha por aviso cai do alto no fim dele (a lasca da Chuva de Cascalho) e deixa a cratera com poeira
     const ms = msg.ms ?? 900, sc = ((msg.r ?? 1.3) * 2) / 2.2, fall = Math.min(380, ms * 0.5), h = 5;
     if (ready('stone_cascalho')) jfx.launch(`aval:${msg.id}`, 'stone_cascalho_03b', msg.x, msg.y - h, 0, 1, h / (fall / 1000), h, now + ms - fall, 0);
+    jfx.marca(msg.x, msg.y, now + ms - fall - 100, fall + 100, { sombra: 0.7 });   // v85: a sombra da rocha chegando
     seq(jfx, 'stone_avalanche', msg.x, msg.y, now, [[Number(msg.id) % 2 ? '01' : '02', ms, 1500, { scale: sc, layer: 'ground', fadeIn: 40, fadeOut: 800 }]]);
     return true;
   }

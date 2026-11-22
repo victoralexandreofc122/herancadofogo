@@ -246,6 +246,21 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v85: profundidade, giro, sombra e luz nas animações; auditoria de hitbox; pendências das folhas (sem migração)
+
+- Profundidade: as auras, escudos, anéis e curas que ficam no corpo tocam em duas metades: a de trás por baixo do boneco
+  e a da frente por cima (`PROFUNDIDADE` em `public/vfxJutsus.js`); bolhas e véus deixam a metade da frente translúcida
+  (`FRENTE`) para o ninja aparecer dentro.
+- Fluidez: giro nas espirais e redemoinhos (`gira` em `public/folhasAnim.js`), entrada com zoom no primeiro quadro das
+  corridas, sombra no chão antes das quedas (meteoros, Avalanche, avisos) e luz no chão nos golpes grandes de Fogo e
+  Relâmpago (`jfx.marca`).
+- Quadros alinhados: âncora pelo centro de massa (`ancora: "massa"` no `ajustes.json`) nos anéis e auras que pulavam de
+  um quadro para o outro; `arte/jutsus-vfx/alinhamento.py` acusa os saltos que sobram.
+- Hitbox: `AUDITAR=1 capturar.ts` + `auditar.ts` comparam o tamanho da arte com a área do servidor
+  (`arte/jutsus-vfx/auditoria-hitbox.md`); a Ascensão Dupla, que passava de 157%, foi ajustada.
+- Pendências: `arte/jutsus-vfx/pendencias.py` gera a lista do que falta (53), do que refazer (9) e onde faltam quadros
+  (7), com os 6 quadros e o prompt do Flow de cada um (`pendencias.json`, `pendencias.md` e a página de acompanhamento).
+
 ### v84: mais 4 do Taijutsu e o Olho da Tempestade (sem migração)
 
 - Cem Golpes (o cone de golpes na frente), Soco de Pressão (o projétil de ar e o anel no impacto), Bloqueio Firme (o

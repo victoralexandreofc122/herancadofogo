@@ -72,7 +72,7 @@ export function camadasCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => 
       return L('pfx_fogo_faisca', h.x, h.y, 80, { angle, scale: 0.7 });
     case 'fire_ryuka':   // Lança de Fogo: a ponta estoura com faísca, um anel curto no chão e brasas
       L('pfx_fogo_faisca', lineEnd.tx, lineEnd.ty, 360, { angle });
-      L('pfx_fogo_anel', lineEnd.tx, lineEnd.ty + 0.2, 380, { scale: 1.3 / R.anelFogo, rate: 1.6, layer: 'ground' });
+      L('pfx_fogo_anel', lineEnd.tx, lineEnd.ty + 0.2, 380, { scale: 1.3 / R.anelFogo, rate: 1.6 });
       return brasas(lineEnd.tx, lineEnd.ty + 0.2, 560, 1200, 1.1);
     case 'fire_lamina': {   // Lâmina de Fogo: brasas soltando da lâmina enquanto o buff dura (sai junto com a lâmina)
       const dur = info.durationMs ?? 5000;
@@ -82,7 +82,7 @@ export function camadasCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => 
       return L('pfx_fogo_faisca', lineEnd.tx, lineEnd.ty - 0.4, 200, { angle, scale: 0.8 });
     case 'fire_3': {   // Varredura Flamejante: o anel de calor corre por baixo do leque e deixa brasas
       const sc = (info.range ?? 5) / 5;
-      L('pfx_fogo_anel', h.x + msg.fx * 1.6 * sc, h.y + msg.fy * 1.6 * sc + 0.3, 120, { scale: (2.2 * sc) / R.anelFogo, rate: 1.5, layer: 'ground' });
+      L('pfx_fogo_anel', h.x + msg.fx * 1.6 * sc, h.y + msg.fy * 1.6 * sc + 0.3, 120, { scale: (2.2 * sc) / R.anelFogo, rate: 1.5 });
       for (const [d, side] of [[1.6, 0], [2.8, 0.9], [2.8, -0.9], [3.8, 0]]) {
         const x = h.x + (msg.fx * d - msg.fy * side) * sc, y = h.y + (msg.fy * d + msg.fx * side) * sc + 0.3;
         brasas(x, y, 520 + d * 40, 1300, 1.2 * sc);
@@ -100,12 +100,13 @@ export function camadasCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => 
     case 'fire_rugido': {   // Rugido da Fornalha: brasas ao longo do raio e o anel no chão onde ele estoura
       const len = Math.hypot(lineEnd.tx - h.x, lineEnd.ty - h.y);
       along(h.x, h.y + 0.3, lineEnd.tx, lineEnd.ty + 0.3, Math.max(1, Math.round(len / 1.8)), (x, y, i) => brasas(x, y, 260 + i * 50, 1200, 1.3));
-      L('pfx_fogo_anel', lineEnd.tx, lineEnd.ty + 0.2, 470, { scale: 1.6 / R.anelFogo, rate: 1.5, layer: 'ground' });
+      L('pfx_fogo_anel', lineEnd.tx, lineEnd.ty + 0.2, 470, { scale: 1.6 / R.anelFogo, rate: 1.5 });
       return L('pfx_fogo_faisca', lineEnd.tx, lineEnd.ty, 470, { angle });
     }
     case 'fire_coroa': {   // Coroa de Chamas: o anel de fogo corre no chão até a borda e as brasas ficam
+      jfx.marca(msg.x, msg.y + 0.1, now + 280, 1100, { luz: ['#ff7a20', (info.radius ?? 3.5) * 1.1], fadeIn: 120, fadeOut: 600 });   // v85: a luz do fogo no chão
       const r = info.radius ?? 3.5;
-      L('pfx_fogo_anel', msg.x, msg.y + 0.1, 200, { scale: r / R.anelFogo, rate: 1.25, layer: 'ground' });
+      L('pfx_fogo_anel', msg.x, msg.y + 0.1, 200, { scale: r / R.anelFogo, rate: 1.25 });
       for (let i = 0; i < 6; i++) {
         const a = (i / 6) * Math.PI * 2;
         brasas(msg.x + Math.cos(a) * r * 0.7, msg.y + 0.1 + Math.sin(a) * r * 0.45, 760 + i * 30, 1500, 1.2);
@@ -139,7 +140,7 @@ export function camadasCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => 
       const p = msg.tx !== undefined ? at : { x: h.x + msg.fx, y: h.y + msg.fy };
       const r = info.radius ?? 1.5;
       L('pfx_poeira', p.x, p.y + 0.3, 300, { scale: (r * 1.2) / R.poeira });
-      return L('pfx_cura_anel', p.x, p.y + 0.3, 300, { scale: r / R.anelCura, rate: 1.8, layer: 'ground' });
+      return L('pfx_cura_anel', p.x, p.y + 0.3, 300, { scale: r / R.anelCura, rate: 1.8 });
     }
     case 'heal_banho': {   // Banho de Chakra: a luz sobe pelo corpo quando a coluna cai, e as cruzes no fim
       const p = on(atId, at, 0.15);
@@ -149,7 +150,7 @@ export function camadasCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => 
     case 'heal_septica':   // Lâmina Séptica: o brilho verde na mão quando a lâmina sai
       return L('pfx_cura_carga', h.x - 0.1, h.y, 0, { ms: 240, scale: 0.4, rate: 2 });
     case 'heal_onda':   // Onda Anestésica: o anel verde rola junto com a onda, com as cruzinhas brotando
-      return L('pfx_cura_anel', msg.x, msg.y + 0.1, 60, { scale: (info.radius ?? 3) / R.anelCura, rate: 1.3, layer: 'ground' });
+      return L('pfx_cura_anel', msg.x, msg.y + 0.1, 60, { scale: (info.radius ?? 3) / R.anelCura, rate: 1.3 });
     case 'heal_meridianos': {   // Selo dos Meridianos: os fios queimam o chakra do alvo com uma faísca
       const p = on(atId, at, -0.5);
       return L('pfx_cura_faisca', p.x, p.y, 600, { ...p.o, angle: Math.atan2(at.y - h.y, at.x - h.x), scale: 0.8 });
@@ -158,7 +159,7 @@ export function camadasCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => 
       const p = msg.tx !== undefined ? at : { x: h.x + msg.fx * 1.2, y: h.y + msg.fy * 1.2 };
       const r = info.radius ?? 2;
       L('pfx_poeira', p.x, p.y + 0.2, 440, { scale: (r * 1.3) / R.poeira });
-      return L('pfx_cura_anel', p.x, p.y + 0.2, 460, { scale: r / R.anelCura, rate: 1.6, layer: 'ground' });
+      return L('pfx_cura_anel', p.x, p.y + 0.2, 460, { scale: r / R.anelCura, rate: 1.6 });
     }
     case 'heal_4': {   // Renovação Celular: as cruzes sobem enquanto a cura dura
       const dur = info.durationMs ?? 10_000;
@@ -287,7 +288,8 @@ export function camadasImpact(jfx, msg, skill, now, dir = null) {
     case 'fire':
     case 'fire_hotan': {   // Fogo e Projétil Dracônico: o anel de fogo corre no chão do tamanho da explosão, poeira e brasas
       const r = msg.r > 0 ? msg.r : 1;
-      L('pfx_fogo_anel', msg.x, msg.y + 0.3, 0, { scale: r / R.anelFogo, rate: 1.4, layer: 'ground' });
+      jfx.marca(msg.x, msg.y + 0.2, now, 600, { luz: ['#ff8a2a', r * 1.4], fadeIn: 20, fadeOut: 450 });   // v85: o clarão da explosão no chão
+      L('pfx_fogo_anel', msg.x, msg.y + 0.3, 0, { scale: r / R.anelFogo, rate: 1.4 });
       if (skill === 'fire_hotan') L('pfx_poeira', msg.x, msg.y + 0.3, 40, { scale: (r * 1.1) / R.poeira, alpha: 0.85 });
       return L('pfx_fogo_brasas', msg.x, msg.y + 0.3, 300, { ms: 1100, scale: Math.max(1, r / 1.4) });
     }
@@ -323,23 +325,24 @@ export function camadasGround(jfx, msg, now, follow = () => null) {
     case 'fire_haiseki': {   // Cinzas Detonantes: brasas nas cinzas; quando detona, o anel de fogo e a poeira
       if (!aviso) return false;
       L('pfx_fogo_brasas', msg.x, msg.y, 0, { ms, scale: (r * 0.7) / R.brasas, layer: 'ground', alpha: 0.8, fadeIn: 200 });
-      L('pfx_fogo_anel', msg.x, msg.y, ms - 40, { scale: r / R.anelFogo, rate: 1.4, layer: 'ground' });
+      L('pfx_fogo_anel', msg.x, msg.y, ms - 40, { scale: r / R.anelFogo, rate: 1.4 });
       return L('pfx_poeira', msg.x, msg.y, ms, { scale: (r * 0.9) / R.poeira, alpha: 0.8 });
     }
     case 'fire_4': {   // Chuva de Meteoros: cada meteoro corre um anel de fogo onde cai e deixa brasas (sem poeira: são 5 juntos)
       if (!aviso) return false;
-      L('pfx_fogo_anel', msg.x, msg.y, ms, { scale: r / R.anelFogo, rate: 1.5, layer: 'ground' });
+      L('pfx_fogo_anel', msg.x, msg.y, ms, { scale: r / R.anelFogo, rate: 1.5 });
       return L('pfx_fogo_brasas', msg.x, msg.y, ms + 400, { ms: 1100, scale: 1.3 });
     }
     case 'fire_coluna':   // Coluna Infernal: brasas juntando no aviso; no fim a coluna de fogo do PixelFX sobe com a dele
       if (!aviso) return false;
+      jfx.marca(msg.x, msg.y, now + ms, 1200, { luz: ['#ff7a20', r * 1.3], fadeIn: 60, fadeOut: 700 });   // v85: a coluna ilumina o chão
       L('pfx_fogo_brasas', msg.x, msg.y, ms * 0.35, { ms: ms * 0.65, scale: (r * 0.5) / R.brasas, layer: 'ground', fadeIn: 200 });
       L('pfx_fogo_pilar', msg.x, msg.y, ms - 500, { scale: r / 2.6, rate: 1.4 });   // o pilar do PixelFX leva 0,55 s para irromper
-      return L('pfx_fogo_anel', msg.x, msg.y, ms, { scale: r / R.anelFogo, rate: 1.4, layer: 'ground' });
+      return L('pfx_fogo_anel', msg.x, msg.y, ms, { scale: r / R.anelFogo, rate: 1.4 });
     case 'fire_chao': {   // Chão Incandescente: o anel corre quando o chão acende e as brasas sobem enquanto a zona dura
       if (aviso) return false;
       const tag = `chao:${msg.id}`;
-      L('pfx_fogo_anel', msg.x, msg.y, 0, { scale: r / R.anelFogo, rate: 1.6, layer: 'ground', tag });
+      L('pfx_fogo_anel', msg.x, msg.y, 0, { scale: r / R.anelFogo, rate: 1.6, tag });
       for (const [dx, dy] of [[0, 0], [-0.5, -0.3], [0.5, 0.3], [0.5, -0.3], [-0.5, 0.3]]) {
         L('pfx_fogo_brasas', msg.x + dx * r, msg.y + dy * r, 200, { ms: ms - 200, scale: 1.2, tag });
       }
@@ -348,13 +351,13 @@ export function camadasGround(jfx, msg, now, follow = () => null) {
     case 'heal_3':   // Regeneração de Área: o círculo de runas gira no chão e as cruzes sobem enquanto dura
     case 'heal_santuario': {   // Santuário Vital: o mesmo, andando com quem lançou
       if (aviso) return false;
-      L('pfx_cura_anel', x0, y0, 0, { ...fol, scale: r / R.anelCura, rate: 1.4, layer: 'ground' });
+      L('pfx_cura_anel', x0, y0, 0, { ...fol, scale: r / R.anelCura, rate: 1.4 });
       L('pfx_cura_runas', x0, y0, 150, { ...fol, ms: ms - 150, scale: r / R.runas, layer: 'ground', alpha: 0.9, fadeIn: 200 });
       return L('pfx_cura_cruzes', x0, y0, 300, { ...fol, ms: ms - 300, scale: Math.max(1, (r * 0.6) / R.cruzes) });
     }
     case 'heal_milagre':   // Milagre Verde: a onda verde corre no chão quando a flor explode, e as cruzes sobem
       if (aviso) return false;
-      L('pfx_cura_anel', x0, y0, 220, { ...fol, scale: r / R.anelCura, rate: 1.2, layer: 'ground' });
+      L('pfx_cura_anel', x0, y0, 220, { ...fol, scale: r / R.anelCura, rate: 1.2 });
       return L('pfx_cura_cruzes', x0, y0, 500, { ...fol, ms: 1500, scale: Math.max(1, (r * 0.5) / R.cruzes) });
     case 'lightning_rede': {   // Rede de Faíscas: faíscas estalando em vários pontos da rede enquanto ela dura
       if (aviso) return false;
@@ -377,6 +380,7 @@ export function camadasGround(jfx, msg, now, follow = () => null) {
       return L('pfx_pedra_chao', msg.x, msg.y, ms, { scale: (r * 1.2) / R.chao });
     case 'lightning_4':   // Julgamento do Trovão: o raio cai e o trovão estoura na área toda, com poeira
       if (!aviso) return false;
+      jfx.marca(msg.x, msg.y, now + ms, 500, { luz: ['#9ad8ff', r * 1.2], fadeIn: 10, fadeOut: 400 });   // v85: o clarão do raio
       L('pfx_raio_estalo', msg.x, msg.y + 0.1, ms + 40, { scale: r / R.estalo });
       return L('pfx_poeira', msg.x, msg.y + 0.1, ms + 80, { scale: (r * 0.9) / R.poeira, alpha: 0.75 });
     case 'lightning_ceu':   // Céu em Fúria: cada raio que cai estala no chão

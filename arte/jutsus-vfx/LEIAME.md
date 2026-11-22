@@ -75,6 +75,25 @@ no tempo dos quadros. O passo a passo e as lições estão em `arte/pixelfx/LEIA
 - Projétil desenhado: o rastro e o estouro antigos do elemento saem (`drawnArt` em `game.js`).
 - Captura de noite deixa o brilho mais forte; a Academia é o lugar padrão (chão liso, de dia).
 
+## Profundidade, giro, sombra e luz (v85)
+
+- O que fica no corpo (auras, escudos, anéis em volta, curas) entra no `PROFUNDIDADE` de `public/vfxJutsus.js`: o motor
+  desenha a parte de cima do quadro (acima dos pés) na camada do chão, atrás do boneco, e a de baixo por cima. Bolhas e
+  véus que cobrem o corpo vão também no `FRENTE` (a metade da frente fica translúcida).
+- `show()` aceita `spin` (giro em rad/s), `pop` (entrada com zoom, em ms), `sombra` (raio em casas) e `luz` ([cor, raio]);
+  `jfx.marca(x, y, início, ms, { sombra, luz })` põe só a sombra ou a luz no chão.
+- `ancora: "massa"` no `jogo` do `ajustes.json` centra cada quadro pelo centro de massa do desenho (anéis que pulavam).
+  `python3 arte/jutsus-vfx/alinhamento.py` lista os saltos de posição e de tamanho entre quadros.
+- Hitbox: `AUDITAR=1 npx tsx arte/jutsus-vfx/capturar.ts <pasta>` e `npx tsx arte/jutsus-vfx/auditar.ts <pasta>/auditoria.json`
+  (copiar o `auditoria-hitbox.md` para esta pasta). Casado é de 75% a 135% do raio do servidor.
+
+## Pendências e prompts do Flow (v85)
+
+`python3 arte/jutsus-vfx/pendencias.py` gera `pendencias.json` e `pendencias.md`: as folhas que faltam, as que precisam
+refazer e as que precisam de mais quadros, cada uma com o fundo, os 6 quadros e o prompt do Flow. A página de
+acompanhamento do Victor lê o `pendencias.json` e guarda o que ele marcou (Fazendo, Enviei) no banco dela. Ao receber
+uma folha da lista: tirar o item do `pendencias.py`, gerar de novo e republicar a página.
+
 ## Situação (22/11/2026)
 
 **Feitos (147):**
