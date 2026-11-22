@@ -120,8 +120,8 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
 
 ## Animações dos jutsus (folhas do Victor): como continuar numa aba nova
 
-O Victor manda folhas de 6 quadros (fundo verde ou magenta) e cada uma vira a animação de um jutsu. **Feitos 199** (todas as classes e os clãs, v56 e v73 a v90);
-**falta 1** (o Ciclo Sem Fim, `illusion_4`). O que refazer e as folhas de direção estão nas pendências. A lista completa, com o id e a forma de cada um, e o passo a passo
+O Victor manda folhas de 6 quadros (fundo verde ou magenta) e cada uma vira a animação de um jutsu. **Feitos os 200** (todas as classes e os clãs, v56 e v73 a v95;
+o Ciclo Sem Fim, `illusion_4`, foi o último). O lugar no corpo de cada um: `LUGAR` em `public/vfxJutsus.js` (v95). O que refazer e as folhas de direção estão nas pendências. A lista completa, com o id e a forma de cada um, e o passo a passo
 estão em **`arte/jutsus-vfx/LEIAME.md`**: ler antes de mexer. O que falta e o que refazer, com o prompt do Flow de cada
 folha: `arte/jutsus-vfx/pendencias.md` (gerado por `pendencias.py`).
 

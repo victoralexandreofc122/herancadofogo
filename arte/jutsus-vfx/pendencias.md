@@ -3,26 +3,7 @@
 Gerado por `python3 arte/jutsus-vfx/pendencias.py`. A página de acompanhamento guarda o que já foi feito;
 este arquivo é a mesma lista em texto.
 
-## Faltam (folha nova) (1)
-
-### Ciclo Sem Fim (`illusion_4`), Ilusão, efeito no alvo, fundo verde
-
-Prende o alvo (até 5 casas) por 2,4 s, deixa em silêncio por 2,5 s e lento por 2 s. Sem dano.
-
-**No jogo:** Toca em cima do alvo; o meio do painel fica vazio para o boneco, com a parte de trás atrás dele.
-
-**Folha: Ciclo Sem Fim** (`illusion_4`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Ciclo Sem Fim" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Ciclo Sem Fim": three violet rune rings turning around the target like a clock. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: a mark appears on the ground at the center, around an empty spot where the target stands.
-F2: three violet rune rings turning around the target like a clock rises and closes around the empty center.
-F3: three violet rune rings turning around the target like a clock at full strength around the target spot (loop frame A).
-F4: the same hold with small changes (loop frame B).
-F5: the release: three violet rune rings turning around the target like a clock loosens and opens up.
-F6: the last particles fading.
-```
+## Faltam (folha nova) (0)
 
 ## Refazer (10)
 

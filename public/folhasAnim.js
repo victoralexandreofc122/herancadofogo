@@ -163,6 +163,8 @@ const TIPO = {
   lightning: { t: 'linha', mao: ['01'], estica: ['02', '03', '04', '05', '06'] },
   stone_3: { t: 'alvo', ms: 1600, esc: 1.1, intro: ['01', '02', '03'], meio: ['04', '05'], fim: ['06'] },   // rootMs
   illusion_voz: { t: 'invoca', sobe: ['01', '02', '03', '04'] },   // o clone é o próprio boneco (como o Reflexo)
+  // v95: Ciclo Sem Fim, a última folha: os anéis de runas sobem do chão em volta dos pés do alvo, giram enquanto prende e se desfazem
+  illusion_4: { t: 'alvo', lugar: 'pes', sy: 0.55, gira: 0.5, ms: 2400, esc: 0.9, intro: ['01', '02', '03'], meio: ['04', '05', '06'], fim: ['07', '08', '09'] },   // rootMs
   illusion_emprestimo: { t: 'alvo', ms: 1200, esc: 0.75, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   // v94 (pedido do Victor, 22/11): a Forma Umbral na altura dos pés (o redemoinho em volta deles), opaca: a parte clara saiu
   umbra_forma: { t: 'corpo', lugar: 'pes', largura: 1.7, sy: 0.62, gira: 0, ms: 5000, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
@@ -392,6 +394,11 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       const o = id ? { follow: () => follow(id) } : {};
       if (k.cabeca && id) {   // v92: a marca vira um ícone em cima da cabeça do alvo enquanto dura (a Sombra Faminta)
         seq(jfx, s, 0, 0, now, laco(k.intro, k.meio, k.fim, k.ms ?? 1500, 300), { tag: `marca:${s}:${id}`, cabeca: id });
+        return true;
+      }
+      if (k.meio && k.lugar === 'pes') {   // v95: no chão, em volta dos pés do alvo (a metade de trás atrás dele)
+        seq(jfx, s, id ? 0 : end.x, id ? 0.42 : end.y + 0.42, now, laco(k.intro, k.meio, k.fim, k.ms ?? info[k.dur] ?? 1500, 300),
+          { ...o, scale: k.esc ?? 0.7, split: true, spin: k.gira ?? 0, ...(k.sy ? { sy: k.sy } : {}) });
         return true;
       }
       if (k.meio) {   // v88: fica no alvo o tempo do efeito (as Raízes prendem, a Noite escurece, o Espelho embaralha)

@@ -82,9 +82,11 @@ describe('v73 a v79: as animações desenhadas dos jutsus de Fogo, Cura, Relâmp
     // v90: os clãs Bastião, Áspide, Garra e Zéfiro, a Forma Umbral e mais 4
     'lightning', 'stone_3', 'illusion_voz', 'illusion_emprestimo', 'umbra_forma', 'bastiao_muralha', 'bastiao_guarda', 'bastiao_resposta',
     'bastiao_juramento', 'aspide_cuspe', 'aspide_nevoa', 'aspide_constricao', 'aspide_ninho', 'garra_matilha', 'garra_uivo', 'garra_troca',
-    'garra_rei', 'zefiro_passo', 'zefiro_veu', 'zefiro_eco', 'zefiro_mil'];
+    'garra_rei', 'zefiro_passo', 'zefiro_veu', 'zefiro_eco', 'zefiro_mil',
+    // v95: o Ciclo Sem Fim (a última folha)
+    'illusion_4'];
   // quadros por folha: 6; o Cometa veio sem o 5, a Desintoxicação com o 6 vazio, a Palma com 7
-  const N: Record<string, number> = { fire_cometa: 5, heal_desintox: 5, heal_palma: 7, lightning_risco: 7, stone_avalanche: 2,
+  const N: Record<string, number> = { illusion_4: 9, fire_cometa: 5, heal_desintox: 5, heal_palma: 7, lightning_risco: 7, stone_avalanche: 2,
     water_clone: 1, water_casulo: 8, taijutsu_queda: 7, weapons: 7, weapons_corte: 5, weapons_arsenal: 1, taijutsu_pressao: 5, taijutsu_bloqueio: 1, wind_olho: 8, zefiro_mil: 5, wind_veu: 5, wind_espelho: 5, shadow_veu: 7, shadow_2: 5, shadow_beijo: 5, shadow_recuo: 5 };   // v80: folhas com outro número de quadros   // a Avalanche: duas crateras de uma folha só
   it('cada jutsu tem os quadros da folha, e a Revoada e a Chuva têm as peças soltas (uma brasa, um meteoro)', () => {
     for (const s of SKILLS) {
@@ -125,8 +127,8 @@ describe('v78: as camadas do PixelFX que complementam as folhas desenhadas (cama
   const DESENHADOS = ['fire', 'fire_endan', 'fire_kasumi', 'fire_hibashiri', ...new Set(FOGO_SPRITE_FRAMES.map((f) => f.replace(/_0\d\w?$/, '')).filter((b) => !/_(baixo|cima|rajada)$/.test(b)))];
   const src = readFileSync(new URL('../public/camadasJutsus.js', import.meta.url), 'utf8');
 
-  it('os 199 jutsus desenhados têm camadas (lançamento, impacto ou chão)', () => {
-    assert.equal(DESENHADOS.length, 199);   // v90: + 21 (os clãs novos, a Forma Umbral e mais 4)   // v89: + Rubro (6), Umbra (3), Água (2), Taijutsu (3), Vento e Cura   // v88: + 15 da Ilusão   // v84: + 4 do Taijutsu e o Olho da Tempestade   // v83: + as 5 últimas das Armas   // v82: + 4 do Vento e 12 das Armas   // v81: + 5 do Taijutsu e 11 do Vento   // v79: + os 16 da Pedra; v80: + Sumidouro, Água, Sombra e Taijutsu
+  it('os 200 jutsus desenhados têm camadas (lançamento, impacto ou chão)', () => {
+    assert.equal(DESENHADOS.length, 200);   // v95: + o Ciclo Sem Fim (todos desenhados)   // v90: + 21 (os clãs novos, a Forma Umbral e mais 4)   // v89: + Rubro (6), Umbra (3), Água (2), Taijutsu (3), Vento e Cura   // v88: + 15 da Ilusão   // v84: + 4 do Taijutsu e o Olho da Tempestade   // v83: + as 5 últimas das Armas   // v82: + 4 do Vento e 12 das Armas   // v81: + 5 do Taijutsu e 11 do Vento   // v79: + os 16 da Pedra; v80: + Sumidouro, Água, Sombra e Taijutsu
     // v80: a Água, a Sombra e o Taijutsu têm a carga e a faísca da classe (camadas por classe, não por jutsu)
     for (const s of DESENHADOS) if (!/^(water|shadow|taijutsu|wind|weapons|illusion|umbra|rubro|bastiao|aspide|garra|zefiro)/.test(s)) assert.match(src, new RegExp(`case '${s}':`), s);
     assert.match(src, /LEVA80/);

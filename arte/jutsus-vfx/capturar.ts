@@ -255,6 +255,7 @@ function PLANOS(X: number, Y: number): Record<string, Plan> {
     illusion_estaca: { steps: [[0, C('illusion_estaca', { tx: X + 6, ty: Y })]], shots: [40, 160, 260, 360, 460, 640] },
     illusion_estaca_baixo: { steps: [[0, C('illusion_estaca', { fx: 0, fy: 1, tx: X, ty: Y + 4 })]], shots: [40, 160, 260, 360, 460, 640] },
     illusion_ninar: { steps: [[0, C('illusion_ninar', { tx: X + 6, ty: Y })]], shots: [40, 160, 260, 360, 460, 640] },
+    illusion_4: { steps: [[0, C('illusion_4', { tx: X + 4, ty: Y })]], shots: [80, 250, 500, 1000, 1700, 2300, 2550, 2700] },
     illusion_3: { steps: [[0, C('illusion_3', { tx: X + 4, ty: Y })]], shots: [60, 200, 450, 900, 1650, 1850] },
     illusion_noite: { steps: [[0, C('illusion_noite', { tx: X + 4, ty: Y })]], shots: [60, 200, 600, 1500, 2750, 2950] },
     illusion_espelho: { steps: [[0, C('illusion_espelho', { tx: X + 4, ty: Y })]], shots: [60, 200, 400, 700, 1050, 1250] },

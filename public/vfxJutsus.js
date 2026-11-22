@@ -70,7 +70,7 @@ const FOGO_BASES = new Set(Object.keys(FOGO_FRAMES).map((n) => n.replace(/_0\d\w
 export const PROFUNDIDADE = new Set([
   'stone_3', 'illusion_emprestimo', 'umbra_forma', 'bastiao_muralha', 'bastiao_guarda', 'bastiao_juramento', 'aspide_constricao', 'zefiro_veu',   // v90
   'rubro_olho', 'rubro_guardiao', 'rubro_completo', 'umbra_faminta', 'water_corpo', 'heal_aura', 'taijutsu_chave',   // v89
-  'illusion_3', 'illusion_noite', 'illusion_espelho', 'illusion_kai', 'illusion_reflexo', 'illusion_veu',   // v88: a Ilusão
+  'illusion_4', 'illusion_3', 'illusion_noite', 'illusion_espelho', 'illusion_kai', 'illusion_reflexo', 'illusion_veu',   // v88: a Ilusão
   'fire_coroa', 'heal', 'heal_casca', 'heal_4', 'heal_desintox', 'heal_banho', 'heal_santuario', 'heal_disturbio',
   'lightning_armadura', 'lightning_fluxo', 'lightning_correntes', 'lightning_maos',
   'stone', 'stone_4', 'stone_couraca', 'stone_resposta', 'stone_pisao', 'stone_pilares', 'stone_punho',
@@ -89,6 +89,49 @@ const FRENTE = { bastiao_guarda: 0.6, bastiao_muralha: 0.75, zefiro_veu: 0.55, a
   wind_olho: 0.55, shadow_veu: 0.55, water_3: 0.55, lightning_armadura: 0.8, taijutsu_bloqueio: 0.7 };
 const baseDe = (name) => name.replace(/_0\d\w?$/, '');
 
+/**
+ * v95 (OK do Victor, 22/11: "usar os estilos de lugar no corpo em todos os jutsus desse tipo"): o lugar de cada arte que fica
+ * no corpo de alguém, qualquer que seja o caminho que a toca (fogoAnim.js ou folhasAnim.js). Vale só para o quadro que
+ * acompanha alguém (follow) na camada de cima e que ainda não veio com o encaixe (apoio). Os 4 estilos:
+ *  - torso: do pescoço ao quadril, sem cobrir a cabeça (escudos no peito);
+ *  - corpo + tras: sobe dos pés e cobre o boneco; a parte de trás (acima do corte) fica atrás dele, a cabeça na frente;
+ *  - corpo sem tras: a bolha em volta, inteira por cima e translúcida (o ninja dentro);
+ *  - pes: o círculo deitado no chão, em volta dos pés (a metade de trás atrás do boneco).
+ * O tamanho sai de um quadro de referência (ref, o cheio) e vale para todos, para os quadros pequenos (a faísca da entrada)
+ * não esticarem até a altura do corpo. O boneco: pés +0,42, quadril +0,18, pescoço -0,22, topo da cabeça -0,88 (casas).
+ */
+export const LUGAR = {
+  // tronco
+  stone: { lugar: 'torso', alto: 0.62 }, stone_resposta: { lugar: 'torso', alto: 0.62 }, shadow_estrangular: { lugar: 'torso', alto: 0.5, dy: -0.12 },
+  // corpo com a metade de trás (anéis e redemoinhos em volta, chamas e portões que sobem dos pés)
+  taijutsu_folego: { lugar: 'corpo', tras: true, alto: 1.35 }, lightning_fluxo: { lugar: 'corpo', tras: true, alto: 1.4 },
+  lightning_armadura: { lugar: 'corpo', tras: true, alto: 1.45 }, wind_veu: { lugar: 'corpo', tras: true, alto: 1.4 },
+  wind_olho: { lugar: 'corpo', tras: true, alto: 1.5 }, water_corpo: { lugar: 'corpo', tras: true, alto: 1.45 },
+  zefiro_veu: { lugar: 'corpo', tras: true, alto: 1.4 }, weapons_2: { lugar: 'corpo', tras: true, alto: 1.3 },
+  shadow_ciranda: { lugar: 'corpo', tras: true, alto: 1.35 }, heal_desintox: { lugar: 'corpo', tras: true, alto: 1.3 },
+  heal_4: { lugar: 'corpo', tras: true, alto: 1.3 }, taijutsu_portoes: { lugar: 'corpo', tras: true, alto: 1.4, corte: -0.3 },
+  bastiao_juramento: { lugar: 'corpo', tras: true, alto: 1.6, corte: -0.2 }, aspide_constricao: { lugar: 'corpo', tras: true, alto: 1.2, corte: -0.3 },
+  rubro_completo: { lugar: 'corpo', tras: true, alto: 2.1, corte: 0 },   // o guerreiro inteiro atrás do ninja
+  // bolha por cima (o ninja dentro, translúcido)
+  wind_espelho: { lugar: 'corpo', alto: 1.45, alpha: 0.6 }, illusion_kai: { lugar: 'corpo', alto: 1.45, alpha: 0.6 },
+  heal_casca: { lugar: 'corpo', alto: 1.45, alpha: 0.55 }, stone_4: { lugar: 'corpo', alto: 1.45, alpha: 0.7 },
+  stone_couraca: { lugar: 'corpo', alto: 1.3, alpha: 0.65 }, shadow_veu: { lugar: 'corpo', alto: 1.4, alpha: 0.6 },
+  water_3: { lugar: 'corpo', alto: 1.45, alpha: 0.6 }, heal: { lugar: 'corpo', alto: 1.3, alpha: 0.75 },
+  // no chão, em volta dos pés
+  shadow_4: { lugar: 'pes', largura: 1.6, sy: 0.6 }, illusion_veu: { lugar: 'pes', largura: 1.6, sy: 0.7 },
+};
+/** O encaixe do LUGAR para um quadro (null = sem mudança: falta a imagem de referência). */
+function lugarDe(base, L, opts) {
+  const ref = [L.ref, '04', '03', '05', '02', '01'].map((n) => n && `${base}_${n}`).find((n) => n && imgs[n] && FRAMES[n] && !FRAMES[n].quadros);
+  if (!ref) return null;
+  const im = imgs[ref], fm = FRAMES[ref];
+  const pelaAltura = (alto) => (alto * im.width) / (im.height * fm.casas);
+  if (L.lugar === 'pes') return { y: L.y ?? 0.42, scale: (L.largura ?? 1.5) / fm.casas, split: true, ...(L.sy ? { sy: L.sy } : {}) };
+  if (L.lugar === 'torso') return { y: -0.02 + (L.dy ?? 0), apoio: 'centro', scale: pelaAltura(L.alto ?? 0.5), split: false };
+  return { y: 0.47 + (L.dy ?? 0), apoio: 'base', scale: pelaAltura(L.alto ?? 1.45), split: !!L.tras, corte: L.corte ?? -0.69,
+    ...(L.tras ? {} : { alpha: (opts.alpha ?? 1) * (L.alpha ?? 0.62) }) };
+}
+
 /** Quadros por segundo da tremida (o mesmo quadro espelhado e balançando, para o fogo não ficar parado). */
 export const FLICKER_FPS = 12;
 
@@ -105,6 +148,12 @@ export class JutsuSprites {
   /** Toca um quadro em (x, y) (casas) de `start` até `start + ms`. */
   show(name, x, y, start, ms, opts = {}) {
     if (!imgs[name]) return false;
+    // v95: o lugar no corpo (LUGAR) para quem acompanha alguém e ainda não veio encaixado
+    const L = LUGAR[baseDe(name)];
+    if (L && opts.follow && !opts.cabeca && !opts.apoio && (opts.layer ?? 'top') === 'top') {
+      const o = lugarDe(baseDe(name), L, opts);
+      if (o) { y = o.y; opts = { ...opts, ...o }; }
+    }
     // v85: auditoria (arte/jutsus-vfx/auditar.ts): o tamanho desenhado de cada quadro, para comparar com a área do servidor
     if (globalThis.__jfxLog) globalThis.__jfxLog.push({ name, x, y, scale: opts.scale ?? 1, grow: opts.grow ?? 0, len: opts.len ?? 0, casas: FRAMES[name]?.casas ?? 0, eixo: !!FRAMES[name]?.eixoPx, arte: FRAMES[name]?.arte !== undefined, follow: !!opts.follow, layer: opts.layer ?? 'top' });
     this.list.push({ name, x, y, start, end: start + ms, angle: opts.angle ?? 0, scale: opts.scale ?? 1, fadeIn: opts.fadeIn ?? 60, fadeOut: opts.fadeOut ?? 120,

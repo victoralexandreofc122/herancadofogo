@@ -496,7 +496,7 @@ def auditoria():
 FEITOS = {
     'illusion', 'illusion_2', 'illusion_3', 'illusion_kai', 'illusion_estaca', 'illusion_templo', 'illusion_noite',   # v88
     'illusion_olho', 'illusion_passo', 'illusion_veu', 'illusion_espelho', 'illusion_coro', 'illusion_colapso',
-    'illusion_ninar', 'illusion_reflexo',
+    'illusion_ninar', 'illusion_reflexo', 'illusion_4',   # v95: o Ciclo Sem Fim, a última
     'rubro_olho', 'rubro_transe', 'rubro_chamas', 'rubro_lua', 'rubro_guardiao', 'rubro_completo',   # v89
     'umbra_deslize', 'umbra_faminta', 'umbra_noite', 'water_corpo', 'water_coluna', 'wind_milcortes',
     'taijutsu_impacto', 'taijutsu_chave', 'taijutsu_lotus', 'heal_aura',

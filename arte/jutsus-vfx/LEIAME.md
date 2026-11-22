@@ -138,7 +138,11 @@ uma folha da lista: tirar o item do `pendencias.py`, gerar de novo e republicar 
 - v90: os clãs Bastião (4), Áspide (4; o Ninho só com o círculo), Garra (4; as feras andam e mordem, o Rei com as folhas de frente e de costas) e Zéfiro (4), a Forma Umbral, a Faísca Rasante, o Esmagamento de Paredes, a Segunda Voz (o próprio boneco violeta) e o Empréstimo Forçado.
 - Ilusão (15, v88): Ilusão, Visão do Abismo, Raízes do Pesadelo, Dissipação, Estaca da Ilusão (com a folha para baixo), Santuário das Penas, Noite Eterna, Olho Errante, Passo Falso, Véu da Meia-Noite, Espelho Quebrado, Coro do Silêncio, Colapso Onírico, Canção de Ninar, Reflexo Vazio (a fumaça; o duplo continua o desenho do Duplo de Água).
 
-**Falta (1):** Ciclo Sem Fim (`illusion_4`, alvo).
+- v95: Ciclo Sem Fim (9 quadros: os anéis sobem do chão em volta dos pés do alvo, giram enquanto prende e se desfazem).
+
+**Falta:** nenhum. Os 200 jutsus têm folha desenhada pelo Victor (o que refazer e as folhas de direção estão em `pendencias.md`).
+
+**Lugar no corpo (v95):** o `LUGAR` de `public/vfxJutsus.js` encaixa toda arte que fica no corpo de alguém num dos 4 estilos (tronco; corpo com a metade de trás; bolha por cima, translúcida; círculo nos pés), seja qual for o arquivo que toca. Jutsu novo desse tipo ganha a sua linha lá.
 
 <!-- lista antiga dos que faltavam (até a v89):
 
