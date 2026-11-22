@@ -69,9 +69,26 @@ const TIPO = {
   shadow_estrangular: { t: 'alvo' },
   shadow_troca: { t: 'entre' }, shadow_saltadora: { t: 'entre', mao: ['01'] },
   shadow_agarre: { t: 'agarre' },
-  shadow_punho: { t: 'aviso' },
+  shadow_punho: { t: 'aviso', avisa: ['01', '02'], cai: ['03', '04'], bate: ['05', '06'] },
   water_clone: { t: 'invoca' }, shadow_sentinela: { t: 'invoca', sobe: ['01', '02', '03'] },
   water_muro: { t: 'muro' },
+  // v81: o resto do Taijutsu e o Vento
+  taijutsu_portoes: { t: 'corpo', pes: true, intro: ['01', '02', '03'], meio: ['04', '05'], fim: ['06'] },
+  taijutsu_flecha: { t: 'rastro', saida: ['01'], estica: ['02', '03', '04'], chegada: ['05'], trilha: ['06'] },
+  taijutsu_furia: { t: 'rastro', saida: ['01', '02'], estica: ['03', '04'], chegada: ['05', '06'] },
+  taijutsu_4: { t: 'ao_longo', fr: [['01', 0.2], ['02', 0], ['03', 0], ['04', 0.35], ['05', 0.85], ['06', 0.85]] },
+  taijutsu_queda: { t: 'aviso', avisa: ['01', '02'], cai: ['03', '04', '05'], bate: ['06', '07'] },
+  wind: { t: 'cone', meio: ['01', '02', '03', '04', '05'], resto: ['06'] },
+  wind_salto: { t: 'rastro', saida: ['01', '02'], estica: ['03', '04'], chegada: ['05'], chao: ['06'] },
+  wind_shuriken: { t: 'proj', sai: ['01', '02'], voa: '03', bate: ['05', '06'] },
+  wind_2: { t: 'proj', sai: ['01', '02', '03'], gira: true, voa: '04b', bate: ['05b', '06b'] },
+  wind_veu: { t: 'corpo', escudo: true, intro: ['02', '03'], meio: ['04', '05'], fim: ['06'] },
+  wind_espelho: { t: 'corpo', escudo: true, dur: 'reflectMs', intro: ['02', '03'], meio: ['03', '04'], fim: ['05', '06'] },
+  wind_arco: { t: 'lamina', fixo: true },
+  wind_leve: { t: 'corpo', chao: true, intro: ['01', '02', '03'], meio: ['03', '05'], fim: ['04', '06'] },
+  wind_pulso: { t: 'anel' },
+  wind_3: { t: 'aviso', avisa: ['01', '02'], cai: ['03', '04'], bate: ['05', '06'] },
+  wind_asa: { t: 'rastro', saida: ['01', '02'], voa: '03', estica: [], chegada: ['05', '06'] },
 };
 
 /** O jutsu tem a folha desta leva (para o fogoAnim saber se chama). */
@@ -103,9 +120,12 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       return true;
     }
     case 'corpo': {
-      const dur = info.durationMs ?? 4000, tag = `folha:${s}:${msg.playerId}`;
+      const dur = info[k.dur ?? 'durationMs'] ?? 4000, tag = `folha:${s}:${msg.playerId}`;
       jfx.drop(tag);
-      seq(jfx, s, 0, k.escudo ? -0.5 : -0.35, now, laco(k.intro, k.meio, k.fim, dur), { ...me, tag, ...(k.escudo ? {} : { scale: 1.1, alpha: 0.85 }) });
+      // escudo: em volta do corpo; pes: a aura sobe dos pés (o apoio é a base do desenho); chao: o redemoinho deitado no chão
+      const y = k.escudo ? -0.5 : k.pes ? 0.32 : k.chao ? 0.15 : -0.35;
+      const extra = k.escudo || k.pes ? {} : k.chao ? { layer: 'ground' } : { scale: 1.1, alpha: 0.85 };
+      seq(jfx, s, 0, y, now, laco(k.intro, k.meio, k.fim, dur), { ...me, tag, ...extra });
       return true;
     }
     case 'escudo': {
@@ -121,9 +141,9 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       return true;
     case 'cone': {
       const range = info.range ?? 3;
-      const meio = fs.slice(0, 4), resto = fs.slice(4);
+      const meio = k.meio ?? fs.slice(0, 4), resto = k.resto ?? fs.slice(4);
       const sc = range / largura(s, meio[meio.length - 1]);
-      seq(jfx, s, h.x, h.y, now, corrida(meio, 0, 110, 220), { angle, scale: s === 'water' ? sc : Math.max(0.6, sc * 0.6) });
+      seq(jfx, s, h.x, h.y, now, corrida(meio, 0, 110, 220), { angle, scale: s === 'water' || s === 'wind' ? sc : Math.max(0.6, sc * 0.6) });
       const p = { x: h.x + msg.fx * range * 0.7, y: h.y + msg.fy * range * 0.7 + 0.1 };
       seq(jfx, s, p.x, p.y, now, corrida(resto, 420, 150, 600), { scale: 0.7 });
       return true;
@@ -166,7 +186,7 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       seq(jfx, s, h.x, h.y, now, [['01', 0, 140, { angle: a, len: Math.min(d, 2) }]]);
       n.forEach((f, i) => {
         const t = (i + 1) / n.length;
-        seq(jfx, s, h.x + (end.x - h.x) * t, h.y + (end.y - h.y) * t, now, [[f, 100 + i * 90, 130, { angle: a, scale: w / largura(s, f) }]]);
+        seq(jfx, s, h.x + (end.x - h.x) * t, h.y + (end.y - h.y) * t, now, [[f, 100 + i * 90, 130, { angle: a, scale: k.fixo ? 1 : w / largura(s, f) }]]);
       });
       seq(jfx, s, end.x, end.y - 0.2, now, [['06', 520, 600, { fadeOut: 400 }]]);
       return true;
@@ -181,8 +201,23 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
         const p = pe ? msg : fim;
         seq(jfx, s, p.x, p.y - 0.1, now, [[f, 160 + i * 100, 140, { angle: aa, len: dd }]]);
       });
-      seq(jfx, s, fim.x, fim.y - 0.1, now, corrida(k.chegada, 160 + k.estica.length * 100, 150, 500), { scale: 0.7 });
+      let t1 = 160 + k.estica.length * 100;
+      if (k.voa) {   // o desenho voa inteiro do começo ao fim (a ave da Asa Cortante), sem esticar
+        const v = 22, voo = (dd / v) * 1000;
+        jfx.launch(`folha:${s}:${msg.playerId}:${now}`, `${s}_${k.voa}`, msg.x, msg.y - 0.3, Math.cos(aa), Math.sin(aa), v, dd, now + 140, 60);
+        t1 = 140 + voo;
+      }
+      seq(jfx, s, fim.x, fim.y - 0.1, now, corrida(k.chegada, t1, 150, 500), { scale: 0.7 });
+      if (k.trilha) seq(jfx, s, fim.x, fim.y + 0.15, now, corrida(k.trilha, t1 + 120, 200, 900, { angle: aa, len: dd, layer: 'ground' }));
       if (k.chao) seq(jfx, s, fim.x, fim.y + 0.2, now, corrida(k.chao, 520 + k.chegada.length * 130, 200, 900), { layer: 'ground', scale: 0.7 });
+      return true;
+    }
+    case 'ao_longo': {   // os quadros em pontos do caminho até o alcance (o Punho do Céu: o soco sai da mão e estoura na ponta)
+      const range = info.range ?? 3, a0 = angle;
+      k.fr.forEach(([f, p], i) => {
+        const x = h.x + msg.fx * range * p, y = h.y + msg.fy * range * p;
+        seq(jfx, s, x, y, now, [[f, i * 110, i === k.fr.length - 1 ? 500 : 150, i === k.fr.length - 1 ? { fadeOut: 330 } : {}]], { angle: FRAMES[`${s}_${f}`]?.arte !== undefined ? a0 : 0, scale: 1.3 });
+      });
       return true;
     }
     case 'alvo': {
@@ -247,10 +282,14 @@ export function folhaChao(jfx, msg, now, follow = () => null) {
     seq(jfx, s, x0, y0, now, laco(k.intro, k.meio, k.fim, ms), { ...o, scale: sc, tag: `zona:${msg.id}`, ...(k.chao ? { layer: 'ground' } : {}) });
     return true;
   }
-  if (k.t === 'aviso' && msg.kind === 'aviso') {   // Punho do Abismo: o aviso, a fumaça, o punho desce no fim, a explosão e o rastro
-    const sc = (2 * r) / largura(s, '01');
-    seq(jfx, s, msg.x, msg.y, now, [['01', 0, ms * 0.5, { layer: 'ground', fadeIn: 120 }], ['02', ms * 0.45, ms * 0.35, { layer: 'ground' }],
-      ['03', ms * 0.75, ms * 0.2], ['04', ms - 80, 180], ['05', ms + 80, 320], ['06', ms + 380, 800, { fadeOut: 500 }]], { scale: sc });
+  if (k.t === 'aviso' && msg.kind === 'aviso') {   // o aviso no chão, a queda no fim (o punho, o meteoro, o tornado), o golpe e o rastro
+    const sc = (2 * r) / largura(s, k.avisa[0]);
+    const st = [[k.avisa[0], 0, ms * 0.55, { layer: 'ground', fadeIn: 120 }]];
+    k.avisa.slice(1).forEach((f, i) => st.push([f, ms * (0.45 + i * 0.1), ms * 0.55 - i * ms * 0.1, { layer: 'ground' }]));
+    const queda = Math.min(360, ms * 0.6);
+    k.cai.forEach((f, i) => st.push([f, ms - queda + (i * queda) / k.cai.length, queda / k.cai.length + 40]));
+    k.bate.forEach((f, i) => st.push([f, ms + i * 300, i === k.bate.length - 1 ? 900 : 340, i === k.bate.length - 1 ? { fadeOut: 600 } : {}]));
+    seq(jfx, s, msg.x, msg.y, now, st, { scale: sc });
     return true;
   }
   return false;

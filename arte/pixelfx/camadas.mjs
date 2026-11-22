@@ -31,6 +31,7 @@ const AMBAR = ['#2a1a10', '#5a3a1c', '#8a5a2a', '#c07a30', '#e8a040', '#ffcf70',
 const AGUA = ['#081830', '#0e2e5a', '#14508c', '#1c76bc', '#36a2e0', '#78ccf4', '#c4ecff', '#ffffff'];   // v80
 const SOMBRA = ['#050308', '#140a24', '#2a1248', '#46207a', '#6a34b0', '#9a5ae0', '#c8a0ff', '#f0e0ff'];
 const VENTO = ['#3a4050', '#6a7488', '#9aa6ba', '#c8d2e0', '#e6ecf4', '#f6f8fc', '#ffffff', '#ffffff'];
+const AR = ['#0a2a1a', '#145a34', '#1f8a4c', '#3cb86a', '#70e098', '#b0f4c8', '#e6fff0', '#ffffff'];   // v81: o verde do Vento
 const RAIO = ['#0a1840', '#0040a0', '#0080f0', '#00a0f0', '#70c8ff', '#f0f040', '#f0f0a0', '#fffff0', '#ffffff'];
 
 /** Casas do jogo por pixel do efeito: perto do pixel das folhas do Victor (0,03 a 0,04 casa por pixel). */
@@ -67,6 +68,8 @@ const CAMADAS = [
   { nome: 'pfx_agua_faisca', id: 'impacts/hit-spark', fps: 20, arte: 0, opcoes: { palette: AGUA }, blend: 'normal' },
   { nome: 'pfx_sombra_carga', id: 'arcane/spell-charge', fps: 15, foco: [18, -22], opcoes: { palette: SOMBRA }, blend: 'normal' },
   { nome: 'pfx_sombra_faisca', id: 'impacts/hit-spark', fps: 20, arte: 0, opcoes: { palette: SOMBRA }, blend: 'normal' },
+  { nome: 'pfx_vento_carga', id: 'arcane/spell-charge', fps: 15, foco: [18, -22], opcoes: { palette: AR }, blend: 'normal' },
+  { nome: 'pfx_vento_faisca', id: 'impacts/hit-spark', fps: 20, arte: 0, opcoes: { palette: AR }, blend: 'normal' },
   { nome: 'pfx_taijutsu_carga', id: 'arcane/spell-charge', fps: 15, foco: [18, -22], opcoes: { palette: VENTO }, blend: 'normal' },
   { nome: 'pfx_taijutsu_faisca', id: 'impacts/hit-spark', fps: 20, arte: 0, opcoes: { palette: VENTO }, blend: 'normal' },
   // ---- Relâmpago

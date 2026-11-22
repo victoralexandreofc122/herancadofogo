@@ -246,6 +246,16 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v81: animações desenhadas do Vento e mais do Taijutsu (sem migração)
+
+- 11 do Vento (Rajada Aberta, Passo Aéreo, Shuriken do Vento, Véu de Vento, Balas de Vento, Espelho de Ar, Lâmina em
+  Arco, Passo Leve, Pulso de Vento, Tornado Cortante, Asa Cortante) e 5 do Taijutsu (Despertar do Corpo, Flecha Humana,
+  Fúria do Encurralado, Punho do Céu, Queda do Meteoro).
+- O Tornado Cortante e a Queda do Meteoro usam o aviso em fases (o anel, a queda no fim, o golpe e o rastro); a ave da
+  Asa Cortante voa inteira até onde o ninja chegou; a Flecha Humana deixa o rastro de terra no chão.
+- Camadas: a carga dos selos e a faísca do acerto do Vento.
+- Faltam: 6 do Vento e 7 do Taijutsu.
+
 ### v80: animações desenhadas da Água, da Sombra, do Taijutsu e o Sumidouro (sem migração)
 
 - 39 folhas do Victor: 15 da Água, as 18 da Sombra, 5 do Taijutsu e o Sumidouro (a Pedra fica só sem o Esmagamento de
