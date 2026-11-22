@@ -216,7 +216,7 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       const range = info.range ?? 3, a0 = angle;
       k.fr.forEach(([f, p], i) => {
         const x = h.x + msg.fx * range * p, y = h.y + msg.fy * range * p;
-        seq(jfx, s, x, y, now, [[f, i * 110, i === k.fr.length - 1 ? 500 : 150, i === k.fr.length - 1 ? { fadeOut: 330 } : {}]], { angle: FRAMES[`${s}_${f}`]?.arte !== undefined ? a0 : 0, scale: 0.8 });
+        seq(jfx, s, x, y, now, [[f, i * 110, i === k.fr.length - 1 ? 500 : 150, i === k.fr.length - 1 ? { fadeOut: 330 } : {}]], { angle: FRAMES[`${s}_${f}`]?.arte !== undefined ? a0 : 0, scale: 1.3 });
       });
       return true;
     }
