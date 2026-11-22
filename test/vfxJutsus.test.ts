@@ -24,7 +24,7 @@ describe('v56: sprites dos jutsus (vfxJutsus.js)', () => {
     for (const [name, f] of Object.entries<any>(J.FRAMES)) {
       if (f.quadros) continue;   // v78: as camadas em grade têm o teste delas (abaixo)
       const [w, h] = pngSize(name);
-      const fogo = /^(fire|heal|lightning|stone|water|shadow|taijutsu|wind|weapons)/.test(name);   // v80: + Água, Sombra e Taijutsu   // v73/v74: as folhas desenhadas têm quadros maiores (o leque, o raio, o chão)
+      const fogo = /^(fire|heal|lightning|stone|water|shadow|taijutsu|wind|weapons|illusion)/.test(name);   // v88: + Ilusão   // v80: + Água, Sombra e Taijutsu   // v73/v74: as folhas desenhadas têm quadros maiores (o leque, o raio, o chão)
       const lim = name === 'lightning_rede_01' ? 320 : /^lightning_4_0[3-6]$/.test(name) ? 210 : fogo ? 170 : 96;   // a Rede é a malha inteira; o Julgamento, o raio do céu
       assert.ok(w <= lim && h <= lim, `${name}: ${w}x${h} (reduzido para a escala do jogo)`);
       assert.ok(f.casas > 0 && f.casas <= (/^heal_(3|milagre)_/.test(name) ? 10 : fogo ? 9 : 6), `${name}: ${f.casas} casas`);   // zonas de raio 4
@@ -72,7 +72,10 @@ describe('v73 a v79: as animações desenhadas dos jutsus de Fogo, Cura, Relâmp
     // v83: as Armas completas
     'weapons_4', 'weapons_dragoes', 'weapons_ceu', 'weapons_laco', 'weapons_arsenal',
     // v84
-    'taijutsu_3', 'taijutsu_pressao', 'taijutsu_bloqueio', 'taijutsu_ascendente', 'wind_olho'];
+    'taijutsu_3', 'taijutsu_pressao', 'taijutsu_bloqueio', 'taijutsu_ascendente', 'wind_olho',
+    // v88: as 15 primeiras da Ilusão
+    'illusion', 'illusion_2', 'illusion_3', 'illusion_kai', 'illusion_estaca', 'illusion_templo', 'illusion_noite', 'illusion_olho',
+    'illusion_passo', 'illusion_veu', 'illusion_espelho', 'illusion_coro', 'illusion_colapso', 'illusion_ninar', 'illusion_reflexo'];
   // quadros por folha: 6; o Cometa veio sem o 5, a Desintoxicação com o 6 vazio, a Palma com 7
   const N: Record<string, number> = { fire_cometa: 5, heal_desintox: 5, heal_palma: 7, lightning_risco: 7, stone_avalanche: 2,
     water_clone: 1, water_casulo: 8, taijutsu_queda: 7, weapons: 7, weapons_corte: 5, weapons_arsenal: 1, taijutsu_pressao: 5, taijutsu_bloqueio: 1, wind_olho: 8, wind_veu: 5, wind_espelho: 5, shadow_veu: 7, shadow_2: 5, shadow_beijo: 5, shadow_recuo: 5 };   // v80: folhas com outro número de quadros   // a Avalanche: duas crateras de uma folha só
@@ -82,6 +85,7 @@ describe('v73 a v79: as animações desenhadas dos jutsus de Fogo, Cura, Relâmp
       assert.equal(n, N[s] ?? 6, s);
     }
     assert.ok(FOGO_SPRITE_FRAMES.includes('lightning_rede_01'), 'a Rede de Faíscas veio num quadro só');
+    for (let i = 1; i <= 6; i++) assert.ok(FOGO_SPRITE_FRAMES.includes(`illusion_estaca_baixo_0${i}`), 'a Estaca para baixo');   // v88: a primeira folha de direção
     for (const f of ['lightning_ceu_01b', 'lightning_ceu_03b', 'lightning_ceu_05b', 'lightning_ceu_06b', 'lightning_2_02b', 'lightning_2_05b', 'fire_2_04b', 'fire_2_05b', 'fire_2_06b', 'fire_4_01b', 'fire_4_04b', 'fire_4_05b', 'fire_4_06b']) assert.ok(FOGO_SPRITE_FRAMES.includes(f), f);
   });
   it('"heal" (a Cura) só fica pronta com os quadros dela, não com os dos outros jutsus de Cura', () => {
@@ -110,13 +114,14 @@ describe('v73 a v79: as animações desenhadas dos jutsus de Fogo, Cura, Relâmp
 
 describe('v78: as camadas do PixelFX que complementam as folhas desenhadas (camadasJutsus.js)', () => {
   // os 50 jutsus desenhados: os 4 de Fogo da v56 e os 46 das folhas (v73 a v77)
-  const DESENHADOS = ['fire', 'fire_endan', 'fire_kasumi', 'fire_hibashiri', ...new Set(FOGO_SPRITE_FRAMES.map((f) => f.replace(/_0\d\w?$/, '')))];
+  // v88: as folhas de outra direção e de rajada (<id>_baixo, <id>_cima, <id>_rajada) são do mesmo jutsu
+  const DESENHADOS = ['fire', 'fire_endan', 'fire_kasumi', 'fire_hibashiri', ...new Set(FOGO_SPRITE_FRAMES.map((f) => f.replace(/_0\d\w?$/, '')).filter((b) => !/_(baixo|cima|rajada)$/.test(b)))];
   const src = readFileSync(new URL('../public/camadasJutsus.js', import.meta.url), 'utf8');
 
-  it('os 147 jutsus desenhados têm camadas (lançamento, impacto ou chão)', () => {
-    assert.equal(DESENHADOS.length, 147);   // v84: + 4 do Taijutsu e o Olho da Tempestade   // v83: + as 5 últimas das Armas   // v82: + 4 do Vento e 12 das Armas   // v81: + 5 do Taijutsu e 11 do Vento   // v79: + os 16 da Pedra; v80: + Sumidouro, Água, Sombra e Taijutsu
+  it('os 162 jutsus desenhados têm camadas (lançamento, impacto ou chão)', () => {
+    assert.equal(DESENHADOS.length, 162);   // v88: + 15 da Ilusão   // v84: + 4 do Taijutsu e o Olho da Tempestade   // v83: + as 5 últimas das Armas   // v82: + 4 do Vento e 12 das Armas   // v81: + 5 do Taijutsu e 11 do Vento   // v79: + os 16 da Pedra; v80: + Sumidouro, Água, Sombra e Taijutsu
     // v80: a Água, a Sombra e o Taijutsu têm a carga e a faísca da classe (camadas por classe, não por jutsu)
-    for (const s of DESENHADOS) if (!/^(water|shadow|taijutsu|wind|weapons)/.test(s)) assert.match(src, new RegExp(`case '${s}':`), s);
+    for (const s of DESENHADOS) if (!/^(water|shadow|taijutsu|wind|weapons|illusion)/.test(s)) assert.match(src, new RegExp(`case '${s}':`), s);
     assert.match(src, /LEVA80/);
   });
 

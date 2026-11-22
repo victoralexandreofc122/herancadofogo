@@ -8626,5 +8626,923 @@
       "ancora": "base",
       "blend": "normal"
     }
+  },
+  "illusion": {
+    "pixel": 9,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        24,
+        47,
+        757,
+        761
+      ],
+      [
+        769,
+        47,
+        1511,
+        761
+      ],
+      [
+        1523,
+        47,
+        2266,
+        761
+      ],
+      [
+        2278,
+        47,
+        3020,
+        761
+      ],
+      [
+        3032,
+        47,
+        3775,
+        761
+      ],
+      [
+        3787,
+        47,
+        4519,
+        761
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.035,
+      "ancora": "massa",
+      "blend": "normal"
+    }
+  },
+  "illusion_2": {
+    "pixel": 9,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        10,
+        11,
+        750,
+        765
+      ],
+      [
+        762,
+        11,
+        1508,
+        765
+      ],
+      [
+        1520,
+        11,
+        2266,
+        765
+      ],
+      [
+        2278,
+        11,
+        3023,
+        765
+      ],
+      [
+        3035,
+        11,
+        3781,
+        765
+      ],
+      [
+        3793,
+        11,
+        4534,
+        765
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.035,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "02": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": 79
+        },
+        "03": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": 79
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": 79
+        },
+        "05": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": 79
+        },
+        "06": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": 79
+        }
+      }
+    }
+  },
+  "illusion_3": {
+    "pixel": 8,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        12,
+        83,
+        693,
+        806
+      ],
+      [
+        717,
+        83,
+        1399,
+        806
+      ],
+      [
+        1423,
+        83,
+        2104,
+        806
+      ],
+      [
+        2128,
+        83,
+        2809,
+        806
+      ],
+      [
+        2833,
+        83,
+        3514,
+        806
+      ],
+      [
+        3538,
+        83,
+        4219,
+        806
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.035,
+      "ancora": "massa",
+      "blend": "normal"
+    }
+  },
+  "illusion_kai": {
+    "pixel": 5,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        14,
+        695,
+        443,
+        1338
+      ],
+      [
+        455,
+        695,
+        888,
+        1338
+      ],
+      [
+        900,
+        695,
+        1333,
+        1338
+      ],
+      [
+        1345,
+        695,
+        1778,
+        1338
+      ],
+      [
+        1790,
+        695,
+        2223,
+        1338
+      ],
+      [
+        2235,
+        695,
+        2663,
+        1338
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "massa",
+      "blend": "normal"
+    },
+    "vidro": true
+  },
+  "illusion_estaca": {
+    "pixel": 4,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        57,
+        872,
+        366,
+        1179
+      ],
+      [
+        378,
+        872,
+        692,
+        1179
+      ],
+      [
+        704,
+        872,
+        1018,
+        1179
+      ],
+      [
+        1030,
+        872,
+        1343,
+        1179
+      ],
+      [
+        1355,
+        872,
+        1669,
+        1179
+      ],
+      [
+        1681,
+        872,
+        1990,
+        1179
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.035,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "02": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": 75
+        },
+        "03": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": 75
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": 75
+        },
+        "05": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": 75
+        },
+        "06": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": 75
+        }
+      }
+    }
+  },
+  "illusion_estaca_baixo": {
+    "pixel": 9,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        12,
+        262,
+        336,
+        1862
+      ],
+      [
+        352,
+        262,
+        676,
+        1862
+      ],
+      [
+        692,
+        262,
+        1016,
+        1862
+      ],
+      [
+        1032,
+        262,
+        1356,
+        1862
+      ],
+      [
+        1372,
+        262,
+        1696,
+        1862
+      ],
+      [
+        1712,
+        262,
+        2036,
+        1862
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.049,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "02": {
+          "arte": 1.5708,
+          "ancora": "topo",
+          "eixo": 169
+        },
+        "03": {
+          "arte": 1.5708,
+          "ancora": "topo",
+          "eixo": 169
+        },
+        "04": {
+          "arte": 1.5708,
+          "ancora": "topo",
+          "eixo": 169
+        },
+        "05": {
+          "arte": 1.5708,
+          "ancora": "topo",
+          "eixo": 169
+        },
+        "06": {
+          "arte": 1.5708,
+          "ancora": "topo",
+          "eixo": 169
+        }
+      }
+    }
+  },
+  "illusion_templo": {
+    "pixel": 6,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        19,
+        626,
+        533,
+        1135
+      ],
+      [
+        545,
+        626,
+        1067,
+        1135
+      ],
+      [
+        1079,
+        626,
+        1601,
+        1135
+      ],
+      [
+        1613,
+        626,
+        2134,
+        1135
+      ],
+      [
+        2146,
+        626,
+        2668,
+        1135
+      ],
+      [
+        2680,
+        626,
+        3194,
+        1135
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.035,
+      "ancora": "massa",
+      "blend": "normal"
+    }
+  },
+  "illusion_noite": {
+    "pixel": 7,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        6,
+        466,
+        582,
+        1030
+      ],
+      [
+        594,
+        466,
+        1175,
+        1030
+      ],
+      [
+        1187,
+        466,
+        1769,
+        1030
+      ],
+      [
+        1781,
+        466,
+        2362,
+        1030
+      ],
+      [
+        2374,
+        466,
+        2955,
+        1030
+      ],
+      [
+        2967,
+        466,
+        3543,
+        1030
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.035,
+      "ancora": "massa",
+      "blend": "normal"
+    }
+  },
+  "illusion_olho": {
+    "pixel": 6,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        39,
+        546,
+        545,
+        1064
+      ],
+      [
+        588,
+        546,
+        1098,
+        1064
+      ],
+      [
+        1142,
+        546,
+        1652,
+        1064
+      ],
+      [
+        1696,
+        546,
+        2206,
+        1064
+      ],
+      [
+        2249,
+        546,
+        2759,
+        1064
+      ],
+      [
+        2803,
+        546,
+        3309,
+        1064
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.018,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "02": {
+          "arte": 0,
+          "ancora": "cabeca"
+        },
+        "03": {
+          "arte": 0,
+          "ancora": "cabeca"
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "cabeca"
+        }
+      }
+    }
+  },
+  "illusion_passo": {
+    "pixel": 4,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        59,
+        870,
+        368,
+        1177
+      ],
+      [
+        380,
+        870,
+        693,
+        1177
+      ],
+      [
+        705,
+        870,
+        1018,
+        1177
+      ],
+      [
+        1030,
+        870,
+        1343,
+        1177
+      ],
+      [
+        1355,
+        870,
+        1668,
+        1177
+      ],
+      [
+        1680,
+        870,
+        1988,
+        1177
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.035,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "02": {
+          "arte": 0,
+          "ancora": "direita"
+        },
+        "03": {
+          "arte": 0,
+          "ancora": "direita"
+        }
+      }
+    },
+    "vidro": true
+  },
+  "illusion_veu": {
+    "pixel": 7,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        6,
+        410,
+        557,
+        951
+      ],
+      [
+        569,
+        410,
+        1123,
+        951
+      ],
+      [
+        1135,
+        410,
+        1690,
+        951
+      ],
+      [
+        1702,
+        410,
+        2257,
+        951
+      ],
+      [
+        2269,
+        410,
+        2823,
+        951
+      ],
+      [
+        2835,
+        410,
+        3385,
+        951
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.035,
+      "ancora": "massa",
+      "blend": "normal"
+    }
+  },
+  "illusion_espelho": {
+    "pixel": 7,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        20,
+        453,
+        567,
+        997
+      ],
+      [
+        579,
+        452,
+        1128,
+        997
+      ],
+      [
+        1147,
+        452,
+        1701,
+        997
+      ],
+      [
+        1713,
+        453,
+        2268,
+        997
+      ],
+      [
+        2280,
+        453,
+        2835,
+        997
+      ],
+      [
+        2847,
+        453,
+        3394,
+        997
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.035,
+      "ancora": "massa",
+      "blend": "normal"
+    }
+  },
+  "illusion_coro": {
+    "pixel": 4,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        12,
+        861,
+        337,
+        1185
+      ],
+      [
+        349,
+        861,
+        677,
+        1185
+      ],
+      [
+        689,
+        861,
+        1018,
+        1185
+      ],
+      [
+        1030,
+        861,
+        1358,
+        1185
+      ],
+      [
+        1370,
+        861,
+        1698,
+        1185
+      ],
+      [
+        1710,
+        861,
+        2035,
+        1185
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.035,
+      "ancora": "massa",
+      "blend": "normal"
+    }
+  },
+  "illusion_colapso": {
+    "pixel": 7,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        12,
+        428,
+        550,
+        978
+      ],
+      [
+        574,
+        428,
+        1117,
+        978
+      ],
+      [
+        1141,
+        428,
+        1682,
+        978
+      ],
+      [
+        1711,
+        428,
+        2246,
+        978
+      ],
+      [
+        2275,
+        428,
+        2816,
+        978
+      ],
+      [
+        2840,
+        428,
+        3379,
+        978
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.035,
+      "ancora": "massa",
+      "blend": "normal"
+    }
+  },
+  "illusion_ninar": {
+    "pixel": 4,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        14,
+        864,
+        338,
+        1187
+      ],
+      [
+        350,
+        864,
+        678,
+        1187
+      ],
+      [
+        690,
+        864,
+        1018,
+        1187
+      ],
+      [
+        1030,
+        864,
+        1358,
+        1187
+      ],
+      [
+        1370,
+        864,
+        1698,
+        1187
+      ],
+      [
+        1710,
+        864,
+        2033,
+        1187
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.035,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "02": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": 78
+        },
+        "03": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": 78
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": 78
+        },
+        "05": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": 78
+        },
+        "06": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": 78
+        }
+      }
+    }
+  },
+  "illusion_reflexo": {
+    "pixel": 4,
+    "margem": 10,
+    "detector_texto": false,
+    "grao": 1.2,
+    "paineis": [
+      [
+        6,
+        860,
+        333,
+        1187
+      ],
+      [
+        345,
+        859,
+        675,
+        1187
+      ],
+      [
+        687,
+        860,
+        1018,
+        1187
+      ],
+      [
+        1030,
+        860,
+        1360,
+        1187
+      ],
+      [
+        1372,
+        860,
+        1702,
+        1187
+      ],
+      [
+        1714,
+        859,
+        2041,
+        1187
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.025,
+      "ancora": "massa",
+      "blend": "normal"
+    }
   }
 }

@@ -122,6 +122,23 @@ const TIPO = {
   taijutsu_bloqueio: { t: 'escudo', curto: true, monta: ['01'], quebra: ['01'] },
   taijutsu_ascendente: { t: 'rastro', saida: ['01'], estica: [], chegada: ['02', '03', '04', '05', '06'] },
   wind_olho: { t: 'corpo', gira: 2, escudo: true, intro: ['01', '02', '03'], meio: ['04', '05'], fim: [], golpe: ['07', '08'] },   // o 06 tem duas espirais cortadas pela divisória da folha
+  // v88: a Ilusão (as 15 primeiras folhas; a Estaca tem também a folha para baixo)
+  illusion: { t: 'anel', chao: true, gira: 2.2 },
+  illusion_coro: { t: 'anel', chao: true },
+  illusion_2: { t: 'linha', mao: ['01'], estica: ['02', '03', '04', '05', '06'] },
+  illusion_estaca: { t: 'linha', mao: ['01'], estica: ['02', '03', '04', '05', '06'] },
+  illusion_ninar: { t: 'linha', mao: ['01'], estica: ['02', '03', '04', '05', '06'] },
+  // o cliente não recebe a duração dos efeitos (só durationMs): ms = a do servidor (rootMs, darkMs, invertMs)
+  illusion_3: { t: 'alvo', ms: 1900, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  illusion_noite: { t: 'alvo', ms: 3000, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  illusion_espelho: { t: 'alvo', ms: 1300, esc: 0.95, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  illusion_kai: { t: 'corpo', escudo: true, ms: 1100, intro: ['01', '02', '03'], meio: ['04'], fim: ['05', '06'] },
+  illusion_templo: { t: 'zona', chao: true, intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
+  illusion_veu: { t: 'zona', intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
+  illusion_olho: { t: 'proj', sai: ['01'], voa: '03', bate: ['05', '06'] },
+  illusion_passo: { t: 'rastro', recuo: true, saida: ['01'], estica: ['02', '03'], chegada: ['04', '05', '06'] },
+  illusion_colapso: { t: 'aviso', ref: '01', avisa: ['01'], cai: ['02', '03'], bate: ['04', '05', '06'] },
+  illusion_reflexo: { t: 'invoca', sobe: ['01', '02', '03', '04', '05', '06'] },
 };
 /** Avisos que vêm em ondas no mesmo lugar (a Ascensão Dupla): o desenho toca uma vez só. */
 const ONDA = new Map();
@@ -156,11 +173,11 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
     case 'anel': {
       const r = info.radius ?? 2;
       const sc = (2 * r) / Math.max(...fs.map((n) => largura(s, n)));   // o maior quadro do tamanho da área
-      seq(jfx, s, msg.x, msg.y + 0.1, now, corrida(fs, 0, 120, 600), { scale: sc });
+      seq(jfx, s, msg.x, msg.y + 0.1, now, corrida(fs, 0, 120, 600), { scale: sc, spin: k.gira ?? 0, ...(k.chao ? { layer: 'ground' } : {}) });   // v88: chao/gira (a espiral da Ilusão)
       return true;
     }
     case 'corpo': {
-      const dur = info[k.dur ?? 'durationMs'] ?? 4000, tag = `folha:${s}:${msg.playerId}`;
+      const dur = k.ms ?? info[k.dur ?? 'durationMs'] ?? 4000, tag = `folha:${s}:${msg.playerId}`;   // v88: ms fixo (a Dissipação: um estouro só)
       jfx.drop(tag);
       // escudo: em volta do corpo; pes: a aura sobe dos pés (o apoio é a base do desenho); chao: o redemoinho deitado no chão
       const y = k.escudo ? -0.5 : k.pes ? 0.32 : k.chao ? 0.15 : -0.35;
@@ -206,7 +223,11 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       // sem `estica`, os quadros da mão são o jato inteiro: a ponta (o apoio) fica no alvo e ele estica até a mão
       if (k.estica) seq(jfx, s, h.x, h.y, now, corrida(k.mao, 0, 110, 160));
       else seq(jfx, s, end.x, end.y - 0.3, now, corrida(k.mao, 0, 110, 160, { angle: a, len: d }));
-      if (k.estica) seq(jfx, s, end.x, end.y - 0.3, now, corrida(k.estica, 120, 110, 220, { angle: a, len: d }));
+      // v88: quadro com o apoio na esquerda (a Estaca, o olhar da Ilusão) sai da mão e cresce até o alvo; o da direita fica no alvo
+      if (k.estica) for (const [f, at, ms, ex] of corrida(k.estica, 120, 110, 220, { angle: a, len: d })) {
+        const pe = FRAMES[`${s}_${f}`]?.ancora?.[0] === 0;
+        seq(jfx, s, pe ? h.x : end.x, pe ? h.y - 0.05 : end.y - 0.3, now, [[f, at, ms, { angle: a, len: d, ...ex }]]);
+      }
       if (k.fimLinha) seq(jfx, s, end.x, end.y - 0.3, now, corrida(k.fimLinha, 560, 150, 500));
       if (k.alvo) {
         const id = whoAt(end.x, end.y), hold = info[k.preso] ?? 1600;
@@ -312,6 +333,10 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
     case 'alvo': {
       const id = msg.tx !== undefined ? whoAt(end.x, end.y) : null;
       const o = id ? { follow: () => follow(id) } : {};
+      if (k.meio) {   // v88: fica no alvo o tempo do efeito (as Raízes prendem, a Noite escurece, o Espelho embaralha)
+        seq(jfx, s, id ? 0 : end.x, id ? -0.3 : end.y - 0.3, now, laco(k.intro, k.meio, k.fim, k.ms ?? info[k.dur] ?? 1500, 300), { ...o, scale: k.esc ?? 0.7 });
+        return true;
+      }
       seq(jfx, s, id ? 0 : end.x, id ? -0.45 : end.y - 0.45, now, corrida(fs, 0, 170, 500), { ...o, scale: 0.7 });
       return true;
     }

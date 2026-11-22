@@ -121,7 +121,7 @@ uma folha da lista: tirar o item do `pendencias.py`, gerar de novo e republicar 
 
 ## Situação (22/11/2026)
 
-**Feitos (147):**
+**Feitos (162):**
 
 - Fogo (17): Fogo, Sopro Incinerador, Névoa Inflamável, Linha de Fogo Rasante, Revoada de Brasas, Lança de Fogo, Cinzas Detonantes, Lâmina de Fogo, Varredura Flamejante, Projétil Dracônico, Chuva de Meteoros, Marca Incandescente, Chão Incandescente, Cometa Rasteiro, Rugido da Fornalha, Coroa de Chamas, Coluna Infernal.
 - Cura (17): Cura, Desintoxicação Celular, Corte Cirúrgico, Palma Curadora, Descontrole Muscular, Punho Sísmico, Regeneração de Área, Renovação Celular, Selo dos Meridianos, Agulha Calmante, Casca de Chakra, Lâmina Séptica, Banho de Chakra, Onda Anestésica, Milagre Verde, Santuário Vital, Punho do Colosso.
@@ -132,15 +132,16 @@ uma folha da lista: tirar o item do `pendencias.py`, gerar de novo e republicar 
 - Taijutsu (14, v80/v81/v84): Taijutsu, Rasteira Baixa, Esquiva Rápida, Fôlego de Luta, Chute Ciclone, Despertar do Corpo, Flecha Humana, Fúria do Encurralado, Punho do Céu, Queda do Meteoro, Cem Golpes, Soco de Pressão, Bloqueio Firme, Chute Ascendente.
 - Vento (16, v81/v82/v84): Rajada Aberta, Passo Aéreo, Shuriken do Vento, Véu de Vento, Balas de Vento, Espelho de Ar, Lâmina em Arco, Passo Leve, Pulso de Vento, Tornado Cortante, Asa Cortante, Vórtice de Ar, Corte em Cadeia, Disco do Furacão, Fenda do Vento, Olho da Tempestade (falta o Mil Cortes do Céu).
 - Armas (17, v82/v83): todas (o Arsenal Vivo tem só o círculo de invocação; o corpo dele continua o de código).
+- Ilusão (15, v88): Ilusão, Visão do Abismo, Raízes do Pesadelo, Dissipação, Estaca da Ilusão (com a folha para baixo), Santuário das Penas, Noite Eterna, Olho Errante, Passo Falso, Véu da Meia-Noite, Espelho Quebrado, Coro do Silêncio, Colapso Onírico, Canção de Ninar, Reflexo Vazio (a fumaça; o duplo continua o desenho do Duplo de Água).
 
-**Faltam (53), com o id e a forma no servidor:**
+**Faltam (38), com o id e a forma no servidor:**
 
 - **Cura (1):** Aura de Regeneração (`heal_aura`, zona).
 - **Relâmpago (1):** Relâmpago (`lightning`).
 - **Água (2):** Coluna d’Água (`water_coluna`, aviso); Corpo de Água (`water_corpo`, transformacao).
 - **Vento (1):** Mil Cortes do Céu (`wind_milcortes`, meteoros).
 - **Pedra (1):** Esmagamento de Paredes (`stone_3`, alvo).
-- **Ilusão (18):** Ilusão (`illusion`); Dissipação (`illusion_kai`, limpeza); Visão do Abismo (`illusion_2`, linha); Estaca da Ilusão (`illusion_estaca`, linha); Noite Eterna (`illusion_noite`, alvo); Raízes do Pesadelo (`illusion_3`, alvo); Ciclo Sem Fim (`illusion_4`, alvo); Santuário das Penas (`illusion_templo`, zona); Empréstimo Forçado (`illusion_emprestimo`, alvo); Segunda Voz (`illusion_voz`, invocacao); Olho Errante (`illusion_olho`, projetil); Passo Falso (`illusion_passo`, recuo); Véu da Meia-Noite (`illusion_veu`, zona); Espelho Quebrado (`illusion_espelho`, alvo); Coro do Silêncio (`illusion_coro`, anel_golpe); Colapso Onírico (`illusion_colapso`, aviso); Canção de Ninar (`illusion_ninar`, linha); Reflexo Vazio (`illusion_reflexo`, invocacao).
+- **Ilusão (3):** Ciclo Sem Fim (`illusion_4`, alvo); Empréstimo Forçado (`illusion_emprestimo`, alvo); Segunda Voz (`illusion_voz`, invocacao). Folhas de direção que faltam: Estaca (para cima), Olho Errante e Canção de Ninar (para baixo e para cima).
 - **Taijutsu (3):** Mergulho Esmagador (`taijutsu_lotus`, investida); Chave de Braço (`taijutsu_chave`, alvo); Impacto Circular (`taijutsu_impacto`, anel_golpe).
 - **Clã Rubro (6):** Olhar Rubro (`rubro_olho`, escudo); Transe Ocular (`rubro_transe`, linha); Brasa Sem Luz (`rubro_chamas`, linha); Sentinela Espectral (`rubro_guardiao`, escudo_vida); Mundo Espelhado (`rubro_lua`, linha); Colosso Espectral (`rubro_completo`, transformacao).
 - **Clã Umbra (4):** Deslize Noturno (`umbra_deslize`, recuo); Sombra Faminta (`umbra_faminta`, marca); Noite Fechada (`umbra_noite`, zona); Forma Umbral (`umbra_forma`, forma_sombra).

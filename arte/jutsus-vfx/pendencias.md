@@ -3,66 +3,7 @@
 Gerado por `python3 arte/jutsus-vfx/pendencias.py`. A página de acompanhamento guarda o que já foi feito;
 este arquivo é a mesma lista em texto.
 
-## Faltam (folha nova) (53)
-
-### Ilusão (`illusion`), Ilusão, anel em volta de você, fundo verde
-
-Atordoa todos em volta de você (raio 3) por 3 s.
-
-**No jogo:** Toca em volta do ninja; a metade de trás do anel fica atrás do boneco e a da frente por cima.
-
-**Folha: Ilusão** (`illusion`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Ilusão" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Ilusão": a hypnotic spiral of violet petals. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-F1: a small bright glow gathering at the center: a hypnotic spiral of violet petals begins.
-F2: a thin ring of a hypnotic spiral of violet petals forms close around the center.
-F3: the ring expands to half of the panel.
-F4: the ring at full size, filling about 85% of the panel width, the brightest frame: the moment of the hit.
-F5: the ring thins out and breaks into fragments.
-F6: the last faint particles fading away.
-```
-
-### Visão do Abismo (`illusion_2`), Ilusão, linha reta, fundo verde
-
-Olhar em linha (5 casas): atordoa o primeiro inimigo por 1,6 s e tira 10 de chakra dele. Sem dano.
-
-**No jogo:** A arte aponta para a direita; o jogo gira para a direção do golpe e estica até o alcance (com folha para baixo e para cima, usa elas nessas direções).
-
-**Folha: Visão do Abismo** (`illusion_2`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Visão do Abismo" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Visão do Abismo": a violet gaze beam with a dark abyss swirl inside. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-F1: a small charge of a violet gaze beam with a dark abyss swirl inside at the left side of the panel.
-F2: a violet gaze beam with a dark abyss swirl inside extends to the right, reaching the middle of the panel.
-F3: a violet gaze beam with a dark abyss swirl inside reaches the right side of the panel, a straight horizontal line through the middle of the panel.
-F4: the full line at its brightest, the same height and position as F3.
-F5: the line thins out, the same position.
-F6: the last sparks along the line fading.
-```
-
-### Raízes do Pesadelo (`illusion_3`), Ilusão, efeito no alvo, fundo verde
-
-Prende o alvo (até 5 casas) por 1,9 s; o golpe cai nele 1,2 s depois.
-
-**Nota:** O F5 (abrir) é o momento do golpe, 1,2 s depois.
-
-**No jogo:** Toca em cima do alvo; o meio do painel fica vazio para o boneco, com a parte de trás atrás dele.
-
-**Folha: Raízes do Pesadelo** (`illusion_3`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Raízes do Pesadelo" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Raízes do Pesadelo": twisted dark violet roots with thorns. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: a mark appears on the ground at the center, around an empty spot where the target stands.
-F2: twisted dark violet roots with thorns rises and closes around the empty center.
-F3: twisted dark violet roots with thorns at full strength around the target spot (loop frame A).
-F4: the same hold with small changes (loop frame B).
-F5: the release: twisted dark violet roots with thorns loosens and opens up.
-F6: the last particles fading.
-```
+## Faltam (folha nova) (38)
 
 ### Ciclo Sem Fim (`illusion_4`), Ilusão, efeito no alvo, fundo verde
 
@@ -81,326 +22,6 @@ F3: three violet rune rings turning around the target like a clock at full stren
 F4: the same hold with small changes (loop frame B).
 F5: the release: three violet rune rings turning around the target like a clock loosens and opens up.
 F6: the last particles fading.
-```
-
-### Dissipação (`illusion_kai`), Ilusão, aura no corpo, fundo verde
-
-Limpa lentidão, silêncio e sono de você. Funciona mesmo em silêncio.
-
-**Nota:** F5 é o vidro quebrando; F6 os cacos sumindo.
-
-**No jogo:** F3 e F4 em laço enquanto dura. A metade de trás fica atrás do boneco e a da frente por cima (profundidade).
-
-**Folha: Dissipação** (`illusion_kai`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Dissipação" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Dissipação": a thin shell of violet glass. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: thin light of a thin shell of violet glass appears around an empty spot at the center where the ninja stands.
-F2: a thin shell of violet glass forms a full shape around the empty center, seen from the 3/4 view (a ring or dome around the body).
-F3: a thin shell of violet glass at full strength (loop frame A).
-F4: the same aura with small changes (loop frame B).
-F5: the moment it is hit or used: a bright flash and small cracks in a thin shell of violet glass.
-F6: a thin shell of violet glass breaking into fragments and fading.
-```
-
-### Estaca da Ilusão (`illusion_estaca`), Ilusão, linha reta, fundo verde
-
-Estaca em linha (6 casas): fere e prende o primeiro inimigo por 1,6 s.
-
-**No jogo:** A arte aponta para a direita; o jogo gira para a direção do golpe e estica até o alcance (com folha para baixo e para cima, usa elas nessas direções).
-
-**Folha: Estaca da Ilusão** (`illusion_estaca`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Estaca da Ilusão" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Estaca da Ilusão": a long violet crystal stake. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-F1: a small charge of a long violet crystal stake at the left side of the panel.
-F2: a long violet crystal stake extends to the right, reaching the middle of the panel.
-F3: a long violet crystal stake reaches the right side of the panel, a straight horizontal line through the middle of the panel.
-F4: the full line at its brightest, the same height and position as F3.
-F5: the line thins out, the same position.
-F6: the last sparks along the line fading.
-```
-
-**Folha: Estaca da Ilusão (para baixo)** (`illusion_estaca_baixo`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Estaca da Ilusão (para baixo)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Estaca da Ilusão": a long violet crystal stake. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, seen from above with its front facing the viewer, with the same size, colors and style as the version going right.
-F1: a small charge of a long violet crystal stake at the top of the panel.
-F2: a long violet crystal stake extends down toward the bottom of the panel, reaching the middle of the panel.
-F3: a long violet crystal stake reaches the bottom of the panel, a straight vertical line through the middle of the panel.
-F4: the full line at its brightest, the same height and position as F3.
-F5: the line thins out, the same position.
-F6: the last sparks along the line fading.
-```
-
-**Folha: Estaca da Ilusão (para cima)** (`illusion_estaca_cima`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Estaca da Ilusão (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Estaca da Ilusão": a long violet crystal stake. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
-F1: a small charge of a long violet crystal stake at the bottom of the panel.
-F2: a long violet crystal stake extends up toward the top of the panel, reaching the middle of the panel.
-F3: a long violet crystal stake reaches the top of the panel, a straight vertical line through the middle of the panel.
-F4: the full line at its brightest, the same height and position as F3.
-F5: the line thins out, the same position.
-F6: the last sparks along the line fading.
-```
-
-### Santuário das Penas (`illusion_templo`), Ilusão, área que dura, fundo verde
-
-Santuário na área mirada (raio 4) por 3 s: deixa lento; quem ficar até o fim leva o golpe e é atordoado por 1,3 s.
-
-**Nota:** O F6 pode ser o golpe do fim (penas subindo num clarão).
-
-**No jogo:** F1 e F2 na entrada, F3 a F5 em laço enquanto a área dura, F6 no fim. O tamanho no jogo segue o raio do servidor.
-
-**Folha: Santuário das Penas** (`illusion_templo`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Santuário das Penas" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Santuário das Penas": a round floor of violet feathers with a pale rune circle. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-F1: the area starts small at the center: a round floor of violet feathers with a pale rune circle appears.
-F2: the area grows to two thirds of its size.
-F3: the area at full size, filling about 85% of the panel width (loop frame A).
-F4: the same area at full size with small changes in the details (loop frame B).
-F5: the same area at full size with other small changes (loop frame C).
-F6: the area dissolving into light particles.
-```
-
-### Noite Eterna (`illusion_noite`), Ilusão, efeito no alvo, fundo verde
-
-Escurece a tela do alvo (até 6 casas) por 3 s: ele quase não enxerga.
-
-**Nota:** A escuridão da tela já é feita pelo jogo; a folha é a nuvem no alvo.
-
-**No jogo:** Toca em cima do alvo; o meio do painel fica vazio para o boneco, com a parte de trás atrás dele.
-
-**Folha: Noite Eterna** (`illusion_noite`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Noite Eterna" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Noite Eterna": a dark violet night cloud with tiny stars. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: a mark appears on the ground at the center, around an empty spot where the target stands.
-F2: a dark violet night cloud with tiny stars rises and closes around the empty center.
-F3: a dark violet night cloud with tiny stars at full strength around the target spot (loop frame A).
-F4: the same hold with small changes (loop frame B).
-F5: the release: a dark violet night cloud with tiny stars loosens and opens up.
-F6: the last particles fading.
-```
-
-### Olho Errante (`illusion_olho`), Ilusão, projétil, fundo verde
-
-Olho lento em linha (7 casas): dano e lentidão por 2 s no primeiro inimigo.
-
-**No jogo:** F2 a F4 em laço no caminho, F5 e F6 no alvo. O projétil fica no meio do painel em todos os quadros.
-
-**Folha: Olho Errante** (`illusion_olho`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Olho Errante" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Olho Errante": a floating violet eye with a short trail. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-F1: a launch flash at the center: a floating violet eye with a short trail appears.
-F2: a floating violet eye with a short trail flying to the right, centered in the panel (loop frame A).
-F3: the same projectile, centered, with small changes (loop frame B).
-F4: the same projectile, centered, with other small changes (loop frame C).
-F5: the impact burst where it hits, centered.
-F6: the impact fading into particles.
-```
-
-**Folha: Olho Errante (para baixo)** (`illusion_olho_baixo`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Olho Errante (para baixo)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Olho Errante": a floating violet eye with a short trail. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, seen from above with its front facing the viewer, with the same size, colors and style as the version going right.
-F1: a launch flash at the center: a floating violet eye with a short trail appears.
-F2: a floating violet eye with a short trail flying down toward the bottom of the panel, centered in the panel (loop frame A).
-F3: the same projectile, centered, with small changes (loop frame B).
-F4: the same projectile, centered, with other small changes (loop frame C).
-F5: the impact burst where it hits, centered.
-F6: the impact fading into particles.
-```
-
-**Folha: Olho Errante (para cima)** (`illusion_olho_cima`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Olho Errante (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Olho Errante": a floating violet eye with a short trail. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
-F1: a launch flash at the center: a floating violet eye with a short trail appears.
-F2: a floating violet eye with a short trail flying up toward the top of the panel, centered in the panel (loop frame A).
-F3: the same projectile, centered, with small changes (loop frame B).
-F4: the same projectile, centered, with other small changes (loop frame C).
-F5: the impact burst where it hits, centered.
-F6: the impact fading into particles.
-```
-
-### Passo Falso (`illusion_passo`), Ilusão, salto ou deslize, fundo verde
-
-Salta 3 casas para trás e, por 1,2 s, ninguém trava o alvo em você.
-
-**No jogo:** F1 na saída, F2 e F3 esticados pelo caminho, F4 a F6 na chegada.
-
-**Folha: Passo Falso** (`illusion_passo`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Passo Falso" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Passo Falso": violet mirror shards and a fading afterimage outline. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-F1: a burst of violet mirror shards and a fading afterimage outline at the starting point, centered.
-F2: motion streaks of violet mirror shards and a fading afterimage outline stretched to the right across the panel.
-F3: thinner streaks, the same height as F2.
-F4: an arrival burst of violet mirror shards and a fading afterimage outline, centered, the same size as F1.
-F5: the burst opening into small particles.
-F6: the last particles fading.
-```
-
-### Véu da Meia-Noite (`illusion_veu`), Ilusão, área que dura, fundo verde
-
-Escuridão na área mirada (raio 2,5) por 4 s: os inimigos dentro quase não enxergam.
-
-**No jogo:** F1 e F2 na entrada, F3 a F5 em laço enquanto a área dura, F6 no fim. O tamanho no jogo segue o raio do servidor.
-
-**Folha: Véu da Meia-Noite** (`illusion_veu`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Véu da Meia-Noite" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Véu da Meia-Noite": a dome of midnight violet mist. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-F1: the area starts small at the center: a dome of midnight violet mist appears.
-F2: the area grows to two thirds of its size.
-F3: the area at full size, filling about 85% of the panel width (loop frame A).
-F4: the same area at full size with small changes in the details (loop frame B).
-F5: the same area at full size with other small changes (loop frame C).
-F6: the area dissolving into light particles.
-```
-
-### Espelho Quebrado (`illusion_espelho`), Ilusão, efeito no alvo, fundo verde
-
-Dano no alvo (até 5 casas) e controles embaralhados por 1,3 s: ele anda ao contrário.
-
-**No jogo:** Toca em cima do alvo; o meio do painel fica vazio para o boneco, com a parte de trás atrás dele.
-
-**Folha: Espelho Quebrado** (`illusion_espelho`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Espelho Quebrado" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Espelho Quebrado": a cracked violet mirror frame. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: a mark appears on the ground at the center, around an empty spot where the target stands.
-F2: a cracked violet mirror frame rises and closes around the empty center.
-F3: a cracked violet mirror frame at full strength around the target spot (loop frame A).
-F4: the same hold with small changes (loop frame B).
-F5: the release: a cracked violet mirror frame loosens and opens up.
-F6: the last particles fading.
-```
-
-### Coro do Silêncio (`illusion_coro`), Ilusão, anel em volta de você, fundo verde
-
-Silêncio por 3 s em todos em volta de você (raio 3): ficam sem jutsu. Sem dano.
-
-**No jogo:** Toca em volta do ninja; a metade de trás do anel fica atrás do boneco e a da frente por cima.
-
-**Folha: Coro do Silêncio** (`illusion_coro`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Coro do Silêncio" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Coro do Silêncio": a ring of pale violet sound waves with small closed-mouth rune marks. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-F1: a small bright glow gathering at the center: a ring of pale violet sound waves with small closed-mouth rune marks begins.
-F2: a thin ring of a ring of pale violet sound waves with small closed-mouth rune marks forms close around the center.
-F3: the ring expands to half of the panel.
-F4: the ring at full size, filling about 85% of the panel width, the brightest frame: the moment of the hit.
-F5: the ring thins out and breaks into fragments.
-F6: the last faint particles fading away.
-```
-
-### Colapso Onírico (`illusion_colapso`), Ilusão, golpe com aviso no chão, fundo verde
-
-Explosão mental na área mirada (raio 2,5), com aviso de 1 s: dano e atordoa por 1,3 s.
-
-**No jogo:** F1 e F2 durante o aviso, F3 e F4 no golpe, F5 e F6 depois. A largura do impacto casa com o círculo do aviso.
-
-**Folha: Colapso Onírico** (`illusion_colapso`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Colapso Onírico" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Colapso Onírico": a violet dream sphere that implodes. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-F1: a flat warning circle drawn on the ground, seen from above, filling about 85% of the panel width.
-F2: the warning circle glows brighter while a violet dream sphere that implodes gathers above it.
-F3: a violet dream sphere that implodes starts to strike the ground.
-F4: the full impact, the biggest and brightest frame, the same width as the warning circle.
-F5: the aftermath: a violet dream sphere that implodes breaking apart over the ground.
-F6: the last particles and a faint mark on the ground fading.
-```
-
-### Canção de Ninar (`illusion_ninar`), Ilusão, linha reta, fundo verde
-
-Depois de 1 s de selos parado: põe o primeiro inimigo da linha (6 casas) para dormir por 2,5 s. Acorda se apanhar. Sem dano.
-
-**No jogo:** A arte aponta para a direita; o jogo gira para a direção do golpe e estica até o alcance (com folha para baixo e para cima, usa elas nessas direções).
-
-**Folha: Canção de Ninar** (`illusion_ninar`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Canção de Ninar" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Canção de Ninar": a soft line of violet music notes and small moons. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-F1: a small charge of a soft line of violet music notes and small moons at the left side of the panel.
-F2: a soft line of violet music notes and small moons extends to the right, reaching the middle of the panel.
-F3: a soft line of violet music notes and small moons reaches the right side of the panel, a straight horizontal line through the middle of the panel.
-F4: the full line at its brightest, the same height and position as F3.
-F5: the line thins out, the same position.
-F6: the last sparks along the line fading.
-```
-
-**Folha: Canção de Ninar (para baixo)** (`illusion_ninar_baixo`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Canção de Ninar (para baixo)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Canção de Ninar": a soft line of violet music notes and small moons. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, seen from above with its front facing the viewer, with the same size, colors and style as the version going right.
-F1: a small charge of a soft line of violet music notes and small moons at the top of the panel.
-F2: a soft line of violet music notes and small moons extends down toward the bottom of the panel, reaching the middle of the panel.
-F3: a soft line of violet music notes and small moons reaches the bottom of the panel, a straight vertical line through the middle of the panel.
-F4: the full line at its brightest, the same height and position as F3.
-F5: the line thins out, the same position.
-F6: the last sparks along the line fading.
-```
-
-**Folha: Canção de Ninar (para cima)** (`illusion_ninar_cima`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Canção de Ninar (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Canção de Ninar": a soft line of violet music notes and small moons. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
-This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
-F1: a small charge of a soft line of violet music notes and small moons at the bottom of the panel.
-F2: a soft line of violet music notes and small moons extends up toward the top of the panel, reaching the middle of the panel.
-F3: a soft line of violet music notes and small moons reaches the top of the panel, a straight vertical line through the middle of the panel.
-F4: the full line at its brightest, the same height and position as F3.
-F5: the line thins out, the same position.
-F6: the last sparks along the line fading.
-```
-
-### Reflexo Vazio (`illusion_reflexo`), Ilusão, aura no corpo, fundo verde
-
-Cria um duplo seu ao lado por 8 s: ele atrai os monstros e segura golpes.
-
-**Nota:** Proposta: o duplo usa o seu próprio boneco com um tom violeta (sem arte nova de personagem); a folha é só a fumaça de surgir (F1 a F4) e de sumir (F5 e F6).
-
-**No jogo:** F3 e F4 em laço enquanto dura. A metade de trás fica atrás do boneco e a da frente por cima (profundidade).
-
-**Folha: Reflexo Vazio** (`illusion_reflexo`)
-
-```
-At the very top of the image, above the row of panels, a title band with the name "Reflexo Vazio" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Reflexo Vazio": a violet smoke swirl. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: thin light of a violet smoke swirl appears around an empty spot at the center where the ninja stands.
-F2: a violet smoke swirl forms a full shape around the empty center, seen from the 3/4 view (a ring or dome around the body).
-F3: a violet smoke swirl at full strength (loop frame A).
-F4: the same aura with small changes (loop frame B).
-F5: the moment it is hit or used: a bright flash and small cracks in a violet smoke swirl.
-F6: a violet smoke swirl breaking into fragments and fading.
 ```
 
 ### Empréstimo Forçado (`illusion_emprestimo`), Ilusão, efeito no alvo, fundo verde
@@ -449,21 +70,22 @@ F6: a violet echo ring with small sound marks breaking into fragments and fading
 
 Paredes esmagam o alvo (até 5 casas): dano alto e prende por 1,6 s.
 
-**Nota:** F2 as paredes sobem, F3 elas fecham no meio (golpe), F4 presas, F5 se abrem e racham.
+**Nota:** Prompt refeito com quadros próprios (as paredes inteiras, do começo ao fim).
 
-**No jogo:** Toca em cima do alvo; o meio do painel fica vazio para o boneco, com a parte de trás atrás dele.
+**No jogo:** F1 e F2 sobem, F3 fecham, F4 o golpe (dano alto), F5 em laço enquanto o alvo fica preso (1,6 s), F6 desmoronam.
 
 **Folha: Esmagamento de Paredes** (`stone_3`)
 
 ```
 At the very top of the image, above the row of panels, a title band with the name "Esmagamento de Paredes" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
-The jutsu "Esmagamento de Paredes": two thick rock walls, one on each side. Palette: warm amber, sandy brown and dark umber rock, with small gray dust. The sheet shows only the jutsu effect; the game draws the ninja separately, so the middle of the panel stays as open background where the ninja stands.
-F1: a mark appears on the ground at the center, around an empty spot where the target stands.
-F2: two thick rock walls, one on each side rises and closes around the empty center.
-F3: two thick rock walls, one on each side at full strength around the target spot (loop frame A).
-F4: the same hold with small changes (loop frame B).
-F5: the release: two thick rock walls, one on each side loosens and opens up.
-F6: the last particles fading.
+The jutsu "Esmagamento de Paredes": two thick rock walls, one on each side. Palette: warm amber, sandy brown and dark umber rock, with small gray dust. The sheet shows only the jutsu effect; the game draws the ninja separately, so the target is drawn by the game between the two walls.
+F1: a thin crack line on the ground across the middle of the panel, with small cracks opening on the left and on the right.
+F2: two thick rough rock walls burst up out of the ground, one on the left side and one on the right side of the panel, each standing upright and as tall as half the panel, with small rock chunks flying.
+F3: the two complete rock walls, each as tall as most of the panel, slide toward the middle and leave a narrow gap in the center.
+F4: the two walls slam together in the middle of the panel with a bright impact flash where they meet and rock dust bursting out of the top and the sides; both walls stay complete and fully visible.
+F5: the two walls still pressed together in the middle, cracked, with small rocks falling from their tops.
+F6: the walls crumble and sink back into the ground as rock chunks and dust.
+Each wall is one complete standing slab of rock with a flat top, a front face and a side face, seen in the 3/4 view; both walls stay fully inside the panel with a clear margin on every side, from F2 to F5.
 ```
 
 ### Faísca Rasante (`lightning`), Relâmpago, linha reta, fundo magenta
@@ -1699,7 +1321,95 @@ F5: a small gust opening from the hit.
 F6: the last streaks fading.
 ```
 
-## Direções (para baixo e para cima) (9)
+## Direções (para baixo e para cima) (12)
+
+### Estaca da Ilusão (`illusion_estaca_dir`), Ilusão, linha reta, fundo verde
+
+A folha base já está no jogo. Faltam: Estaca da Ilusão (para cima).
+
+**No jogo:** A arte aponta para a direita; o jogo gira para a direção do golpe e estica até o alcance (com folha para baixo e para cima, usa elas nessas direções).
+
+**Folha: Estaca da Ilusão (para cima)** (`illusion_estaca_cima`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Estaca da Ilusão (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Estaca da Ilusão": a long violet crystal stake. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
+This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
+F1: a small charge of a long violet crystal stake at the bottom of the panel.
+F2: a long violet crystal stake extends up toward the top of the panel, reaching the middle of the panel.
+F3: a long violet crystal stake reaches the top of the panel, a straight vertical line through the middle of the panel.
+F4: the full line at its brightest, the same height and position as F3.
+F5: the line thins out, the same position.
+F6: the last sparks along the line fading.
+```
+
+### Olho Errante (`illusion_olho_dir`), Ilusão, projétil, fundo verde
+
+A folha base já está no jogo. Faltam: Olho Errante (para baixo), Olho Errante (para cima).
+
+**No jogo:** F2 a F4 em laço no caminho, F5 e F6 no alvo. O projétil fica no meio do painel em todos os quadros.
+
+**Folha: Olho Errante (para baixo)** (`illusion_olho_baixo`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Olho Errante (para baixo)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Olho Errante": a floating violet eye with a short trail. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
+This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, seen from above with its front facing the viewer, with the same size, colors and style as the version going right.
+F1: a launch flash at the center: a floating violet eye with a short trail appears.
+F2: a floating violet eye with a short trail flying down toward the bottom of the panel, centered in the panel (loop frame A).
+F3: the same projectile, centered, with small changes (loop frame B).
+F4: the same projectile, centered, with other small changes (loop frame C).
+F5: the impact burst where it hits, centered.
+F6: the impact fading into particles.
+```
+
+**Folha: Olho Errante (para cima)** (`illusion_olho_cima`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Olho Errante (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Olho Errante": a floating violet eye with a short trail. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
+This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
+F1: a launch flash at the center: a floating violet eye with a short trail appears.
+F2: a floating violet eye with a short trail flying up toward the top of the panel, centered in the panel (loop frame A).
+F3: the same projectile, centered, with small changes (loop frame B).
+F4: the same projectile, centered, with other small changes (loop frame C).
+F5: the impact burst where it hits, centered.
+F6: the impact fading into particles.
+```
+
+### Canção de Ninar (`illusion_ninar_dir`), Ilusão, linha reta, fundo verde
+
+A folha base já está no jogo. Faltam: Canção de Ninar (para baixo), Canção de Ninar (para cima).
+
+**No jogo:** A arte aponta para a direita; o jogo gira para a direção do golpe e estica até o alcance (com folha para baixo e para cima, usa elas nessas direções).
+
+**Folha: Canção de Ninar (para baixo)** (`illusion_ninar_baixo`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Canção de Ninar (para baixo)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Canção de Ninar": a soft line of violet music notes and small moons. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
+This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, seen from above with its front facing the viewer, with the same size, colors and style as the version going right.
+F1: a small charge of a soft line of violet music notes and small moons at the top of the panel.
+F2: a soft line of violet music notes and small moons extends down toward the bottom of the panel, reaching the middle of the panel.
+F3: a soft line of violet music notes and small moons reaches the bottom of the panel, a straight vertical line through the middle of the panel.
+F4: the full line at its brightest, the same height and position as F3.
+F5: the line thins out, the same position.
+F6: the last sparks along the line fading.
+```
+
+**Folha: Canção de Ninar (para cima)** (`illusion_ninar_cima`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Canção de Ninar (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Canção de Ninar": a soft line of violet music notes and small moons. Palette: deep violet, lilac and soft pink, with pale white highlights and a dark plum outline.
+This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
+F1: a small charge of a soft line of violet music notes and small moons at the bottom of the panel.
+F2: a soft line of violet music notes and small moons extends up toward the top of the panel, reaching the middle of the panel.
+F3: a soft line of violet music notes and small moons reaches the top of the panel, a straight vertical line through the middle of the panel.
+F4: the full line at its brightest, the same height and position as F3.
+F5: the line thins out, the same position.
+F6: the last sparks along the line fading.
+```
 
 ### Projétil Dracônico (`fire_hotan_dir`), Fogo, projétil, fundo verde
 

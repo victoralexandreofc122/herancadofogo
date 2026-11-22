@@ -18,7 +18,7 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   `public/figure.js` cache e giro). Detalhes em `arte/personagem-rig/LEIAME.md`. O estilo segue a folha de referência
   do Victor (chibi, contorno escuro, sombreado em 2-3 tons). Toda mudança de arte é comparada lado a lado com a
   referência e conferida dentro do jogo antes de fechar.
-- **Versão atual:** v87 na `main` (PRs #33 a #56; o #56 trouxe a v87, as rajadas de golpes). **Banco:** todas as
+- **Versão atual:** v88 na `main` (PRs #33 a #57; o #57 trouxe a v88, as 15 primeiras folhas da Ilusão). **Banco:** todas as
   migrações até a **v40** rodaram no `production` do Neon (confirmado pelo Victor em 17/11/2026); nenhuma pendente.
   Jutsus v2 com 96 jutsus (10 classes, Vento nova, e o Clã Rubro), mais os 74 da Fase 2.5 e os 16 dos clãs novos;
   conjuração, sistemas próprios (muros, invocações, escuridão...), clãs por linhagem, Extração e maestria, rankeado 1v1 e
@@ -32,6 +32,8 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   aumenta a cura, item Shuriken (consumível, botão ✴️), invocações andam até o alvo e socam (Sentinela de Sombra e Arsenal
   Vivo com desenho próprio). v54: curas e escudos com valor fixo (sem % da vida), Cura rebalanceada, Cegueira como estado
   (perde o alvo), Duplo de Água bate. Mesclado (PR #34; a v32 rodou no Neon).
+- **v88 (sem migração):** as 15 primeiras folhas da Ilusão (e a Estaca para baixo, a primeira folha de direção); `vidro`
+  no recorte; a fumaça antiga da Ilusão sai com a folha desenhada. Mesclado (PR #57).
 - **v87 (sem migração):** rajadas: Cem Golpes e Punho do Céu alternam os socos em laço rápido, as 4 ondas da Ascensão
   Dupla batem; folha `<id>_rajada` na lista de pendências (o jogo usa sozinho). Mesclado (PR #56).
 - **v86 (sem migração):** folhas para baixo e para cima (`variante()` no motor; invocações de frente e de costas) e o
@@ -103,9 +105,9 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
 
 ## Animações dos jutsus (folhas do Victor): como continuar numa aba nova
 
-O Victor manda folhas de 6 quadros (fundo verde ou magenta) e cada uma vira a animação de um jutsu. **Feitos 147** (Fogo,
-Cura, Sombra, Armas, 16 de Relâmpago, 17 da Pedra, 15 da Água, 14 do Taijutsu e 16 do Vento, v56 e v73 a v84); **faltam 53**
-(Ilusão, 3 do Taijutsu, 1 do Vento, 2 da Água, 1 da Pedra, Relâmpago, Aura de Regeneração e os clãs). A lista completa, com o id e a forma de cada um, e o passo a passo
+O Victor manda folhas de 6 quadros (fundo verde ou magenta) e cada uma vira a animação de um jutsu. **Feitos 162** (Fogo,
+Cura, Sombra, Armas, 16 de Relâmpago, 17 da Pedra, 15 da Água, 14 do Taijutsu, 16 do Vento e 15 da Ilusão, v56 e v73 a v88);
+**faltam 38** (3 da Ilusão, 3 do Taijutsu, 1 do Vento, 2 da Água, 1 da Pedra, Relâmpago, Aura de Regeneração e os clãs). A lista completa, com o id e a forma de cada um, e o passo a passo
 estão em **`arte/jutsus-vfx/LEIAME.md`**: ler antes de mexer. O que falta e o que refazer, com o prompt do Flow de cada
 folha: `arte/jutsus-vfx/pendencias.md` (gerado por `pendencias.py`).
 

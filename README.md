@@ -246,6 +246,17 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v88: as 15 primeiras folhas da Ilusão (sem migração)
+
+- Ilusão (espiral no chão, girando), Visão do Abismo, Estaca da Ilusão e Canção de Ninar (saem da mão e crescem até o
+  alcance), Raízes do Pesadelo, Noite Eterna e Espelho Quebrado (ficam no alvo o tempo do efeito), Dissipação (a cúpula de
+  vidro que estoura), Santuário das Penas e Véu da Meia-Noite (zonas), Olho Errante (o olho voa), Passo Falso (o salto para
+  trás), Coro do Silêncio (o anel no chão), Colapso Onírico (aviso, a esfera e o estouro) e Reflexo Vazio (a fumaça onde o
+  duplo aparece).
+- A primeira folha de direção: a Estaca para baixo, que o jogo usa quando o golpe vai para baixo.
+- Recorte: `vidro` no `ajustes.json` separa o lilás do verde do fundo no vidro e no corpo de luz translúcidos.
+- A fumaça antiga da Ilusão (rastro, área e estouro) sai quando a folha desenhada toca.
+
 ### v87: rajadas de golpes (sem migração)
 
 - Cem Golpes: depois da carga, os quadros dos socos (F2 e F3) alternam a cada 65 ms, 8 vezes, cada soco num ângulo e

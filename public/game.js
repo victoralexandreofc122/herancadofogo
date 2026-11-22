@@ -881,7 +881,8 @@ function handleMessage(msg) {
         }
       }
       if (z?.kind === 'aviso') sfxAt('impact', z.x, z.y, 1, { el: z.skill ? elementOfSkill(z.skill) : 'neutral' });   // v58
-      if (z?.kind === 'aviso') particles.burst(z.skill ? elementOfSkill(z.skill) : 'neutral', z.x, z.y, 2.2, z.r);   // v47: o golpe avisado caiu
+      // v88: a Ilusão desenhada já tem o estouro no quadro (a fumaça branca antiga cobria o Colapso)
+      if (z?.kind === 'aviso' && !(z.skill && elementOfSkill(z.skill) === 'illusion' && folhaPronta(z.skill))) particles.burst(z.skill ? elementOfSkill(z.skill) : 'neutral', z.x, z.y, 2.2, z.r);   // v47: o golpe avisado caiu
       const nevoa = z?.kind === 'aviso' && z.skill && formOf(z.skill) === 'nuvem_detona'
         && jfx.show('nevoa_03', z.x, z.y, now, 520, { scale: z.r / 2.5, fadeIn: 30, fadeOut: 220, grow: 0.12 });
       if (nevoa) hitShake(120);
@@ -1493,7 +1494,7 @@ function handleMessage(msg) {
         // v47: estouro no elemento do projétil; a explosão (raio > 0) treme de leve a tela de quem está perto
         const el = flying.get(msg.id)?.el ?? (msg.skill ? elementOfSkill(msg.skill) : 'weapons');
         flying.delete(msg.id);
-        if (!(spriteShot && el === 'lightning')) particles.burst(el, msg.x, msg.y, msg.r > 0 ? 2.4 : 0.8, msg.r || 0);   // v76: o estouro desenhado já está no quadro
+        if (!(spriteShot && (el === 'lightning' || el === 'illusion'))) particles.burst(el, msg.x, msg.y, msg.r > 0 ? 2.4 : 0.8, msg.r || 0);   // v76: o estouro desenhado já está no quadro
         const meP = state.players.get(state.meId);
         if (msg.r > 0 && meP && Math.hypot(meP.x - msg.x, meP.y - msg.y) <= msg.r + 1.5) hitShake(140);
       }
@@ -2824,12 +2825,14 @@ function drawParticles(toScreenX, toScreenY, T, viewW, viewH, now) {
     if (now > p.until) { flying.delete(id); continue; }
     const d = Math.min(p.range, (p.speed * Math.max(0, now - p.start)) / 1000);
     // v76: o projétil com rastro desenhado (a shuriken, as farpas, a brasa) não ganha o rastro antigo do Relâmpago
-    if (!(p.drawnArt && p.el === 'lightning')) particles.trail(p.el, p.x + p.fx * d, p.y + p.fy * d, p.fx, p.fy, dt, `t${id}`);
+    // v88: nem a fumaça antiga da Ilusão (cobria o Olho Errante desenhado)
+    if (!(p.drawnArt && (p.el === 'lightning' || p.el === 'illusion'))) particles.trail(p.el, p.x + p.fx * d, p.y + p.fy * d, p.fx, p.fy, dt, `t${id}`);
   }
   for (const [id, z] of state.ground || []) {
     if (now > z.end) continue;
     const owner = z.follow ? state.players.get(z.follow) : null;
     const el = z.kind === 'aviso' ? (z.skill ? elementOfSkill(z.skill) : 'neutral') : GROUND_ELEMENT[z.kind] || 'neutral';
+    if (el === 'illusion' && folhaPronta(z.skill)) continue;   // v88: a área desenhada da Ilusão sem a fumaça antiga por cima
     particles.zone(el, owner ? owner.x : z.x, owner ? owner.y : z.y, z.r, dt * (z.kind === 'aviso' ? 0.6 : 1), `z${id}`);
   }
   // Selos: aura na cor do elemento em volta de quem conjura (um anel pulsando no chão e partículas subindo)
