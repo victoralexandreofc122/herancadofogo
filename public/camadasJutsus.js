@@ -16,10 +16,10 @@ import { jutsuSpritesReady } from './vfxJutsus.js';
 const BASE = { fire: 'fogo', fire_endan: 'sopro', fire_kasumi: 'nevoa', fire_hibashiri: 'linha' };
 const ready = (skill) => !!skill && jutsuSpritesReady(BASE[skill] ?? skill);
 /** O elemento da camada pelo prefixo do jutsu (fire_, heal_, lightning_). */
-const elOf = (skill) => (/^heal/.test(skill) ? 'cura' : /^lightning/.test(skill) ? 'raio' : /^stone/.test(skill) ? 'pedra'
-  : /^wind/.test(skill) ? 'vento' : /^weapons/.test(skill) ? 'armas' : /^water/.test(skill) ? 'agua' : /^(shadow|illusion|umbra)/.test(skill) ? 'sombra' : /^taijutsu/.test(skill) ? 'taijutsu' : 'fogo');   // v88: a Ilusão usa as faíscas violeta da Sombra
+const elOf = (skill) => (/^heal/.test(skill) ? 'cura' : /^lightning/.test(skill) ? 'raio' : /^(stone|bastiao)/.test(skill) ? 'pedra'
+  : /^(wind|zefiro)/.test(skill) ? 'vento' : /^weapons/.test(skill) ? 'armas' : /^water/.test(skill) ? 'agua' : /^(shadow|illusion|umbra)/.test(skill) ? 'sombra' : /^(taijutsu|garra)/.test(skill) ? 'taijutsu' : /^aspide/.test(skill) ? 'cura' : 'fogo');   // v88: a Ilusão usa as faíscas violeta da Sombra
 /** v80: Água, Sombra e Taijutsu: a carga dos selos e a faísca do acerto na cor da classe (sem coreografia própria por jutsu). */
-const LEVA80 = (skill) => /^(water|shadow|taijutsu|wind|weapons|illusion|umbra|rubro)/.test(skill);   // v89: + Umbra e Rubro (faísca de fogo)   // v81: + Vento; v88: + Ilusão
+const LEVA80 = (skill) => /^(water|shadow|taijutsu|wind|weapons|illusion|umbra|rubro|bastiao|aspide|garra|zefiro)/.test(skill);   // v90: + os clãs novos   // v89: + Umbra e Rubro (faísca de fogo)   // v81: + Vento; v88: + Ilusão
 
 // Raio de cada camada em casas (para casar com a área do servidor): o anel de fogo corre 92 px, o de cura, o estalo do
 // trovão e a poeira 104 px; as runas têm ~2 casas; brasas, cruzes e faíscas se espalham ~0,6 casa (× 0,035 casa/px).
@@ -166,6 +166,13 @@ export function camadasCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => 
       return L('pfx_cura_cruzes', 0, 0.1, 300, { ms: dur - 300, follow: () => follow(msg.playerId), tag: `renova:${msg.playerId}`, alpha: 0.85 });
     }
     // ------------------------------------------------------------------ Relâmpago
+    case 'lightning':   // v90: Faísca Rasante: o choque e as faíscas onde o raio para
+      L('pfx_raio_choque', lineEnd.tx, lineEnd.ty - 0.1, 300, { angle, scale: 0.8 });
+      return L('pfx_raio_faiscas', lineEnd.tx, lineEnd.ty + 0.2, 320, { ms: 700 });
+    case 'stone_3': {   // v90: Esmagamento de Paredes: a poeira quando as paredes batem no alvo
+      const t = { x: msg.tx ?? lineEnd.tx, y: msg.ty ?? lineEnd.ty };
+      return L('pfx_poeira', t.x, t.y + 0.1, 380, { scale: 0.45, alpha: 0.9 });
+    }
     case 'lightning_corrente':   // Corrente Rasteira: o choque onde a corrente estoura e faíscas no chão
       L('pfx_raio_choque', lineEnd.tx, lineEnd.ty - 0.1, 440, { angle });
       return L('pfx_raio_faiscas', lineEnd.tx, lineEnd.ty + 0.2, 460, { ms: 800, scale: 1.2 });

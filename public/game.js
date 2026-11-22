@@ -27,7 +27,7 @@ import { Predictor, pushSnapshot, quantize, sampleSnapshots } from './prediction
 import { VFXManager, loadVfx, vfxReady } from './vfx.js';
 import { JutsuSprites, drawJutsuFrame, jutsuSpritesReady, loadJutsuSprites } from './vfxJutsus.js';
 import { fogoBarrier, fogoBarrierEnd, fogoCast, fogoCastStart, fogoDetona, fogoEscudoHit, fogoGolemFim, fogoGround, fogoImpact, fogoMarca, fogoProjectileFrame } from './fogoAnim.js';
-import { folhaEscudoHit, folhaMuro, folhaMuroFim, folhaPronta, summonFrames } from './folhasAnim.js';
+import { folhaClanFx, folhaEscudoHit, folhaMuro, folhaMuroFim, folhaPronta, summonFrames } from './folhasAnim.js';
 import { camadasCast, camadasCastStart, camadasDetona, camadasGround, camadasImpact, camadasMarca } from './camadasJutsus.js';
 import { AudioManager } from './audio.js';
 import { GROUND_ELEMENT, Particles, elementOf } from './particles.js';
@@ -901,7 +901,8 @@ function handleMessage(msg) {
       if (m) Object.assign(m, { hp: msg.hp, maxHp: msg.maxHp, ownerId: msg.ownerId });
       // v89 (escolha do Victor, 22/11): o Reflexo Vazio é o próprio boneco de quem lançou, em tom violeta (o servidor cria o duplo
       // como 'clone_agua'; o lançamento do Reflexo logo antes diz qual é)
-      if (m && m.type === 'clone_agua' && performance.now() - (reflexoAt.get(msg.ownerId) ?? -1e9) < 2500) m.reflexo = msg.ownerId;
+      const rf = reflexoAt.get(msg.ownerId);
+      if (m && m.type === 'clone_agua' && rf && performance.now() - rf[0] < 2500) { m.reflexo = msg.ownerId; m.reflexoSkill = rf[1]; }
       break;
     }
     case 'summon_punch': {
@@ -1416,7 +1417,7 @@ function handleMessage(msg) {
       const form = formOf(msg.skill);
       const color = CLAN_COLOR[info.clan] || CAST_COLOR[fxKind] || '#f4ecd8';   // v63: os clãs novos têm a cor própria
       const lineEnd = { tx: msg.tx ?? msg.x + msg.fx * (info.range ?? 5), ty: msg.ty ?? msg.y + msg.fy * (info.range ?? 5) };
-      if (msg.skill === 'illusion_reflexo') reflexoAt.set(msg.playerId, now);   // v89: a invocação que vier logo depois é o duplo
+      if (msg.skill === 'illusion_reflexo' || msg.skill === 'illusion_voz') reflexoAt.set(msg.playerId, [now, msg.skill]);   // v90: + a Segunda Voz   // v89: a invocação que vier logo depois é o duplo
       const fogoDrawn = fogoCast(jfx, msg, info, lineEnd, now, posOf, whoAt, whoNear);
       camadasCast(jfx, msg, info, lineEnd, now, posOf, whoAt, whoNear);   // v78: as camadas por cima das folhas desenhadas
       if (fogoDrawn) { /* v73: os 10 jutsus de Fogo desenhados (fogoAnim.js) */ }
@@ -1498,7 +1499,7 @@ function handleMessage(msg) {
         // v47: estouro no elemento do projétil; a explosão (raio > 0) treme de leve a tela de quem está perto
         const el = flying.get(msg.id)?.el ?? (msg.skill ? elementOfSkill(msg.skill) : 'weapons');
         flying.delete(msg.id);
-        if (!(spriteShot && (el === 'lightning' || el === 'illusion'))) particles.burst(el, msg.x, msg.y, msg.r > 0 ? 2.4 : 0.8, msg.r || 0);   // v76: o estouro desenhado já está no quadro
+        if (!(spriteShot && (el === 'lightning' || el === 'illusion' || /^aspide/.test(msg.skill || '')))) particles.burst(el, msg.x, msg.y, msg.r > 0 ? 2.4 : 0.8, msg.r || 0);   // v76: o estouro desenhado já está no quadro
         const meP = state.players.get(state.meId);
         if (msg.r > 0 && meP && Math.hypot(meP.x - msg.x, meP.y - msg.y) <= msg.r + 1.5) hitShake(140);
       }
@@ -1606,7 +1607,7 @@ function handleMessage(msg) {
       const m = state.monsters.get(msg.id);
       if (m) { m.diedAt = now; m.hp = 0; if (!isCreature(m)) sfxAt('slime_die', m.x, m.y, 0.9); }   // v58
       if (m && fogoGolemFim(jfx, m, now)) m.drawnGone = true;   // v79: o Golem desenhado desmancha
-      if (m && m.reflexo && jutsuSpritesReady('illusion_reflexo')) { m.drawnGone = true; jfx.show('illusion_reflexo_05', m.x, m.y + 0.25, now, 260, { fadeIn: 0, fadeOut: 120 }); jfx.show('illusion_reflexo_06', m.x, m.y + 0.25, now + 220, 600, { fadeIn: 0, fadeOut: 450 }); }   // v89: o duplo some na fumaça
+      if (m && m.reflexo && jutsuSpritesReady(m.reflexoSkill || 'illusion_reflexo')) { const rs = m.reflexoSkill || 'illusion_reflexo'; m.drawnGone = true; jfx.show(`${rs}_05`, m.x, m.y + 0.25, now, 260, { fadeIn: 0, fadeOut: 120 }); jfx.show(`${rs}_06`, m.x, m.y + 0.25, now + 220, 600, { fadeIn: 0, fadeOut: 450 }); }   // v89: o duplo some na fumaça
       else if (m && summonFrames(m.type)) { m.drawnGone = true; const sf = summonFrames(m.type); if (sf.some) jfx.show(sf.some, m.x, m.y + 0.2, now, 700, { fadeIn: 0, fadeOut: 500, layer: 'ground' }); else jfx.show(sf.parado, m.x, m.y + 0.3, now, 300, { fadeIn: 0, fadeOut: 300, grow: 0.15 }); }   // v80
       if (state.vinculo?.summoned?.includes(msg.id)) { state.vinculo.summoned = state.vinculo.summoned.filter((x) => x !== msg.id); renderVinculo(); }   // v60
       if (state.focusId === msg.id) setFocus(null);
@@ -2837,7 +2838,7 @@ function drawParticles(toScreenX, toScreenY, T, viewW, viewH, now) {
     if (now > z.end) continue;
     const owner = z.follow ? state.players.get(z.follow) : null;
     const el = z.kind === 'aviso' ? (z.skill ? elementOfSkill(z.skill) : 'neutral') : GROUND_ELEMENT[z.kind] || 'neutral';
-    if ((el === 'illusion' || /^umbra/.test(z.skill || '')) && folhaPronta(z.skill)) continue;   // v88: a área desenhada da Ilusão sem a fumaça antiga por cima
+    if ((el === 'illusion' || /^(umbra|aspide|bastiao|garra|zefiro)/.test(z.skill || '')) && folhaPronta(z.skill)) continue;   // v88: a área desenhada da Ilusão sem a fumaça antiga por cima
     particles.zone(el, owner ? owner.x : z.x, owner ? owner.y : z.y, z.r, dt * (z.kind === 'aviso' ? 0.6 : 1), `z${id}`);
   }
   // Selos: aura na cor do elemento em volta de quem conjura (um anel pulsando no chão e partículas subindo)
@@ -5230,6 +5231,7 @@ const CLAN_COLOR = { bastiao: '#e0c48a', aspide: '#8fe05a', garra: '#e8954a', ze
 function clanFx(msg, now) {
   const p = state.players.get(msg.playerId);
   const pts = msg.pts || [];
+  if (folhaClanFx(jfx, msg, now)) { if (msg.kind === 'mil_passos') hitShake(90); return; }   // v90: Troca, Eco e Mil Passos desenhados
   const line = (a, b, color) => state.effects.push({ skill: 'jutsu_line', x: a[0], y: a[1], fx: 0, fy: 0, tx: b[0], ty: b[1], color, start: now });
   if (msg.kind === 'mil_passos') {
     for (let i = 1; i < pts.length; i++) {
@@ -9251,7 +9253,8 @@ function drawSummon(m, sx, sy, T, now) {
   if (sf) {
     // v80: o Duplo de Água e a Sentinela de Sombra desenhados pelo Victor (parado e no golpe)
     if (m.drawnGone) { ctx.restore(); return; }
-    const frame = punching && pk > 0.2 && pk < 0.85 ? sf.golpe : sf.parado;
+    // v90: andando, os dois passos da folha (as feras do Clã Garra)
+    const frame = punching && pk > 0.2 && pk < 0.85 ? sf.golpe : walking && sf.anda ? sf.anda[Math.floor(now / 170) % sf.anda.length] : sf.parado;
     const dirV = punching ? (Math.abs(dy) > Math.abs(dx) * 1.2 ? (dy > 0 ? 'baixo' : 'cima') : null) : m.faceV;
     drawJutsuFrame(ctx, frame, sx + lean * dx, sy + T * 0.32 - Math.abs(step) * T * 0.05, T, { scale: born, flip: face < 0, dir: dirV });
     ctx.restore();

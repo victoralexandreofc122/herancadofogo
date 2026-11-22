@@ -158,6 +158,26 @@ const TIPO = {
   // o F1 da folha traz um ninja desenhado: fica de fora (o jogo já desenha o boneco)
   taijutsu_lotus: { t: 'rastro', saida: ['02'], estica: [], chegada: ['03', '04', '05', '06'] },
   heal_aura: { t: 'zona', intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  // v90: os clãs Bastião, Áspide, Garra e Zéfiro, a Forma Umbral, a Faísca Rasante, o Esmagamento, a Segunda Voz e o Empréstimo
+  lightning: { t: 'linha', mao: ['01'], estica: ['02', '03', '04', '05', '06'] },
+  stone_3: { t: 'alvo', ms: 1600, esc: 1.1, intro: ['01', '02', '03'], meio: ['04', '05'], fim: ['06'] },   // rootMs
+  illusion_voz: { t: 'invoca', sobe: ['01', '02', '03', '04'] },   // o clone é o próprio boneco (como o Reflexo)
+  illusion_emprestimo: { t: 'alvo', ms: 1200, esc: 0.75, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  umbra_forma: { t: 'corpo', escudo: true, gira: 1.2, ms: 5000, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  bastiao_muralha: { t: 'corpo', escudo: true, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  bastiao_guarda: { t: 'corpo', escudo: true, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  bastiao_resposta: { t: 'corpo', chao: true, dur: 'durationMs', intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  bastiao_juramento: { t: 'corpo', pes: true, ms: 10_000, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },   // os escudos atrás do ninja
+  aspide_cuspe: { t: 'proj', sai: ['01'], voa: '02', bate: ['05', '06'] },
+  aspide_nevoa: { t: 'zona', intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
+  aspide_constricao: { t: 'alvo', ms: 1500, esc: 0.75, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },   // rootMs
+  aspide_ninho: { t: 'invoca', circulo: '01' },   // as serpentes da folha vieram com um quadrado de grama embaixo: ficam as de código
+  garra_matilha: { t: 'invoca', sobe: ['01'] },
+  garra_rei: { t: 'invoca', sobe: ['01'] },
+  garra_uivo: { t: 'linha', mao: [], estica: ['01', '02', '03', '04', '05', '06'] },
+  garra_troca: { t: 'clan' }, zefiro_eco: { t: 'clan' }, zefiro_mil: { t: 'clan' },   // tocam no clan_fx (os pontos do caminho)
+  zefiro_passo: { t: 'rastro', saida: ['01'], estica: ['02', '03'], chegada: ['04', '05', '06'] },
+  zefiro_veu: { t: 'corpo', escudo: true, gira: 1, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
 };
 /** Avisos que vêm em ondas no mesmo lugar (a Ascensão Dupla): o desenho toca uma vez só. */
 const ONDA = new Map();
@@ -195,6 +215,7 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       seq(jfx, s, msg.x, msg.y + 0.1, now, corrida(fs, 0, 120, 600), { scale: sc, spin: k.gira ?? 0, ...(k.chao ? { layer: 'ground' } : {}) });   // v88: chao/gira (a espiral da Ilusão)
       return true;
     }
+    case 'clan': return true;   // v90: o desenho vem com o clan_fx
     case 'corpo': {
       const dur = k.ms ?? info[k.dur ?? 'durationMs'] ?? 4000, tag = `folha:${s}:${msg.playerId}`;   // v88: ms fixo (a Dissipação: um estouro só)
       jfx.drop(tag);
@@ -393,6 +414,29 @@ export function folhaProjetil(msg) {
   return k?.t === 'proj' && ready(msg.skill) && FRAMES[`${msg.skill}_${k.voa}`] ? `${msg.skill}_${k.voa}` : null;
 }
 
+/** v90: Troca Instintiva, Eco do Vento e Mil Passos (mensagem clan_fx, com os pontos do caminho). */
+export function folhaClanFx(jfx, msg, now) {
+  const s = { troca: 'garra_troca', eco: 'zefiro_eco', mil_passos: 'zefiro_mil' }[msg.kind];
+  const pts = msg.pts || [];
+  if (!s || !ready(s) || pts.length < 2) return false;
+  const P = ([x, y]) => ({ x, y });
+  const ang = (a, b) => Math.atan2(b[1] - a[1], b[0] - a[0]);
+  if (msg.kind === 'mil_passos') {
+    seq(jfx, s, pts[0][0], pts[0][1] - 0.3, now, [['01', 0, 200, { fadeOut: 120 }]], { scale: 0.8 });
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1], b = pts[i], t = 60 + (i - 1) * 130, m = { x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2 };
+      seq(jfx, s, m.x, m.y - 0.3, now, [['03', t, 110, { angle: ang(a, b), fadeIn: 0 }]], { scale: 0.9 });
+      seq(jfx, s, b[0], b[1] - 0.3, now, [['04', t + 70, 160, { fadeIn: 0 }], ['05', t + 200, 260, { fadeOut: 200 }]], { scale: 0.75 });
+    }
+    return true;
+  }
+  const [a, b] = pts, m = { x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2 };
+  seq(jfx, s, a[0], a[1] - 0.3, now, [['01', 0, 260, { fadeOut: 160 }]], { scale: 0.8 });
+  seq(jfx, s, m.x, m.y - 0.3, now, [['02', 90, 130, { angle: ang(a, b) }], ['03', 200, 130, { angle: ang(a, b) }]], { scale: 0.9 });
+  seq(jfx, s, b[0], b[1] - 0.3, now, corrida(['04', '05', '06'], 300, 180, 520), { scale: 0.8 });
+  return true;
+}
+
 /** O projétil bateu. */
 export function folhaImpacto(jfx, msg, skill, now) {
   const k = TIPO[skill];
@@ -485,5 +529,8 @@ export function folhaEscudoHit(jfx, id, now, follow) {
 export const SUMMON_FRAMES = {
   clone_agua: { skill: 'water_clone', parado: 'water_clone_01', golpe: 'water_clone_01' },
   sentinela_sombra: { skill: 'shadow_sentinela', parado: 'shadow_sentinela_04', golpe: 'shadow_sentinela_05', some: 'shadow_sentinela_06' },
+  // v90: as feras do Clã Garra andam (dois passos) e mordem; o Rei tem as folhas de frente e de costas
+  fera_garra: { skill: 'garra_matilha', parado: 'garra_matilha_02', anda: ['garra_matilha_03', 'garra_matilha_04'], golpe: 'garra_matilha_05', some: 'garra_matilha_06' },
+  fera_rei: { skill: 'garra_rei', parado: 'garra_rei_02', anda: ['garra_rei_03', 'garra_rei_04'], golpe: 'garra_rei_05', some: 'garra_rei_06' },
 };
 export const summonFrames = (kind) => (SUMMON_FRAMES[kind] && jutsuSpritesReady(SUMMON_FRAMES[kind].skill) ? SUMMON_FRAMES[kind] : null);

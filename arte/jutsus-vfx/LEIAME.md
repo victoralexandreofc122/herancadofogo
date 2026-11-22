@@ -121,7 +121,7 @@ uma folha da lista: tirar o item do `pendencias.py`, gerar de novo e republicar 
 
 ## Situação (22/11/2026)
 
-**Feitos (178):**
+**Feitos (199):**
 
 - Fogo (17): Fogo, Sopro Incinerador, Névoa Inflamável, Linha de Fogo Rasante, Revoada de Brasas, Lança de Fogo, Cinzas Detonantes, Lâmina de Fogo, Varredura Flamejante, Projétil Dracônico, Chuva de Meteoros, Marca Incandescente, Chão Incandescente, Cometa Rasteiro, Rugido da Fornalha, Coroa de Chamas, Coluna Infernal.
 - Cura (17): Cura, Desintoxicação Celular, Corte Cirúrgico, Palma Curadora, Descontrole Muscular, Punho Sísmico, Regeneração de Área, Renovação Celular, Selo dos Meridianos, Agulha Calmante, Casca de Chakra, Lâmina Séptica, Banho de Chakra, Onda Anestésica, Milagre Verde, Santuário Vital, Punho do Colosso.
@@ -135,9 +135,12 @@ uma folha da lista: tirar o item do `pendencias.py`, gerar de novo e republicar 
 - Clã Rubro (6, v89): todos (o Colosso Espectral fica atrás do ninja e corta à frente no fim).
 - Clã Umbra (3, v89): Deslize Noturno, Sombra Faminta, Noite Fechada.
 - v89 também: Corpo de Água, Coluna d’Água, Mil Cortes do Céu (uma lâmina por golpe), Impacto Circular, Chave de Braço, Mergulho Esmagador (o F1 com o ninja desenhado fica de fora) e Aura de Regeneração.
+- v90: os clãs Bastião (4), Áspide (4; o Ninho só com o círculo), Garra (4; as feras andam e mordem, o Rei com as folhas de frente e de costas) e Zéfiro (4), a Forma Umbral, a Faísca Rasante, o Esmagamento de Paredes, a Segunda Voz (o próprio boneco violeta) e o Empréstimo Forçado.
 - Ilusão (15, v88): Ilusão, Visão do Abismo, Raízes do Pesadelo, Dissipação, Estaca da Ilusão (com a folha para baixo), Santuário das Penas, Noite Eterna, Olho Errante, Passo Falso, Véu da Meia-Noite, Espelho Quebrado, Coro do Silêncio, Colapso Onírico, Canção de Ninar, Reflexo Vazio (a fumaça; o duplo continua o desenho do Duplo de Água).
 
-**Faltam (22), com o id e a forma no servidor:**
+**Falta (1):** Ciclo Sem Fim (`illusion_4`, alvo).
+
+<!-- lista antiga dos que faltavam (até a v89):
 
 - **Relâmpago (1):** Relâmpago (`lightning`).
 - **Pedra (1):** Esmagamento de Paredes (`stone_3`, alvo).
@@ -147,3 +150,4 @@ uma folha da lista: tirar o item do `pendencias.py`, gerar de novo e republicar 
 - **Clã Áspide (4):** Cuspe da Áspide (`aspide_cuspe`, projetil); Névoa Tóxica (`aspide_nevoa`, zona); Constrição (`aspide_constricao`, alvo); Ninho de Áspides (`aspide_ninho`, invocacao).
 - **Clã Garra (4):** Chamado da Matilha (`garra_matilha`, invocacao); Uivo de Comando (`garra_uivo`, comando); Troca Instintiva (`garra_troca`, troca); Rei da Matilha (`garra_rei`, invocacao).
 - **Clã Zéfiro (4):** Passo do Vento (`zefiro_passo`, recuo); Véu de Ar (`zefiro_veu`, postura); Eco do Vento (`zefiro_eco`, eco); Mil Passos (`zefiro_mil`, mil_passos).
+-->
