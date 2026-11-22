@@ -85,7 +85,7 @@ export const PROFUNDIDADE = new Set([
   'pfx_fogo_anel', 'pfx_cura_anel', 'pfx_raio_estalo',
 ]);
 /** v85: as bolhas e escudos em volta do corpo: a metade da frente translúcida (o ninja aparece dentro, como num vidro). */
-const FRENTE = { bastiao_guarda: 0.6, bastiao_muralha: 0.75, zefiro_veu: 0.55, umbra_forma: 0.6, aspide_constricao: 0.8, rubro_olho: 0.6, rubro_guardiao: 0.65, water_corpo: 0.6, heal_aura: 0.6, umbra_faminta: 0.75, illusion_kai: 0.5, illusion_espelho: 0.6, illusion_veu: 0.55, illusion_noite: 0.7, illusion_reflexo: 0.75, water_casulo: 0.5, heal_casca: 0.55, stone_4: 0.6, stone: 0.65, stone_couraca: 0.6, wind_veu: 0.55, wind_espelho: 0.5,
+const FRENTE = { bastiao_guarda: 0.6, bastiao_muralha: 0.75, zefiro_veu: 0.55, aspide_constricao: 0.8, rubro_olho: 0.6, rubro_guardiao: 0.65, water_corpo: 0.6, heal_aura: 0.6, umbra_faminta: 0.75, illusion_kai: 0.5, illusion_espelho: 0.6, illusion_veu: 0.55, illusion_noite: 0.7, illusion_reflexo: 0.75, water_casulo: 0.5, heal_casca: 0.55, stone_4: 0.6, stone: 0.65, stone_couraca: 0.6, wind_veu: 0.55, wind_espelho: 0.5,
   wind_olho: 0.55, shadow_veu: 0.55, water_3: 0.55, lightning_armadura: 0.8, taijutsu_bloqueio: 0.7 };
 const baseDe = (name) => name.replace(/_0\d\w?$/, '');
 
@@ -114,6 +114,8 @@ export class JutsuSprites {
       // sombra = mancha no chão (raio em casas) que cresce quando a coisa cai; luz = poça de luz no chão [cor, raio em casas]
       split: opts.split ?? ((opts.layer ?? 'top') === 'top' && PROFUNDIDADE.has(baseDe(name))), spin: opts.spin ?? 0, pop: opts.pop ?? 0,
       sombra: opts.sombra ?? 0, luz: opts.luz ?? null,
+      // v94: piso = o chão de dentro da arte pintado de uma cor translúcida [cor, raio em casas, achatado] (a base da Aura de Regeneração)
+      piso: opts.piso ?? null,
       // v91: o encaixe no corpo: apoio 'base' = o pé da arte no ponto (sobe dos pés), 'centro' = o meio da arte no ponto;
       // alto = a altura da arte em casas (o corpo inteiro, só o tronco); corte = onde a metade de trás acaba (casas, a partir do ponto)
       apoio: opts.apoio ?? null, alto: opts.alto ?? 0, corte: opts.corte ?? 0,
@@ -187,7 +189,7 @@ export class JutsuSprites {
       this.list[alive++] = s;
       if (now < s.start) continue;
       if (s.cabeca) continue;   // v92: desenhado na fileira de cima da cabeça (drawCabeca)
-      const extras = layer === 'ground' && (s.sombra || s.luz);
+      const extras = layer === 'ground' && (s.sombra || s.luz || s.piso);
       if (s.layer !== layer && !(s.split && (layer === 'ground' || layer === 'top')) && !extras) continue;
       const k = Math.min(1, (now - s.start) / Math.max(1, s.fadeIn), (s.end - now) / Math.max(1, s.fadeOut));
       const life = (now - s.start) / Math.max(1, s.end - s.start);
@@ -197,11 +199,20 @@ export class JutsuSprites {
       const px = toX(at.x + (s.follow ? s.x : 0)), py = toY(at.y + (s.follow ? s.y : 0));
       const alpha = Math.max(0, k) * s.alpha;
       if (extras) {   // v85: a sombra e a luz no chão (embaixo de tudo), no pé do desenho
-        const gy = s.follow ? toY(at.y) + 0.42 * T : py;   // os pés de quem a coisa acompanha, ou o próprio ponto
+        let gy = s.follow ? toY(at.y) + 0.42 * T : py;   // os pés de quem a coisa acompanha, ou o próprio ponto
         if (s.sombra) {
           const r = s.sombra * T * (0.6 + 0.4 * life);
           g.save(); g.globalAlpha = 0.32 * alpha * (0.5 + 0.5 * life); g.fillStyle = '#000';
           g.beginPath(); g.ellipse(px, gy, r, r * 0.45, 0, 0, Math.PI * 2); g.fill(); g.restore();
+        }
+        if (s.piso) {   // v94: cor lisa e translúcida, com a borda suave (não clareia: pinta por cima do chão)
+          const [cor, raio, achata = 0.42, dy = 0] = s.piso, r = raio * T;
+          const gy0 = gy; gy += dy * T;
+          const gr = g.createRadialGradient(px, gy, 0, px, gy, r);
+          gr.addColorStop(0, cor); gr.addColorStop(0.78, cor); gr.addColorStop(1, 'rgba(0,0,0,0)');
+          g.save(); g.globalAlpha = alpha; g.fillStyle = gr; g.translate(px, gy); g.scale(1, achata); g.translate(-px, -gy);
+          g.beginPath(); g.arc(px, gy, r, 0, Math.PI * 2); g.fill(); g.restore();
+          gy = gy0;
         }
         if (s.luz) {
           const [cor, raio] = s.luz, r = raio * T;

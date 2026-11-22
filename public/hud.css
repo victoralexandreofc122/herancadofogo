@@ -790,12 +790,12 @@ body.editing .mm-wrap, body.editing .tracker, body.editing .chat-box, body.editi
   .equip-body { grid-template-columns: auto minmax(0, 1fr); gap: 10px; margin-top: 18px; }
   .equip-panel:not(.show-stats) .equip-stats { display: none; }
   .equip-panel.show-stats .equip-inv { display: none; }
-  .equip-doll { gap: 2px 6px; }
-  .eq-col { gap: 2px; }
-  .eq-slot { gap: 1px; }
+  .equip-doll { gap: 8px 8px; }
+  .eq-col { gap: 7px; }   /* v94: o anel da caixa (4 px) não encosta mais no nome de baixo */
+  .eq-slot { gap: 4px; }
   .eq-box { width: 34px; height: 34px; }
   .eq-box canvas { width: 28px; height: 28px; }
-  .eq-label { font-size: 10.5px; }
+  .eq-label { font-size: 12px; }   /* v94: o mínimo de 12 px do guia */
   .eq-figure canvas { width: 96px; height: 144px; }
   .eq-turn { right: auto; left: -4px; bottom: 0; width: 26px; height: 26px; font-size: 13px; }
   .eq-row { gap: 4px; }

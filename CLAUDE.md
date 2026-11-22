@@ -18,7 +18,7 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   `public/figure.js` cache e giro). Detalhes em `arte/personagem-rig/LEIAME.md`. O estilo segue a folha de referência
   do Victor (chibi, contorno escuro, sombreado em 2-3 tons). Toda mudança de arte é comparada lado a lado com a
   referência e conferida dentro do jogo antes de fechar.
-- **Versão atual:** v93 na `main` (PRs #33 a #62; o #62 trouxe a v93, os pedidos do Victor de 22/11). **Banco:** todas as
+- **Versão atual:** v94 na `main` (PRs #33 a #63; o #63 trouxe a v94: a primeira experiência sem rolagem). **Banco:** todas as
   migrações até a **v40** rodaram no `production` do Neon (confirmado pelo Victor em 17/11/2026); nenhuma pendente.
   Jutsus v2 com 96 jutsus (10 classes, Vento nova, e o Clã Rubro), mais os 74 da Fase 2.5 e os 16 dos clãs novos;
   conjuração, sistemas próprios (muros, invocações, escuridão...), clãs por linhagem, Extração e maestria, rankeado 1v1 e
@@ -32,6 +32,9 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   aumenta a cura, item Shuriken (consumível, botão ✴️), invocações andam até o alvo e socam (Sentinela de Sombra e Arsenal
   Vivo com desenho próprio). v54: curas e escudos com valor fixo (sem % da vida), Cura rebalanceada, Cegueira como estado
   (perde o alvo), Duplo de Água bate. Mesclado (PR #34; a v32 rodou no Neon).
+- **v94 (sem migração, pedido do Victor de 22/11):** a primeira experiência sem rolagem (entrada em 2 colunas, Criador,
+  Configurações, Vínculo em abas, Perfil e Manual em colunas; `scripts/auditar-primeira.ts` confere), a Forma Umbral nos pés e
+  opaca e o chão verde da Aura de Regeneração (`piso`).
 - **v93 (sem migração, pedidos do Victor de 22/11):** invocação só atrai o monstro se bate nele e está mais perto que o ninja;
   o Rito do Despertar com O Cronista (o Diretor só com as classes) e a linhagem continua desperta ao zerar as classes; o Salão do
   Rei Lodo (só o chefe, sem filhos); o soco sem arma com o impacto do punho; o círculo escuro em perspectiva. Mesclado (PR #62).

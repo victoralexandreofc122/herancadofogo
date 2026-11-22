@@ -546,66 +546,81 @@
         <h2 id="settings-title"><span aria-hidden="true">⚙️</span> Configurações</h2>
         <button id="settings-close" class="icon-btn small" type="button" aria-label="Fechar as configurações"><span aria-hidden="true">✕</span></button>
       </header>
-      <!-- v57: som (salvo no navegador: localStorage) -->
-      <fieldset class="display-opts audio-opts">
-        <legend>Som</legend>
-        <label class="slider">Volume da música <output id="vol-music-out">40%</output>
-          <input id="vol-music" type="range" min="0" max="100" step="5" value="40">
+      <!-- v94 (pedido do Victor, 22/11: nada de rolagem): as configurações em abas -->
+      <div class="tabs set-tabs" role="tablist" aria-label="Partes das configurações">
+        <button type="button" class="tab active" role="tab" aria-selected="true" data-pane="set-som">Som</button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-pane="set-tela">Tela</button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-pane="set-hud">HUD</button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-pane="set-visual">Visual</button>
+      </div>
+      <div id="set-som" class="pane set-pane">
+        <!-- v57: som (salvo no navegador: localStorage) -->
+        <fieldset class="display-opts audio-opts">
+          <legend>Som</legend>
+          <label class="slider">Volume da música <output id="vol-music-out">40%</output>
+            <input id="vol-music" type="range" min="0" max="100" step="5" value="40">
+          </label>
+          <label class="slider">Volume dos efeitos <output id="vol-sfx-out">60%</output>
+            <input id="vol-sfx" type="range" min="0" max="100" step="5" value="60">
+          </label>
+          <button id="audio-mute" type="button" class="secondary" aria-pressed="false">🔊 Som ligado</button>
+        </fieldset>
+      </div>
+      <div id="set-tela" class="pane set-pane" hidden>
+        <button id="edit-layout" type="button" class="primary">✏️ Editar layout (arrastar botões)</button>
+        <label class="slider">Tamanho dos botões <output id="btn-scale-out">100%</output>
+          <input id="btn-scale" type="range" min="70" max="130" step="5" value="100">
         </label>
-        <label class="slider">Volume dos efeitos <output id="vol-sfx-out">60%</output>
-          <input id="vol-sfx" type="range" min="0" max="100" step="5" value="60">
+        <label class="slider">Opacidade dos botões <output id="btn-opacity-out">100%</output>
+          <input id="btn-opacity" type="range" min="30" max="100" step="5" value="100">
         </label>
-        <button id="audio-mute" type="button" class="secondary" aria-pressed="false">🔊 Som ligado</button>
-      </fieldset>
-      <button id="edit-layout" type="button" class="primary">✏️ Editar layout (arrastar botões)</button>
-      <label class="slider">Tamanho dos botões <output id="btn-scale-out">100%</output>
-        <input id="btn-scale" type="range" min="70" max="130" step="5" value="100">
-      </label>
-      <label class="slider">Opacidade dos botões <output id="btn-opacity-out">100%</output>
-        <input id="btn-opacity" type="range" min="30" max="100" step="5" value="100">
-      </label>
-      <label class="slider">Tamanho das barras <output id="bar-scale-out">100%</output>
-        <input id="bar-scale" type="range" min="70" max="130" step="5" value="100">
-      </label>
-      <label class="slider">Opacidade das barras <output id="bar-opacity-out">100%</output>
-        <input id="bar-opacity" type="range" min="30" max="100" step="5" value="100">
-      </label>
-      <label class="slider">Distância da câmera <output id="cam-dist-out">100%</output>
-        <input id="cam-dist" type="range" min="80" max="140" step="5" value="100">
-      </label>
-      <!-- v47: partículas e tremor dos jutsus (celular fraco: reduzir ou desligar) -->
-      <label class="slider">Efeitos dos jutsus
-        <select id="vfx-quality" aria-label="Efeitos dos jutsus">
-          <option value="full">Completos</option>
-          <option value="low">Reduzidos (celular fraco)</option>
-          <option value="off">Desligados (sem partículas nem tremor)</option>
-        </select>
-      </label>
-      <!-- v66 (guia de UI, regra 4): o HUD muda na luta; o jogador pode desligar -->
-      <fieldset class="display-opts">
-        <legend>HUD</legend>
-        <label><input id="combat-hud-opt" type="checkbox" checked> HUD de combate: na luta, esconde as missões e apaga o chat</label>
-        <!-- v67: as propostas do guia de UI aceitas pelo Victor (docs/ui/estrutura-ui-ux-hud.md, seção 13) -->
-        <label class="slider">Joystick
-          <select id="pref-joystick" aria-label="Joystick">
-            <option value="flutuante">Flutuante (nasce onde o polegar toca)</option>
-            <option value="fixo">Fixo (sempre no mesmo lugar)</option>
+        <label class="slider">Tamanho das barras <output id="bar-scale-out">100%</output>
+          <input id="bar-scale" type="range" min="70" max="130" step="5" value="100">
+        </label>
+        <label class="slider">Opacidade das barras <output id="bar-opacity-out">100%</output>
+          <input id="bar-opacity" type="range" min="30" max="100" step="5" value="100">
+        </label>
+        <label class="slider">Distância da câmera <output id="cam-dist-out">100%</output>
+          <input id="cam-dist" type="range" min="80" max="140" step="5" value="100">
+        </label>
+        <!-- v47: partículas e tremor dos jutsus (celular fraco: reduzir ou desligar) -->
+        <label class="slider">Efeitos dos jutsus
+          <select id="vfx-quality" aria-label="Efeitos dos jutsus">
+            <option value="full">Completos</option>
+            <option value="low">Reduzidos (celular fraco)</option>
+            <option value="off">Desligados (sem partículas nem tremor)</option>
           </select>
         </label>
-        <label><input id="pref-aim-camera" type="checkbox" checked> Câmera segue a mira dos jutsus</label>
-        <label><input id="pref-hold-info" type="checkbox" checked> Segurar o jutsu mostra o nome e o efeito (sai ao soltar)</label>
-        <label><input id="pref-portraits" type="checkbox" checked> Retratos dos inimigos no PvP (toque para focar)</label>
-        <label><input id="pref-hide-bars" type="checkbox"> Esconder vida e chakra cheios fora da luta</label>
-        <label><input id="pref-dlg-portrait" type="checkbox" checked> Retrato de quem fala na caixa de conversa</label>
-      </fieldset>
-      <fieldset id="display-opts" class="display-opts">
-        <legend>O que os outros veem no seu boneco</legend>
-        <label><input id="show-cape" type="checkbox" checked> Capa</label>
-        <label><input id="show-weapon" type="checkbox" checked> Arma</label>
-        <label><input id="show-scroll" type="checkbox" checked> Pergaminho</label>
-      </fieldset>
-      <button id="open-creator" type="button" class="secondary">🎨 Mudar visual do personagem</button>
-      <button id="reset-layout" type="button" class="link">Restaurar layout padrão</button>
+        <button id="reset-layout" type="button" class="link">Restaurar layout padrão</button>
+      </div>
+      <div id="set-hud" class="pane set-pane" hidden>
+        <!-- v66 (guia de UI, regra 4): o HUD muda na luta; o jogador pode desligar -->
+        <fieldset class="display-opts">
+          <legend>HUD</legend>
+          <label><input id="combat-hud-opt" type="checkbox" checked> HUD de combate: na luta, esconde as missões e apaga o chat</label>
+          <!-- v67: as propostas do guia de UI aceitas pelo Victor (docs/ui/estrutura-ui-ux-hud.md, seção 13) -->
+          <label class="slider">Joystick
+            <select id="pref-joystick" aria-label="Joystick">
+              <option value="flutuante">Flutuante (nasce onde o polegar toca)</option>
+              <option value="fixo">Fixo (sempre no mesmo lugar)</option>
+            </select>
+          </label>
+          <label><input id="pref-aim-camera" type="checkbox" checked> Câmera segue a mira dos jutsus</label>
+          <label><input id="pref-hold-info" type="checkbox" checked> Segurar o jutsu mostra o nome e o efeito (sai ao soltar)</label>
+          <label><input id="pref-portraits" type="checkbox" checked> Retratos dos inimigos no PvP (toque para focar)</label>
+          <label><input id="pref-hide-bars" type="checkbox"> Esconder vida e chakra cheios fora da luta</label>
+          <label><input id="pref-dlg-portrait" type="checkbox" checked> Retrato de quem fala na caixa de conversa</label>
+        </fieldset>
+      </div>
+      <div id="set-visual" class="pane set-pane" hidden>
+        <fieldset id="display-opts" class="display-opts">
+          <legend>O que os outros veem no seu boneco</legend>
+          <label><input id="show-cape" type="checkbox" checked> Capa</label>
+          <label><input id="show-weapon" type="checkbox" checked> Arma</label>
+          <label><input id="show-scroll" type="checkbox" checked> Pergaminho</label>
+        </fieldset>
+        <button id="open-creator" type="button" class="secondary">🎨 Mudar visual do personagem</button>
+      </div>
     </section>
 
     <!-- Modo edição: aparece só depois de tocar em "Editar layout". O combate fica parado. -->
@@ -708,7 +723,10 @@
   <!-- Criador de Personagem: depois do cadastro (e pelo ⚙️ a qualquer hora). Só nomes de paleta, salvos no servidor. -->
   <section id="creator" class="screen creator" hidden aria-labelledby="creator-title">
     <div class="card creator-card">
-      <h2 id="creator-title">Crie seu ninja</h2>
+      <div class="creator-head">
+        <h2 id="creator-title">Crie seu ninja</h2>
+        <div id="creator-tabs" class="creator-tabs" role="tablist" aria-label="Partes do visual"></div>
+      </div>
       <div class="creator-body">
         <div class="creator-preview">
           <canvas id="creator-canvas" width="128" height="192" aria-label="Prévia do personagem"></canvas>
@@ -738,9 +756,13 @@
   <!-- Login / cadastro -->
   <section id="login" class="screen">
     <form id="login-form" class="card" novalidate>
-      <img class="login-logo" src="/img/logo.webp" alt="" width="96" height="96">
-      <h1>Herança do Fogo</h1>
-      <p class="sub">MMORPG ninja · protótipo</p>
+      <div class="login-brand">
+        <img class="login-logo" src="/img/logo.webp" alt="" width="96" height="96">
+        <h1>Herança do Fogo</h1>
+        <p class="sub">MMORPG ninja · protótipo</p>
+        <button id="toggle-mode" type="button" class="link">Não tem conta? Criar conta</button>
+      </div>
+      <div class="login-fields">
 
       <label id="username-field" hidden>Nome de usuário
         <input name="username" autocomplete="username" minlength="3" maxlength="24" pattern="[A-Za-z0-9_]{3,24}">
@@ -755,7 +777,7 @@
 
       <p id="login-error" class="error" role="alert"></p>
       <button id="login-submit" type="submit" class="primary">Entrar</button>
-      <button id="toggle-mode" type="button" class="link">Não tem conta? Criar conta</button>
+      </div>
     </form>
   </section>
 

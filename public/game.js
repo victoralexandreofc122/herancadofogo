@@ -4665,7 +4665,9 @@ function renderTutorial() {
   document.body.classList.toggle('tutorial', inAcademy);
   renderTracker();
   // Na Academia, antes de acabar o tutorial: a aba "Missões" do chat abre sozinha (uma vez), com o passo da vez.
-  if (inAcademy && step < 4 && !chatTabTouched) showChatMissions(true);
+  // v94: só quando o painel de missões da esquerda está escondido (com ele à vista, o mesmo texto no chat só ocupava espaço).
+  const trackerOn = (() => { const t = document.getElementById('tracker'); return !!t && !t.hidden && getComputedStyle(t).display !== 'none'; })();
+  if (inAcademy && step < 4 && !chatTabTouched && !trackerOn) showChatMissions(true);
   if (!inAcademy) return;
   const done = step >= 4;
   ui.tutorialSkip.hidden = done;   // v65: Pular a Academia (só enquanto ela não acabou)
@@ -4914,6 +4916,7 @@ const PRIMAL_COLOR = { sapo: '#7cd65a', lobo: '#c9d2e0', aguia: '#ffe08a', gato:
 const secs = (ms) => (ms >= 60_000 ? `${Math.floor(ms / 60_000)}:${String(Math.ceil((ms % 60_000) / 1000)).padStart(2, '0')}` : `${Math.ceil(ms / 1000)}s`);
 
 /** O painel (as 8 criaturas) e os dois botões do HUD. */
+let vinculoSel = null;   // v94: a criatura cuja ficha está aberta no painel
 function renderVinculo() {
   const v = state.vinculo;
   if (!vinculoUi.panel.hidden) {
@@ -4922,7 +4925,31 @@ function renderVinculo() {
     else if (!v.available) { vinculoUi.note.textContent = 'O Vínculo Ancestral ainda não está ligado no servidor.'; vinculoUi.note.classList.add('bad'); }
     else vinculoUi.note.textContent = `Escolha 1 criatura. Invocar gasta ${v.chakraCost} de chakra (40% do máximo), recarga de 2 min. Afinidade 5 libera o Estado Primal (60 s). Só no mapa aberto: no rankeado, torneio e PvP a criatura some.`;
     vinculoUi.list.textContent = '';
-    for (const c of v?.creatures ?? []) {
+    // v94 (nada de rolagem): uma aba por criatura (o ícone e o nome) e, embaixo, a ficha só da escolhida.
+    const all = v?.creatures ?? [];
+    if (!all.some((c) => c.code === vinculoSel)) vinculoSel = v?.equipped && all.some((c) => c.code === v.equipped) ? v.equipped : all[0]?.code;
+    const tabs = document.createElement('div');
+    tabs.className = 'vtabs';
+    tabs.setAttribute('role', 'tablist');
+    for (const c of all) {
+      const t = document.createElement('button');
+      t.type = 'button';
+      t.className = `vtab${v.equipped === c.code ? ' on' : ''}`;
+      t.setAttribute('role', 'tab');
+      t.setAttribute('aria-selected', String(c.code === vinculoSel));
+      t.setAttribute('aria-label', `${c.name}${v.equipped === c.code ? ' (equipado)' : ''}`);
+      const ico = document.createElement('span');
+      ico.className = 'vtab-ico';
+      ico.setAttribute('aria-hidden', 'true');
+      ico.textContent = c.icon;
+      const nm = document.createElement('small');
+      nm.textContent = c.name;
+      t.append(ico, nm);
+      t.addEventListener('click', () => { vinculoSel = c.code; renderVinculo(); });
+      tabs.appendChild(t);
+    }
+    vinculoUi.list.appendChild(tabs);
+    for (const c of all.filter((x) => x.code === vinculoSel)) {
       const card = document.createElement('div');
       card.className = `vcard${v.equipped === c.code ? ' on' : ''}`;
       const pct = c.need ? Math.round((c.into / c.need) * 100) : 100;
@@ -6262,6 +6289,7 @@ function openCreator(first = false) {
   creatorLineage = null;   // v35
   if (!villageOpen(creatorLook.village)) creatorLook.village = (state.world.openVillages || ['vila_1'])[0];
   creatorDir = 0;
+  creatorTab = first ? 'linhagem' : 'corpo';   // v94: a 1ª vez abre na Linhagem; o "Mudar visual" no Corpo
   renderCreatorOptions();
   ui.creatorCancel.hidden = first;           // na 1ª vez é obrigatório escolher
   ui.creatorSave.textContent = first ? 'Começar a jogar' : 'Salvar visual';
@@ -6347,8 +6375,43 @@ function lineageRow() {
   return row;
 }
 
+/**
+ * v94 (pedido do Victor, 22/11: nada de rolagem, o que não cabe ganha aba própria): o Criador em abas. Cada aba
+ * cabe na tela do celular deitado (667 x 375) sem rolar.
+ */
+const CREATOR_TABS = [
+  ['linhagem', 'Linhagem', ['lineage']],
+  ['corpo', 'Corpo', ['gender', 'skin']],
+  ['cabelo', 'Cabelo e olhos', ['hairStyle', 'hairColor', 'eyeStyle', 'eyeColor']],
+  ['roupa', 'Roupa', ['village', 'outfit', 'bandana']],
+  ['cores', 'Cores', ['shirtColor', 'pantsColor']],
+];
+let creatorTab = 'linhagem';
+function renderCreatorTabs() {
+  const box = $('creator-tabs');
+  if (!box) return;
+  box.replaceChildren(...CREATOR_TABS.map(([id, label]) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'creator-tab';
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-selected', String(creatorTab === id));
+    b.textContent = label;
+    b.addEventListener('click', () => { creatorTab = id; renderCreatorOptions(); });
+    return b;
+  }));
+}
+
 function renderCreatorOptions() {
-  ui.creatorOptions.replaceChildren(lineageRow(), ...CREATOR_FIELDS.map(([field, title, kind]) => {
+  renderCreatorTabs();
+  const fields = CREATOR_TABS.find(([id]) => id === creatorTab)?.[2] ?? [];
+  ui.creatorOptions.dataset.tab = creatorTab;
+  // com o conjunto da vila, a camisa e a calça têm as cores da vila: a aba Cores só avisa
+  const coresVila = creatorTab === 'cores' && creatorLook.outfit === 'vila';
+  const aviso = document.createElement('p');
+  aviso.className = 'lineage-hint';
+  aviso.textContent = 'Com o Conjunto da vila, a camisa e a calça têm as cores da vila. Escolha "Camisa e calça" na aba Roupa para pintar.';
+  ui.creatorOptions.replaceChildren(...(fields.includes('lineage') ? [lineageRow()] : []), ...(coresVila ? [aviso] : []), ...CREATOR_FIELDS.filter(([field]) => fields.includes(field)).map(([field, title, kind]) => {
     const row = document.createElement('div');
     row.className = 'opt-row';
     // Camisa e calça só valem com "Camisa e calça" (o conjunto da vila tem as cores da vila).
@@ -6622,6 +6685,18 @@ function resetLayout() {
   applyHud();
 }
 ui.settingsToggle.addEventListener('click', () => (ui.settingsPanel.hidden ? openSettings() : closeSettings()));
+/** v94: abas com data-pane (Configurações e as outras telas que não cabem inteiras): mostra a aba tocada, esconde as irmãs. */
+document.addEventListener('click', (e) => {
+  const tab = e.target instanceof Element ? e.target.closest('.tab[data-pane]') : null;
+  if (!tab) return;
+  for (const t of tab.parentElement.querySelectorAll('.tab[data-pane]')) {
+    const on = t === tab;
+    t.classList.toggle('active', on);
+    t.setAttribute('aria-selected', String(on));
+    const pane = document.getElementById(t.dataset.pane);
+    if (pane) pane.hidden = !on;
+  }
+});
 ui.settingsClose.addEventListener('click', closeSettings);
 ui.editLayout.addEventListener('click', startEditing);
 ui.editDone.addEventListener('click', stopEditing);
