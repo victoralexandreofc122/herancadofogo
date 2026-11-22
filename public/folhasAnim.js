@@ -19,6 +19,10 @@ const hand = (msg, d = 0.35) => ({ x: msg.x + msg.fx * d, y: msg.y + msg.fy * d 
 function seq(jfx, base, x, y, now, steps, common = {}) {
   for (const [n, at, ms, extra] of steps) jfx.show(`${base}_${n}`, x, y, now + at, ms, { fadeIn: 30, fadeOut: 70, ...common, ...(extra || {}) });
 }
+/** v86: rajada de golpes (Cem Golpes, Punho do Céu): [desvio, escala] de cada soco, fixos para a captura sair igual. */
+const JIT = [[-0.5, 0.9], [0.4, 1], [-0.1, 0.85], [0.55, 0.95], [-0.35, 1.05], [0.15, 0.9], [-0.55, 1], [0.3, 0.88]];
+/** v86: com a folha de rajada desenhada (<id>_rajada, os punhos), o laço usa os quadros dela; senão, os da folha base. */
+const rajadaDe = (s, fr) => (jutsuSpritesReady(`${s}_rajada`) ? ['01', '02', '03', '04', '05', '06'].map((n) => `rajada_${n}`).filter((n) => FRAMES[`${s}_${n}`]) : fr);
 /** Os quadros um depois do outro (cada um `ms`), o último fica mais e apaga devagar. */
 function corrida(fs, t0, ms, fim = 500, extra = {}) {
   return fs.map((n, i) => [n, t0 + i * ms * 0.9, i === fs.length - 1 ? fim : ms + 30, i === fs.length - 1 ? { ...extra, fadeOut: fim * 0.65 } : i === 0 ? { pop: 90, ...extra } : extra]);   // v85: o 1º entra crescendo
@@ -76,7 +80,7 @@ const TIPO = {
   taijutsu_portoes: { t: 'corpo', pes: true, intro: ['01', '02', '03'], meio: ['04', '05'], fim: ['06'] },
   taijutsu_flecha: { t: 'rastro', saida: ['01'], estica: ['02', '03', '04'], chegada: ['05'], trilha: ['06'] },
   taijutsu_furia: { t: 'rastro', saida: ['01', '02'], estica: ['03', '04'], chegada: ['05', '06'] },
-  taijutsu_4: { t: 'ao_longo', fr: [['01', 0.2], ['02', 0], ['03', 0], ['04', 0.35], ['05', 0.85], ['06', 0.85]] },
+  taijutsu_4: { t: 'ao_longo', fr: [['01', 0.2], ['02', 0], ['03', 0], ['04', 0.35], ['05', 0.85], ['06', 0.85]], rajada: { fr: ['03', '04'], n: 6, ms: 75, p: 0.4 } },
   taijutsu_queda: { t: 'aviso', avisa: ['01', '02'], cai: ['03', '04', '05'], bate: ['06', '07'] },
   wind: { t: 'cone', meio: ['01', '02', '03', '04', '05'], resto: ['06'] },
   wind_salto: { t: 'rastro', saida: ['01', '02'], estica: ['03', '04'], chegada: ['05'], chao: ['06'] },
@@ -113,7 +117,7 @@ const TIPO = {
   weapons_laco: { t: 'corrente' },
   weapons_arsenal: { t: 'invoca', circulo: '01' },
   // v84: mais do Taijutsu e o Olho da Tempestade
-  taijutsu_3: { t: 'cone', meio: ['01', '02', '03', '04', '05'], resto: ['06'] },
+  taijutsu_3: { t: 'cone', meio: ['01', '02', '03', '04', '05'], resto: ['06'], rajada: { fr: ['02', '03'], n: 8, ms: 65 } },   // v86: a rajada de socos
   taijutsu_pressao: { t: 'proj', sai: ['01', '02'], voa: '03', bate: ['05'] },
   taijutsu_bloqueio: { t: 'escudo', curto: true, monta: ['01'], quebra: ['01'] },
   taijutsu_ascendente: { t: 'rastro', saida: ['01'], estica: [], chegada: ['02', '03', '04', '05', '06'] },
@@ -121,6 +125,7 @@ const TIPO = {
 };
 /** Avisos que vêm em ondas no mesmo lugar (a Ascensão Dupla): o desenho toca uma vez só. */
 const ONDA = new Map();
+const ONDA_N = new Map();   // v86: quantas ondas já bateram em cada ponto
 
 /** O jutsu tem a folha desta leva (para o fogoAnim saber se chama). */
 export const folhaPronta = ready;
@@ -178,9 +183,23 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       const range = info.range ?? 3;
       const meio = k.meio ?? fs.slice(0, 4), resto = k.resto ?? fs.slice(4);
       const sc = range / largura(s, meio[meio.length - 1]);
-      seq(jfx, s, h.x, h.y, now, corrida(meio, 0, 110, 220), { angle, scale: s === 'water' || s === 'wind' || s === 'taijutsu_3' ? sc : Math.max(0.6, sc * 0.6) });
+      const esc = s === 'water' || s === 'wind' || s === 'taijutsu_3' ? sc : Math.max(0.6, sc * 0.6);
+      let t0 = 0;
+      if (k.rajada) {
+        // v86: os quadros dos golpes alternam rápido, cada soco num ângulo e tamanho um pouco diferente dentro do cone,
+        // para parecer muitos socos em pouco tempo; depois o fecho (os anéis e a onda)
+        const { n = 8, ms = 65, abre = 0.5 } = k.rajada, fr = rajadaDe(s, k.rajada.fr);
+        const st = [[meio[0], 0, 130]];
+        for (let i = 0; i < n; i++) {
+          const [j, e] = JIT[i % JIT.length];
+          st.push([fr[i % fr.length], 90 + i * ms, ms + 30, { angle: angle + j * abre, scale: esc * e, fadeIn: 0, fadeOut: 40 }]);
+        }
+        seq(jfx, s, h.x, h.y, now, st, { angle, scale: esc });
+        t0 = 90 + n * ms;
+        seq(jfx, s, h.x, h.y, now, corrida(meio.filter((f) => f !== meio[0] && !k.rajada.fr.includes(f)), t0, 110, 220), { angle, scale: esc });
+      } else seq(jfx, s, h.x, h.y, now, corrida(meio, 0, 110, 220), { angle, scale: esc });
       const p = { x: h.x + msg.fx * range * 0.7, y: h.y + msg.fy * range * 0.7 + 0.1 };
-      seq(jfx, s, p.x, p.y, now, corrida(resto, 420, 150, 600), { scale: 0.7 });
+      seq(jfx, s, p.x, p.y, now, corrida(resto, 420 + t0, 150, 600), { scale: 0.7 });
       return true;
     }
     case 'linha': {
@@ -268,10 +287,26 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
     }
     case 'ao_longo': {   // os quadros em pontos do caminho até o alcance (o Punho do Céu: o soco sai da mão e estoura na ponta)
       const range = info.range ?? 3, a0 = angle;
-      k.fr.forEach(([f, p], i) => {
-        const x = h.x + msg.fx * range * p, y = h.y + msg.fy * range * p;
-        seq(jfx, s, x, y, now, [[f, i * 110, i === k.fr.length - 1 ? 500 : 150, i === k.fr.length - 1 ? { fadeOut: 330 } : {}]], { angle: FRAMES[`${s}_${f}`]?.arte !== undefined ? a0 : 0, scale: 1.3 });
-      });
+      const poe = (f, p, at, ms, extra = {}, lado = 0) => {
+        const x = h.x + msg.fx * range * p - msg.fy * lado, y = h.y + msg.fy * range * p + msg.fx * lado;
+        seq(jfx, s, x, y, now, [[f, at, ms, extra]], { angle: FRAMES[`${s}_${f}`]?.arte !== undefined ? a0 : 0, scale: 1.3 });
+      };
+      if (k.rajada) {
+        // v86: a rajada (Punho do Céu): os socos alternam no meio do caminho, cada um um pouco para um lado, e o estouro na ponta
+        const { fr: base, n = 6, ms = 75, p: rp = 0.4 } = k.rajada, fr = rajadaDe(s, base);
+        const i0 = k.fr.findIndex(([f]) => base.includes(f)), i1 = k.fr.length - 1 - [...k.fr].reverse().findIndex(([f]) => base.includes(f));
+        const antes = k.fr.slice(0, i0), depois = k.fr.slice(i1 + 1);   // a ordem da folha: o que vem antes e depois dos socos
+        let t = 0;
+        for (const [f, p] of antes) { poe(f, p, t, 150); t += 110; }
+        for (let i = 0; i < n; i++) {
+          const [j, e] = JIT[i % JIT.length];
+          poe(fr[i % fr.length], rp + j * 0.12, t + i * ms, ms + 30, { fadeIn: 0, fadeOut: 40, scale: 1.3 * e }, j * 0.45);
+        }
+        t += n * ms;
+        depois.forEach(([f, p], i) => poe(f, p, t + i * 110, i === depois.length - 1 ? 500 : 150, i === depois.length - 1 ? { fadeOut: 330 } : {}));
+        return true;
+      }
+      k.fr.forEach(([f, p], i) => poe(f, p, i * 110, i === k.fr.length - 1 ? 500 : 150, i === k.fr.length - 1 ? { fadeOut: 330 } : {}));
       return true;
     }
     case 'alvo': {
@@ -344,8 +379,17 @@ export function folhaChao(jfx, msg, now, follow = () => null) {
   }   // o desenho veio no lançamento
   if (k.t === 'aviso' && msg.kind === 'aviso' && k.unico) {
     const key = `${s}:${Math.round(msg.x * 2)}:${Math.round(msg.y * 2)}`;
-    if (now - (ONDA.get(key) ?? -1e9) < 2500) return true;
+    if (now - (ONDA.get(key) ?? -1e9) < 2500) {
+      // v86: as ondas seguintes (Ascensão Dupla: 4 ondas, 250 ms entre elas) batem de novo, menores e um pouco ao lado
+      const n = (ONDA_N.get(key) ?? 0) + 1;
+      ONDA_N.set(key, n);
+      const sc = ((2 * r) / largura(s, k.ref ?? k.avisa[0])) * (k.bateEscala ?? 1) * (0.8 + (n % 2) * 0.1);
+      const [j] = JIT[n % JIT.length];
+      seq(jfx, s, msg.x + j * r * 0.3, msg.y - j * r * 0.15, now, [[k.bate[0], ms, 280, { fadeIn: 0, fadeOut: 160, scale: sc }]]);
+      return true;
+    }
     ONDA.set(key, now);
+    ONDA_N.set(key, 0);
   }
   if (k.t === 'aviso' && msg.kind === 'aviso') {   // o aviso no chão, a queda no fim (o punho, o meteoro, o tornado), o golpe e o rastro
     const sc = (2 * r) / largura(s, k.ref ?? k.avisa[0]);   // ref: o quadro do anel (o tamanho da área)

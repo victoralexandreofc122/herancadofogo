@@ -246,6 +246,15 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v87: rajadas de golpes (sem migração)
+
+- Cem Golpes: depois da carga, os quadros dos socos (F2 e F3) alternam a cada 65 ms, 8 vezes, cada soco num ângulo e
+  tamanho um pouco diferente dentro do cone, e só então entram os anéis e a onda (`rajada` no `TIPO` de `folhasAnim.js`).
+- Punho do Céu: os socos (F3 e F4) alternam no meio do caminho, um pouco para cada lado, antes do estouro na ponta.
+- Ascensão Dupla: as 4 ondas batem uma depois da outra (antes só a primeira aparecia).
+- Pendências: a folha de rajada (`<id>_rajada`, 6 punhos para o laço) do Cem Golpes e do Punho do Céu; o jogo usa ela
+  sozinho quando chegar. 105 folhas na lista.
+
 ### v86: folhas de direção e o nome do jutsu no topo das folhas (sem migração)
 
 - O jogo usa folhas desenhadas para baixo e para cima (`<id>_baixo`, `<id>_cima`) quando o golpe vai na vertical, em vez

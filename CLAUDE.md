@@ -18,7 +18,7 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   `public/figure.js` cache e giro). Detalhes em `arte/personagem-rig/LEIAME.md`. O estilo segue a folha de referência
   do Victor (chibi, contorno escuro, sombreado em 2-3 tons). Toda mudança de arte é comparada lado a lado com a
   referência e conferida dentro do jogo antes de fechar.
-- **Versão atual:** v86 na `main` (PRs #33 a #55; o #55 trouxe a v86, folhas de direção e o nome do jutsu no topo das folhas). **Banco:** todas as
+- **Versão atual:** v87 na `main` (PRs #33 a #56; o #56 trouxe a v87, as rajadas de golpes). **Banco:** todas as
   migrações até a **v40** rodaram no `production` do Neon (confirmado pelo Victor em 17/11/2026); nenhuma pendente.
   Jutsus v2 com 96 jutsus (10 classes, Vento nova, e o Clã Rubro), mais os 74 da Fase 2.5 e os 16 dos clãs novos;
   conjuração, sistemas próprios (muros, invocações, escuridão...), clãs por linhagem, Extração e maestria, rankeado 1v1 e
@@ -32,6 +32,8 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   aumenta a cura, item Shuriken (consumível, botão ✴️), invocações andam até o alvo e socam (Sentinela de Sombra e Arsenal
   Vivo com desenho próprio). v54: curas e escudos com valor fixo (sem % da vida), Cura rebalanceada, Cegueira como estado
   (perde o alvo), Duplo de Água bate. Mesclado (PR #34; a v32 rodou no Neon).
+- **v87 (sem migração):** rajadas: Cem Golpes e Punho do Céu alternam os socos em laço rápido, as 4 ondas da Ascensão
+  Dupla batem; folha `<id>_rajada` na lista de pendências (o jogo usa sozinho). Mesclado (PR #56).
 - **v86 (sem migração):** folhas para baixo e para cima (`variante()` no motor; invocações de frente e de costas) e o
   nome do jutsu no topo de cada folha pedida no Flow; 103 folhas na lista de pendências. Mesclado (PR #55).
 - **v85 (sem migração):** profundidade (metade de trás das auras atrás do boneco), giro, zoom de entrada, sombra e luz,

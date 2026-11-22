@@ -134,6 +134,14 @@ FORMAS = {
         'the final wave of {fx} launched forward, {para}',
         'the wave fading',
     ], 'F1 e F2 ao virar, F3 e F4 em laço por 5 s, F5 e F6 na onda do fim.'),
+    'rajada': ('Rajada de golpes (laço rápido)', [
+        'a glowing fist of {fx} punching {para}, coming from {ini} of the panel, hitting the upper part with a small impact star',
+        'another fist of {fx} punching {para}, hitting the lower part at a different angle, with a small impact star',
+        'a fist of {fx} hitting the middle, closer, with a bigger impact star',
+        'a fist of {fx} hitting the upper middle, with straight speed lines behind it',
+        'two blurred fists of {fx} at once (afterimages), with speed lines',
+        'three blurred fists of {fx} at once, the fastest-looking frame',
+    ], 'Os 6 quadros alternam bem rápido (60 a 70 ms cada) em laço enquanto duram os golpes, cada um num ponto um pouco diferente; depois entram o fecho da folha atual (os anéis, a onda, o estouro).'),
     'muro': ('Muro', [
         'a {eixo} crack line on the ground through the middle of the panel',
         'a {eixo} wall of {fx} rising halfway out of the ground',
@@ -284,6 +292,12 @@ REFAZER = [
 ]
 
 QUADROS = [
+    ('taijutsu_3_rajada', 'Cem Golpes (rajada)', 'taijutsu', 'quadros',
+     'A folha atual tem um quadro de cada fase; hoje o jogo alterna as estrelas e os cortes (F2 e F3) para parecer vários socos, mas não aparece o punho.',
+     'Folha de rajada: punhos em pontos diferentes do cone, que o jogo alterna em laço rápido.', 'rajada', 'orange-gold chakra', VERDE),
+    ('taijutsu_4_rajada', 'Punho do Céu (rajada)', 'taijutsu', 'quadros',
+     'São 3 golpes no PvP e 5 contra monstro; hoje o jogo repete os anéis e o rastro (F3 e F4) no meio do caminho.',
+     'Folha de rajada com punhos de ar maiores, para o laço antes do estouro na ponta.', 'rajada', 'white compressed air', VERDE),
     ('weapons_arsenal', 'Arsenal Vivo', 'weapons', 'quadros', 'Só veio o círculo de invocação; o guerreiro de armas usa o desenho de código.',
      'Folha do corpo: surgir, parado, andar (2), golpe, sumir.', 'invocacao', 'a living armor made of floating swords and blades', VERDE),
     ('water_clone', 'Duplo de Água', 'water', 'quadros', 'Tem 1 quadro só; o duplo fica parado enquanto anda e soca.',
