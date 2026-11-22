@@ -18,7 +18,7 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   `public/figure.js` cache e giro). Detalhes em `arte/personagem-rig/LEIAME.md`. O estilo segue a folha de referência
   do Victor (chibi, contorno escuro, sombreado em 2-3 tons). Toda mudança de arte é comparada lado a lado com a
   referência e conferida dentro do jogo antes de fechar.
-- **Versão atual:** v84 na `main` (PRs #33 a #53; o #53 trouxe a v84, mais do Taijutsu e o Olho da Tempestade). **Banco:** todas as
+- **Versão atual:** v85 na `main` (PRs #33 a #54; o #54 trouxe a v85, profundidade, giro, sombra e luz nas animações). **Banco:** todas as
   migrações até a **v40** rodaram no `production` do Neon (confirmado pelo Victor em 17/11/2026); nenhuma pendente.
   Jutsus v2 com 96 jutsus (10 classes, Vento nova, e o Clã Rubro), mais os 74 da Fase 2.5 e os 16 dos clãs novos;
   conjuração, sistemas próprios (muros, invocações, escuridão...), clãs por linhagem, Extração e maestria, rankeado 1v1 e
@@ -32,6 +32,9 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   aumenta a cura, item Shuriken (consumível, botão ✴️), invocações andam até o alvo e socam (Sentinela de Sombra e Arsenal
   Vivo com desenho próprio). v54: curas e escudos com valor fixo (sem % da vida), Cura rebalanceada, Cegueira como estado
   (perde o alvo), Duplo de Água bate. Mesclado (PR #34; a v32 rodou no Neon).
+- **v85 (sem migração):** profundidade (metade de trás das auras atrás do boneco), giro, zoom de entrada, sombra e luz,
+  quadros alinhados pelo centro de massa, auditoria de hitbox e a lista de pendências das folhas com os prompts do Flow
+  (`arte/jutsus-vfx/pendencias.py`, página de acompanhamento). Mesclado (PR #54).
 - **v84 (sem migração):** Cem Golpes, Soco de Pressão, Bloqueio Firme, Chute Ascendente e Olho da Tempestade. Mesclado (PR #53).
 - **v83 (sem migração):** as 5 últimas das Armas (Dança dos Mil Cortes, Ascensão Dupla, Céu de Lâminas, Laço de Ferro,
   Arsenal Vivo): a classe Armas completa. Mesclado (PR #52).
@@ -99,7 +102,8 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
 O Victor manda folhas de 6 quadros (fundo verde ou magenta) e cada uma vira a animação de um jutsu. **Feitos 147** (Fogo,
 Cura, Sombra, Armas, 16 de Relâmpago, 17 da Pedra, 15 da Água, 14 do Taijutsu e 16 do Vento, v56 e v73 a v84); **faltam 53**
 (Ilusão, 3 do Taijutsu, 1 do Vento, 2 da Água, 1 da Pedra, Relâmpago, Aura de Regeneração e os clãs). A lista completa, com o id e a forma de cada um, e o passo a passo
-estão em **`arte/jutsus-vfx/LEIAME.md`**: ler antes de mexer.
+estão em **`arte/jutsus-vfx/LEIAME.md`**: ler antes de mexer. O que falta e o que refazer, com o prompt do Flow de cada
+folha: `arte/jutsus-vfx/pendencias.md` (gerado por `pendencias.py`).
 
 - **Começo da sessão:** `bash scripts/ambiente-local.sh` (Postgres local na 5433, banco `jogo` com todas as migrações,
   segredos locais aleatórios em `/var/tmp/jogo.env`, servidor na 3000 e o ninja admin `rin`). Rodar de novo religa o
