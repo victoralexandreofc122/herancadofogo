@@ -246,6 +246,21 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v94: primeira experiência sem rolagem e os ajustes da Forma Umbral e da Aura (sem migração)
+
+- Pedido do Victor (22/11): nada de rolagem na primeira experiência; o que não cabe ganha aba própria. Conferido no
+  celular deitado (844 x 390 e 667 x 375) e no computador (1366 x 768) por `scripts/auditar-primeira.ts` (conta nova do zero:
+  entrada, Criador e cada aba, a nota de atualização, o Pergaminho, a Academia e cada painel do menu com as suas abas).
+- Entrada: no celular deitado, a marca à esquerda e o formulário à direita (criar conta cabia só rolando).
+- Criador de Personagem em 4 abas (Linhagem, Corpo, Cabelo e olhos, Roupa), as escolhas em 2 colunas.
+- Nota de atualização em 2 colunas (o "Entendi" sempre à vista); o papel não sobra mais 6 px de rolagem no computador.
+- Configurações em 4 abas (Som, Tela, HUD, Visual); Vínculo com uma aba por criatura e a ficha só da escolhida; Perfil com os
+  5 atributos em 2 colunas e as abas na linha do título; Manual com os capítulos em 3 colunas; Feedback com a caixa menor.
+- Tela de Equipamentos no celular: os nomes dos espaços não ficam mais por cima das caixas (12 px, com folga).
+- Na Academia, a aba Missões do chat não abre mais sozinha quando o painel de missões da esquerda já mostra o mesmo texto.
+- Forma Umbral (pedido do Victor): na altura dos pés, opaca (a parte clara da frente saiu). Aura de Regeneração: o chão de
+  dentro pintado de verde translúcido (`piso` no motor, `vfxJutsus.js`).
+
 ### v93: pedidos do Victor de 22/11 (sem migração)
 
 - Invocações: o monstro só vai na invocação se ela está batendo nele (nos últimos 3 s) e mais perto que o ninja; só estar

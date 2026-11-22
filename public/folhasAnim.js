@@ -157,13 +157,15 @@ const TIPO = {
   taijutsu_chave: { t: 'alvo', ms: 1300, esc: 0.55, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },   // rootMs
   // o F1 da folha traz um ninja desenhado: fica de fora (o jogo já desenha o boneco)
   taijutsu_lotus: { t: 'rastro', saida: ['02'], estica: [], chegada: ['03', '04', '05', '06'] },
-  heal_aura: { t: 'zona', lugar: 'pes', submerso: true, alpha: 0.6, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  heal_aura: { t: 'zona', lugar: 'pes', submerso: true, alpha: 0.6, piso: ['rgba(100, 225, 115, 0.58)', 0.97, 0.3, -0.05],   // v94: o chão de dentro verde
+  intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   // v90: os clãs Bastião, Áspide, Garra e Zéfiro, a Forma Umbral, a Faísca Rasante, o Esmagamento, a Segunda Voz e o Empréstimo
   lightning: { t: 'linha', mao: ['01'], estica: ['02', '03', '04', '05', '06'] },
   stone_3: { t: 'alvo', ms: 1600, esc: 1.1, intro: ['01', '02', '03'], meio: ['04', '05'], fim: ['06'] },   // rootMs
   illusion_voz: { t: 'invoca', sobe: ['01', '02', '03', '04'] },   // o clone é o próprio boneco (como o Reflexo)
   illusion_emprestimo: { t: 'alvo', ms: 1200, esc: 0.75, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
-  umbra_forma: { t: 'corpo', lugar: 'corpo', tras: true, corte: -0.69, alto: 1.6, sy: 0.78, alpha: 0.85, gira: 0, ms: 5000, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  // v94 (pedido do Victor, 22/11): a Forma Umbral na altura dos pés (o redemoinho em volta deles), opaca: a parte clara saiu
+  umbra_forma: { t: 'corpo', lugar: 'pes', largura: 1.7, sy: 0.62, gira: 0, ms: 5000, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   bastiao_muralha: { t: 'corpo', lugar: 'corpo', tras: true, alto: 1.2, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   bastiao_guarda: { t: 'corpo', lugar: 'corpo', tras: true, corte: -0.69, alpha: 0.8, alto: 1.5, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   bastiao_resposta: { t: 'corpo', lugar: 'pes', y: 0.34, largura: 1.6, dur: 'durationMs', intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
@@ -478,7 +480,8 @@ export function folhaChao(jfx, msg, now, follow = () => null) {
     // submerso (a Aura de Regeneração): o ninja fica dentro da arte, que vai inteira por cima, translúcida
     const x0 = msg.follow ? 0 : msg.x, y0 = msg.follow ? (k.lugar === 'pes' ? 0.42 : 0) : msg.y;
     seq(jfx, s, x0, y0, now, laco(k.intro, k.meio, k.fim, ms), { ...o, scale: sc, tag: `zona:${msg.id}`, spin: k.gira ?? 0, ...(k.chao ? { layer: 'ground' } : {}),
-      ...(k.lugar === 'pes' ? { split: !k.submerso } : {}), ...(k.submerso ? { alpha: k.alpha ?? 0.6 } : {}), ...(k.sy ? { sy: k.sy } : {}) });
+      ...(k.lugar === 'pes' ? { split: !k.submerso } : {}), ...(k.submerso ? { alpha: k.alpha ?? 0.6 } : {}), ...(k.sy ? { sy: k.sy } : {}),
+      ...(k.piso ? { piso: [k.piso[0], r * k.piso[1], k.piso[2], k.piso[3]] } : {}) });
     return true;
   }
   if (k.t === 'chuva') return msg.kind === 'aviso';   // o desenho veio no lançamento

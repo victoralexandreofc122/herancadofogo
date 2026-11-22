@@ -202,16 +202,19 @@ function scaleText(a) { const [W, H] = dims(a); return `Pixel density: drawn on 
 function frameText(a) {
   if (a.k === 'tile') return "The image is a ground texture that fills the whole image from edge to edge with the same surface everywhere. Its left edge continues seamlessly into its right edge and its top edge into its bottom edge, so it repeats as a seamless tile. " + (a.s[0] === a.s[1] ? "Square image." : `Image proportion ${a.s[0]}:${a.s[1]} (width:height).`);
   if (a.k === 'fx') return "The image shows only the effect, floating over a perfectly flat pure black background (#000000) that fills the rest of the image, ready for additive blending over the map. The effect is drawn as soft pixel clusters with dithered edges in 3 tones.";
+  // v93: uma sala por dentro (o Prédio do Kage): o cômodo inteiro ocupa a imagem, sem fundo magenta
+  if (a.k === 'sala') return "The image shows one complete interior room filling the whole image edge to edge: the back wall runs along the top of the image, the side walls along the left and right edges, the floor fills the rest, and the front wall is left open toward the viewer so the whole room is visible. Everything is lit evenly from above.";
   if (a.dc) return "One single flat ground decal, centered and complete, lying flat on a perfectly flat solid magenta background (#FF00FF) that fills the rest of the image evenly.";
   const wide = /connect seamlessly|edges connect/i.test(a.d);
   return (wide ? "One single object that spans the full width of the image, touching the left and right edges, with an even margin of empty space above and below it, standing on a perfectly flat solid magenta background (#FF00FF) that fills the rest of the image evenly." : "One single object, centered and complete, with an even margin of empty space on all four sides, standing on a perfectly flat solid magenta background (#FF00FF) that fills the rest of the image evenly.") + (a.c === 'casa' && /building|house|hall|shop|shed|hut|tower|academy|forge|cabin|shack|lighthouse|temple|inn|stable|workshop/i.test(a.d) ? ' ' + KEY_CASA : '');
 }
-function camOf(a) { return a.k === 'fx' ? CAM_FX : (a.k === 'tile' || a.dc) ? CAM_FLAT : CAM_OBJ; }
+const CAM_SALA = "Camera: the oblique top-down view of classic 16-bit RPG house interiors, looking down into the room at a steep angle: the floor is seen from above, the back wall faces the viewer straight on, every horizontal edge is a perfectly horizontal line across the image and every vertical edge a perfectly vertical line.";
+function camOf(a) { return a.k === 'fx' ? CAM_FX : a.k === 'sala' ? CAM_SALA : (a.k === 'tile' || a.dc) ? CAM_FLAT : CAM_OBJ; }
 function basePrompt(a) {
   const reg = REGIONS[a.r];
   return [STYLE, camOf(a), reg.pal, `Subject: ${a.d}`, frameText(a), scaleText(a)].filter(Boolean).join('\n\n');
 }
-function layers(a) { const L = ['B']; if (a.k !== 'fx' && a.k !== 'tile' && !a.dc) L.push('S'); if (a.l) L.push('L'); if (a.m) L.push('M'); return L; }
+function layers(a) { const L = ['B']; if (a.k !== 'fx' && a.k !== 'tile' && a.k !== 'sala' && !a.dc) L.push('S'); if (a.l) L.push('L'); if (a.m) L.push('M'); return L; }
 
 /* ---- cabeçalho ---- */
 document.getElementById('facts').innerHTML = [
