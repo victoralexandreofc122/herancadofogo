@@ -5845,5 +5845,1097 @@
       "ancora": "centro",
       "blend": "normal"
     }
+  },
+  "taijutsu_portoes": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        54,
+        144,
+        802,
+        681
+      ],
+      [
+        913,
+        144,
+        1663,
+        681
+      ],
+      [
+        1771,
+        144,
+        2521,
+        681
+      ],
+      [
+        54,
+        887,
+        802,
+        1400
+      ],
+      [
+        913,
+        887,
+        1663,
+        1400
+      ],
+      [
+        1771,
+        887,
+        2521,
+        1400
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.026,
+      "ancora": "base",
+      "blend": "normal"
+    }
+  },
+  "taijutsu_flecha": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        15,
+        181,
+        638,
+        707
+      ],
+      [
+        658,
+        181,
+        1276,
+        707
+      ],
+      [
+        1300,
+        181,
+        1918,
+        707
+      ],
+      [
+        1938,
+        181,
+        2562,
+        707
+      ],
+      [
+        15,
+        774,
+        1279,
+        1425
+      ],
+      [
+        1300,
+        774,
+        2562,
+        1425
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "02": {
+          "arte": 0,
+          "ancora": "direita",
+          "eixo": true
+        },
+        "03": {
+          "arte": 0,
+          "ancora": "direita",
+          "eixo": true
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "direita",
+          "eixo": true
+        },
+        "05": {
+          "arte": 0,
+          "ancora": "direita"
+        },
+        "06": {
+          "arte": 0,
+          "ancora": "direita",
+          "eixo": true
+        }
+      }
+    }
+  },
+  "taijutsu_furia": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        196,
+        148,
+        771,
+        728
+      ],
+      [
+        1002,
+        148,
+        1576,
+        728
+      ],
+      [
+        1808,
+        148,
+        2383,
+        728
+      ],
+      [
+        196,
+        783,
+        771,
+        1369
+      ],
+      [
+        1002,
+        783,
+        1576,
+        1369
+      ],
+      [
+        1808,
+        783,
+        2383,
+        1369
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "03": {
+          "arte": 0,
+          "ancora": "direita",
+          "eixo": true
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "direita",
+          "eixo": true
+        }
+      }
+    }
+  },
+  "taijutsu_4": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        6,
+        103,
+        851,
+        709
+      ],
+      [
+        866,
+        103,
+        1712,
+        709
+      ],
+      [
+        1725,
+        103,
+        2570,
+        709
+      ],
+      [
+        6,
+        825,
+        851,
+        1431
+      ],
+      [
+        866,
+        825,
+        1712,
+        1431
+      ],
+      [
+        1725,
+        825,
+        2570,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "01": {
+          "arte": 0,
+          "ancora": "direita"
+        },
+        "02": {
+          "arte": 0,
+          "ancora": "esquerda"
+        },
+        "03": {
+          "arte": 0,
+          "ancora": "esquerda"
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "direita"
+        },
+        "05": {
+          "arte": 0
+        }
+      }
+    },
+    "cantos": [
+      [
+        0,
+        0,
+        90,
+        60
+      ]
+    ]
+  },
+  "taijutsu_queda": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        93,
+        103,
+        616,
+        645
+      ],
+      [
+        716,
+        103,
+        1238,
+        645
+      ],
+      [
+        1338,
+        103,
+        1859,
+        645
+      ],
+      [
+        1961,
+        103,
+        2482,
+        645
+      ],
+      [
+        93,
+        812,
+        616,
+        1337
+      ],
+      [
+        716,
+        812,
+        1338,
+        1337
+      ],
+      [
+        1515,
+        812,
+        2127,
+        1337
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal"
+    }
+  },
+  "wind_salto": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        13,
+        132,
+        846,
+        704
+      ],
+      [
+        872,
+        132,
+        1704,
+        704
+      ],
+      [
+        1730,
+        132,
+        2563,
+        704
+      ],
+      [
+        13,
+        856,
+        846,
+        1429
+      ],
+      [
+        872,
+        856,
+        1704,
+        1429
+      ],
+      [
+        1730,
+        856,
+        2563,
+        1429
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "03": {
+          "arte": 0,
+          "ancora": "direita",
+          "eixo": true
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "direita",
+          "eixo": true
+        }
+      }
+    },
+    "inundar": [
+      [
+        127,
+        90,
+        64,
+        34
+      ],
+      [
+        106,
+        73,
+        54,
+        30
+      ],
+      [
+        116,
+        82,
+        59,
+        30
+      ]
+    ],
+    "limiar_m": 0.35,
+    "limpa_verde": false
+  },
+  "wind": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        41,
+        142,
+        841,
+        696
+      ],
+      [
+        887,
+        142,
+        1686,
+        696
+      ],
+      [
+        1734,
+        142,
+        2533,
+        696
+      ],
+      [
+        41,
+        832,
+        841,
+        1395
+      ],
+      [
+        887,
+        832,
+        1686,
+        1395
+      ],
+      [
+        1734,
+        832,
+        2533,
+        1395
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "02": {
+          "arte": 0,
+          "ancora": "esquerda"
+        },
+        "03": {
+          "arte": 0,
+          "ancora": "esquerda"
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "esquerda"
+        },
+        "05": {
+          "arte": 0,
+          "ancora": "esquerda"
+        }
+      }
+    }
+  },
+  "wind_shuriken": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        6,
+        90,
+        851,
+        709
+      ],
+      [
+        866,
+        90,
+        1712,
+        709
+      ],
+      [
+        1725,
+        90,
+        2570,
+        709
+      ],
+      [
+        6,
+        810,
+        851,
+        1431
+      ],
+      [
+        866,
+        810,
+        1712,
+        1431
+      ],
+      [
+        1725,
+        810,
+        2570,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "03": {
+          "arte": 0,
+          "ancora": "cabeca"
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "cabeca"
+        }
+      }
+    }
+  },
+  "wind_veu": {
+    "pixel": 9,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        6,
+        103,
+        851,
+        709
+      ],
+      [
+        866,
+        103,
+        1712,
+        709
+      ],
+      [
+        1725,
+        103,
+        2570,
+        709
+      ],
+      [
+        6,
+        825,
+        851,
+        1431
+      ],
+      [
+        866,
+        825,
+        1712,
+        1431
+      ],
+      [
+        1725,
+        825,
+        2570,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.026,
+      "ancora": "centro",
+      "blend": "normal"
+    }
+  },
+  "wind_2": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        0,
+        122,
+        854,
+        722
+      ],
+      [
+        861,
+        122,
+        1712,
+        722
+      ],
+      [
+        1721,
+        122,
+        2576,
+        722
+      ],
+      [
+        0,
+        844,
+        854,
+        1438
+      ],
+      [
+        861,
+        844,
+        1712,
+        1438
+      ],
+      [
+        1721,
+        844,
+        2576,
+        1438
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "01": {
+          "arte": -1.5707963267948966
+        },
+        "02": {
+          "arte": -1.5707963267948966,
+          "ancora": "base"
+        },
+        "03": {
+          "arte": 0,
+          "ancora": "esquerda"
+        },
+        "04b": {
+          "arte": 0,
+          "ancora": "cabeca"
+        }
+      }
+    },
+    "partes": {
+      "4": {
+        "b": [
+          0,
+          0.36,
+          1,
+          0.64
+        ]
+      },
+      "5": {
+        "b": [
+          0.34,
+          0,
+          0.66,
+          0.42
+        ]
+      },
+      "6": {
+        "b": [
+          0.3,
+          0,
+          0.62,
+          0.45
+        ]
+      }
+    }
+  },
+  "wind_espelho": {
+    "pixel": 9,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        6,
+        110,
+        844,
+        709
+      ],
+      [
+        866,
+        110,
+        1712,
+        709
+      ],
+      [
+        1730,
+        110,
+        2570,
+        709
+      ],
+      [
+        6,
+        832,
+        844,
+        1431
+      ],
+      [
+        866,
+        832,
+        1712,
+        1431
+      ],
+      [
+        1730,
+        832,
+        2570,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.026,
+      "ancora": "centro",
+      "blend": "normal"
+    }
+  },
+  "wind_arco": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        6,
+        110,
+        851,
+        709
+      ],
+      [
+        866,
+        110,
+        1712,
+        709
+      ],
+      [
+        1725,
+        110,
+        2570,
+        709
+      ],
+      [
+        6,
+        832,
+        851,
+        1431
+      ],
+      [
+        866,
+        832,
+        1712,
+        1431
+      ],
+      [
+        1725,
+        832,
+        2570,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.034,
+      "ancora": "centro",
+      "blend": "normal",
+      "arte": 0,
+      "quadros": {
+        "01": {
+          "eixo": true
+        },
+        "02": {
+          "ancora": "direita"
+        },
+        "03": {
+          "ancora": "direita"
+        },
+        "04": {
+          "ancora": "direita"
+        },
+        "05": {
+          "ancora": "direita"
+        },
+        "06": {
+          "arte": null
+        }
+      }
+    }
+  },
+  "wind_leve": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        31,
+        110,
+        841,
+        700
+      ],
+      [
+        884,
+        110,
+        1694,
+        700
+      ],
+      [
+        1737,
+        110,
+        2546,
+        700
+      ],
+      [
+        31,
+        825,
+        841,
+        1418
+      ],
+      [
+        884,
+        825,
+        1694,
+        1418
+      ],
+      [
+        1737,
+        825,
+        2546,
+        1418
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.022,
+      "ancora": "centro",
+      "blend": "normal",
+      "alpha": 0.85
+    },
+    "cantos": [
+      [
+        0,
+        -70,
+        80,
+        0
+      ]
+    ]
+  },
+  "wind_pulso": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 40,
+    "paineis": [
+      [
+        15,
+        103,
+        843,
+        703
+      ],
+      [
+        874,
+        103,
+        1702,
+        703
+      ],
+      [
+        1733,
+        103,
+        2561,
+        703
+      ],
+      [
+        15,
+        825,
+        843,
+        1423
+      ],
+      [
+        874,
+        825,
+        1702,
+        1423
+      ],
+      [
+        1733,
+        825,
+        2561,
+        1423
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal"
+    }
+  },
+  "wind_3": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        129,
+        103,
+        795,
+        690
+      ],
+      [
+        945,
+        103,
+        1612,
+        690
+      ],
+      [
+        1769,
+        103,
+        2437,
+        690
+      ],
+      [
+        49,
+        810,
+        722,
+        1405
+      ],
+      [
+        892,
+        810,
+        1566,
+        1405
+      ],
+      [
+        1721,
+        810,
+        2392,
+        1405
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "base",
+      "blend": "normal",
+      "quadros": {
+        "01": {
+          "ancora": "centro"
+        },
+        "02": {
+          "ancora": "centro"
+        }
+      }
+    },
+    "inundar": [
+      [
+        106,
+        54,
+        93,
+        40
+      ],
+      [
+        131,
+        95,
+        65,
+        34
+      ],
+      [
+        106,
+        66,
+        52,
+        30
+      ],
+      [
+        120,
+        80,
+        58,
+        28
+      ],
+      [
+        90,
+        45,
+        80,
+        30
+      ]
+    ],
+    "limiar_m": 0.35,
+    "cantos": [
+      [
+        0,
+        0,
+        60,
+        50
+      ]
+    ]
+  },
+  "wind_asa": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        6,
+        110,
+        851,
+        709
+      ],
+      [
+        866,
+        110,
+        1712,
+        709
+      ],
+      [
+        1725,
+        110,
+        2570,
+        709
+      ],
+      [
+        6,
+        832,
+        851,
+        1431
+      ],
+      [
+        866,
+        832,
+        1712,
+        1431
+      ],
+      [
+        1725,
+        832,
+        2570,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "01": {
+          "arte": 0,
+          "ancora": "direita"
+        },
+        "02": {
+          "arte": 0,
+          "ancora": "direita"
+        },
+        "03": {
+          "arte": 0,
+          "ancora": "cabeca"
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "direita",
+          "eixo": true
+        }
+      }
+    }
   }
 }

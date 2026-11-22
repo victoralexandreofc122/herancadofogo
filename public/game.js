@@ -2713,6 +2713,7 @@ function drawArtTop(toScreenX, toScreenY, T, now) {
     if (z.kind !== 'aviso' || !STRIKE_ART[z.skill] || now > z.end) continue;
     if (z.skill === 'fire_4' && jutsuSpritesReady('fire_4')) continue;   // v74: o meteoro desenhado pelo Victor (fogoAnim.js)
     if (z.skill === 'lightning_4' && jutsuSpritesReady('lightning_4')) continue;   // v77: o Julgamento desenhado
+    if (folhaPronta(z.skill)) continue;   // v81: o Tornado Cortante e a Queda do Meteoro desenhados (folhasAnim.js)
     const k = Math.max(0, Math.min(1, (now - z.start) / Math.max(1, z.end - z.start)));
     drawStrikeArt(ctx, z.skill, toScreenX(z.x), toScreenY(z.y), z.r * T, T, k, now, seedOf(id));
   }
