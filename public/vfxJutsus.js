@@ -104,21 +104,20 @@ export const LUGAR = {
   // tronco
   stone: { lugar: 'torso', alto: 0.62 }, stone_resposta: { lugar: 'torso', alto: 0.62 }, shadow_estrangular: { lugar: 'torso', alto: 0.5, dy: -0.12 },
   // corpo com a metade de trás (anéis e redemoinhos em volta, chamas e portões que sobem dos pés)
-  taijutsu_folego: { lugar: 'corpo', tras: true, alto: 1.35 }, lightning_fluxo: { lugar: 'corpo', tras: true, alto: 1.4 },
-  lightning_armadura: { lugar: 'corpo', tras: true, alto: 1.45 }, wind_veu: { lugar: 'corpo', tras: true, alto: 1.4 },
+  taijutsu_folego: { lugar: 'corpo', tras: true, alto: 1.35 }, lightning_armadura: { lugar: 'corpo', tras: true, alto: 1.45 }, wind_veu: { lugar: 'corpo', tras: true, alto: 1.4 },
   wind_olho: { lugar: 'corpo', tras: true, alto: 1.5 }, water_corpo: { lugar: 'corpo', tras: true, alto: 1.45 },
   zefiro_veu: { lugar: 'corpo', tras: true, alto: 1.4 }, weapons_2: { lugar: 'corpo', tras: true, alto: 1.3 },
-  shadow_ciranda: { lugar: 'corpo', tras: true, alto: 1.35 },
   heal_4: { lugar: 'corpo', tras: true, alto: 1.3 }, taijutsu_portoes: { lugar: 'corpo', tras: true, alto: 1.4, corte: -0.3 },
   bastiao_juramento: { lugar: 'corpo', tras: true, alto: 1.6, corte: -0.2 }, aspide_constricao: { lugar: 'corpo', tras: true, alto: 1.2, corte: -0.3 },
   rubro_completo: { lugar: 'corpo', tras: true, alto: 2.1, corte: 0 },   // o guerreiro inteiro atrás do ninja
   // bolha por cima (o ninja dentro, translúcido)
   wind_espelho: { lugar: 'corpo', alto: 1.45, alpha: 0.6 }, illusion_kai: { lugar: 'corpo', alto: 1.45, alpha: 0.6 },
-  heal_casca: { lugar: 'corpo', alto: 1.45, alpha: 0.55 }, stone_4: { lugar: 'corpo', alto: 1.45, alpha: 0.7 },
+  heal_casca: { lugar: 'corpo', alto: 1.45, alpha: 0.55 }, stone_4: { lugar: 'corpo', alto: 1.45, alpha: 0.6 },
   stone_couraca: { lugar: 'corpo', alto: 1.3, alpha: 0.65 }, shadow_veu: { lugar: 'corpo', alto: 1.4, alpha: 0.6 },
-  water_3: { lugar: 'corpo', alto: 1.45, alpha: 0.6 }, heal_desintox: { lugar: 'corpo', alto: 1.35, alpha: 0.65 },   // v95: a folha refeita é uma cúpula heal: { lugar: 'corpo', alto: 1.3, alpha: 0.75 },
+  water_3: { lugar: 'corpo', alto: 1.45, alpha: 0.6 }, heal: { lugar: 'corpo', alto: 1.3, alpha: 0.75 },
+  heal_desintox: { lugar: 'corpo', alto: 1.35, alpha: 0.65 },   // v95: a folha refeita é uma cúpula
   // no chão, em volta dos pés
-  shadow_4: { lugar: 'pes', largura: 1.6, sy: 0.6 }, illusion_veu: { lugar: 'pes', largura: 1.6, sy: 0.7 },
+  illusion_veu: { lugar: 'pes', largura: 1.6, sy: 0.7 },
 };
 /** O encaixe do LUGAR para um quadro (null = sem mudança: falta a imagem de referência). */
 function lugarDe(base, L, opts) {
@@ -128,8 +127,9 @@ function lugarDe(base, L, opts) {
   const pelaAltura = (alto) => (alto * im.width) / (im.height * fm.casas);
   if (L.lugar === 'pes') return { y: L.y ?? 0.42, scale: (L.largura ?? 1.5) / fm.casas, split: true, ...(L.sy ? { sy: L.sy } : {}) };
   if (L.lugar === 'torso') return { y: -0.02 + (L.dy ?? 0), apoio: 'centro', scale: pelaAltura(L.alto ?? 0.5), split: false };
+  // com a metade de trás, a frente fica no mesmo tom da de trás (sem a costura clara entre as duas: o pedido do Victor na Forma Umbral)
   return { y: 0.47 + (L.dy ?? 0), apoio: 'base', scale: pelaAltura(L.alto ?? 1.45), split: !!L.tras, corte: L.corte ?? -0.69,
-    ...(L.tras ? {} : { alpha: (opts.alpha ?? 1) * (L.alpha ?? 0.62) }) };
+    ...(L.tras ? { frente: 1 } : { alpha: (opts.alpha ?? 1) * (L.alpha ?? 0.62) }) };
 }
 
 /** Quadros por segundo da tremida (o mesmo quadro espelhado e balançando, para o fogo não ficar parado). */
@@ -171,7 +171,9 @@ export class JutsuSprites {
       // v92: ícone em cima da cabeça de alguém (o id): o jogo põe os ícones ativos lado a lado (drawCabeca)
       cabeca: opts.cabeca ?? null,
       // v93: achata na vertical (o círculo perfeito vira elipse em perspectiva: deitado no chão ou em volta do corpo)
-      sy: opts.sy ?? 1 });
+      sy: opts.sy ?? 1,
+      // v95: a transparência da frente (1 = igual à de trás; sem ela vale a do FRENTE)
+      frente: opts.frente ?? null });
     return true;
   }
 
@@ -280,7 +282,7 @@ export class JutsuSprites {
         if (layer === 'ground') g.rect(-1e5, -1e5, 2e5, 1e5 + cy); else g.rect(-1e5, cy, 2e5, 1e5);
         g.clip();
       }
-      const fr = s.split && layer === 'top' ? FRENTE[baseDe(s.name)] ?? 1 : 1;   // a frente das bolhas, translúcida
+      const fr = s.split && layer === 'top' ? s.frente ?? FRENTE[baseDe(s.name)] ?? 1 : 1;   // a frente das bolhas, translúcida
       // v91: com `alto`, a escala sai da altura da imagem (a arte do tamanho do corpo, qualquer que seja a folha)
       const im = imgs[s.name], fm = FRAMES[s.name];
       const base = s.alto && im && fm && !fm.quadros ? (s.alto * im.width) / (im.height * fm.casas) : s.scale;
