@@ -24,7 +24,7 @@ describe('v56: sprites dos jutsus (vfxJutsus.js)', () => {
     for (const [name, f] of Object.entries<any>(J.FRAMES)) {
       if (f.quadros) continue;   // v78: as camadas em grade têm o teste delas (abaixo)
       const [w, h] = pngSize(name);
-      const fogo = /^(fire|heal|lightning|stone|water|shadow|taijutsu|wind)/.test(name);   // v80: + Água, Sombra e Taijutsu   // v73/v74: as folhas desenhadas têm quadros maiores (o leque, o raio, o chão)
+      const fogo = /^(fire|heal|lightning|stone|water|shadow|taijutsu|wind|weapons)/.test(name);   // v80: + Água, Sombra e Taijutsu   // v73/v74: as folhas desenhadas têm quadros maiores (o leque, o raio, o chão)
       const lim = name === 'lightning_rede_01' ? 320 : /^lightning_4_0[3-6]$/.test(name) ? 210 : fogo ? 170 : 96;   // a Rede é a malha inteira; o Julgamento, o raio do céu
       assert.ok(w <= lim && h <= lim, `${name}: ${w}x${h} (reduzido para a escala do jogo)`);
       assert.ok(f.casas > 0 && f.casas <= (/^heal_(3|milagre)_/.test(name) ? 10 : fogo ? 9 : 6), `${name}: ${f.casas} casas`);   // zonas de raio 4
@@ -65,10 +65,13 @@ describe('v73 a v79: as animações desenhadas dos jutsus de Fogo, Cura, Relâmp
     'taijutsu', 'taijutsu_rasteira', 'taijutsu_esquiva', 'taijutsu_folego', 'taijutsu_2',
     // v81: mais 5 do Taijutsu e 11 do Vento
     'taijutsu_portoes', 'taijutsu_flecha', 'taijutsu_furia', 'taijutsu_4', 'taijutsu_queda',
-    'wind', 'wind_salto', 'wind_shuriken', 'wind_veu', 'wind_2', 'wind_espelho', 'wind_arco', 'wind_leve', 'wind_pulso', 'wind_3', 'wind_asa'];
+    'wind', 'wind_salto', 'wind_shuriken', 'wind_veu', 'wind_2', 'wind_espelho', 'wind_arco', 'wind_leve', 'wind_pulso', 'wind_3', 'wind_asa',
+    // v82: o resto do Vento e as Armas
+    'wind_vortice', 'wind_cadeia', 'wind_4', 'wind_fenda', 'weapons', 'weapons_multi', 'weapons_corte', 'weapons_pregos', 'weapons_peconha',
+    'weapons_2', 'weapons_gigante', 'weapons_serrilhada', 'weapons_polida', 'weapons_arco', 'weapons_3', 'weapons_kunai'];
   // quadros por folha: 6; o Cometa veio sem o 5, a Desintoxicação com o 6 vazio, a Palma com 7
   const N: Record<string, number> = { fire_cometa: 5, heal_desintox: 5, heal_palma: 7, lightning_risco: 7, stone_avalanche: 2,
-    water_clone: 1, water_casulo: 8, taijutsu_queda: 7, wind_veu: 5, wind_espelho: 5, shadow_veu: 7, shadow_2: 5, shadow_beijo: 5, shadow_recuo: 5 };   // v80: folhas com outro número de quadros   // a Avalanche: duas crateras de uma folha só
+    water_clone: 1, water_casulo: 8, taijutsu_queda: 7, weapons: 7, weapons_corte: 5, wind_veu: 5, wind_espelho: 5, shadow_veu: 7, shadow_2: 5, shadow_beijo: 5, shadow_recuo: 5 };   // v80: folhas com outro número de quadros   // a Avalanche: duas crateras de uma folha só
   it('cada jutsu tem os quadros da folha, e a Revoada e a Chuva têm as peças soltas (uma brasa, um meteoro)', () => {
     for (const s of SKILLS) {
       const n = FOGO_SPRITE_FRAMES.filter((f) => f.replace(/_0\d\w?$/, '') === s && /_0\d$/.test(f)).length;
@@ -106,16 +109,16 @@ describe('v78: as camadas do PixelFX que complementam as folhas desenhadas (cama
   const DESENHADOS = ['fire', 'fire_endan', 'fire_kasumi', 'fire_hibashiri', ...new Set(FOGO_SPRITE_FRAMES.map((f) => f.replace(/_0\d\w?$/, '')))];
   const src = readFileSync(new URL('../public/camadasJutsus.js', import.meta.url), 'utf8');
 
-  it('os 121 jutsus desenhados têm camadas (lançamento, impacto ou chão)', () => {
-    assert.equal(DESENHADOS.length, 121);   // v81: + 5 do Taijutsu e 11 do Vento   // v79: + os 16 da Pedra; v80: + Sumidouro, Água, Sombra e Taijutsu
+  it('os 137 jutsus desenhados têm camadas (lançamento, impacto ou chão)', () => {
+    assert.equal(DESENHADOS.length, 137);   // v82: + 4 do Vento e 12 das Armas   // v81: + 5 do Taijutsu e 11 do Vento   // v79: + os 16 da Pedra; v80: + Sumidouro, Água, Sombra e Taijutsu
     // v80: a Água, a Sombra e o Taijutsu têm a carga e a faísca da classe (camadas por classe, não por jutsu)
-    for (const s of DESENHADOS) if (!/^(water|shadow|taijutsu|wind)/.test(s)) assert.match(src, new RegExp(`case '${s}':`), s);
+    for (const s of DESENHADOS) if (!/^(water|shadow|taijutsu|wind|weapons)/.test(s)) assert.match(src, new RegExp(`case '${s}':`), s);
     assert.match(src, /LEVA80/);
   });
 
   it('toda camada usada existe na tabela gerada, e toda camada gerada é usada', () => {
     const usadas = new Set([...src.matchAll(/'(pfx_\w+)'/g)].map((m) => m[1] ?? ''));
-    for (const el of ['fogo', 'cura', 'raio', 'pedra', 'agua', 'sombra', 'taijutsu', 'vento']) for (const t of ['carga', 'faisca']) if (VFX_CAMADAS[`pfx_${el}_${t}`]) usadas.add(`pfx_${el}_${t}`);
+    for (const el of ['fogo', 'cura', 'raio', 'pedra', 'agua', 'sombra', 'taijutsu', 'vento', 'armas']) for (const t of ['carga', 'faisca']) if (VFX_CAMADAS[`pfx_${el}_${t}`]) usadas.add(`pfx_${el}_${t}`);
     for (const el of [] as string[]) usadas.add(`pfx_${el}_carga`);   // a carga dos selos: `pfx_${el}_carga`
     for (const n of usadas) assert.ok(VFX_CAMADAS[n], `${n}: não existe em vfxCamadas.js`);
     for (const n of Object.keys(VFX_CAMADAS)) assert.ok(usadas.has(n), `${n}: gerada e não usada`);

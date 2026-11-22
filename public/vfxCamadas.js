@@ -24,6 +24,8 @@ export const VFX_CAMADAS = {
   pfx_sombra_faisca: {"casas":3.885,"ancora":[27,55],"arte":0,"blend":"normal","luz":0.8,"quadros":9,"cols":9,"quadro":[111,66],"ms":50,"pixelfx":"impacts/hit-spark"},
   pfx_vento_carga: {"casas":3.57,"ancora":[60,53],"blend":"normal","luz":0.8,"quadros":24,"cols":20,"quadro":[102,79],"ms":67,"laco":true,"pixelfx":"arcane/spell-charge"},
   pfx_vento_faisca: {"casas":3.885,"ancora":[27,55],"arte":0,"blend":"normal","luz":0.8,"quadros":9,"cols":9,"quadro":[111,67],"ms":50,"pixelfx":"impacts/hit-spark"},
+  pfx_armas_carga: {"casas":3.57,"ancora":[60,53],"blend":"normal","luz":0.8,"quadros":24,"cols":20,"quadro":[102,79],"ms":67,"laco":true,"pixelfx":"arcane/spell-charge"},
+  pfx_armas_faisca: {"casas":3.885,"ancora":[27,55],"arte":0,"blend":"normal","luz":0.8,"quadros":9,"cols":9,"quadro":[111,67],"ms":50,"pixelfx":"impacts/hit-spark"},
   pfx_taijutsu_carga: {"casas":3.57,"ancora":[60,53],"blend":"normal","luz":0.8,"quadros":24,"cols":20,"quadro":[102,79],"ms":67,"laco":true,"pixelfx":"arcane/spell-charge"},
   pfx_taijutsu_faisca: {"casas":3.885,"ancora":[27,55],"arte":0,"blend":"normal","luz":0.8,"quadros":9,"cols":9,"quadro":[111,67],"ms":50,"pixelfx":"impacts/hit-spark"},
   pfx_raio_faiscas: {"casas":2.87,"ancora":[37,55],"blend":"normal","luz":0.8,"quadros":18,"cols":18,"quadro":[82,62],"ms":67,"laco":true,"pixelfx":"heranca/faiscas"},
