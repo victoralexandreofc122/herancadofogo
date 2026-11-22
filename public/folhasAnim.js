@@ -86,8 +86,8 @@ const TIPO = {
   wind_salto: { t: 'rastro', saida: ['01', '02'], estica: ['03', '04'], chegada: ['05'], chao: ['06'] },
   wind_shuriken: { t: 'proj', sai: ['01', '02'], voa: '03', bate: ['05', '06'] },
   wind_2: { t: 'proj', sai: ['01', '02', '03'], gira: true, voa: '04b', bate: ['05b', '06b'] },
-  wind_veu: { t: 'corpo', gira: 1.5, escudo: true, intro: ['02', '03'], meio: ['04', '05'], fim: ['06'] },
-  wind_espelho: { t: 'corpo', escudo: true, dur: 'reflectMs', intro: ['02', '03'], meio: ['03', '04'], fim: ['05', '06'] },
+  wind_veu: { t: 'corpo', gira: 1.5, escudo: true, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },   // v95: a folha refeita (fundo verde): o 05 é o véu quebrando
+  wind_espelho: { t: 'corpo', escudo: true, dur: 'reflectMs', intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },   // v95: refeita com fundo verde (o F1 aparece)
   wind_arco: { t: 'lamina', fixo: true },
   wind_leve: { t: 'corpo', chao: true, intro: ['01', '02', '03'], meio: ['03', '05'], fim: ['04', '06'] },
   wind_pulso: { t: 'anel' },
@@ -118,10 +118,10 @@ const TIPO = {
   weapons_arsenal: { t: 'invoca', circulo: '01' },
   // v84: mais do Taijutsu e o Olho da Tempestade
   taijutsu_3: { t: 'cone', meio: ['01', '02', '03', '04', '05'], resto: ['06'], rajada: { fr: ['02', '03'], n: 8, ms: 65 } },   // v86: a rajada de socos
-  taijutsu_pressao: { t: 'proj', sai: ['01', '02'], voa: '03', bate: ['05'] },
+  taijutsu_pressao: { t: 'proj', sai: ['01', '02'], voa: '03', bate: ['05', '06'] },   // v95: refeita, com os 6 quadros
   taijutsu_bloqueio: { t: 'escudo', curto: true, monta: ['01'], quebra: ['01'] },
   taijutsu_ascendente: { t: 'rastro', saida: ['01'], estica: [], chegada: ['02', '03', '04', '05', '06'] },
-  wind_olho: { t: 'corpo', gira: 2, escudo: true, intro: ['01', '02', '03'], meio: ['04', '05'], fim: [], golpe: ['07', '08'] },   // o 06 tem duas espirais cortadas pela divisória da folha
+  wind_olho: { t: 'corpo', gira: 2, escudo: true, intro: ['01', '02'], meio: ['03', '04'], fim: [], golpe: ['05', '06'] },   // v95: refeita (a espiral inteira no painel); 05 e 06 na onda do fim
   // v88: a Ilusão (as 15 primeiras folhas; a Estaca tem também a folha para baixo)
   illusion: { t: 'anel', chao: true, gira: 2.2 },
   illusion_coro: { t: 'anel', chao: true },
@@ -175,7 +175,7 @@ const TIPO = {
   aspide_cuspe: { t: 'proj', sai: ['01'], voa: '02', bate: ['05', '06'] },
   aspide_nevoa: { t: 'zona', intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
   aspide_constricao: { t: 'alvo', ms: 1500, esc: 0.75, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },   // rootMs
-  aspide_ninho: { t: 'invoca', circulo: '01' },   // as serpentes da folha vieram com um quadrado de grama embaixo: ficam as de código
+  aspide_ninho: { t: 'invoca', sobe: ['01'] },   // v95: refeita sem o chão; as serpentes andam e mordem (de lado, de frente e de costas)
   garra_matilha: { t: 'invoca', sobe: ['01'] },
   garra_rei: { t: 'invoca', sobe: ['01'] },
   garra_uivo: { t: 'linha', mao: [], estica: ['01', '02', '03', '04', '05', '06'] },
@@ -564,6 +564,7 @@ export const SUMMON_FRAMES = {
   sentinela_sombra: { skill: 'shadow_sentinela', parado: 'shadow_sentinela_04', golpe: 'shadow_sentinela_05', some: 'shadow_sentinela_06' },
   // v90: as feras do Clã Garra andam (dois passos) e mordem; o Rei tem as folhas de frente e de costas
   fera_garra: { skill: 'garra_matilha', parado: 'garra_matilha_02', anda: ['garra_matilha_03', 'garra_matilha_04'], golpe: 'garra_matilha_05', some: 'garra_matilha_06' },
+  serpente_aspide: { skill: 'aspide_ninho', parado: 'aspide_ninho_02', anda: ['aspide_ninho_03', 'aspide_ninho_04'], golpe: 'aspide_ninho_05', some: 'aspide_ninho_06' },   // v95
   fera_rei: { skill: 'garra_rei', parado: 'garra_rei_02', anda: ['garra_rei_03', 'garra_rei_04'], golpe: 'garra_rei_05', some: 'garra_rei_06' },
 };
 export const summonFrames = (kind) => (SUMMON_FRAMES[kind] && jutsuSpritesReady(SUMMON_FRAMES[kind].skill) ? SUMMON_FRAMES[kind] : null);

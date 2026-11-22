@@ -108,7 +108,7 @@ export const LUGAR = {
   lightning_armadura: { lugar: 'corpo', tras: true, alto: 1.45 }, wind_veu: { lugar: 'corpo', tras: true, alto: 1.4 },
   wind_olho: { lugar: 'corpo', tras: true, alto: 1.5 }, water_corpo: { lugar: 'corpo', tras: true, alto: 1.45 },
   zefiro_veu: { lugar: 'corpo', tras: true, alto: 1.4 }, weapons_2: { lugar: 'corpo', tras: true, alto: 1.3 },
-  shadow_ciranda: { lugar: 'corpo', tras: true, alto: 1.35 }, heal_desintox: { lugar: 'corpo', tras: true, alto: 1.3 },
+  shadow_ciranda: { lugar: 'corpo', tras: true, alto: 1.35 },
   heal_4: { lugar: 'corpo', tras: true, alto: 1.3 }, taijutsu_portoes: { lugar: 'corpo', tras: true, alto: 1.4, corte: -0.3 },
   bastiao_juramento: { lugar: 'corpo', tras: true, alto: 1.6, corte: -0.2 }, aspide_constricao: { lugar: 'corpo', tras: true, alto: 1.2, corte: -0.3 },
   rubro_completo: { lugar: 'corpo', tras: true, alto: 2.1, corte: 0 },   // o guerreiro inteiro atrás do ninja
@@ -116,7 +116,7 @@ export const LUGAR = {
   wind_espelho: { lugar: 'corpo', alto: 1.45, alpha: 0.6 }, illusion_kai: { lugar: 'corpo', alto: 1.45, alpha: 0.6 },
   heal_casca: { lugar: 'corpo', alto: 1.45, alpha: 0.55 }, stone_4: { lugar: 'corpo', alto: 1.45, alpha: 0.7 },
   stone_couraca: { lugar: 'corpo', alto: 1.3, alpha: 0.65 }, shadow_veu: { lugar: 'corpo', alto: 1.4, alpha: 0.6 },
-  water_3: { lugar: 'corpo', alto: 1.45, alpha: 0.6 }, heal: { lugar: 'corpo', alto: 1.3, alpha: 0.75 },
+  water_3: { lugar: 'corpo', alto: 1.45, alpha: 0.6 }, heal_desintox: { lugar: 'corpo', alto: 1.35, alpha: 0.65 },   // v95: a folha refeita é uma cúpula heal: { lugar: 'corpo', alto: 1.3, alpha: 0.75 },
   // no chão, em volta dos pés
   shadow_4: { lugar: 'pes', largura: 1.6, sy: 0.6 }, illusion_veu: { lugar: 'pes', largura: 1.6, sy: 0.7 },
 };

@@ -504,7 +504,9 @@ FEITOS = {
     'bastiao_resposta', 'bastiao_juramento', 'aspide_cuspe', 'aspide_nevoa', 'aspide_constricao', 'aspide_ninho',
     'garra_matilha', 'garra_uivo', 'garra_troca', 'garra_rei', 'zefiro_passo', 'zefiro_veu', 'zefiro_eco', 'zefiro_mil',
 }
-DIR_FEITAS = {'illusion_estaca': ['baixo'], 'garra_rei': ['baixo', 'cima']}   # v88, v90
+DIR_FEITAS = {'illusion_estaca': ['baixo'], 'garra_rei': ['baixo', 'cima'], 'aspide_ninho': ['baixo', 'cima']}   # v88, v90, v95
+# v95: refeitas pelo Victor (22/11) e já no jogo: saem do grupo refazer
+REFEITAS = {'aspide_ninho', 'wind_veu', 'wind_espelho', 'taijutsu_pressao', 'wind_olho', 'water_tromba', 'wind_3', 'wind_fenda', 'heal_desintox', 'fire_cometa'}
 
 
 def item_resto(t):
@@ -522,7 +524,7 @@ def item_resto(t):
 
 def main():
     itens = ([item_falta(t) for t in FALTAM if t[0] not in FEITOS] + [i for i in (item_resto(t) for t in FALTAM if t[0] in FEITOS) if i]
-             + [item_ajuste(t) for t in REFAZER + QUADROS] + [item_direcao(t) for t in DIRECOES_FEITAS])
+             + [item_ajuste(t) for t in [r for r in REFAZER if r[0] not in REFEITAS] + QUADROS] + [item_direcao(t) for t in DIRECOES_FEITAS])
     with open(os.path.join(AQUI, 'pendencias.json'), 'w', encoding='utf-8') as f:
         json.dump({'gerado': '2026-11-22', 'itens': itens, 'auditoria': auditoria()}, f, ensure_ascii=False, separators=(',', ':'))
         f.write('\n')

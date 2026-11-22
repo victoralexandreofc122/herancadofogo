@@ -60,7 +60,7 @@ export function fogoCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nul
     case 'heal_desintox': {   // Desintoxicação Celular: o anel gira em quem foi limpo, estoura em luz e se desfaz
       const o = onBody(atId);
       seq(jfx, s, o ? 0 : at.x, o ? -0.5 : at.y - 0.5, now, [['01', 0, 140], ['02', 120, 170], ['03', 270, 180, { flicker: true }],
-        ['04', 430, 240], ['05', 650, 480, { fadeOut: 330 }]], o || {});
+        ['04', 430, 240], ['05', 650, 300], ['06', 900, 480, { fadeOut: 330 }]], o || {});   // v95: a folha refeita, com o 06 (as bolhas se soltando)
       return true;
     }
     case 'heal_palma': {   // Palma Curadora (o redemoinho veio na conjuração): a esfera cura o aliado e se apaga
@@ -327,9 +327,14 @@ export function fogoCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nul
       const ex = msg.tx, ey = msg.ty;
       const d = Math.max(0.8, Math.hypot(ex - msg.x, ey - msg.y));
       const a = Math.atan2(ey - msg.y, ex - msg.x);
-      seq(jfx, s, msg.x, msg.y, now, [['01', 0, 120, { flicker: true }]]);
-      seq(jfx, s, ex, ey, now, [['02', 40, 90, { angle: a }], ['03', 100, 160, { angle: a, len: d, flicker: true }],
-        ['04', 240, 200, { angle: a, len: d }], ['06', 420, 700, { angle: a, len: d, fadeOut: 450, layer: 'ground' }]]);
+      // v95: a folha refeita: o cometa (02 a 04, em laço) voa rente ao chão da mão até onde parou; 05 explode, 06 a fumaça
+      seq(jfx, s, msg.x + Math.cos(a) * 0.35, msg.y + Math.sin(a) * 0.35 - 0.15, now, [['01', 0, 140, { flicker: true }]]);
+      const voo = Math.min(420, 90 + d * 55), passos = Math.max(4, Math.round(voo / 45));
+      for (let i = 0; i < passos; i++) {
+        const t = i / passos;
+        seq(jfx, s, msg.x + (ex - msg.x) * t, msg.y + (ey - msg.y) * t - 0.15, now, [[['02', '03', '04'][i % 3], 60 + t * voo, voo / passos + 30, { angle: a, fadeIn: 0, fadeOut: 40 }]]);
+      }
+      seq(jfx, s, ex, ey - 0.2, now, [['05', 60 + voo, 260, { fadeIn: 0 }], ['06', 300 + voo, 600, { fadeOut: 420 }]]);
       return true;
     }
     case 'fire_rugido': {   // Rugido da Fornalha: o raio sai da mão, cresce até o alcance, estoura na ponta e vira fumaça

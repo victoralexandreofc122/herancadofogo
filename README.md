@@ -246,6 +246,17 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v95: o Ciclo Sem Fim, o lugar no corpo em todos e as 12 folhas refeitas (sem migração)
+
+- Ciclo Sem Fim (`illusion_4`), a última folha: os 9 quadros tocam nos pés do alvo (entrada, laço girando enquanto prende,
+  saída), com a metade de trás atrás dele. Os 200 jutsus têm folha desenhada pelo Victor.
+- O lugar no corpo em todos os jutsus desse tipo (OK do Victor, 22/11): `LUGAR` em `public/vfxJutsus.js` encaixa a arte de
+  quem acompanha alguém num dos 4 estilos (tronco; corpo com a metade de trás; bolha por cima, translúcida; círculo nos
+  pés), em qualquer arquivo que toque (fogoAnim.js ou folhasAnim.js). O tamanho sai de um quadro cheio de referência.
+- As folhas refeitas: Ninho de Áspides (as serpentes andam e mordem, com as folhas para baixo e para cima), Véu de Vento,
+  Espelho de Ar, Soco de Pressão, Olho da Tempestade, Tromba d’Água, Tornado Cortante, Fenda do Vento, Desintoxicação (agora
+  uma cúpula, com o 6º quadro) e Cometa Rasteiro (o cometa voa até onde parou e explode). A lista de refazer ficou vazia.
+
 ### v94: primeira experiência sem rolagem e os ajustes da Forma Umbral e da Aura (sem migração)
 
 - Pedido do Victor (22/11): nada de rolagem na primeira experiência; o que não cabe ganha aba própria. Conferido no
