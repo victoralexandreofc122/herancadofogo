@@ -87,6 +87,13 @@ no tempo dos quadros. O passo a passo e as lições estão em `arte/pixelfx/LEIA
 - Hitbox: `AUDITAR=1 npx tsx arte/jutsus-vfx/capturar.ts <pasta>` e `npx tsx arte/jutsus-vfx/auditar.ts <pasta>/auditoria.json`
   (copiar o `auditoria-hitbox.md` para esta pasta). Casado é de 75% a 135% do raio do servidor.
 
+## Rajadas de golpes (v87)
+
+Golpe que se repete (Cem Golpes, Punho do Céu) leva `rajada: { fr, n, ms }` no `TIPO`: os quadros `fr` alternam `n` vezes
+a cada `ms`, com desvio e escala da tabela `JIT` (fixa, para a captura sair igual). Com a folha `<id>_rajada` recortada
+(entrada `<id>_rajada` no `ajustes.json`, mesmos números de casas da base), o laço usa os 6 quadros dela no lugar de `fr`.
+Avisos em ondas com `unico` (Ascensão Dupla) tocam a folha inteira na 1ª onda e um golpe curto em cada onda seguinte.
+
 ## Folhas de direção: para baixo e para cima (v86)
 
 A folha base aponta para a direita (o jogo espelha para a esquerda e gira nas diagonais). O que tem volume (objeto,

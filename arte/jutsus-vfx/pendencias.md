@@ -1473,7 +1473,49 @@ F5: the impact burst where it hits, centered.
 F6: the impact fading into particles.
 ```
 
-## Mais quadros (6)
+## Mais quadros (8)
+
+### Cem Golpes (rajada) (`taijutsu_3_rajada`), Taijutsu, rajada de golpes (laço rápido), fundo verde
+
+A folha atual tem um quadro de cada fase; hoje o jogo alterna as estrelas e os cortes (F2 e F3) para parecer vários socos, mas não aparece o punho.
+
+**Pedido:** Folha de rajada: punhos em pontos diferentes do cone, que o jogo alterna em laço rápido.
+
+**No jogo:** Os 6 quadros alternam bem rápido (60 a 70 ms cada) em laço enquanto duram os golpes, cada um num ponto um pouco diferente; depois entram o fecho da folha atual (os anéis, a onda, o estouro).
+
+**Folha: Cem Golpes (rajada)** (`taijutsu_3_rajada`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Cem Golpes (rajada)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Cem Golpes (rajada)": orange-gold chakra. Palette: warm orange and golden yellow impact light, with tan dust and a dark brown outline.
+F1: a glowing fist of orange-gold chakra punching to the right, coming from the left side of the panel, hitting the upper part with a small impact star.
+F2: another fist of orange-gold chakra punching to the right, hitting the lower part at a different angle, with a small impact star.
+F3: a fist of orange-gold chakra hitting the middle, closer, with a bigger impact star.
+F4: a fist of orange-gold chakra hitting the upper middle, with straight speed lines behind it.
+F5: two blurred fists of orange-gold chakra at once (afterimages), with speed lines.
+F6: three blurred fists of orange-gold chakra at once, the fastest-looking frame.
+```
+
+### Punho do Céu (rajada) (`taijutsu_4_rajada`), Taijutsu, rajada de golpes (laço rápido), fundo verde
+
+São 3 golpes no PvP e 5 contra monstro; hoje o jogo repete os anéis e o rastro (F3 e F4) no meio do caminho.
+
+**Pedido:** Folha de rajada com punhos de ar maiores, para o laço antes do estouro na ponta.
+
+**No jogo:** Os 6 quadros alternam bem rápido (60 a 70 ms cada) em laço enquanto duram os golpes, cada um num ponto um pouco diferente; depois entram o fecho da folha atual (os anéis, a onda, o estouro).
+
+**Folha: Punho do Céu (rajada)** (`taijutsu_4_rajada`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Punho do Céu (rajada)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Punho do Céu (rajada)": white compressed air. Palette: warm orange and golden yellow impact light, with tan dust and a dark brown outline.
+F1: a glowing fist of white compressed air punching to the right, coming from the left side of the panel, hitting the upper part with a small impact star.
+F2: another fist of white compressed air punching to the right, hitting the lower part at a different angle, with a small impact star.
+F3: a fist of white compressed air hitting the middle, closer, with a bigger impact star.
+F4: a fist of white compressed air hitting the upper middle, with straight speed lines behind it.
+F5: two blurred fists of white compressed air at once (afterimages), with speed lines.
+F6: three blurred fists of white compressed air at once, the fastest-looking frame.
+```
 
 ### Arsenal Vivo (`weapons_arsenal`), Armas, invocação, fundo verde
 

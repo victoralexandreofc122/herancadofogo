@@ -193,7 +193,7 @@ function PLANOS(X: number, Y: number): Record<string, Plan> {
     taijutsu_portoes: { steps: [[0, CS('taijutsu_portoes', 500)], [500, C('taijutsu_portoes')]], shots: [560, 760, 1000, 2500, 4500, 5700] },
     taijutsu_flecha: { steps: [[0, C('taijutsu_flecha', { tx: X + 6, ty: Y })]], shots: [40, 180, 300, 460, 700, 1200] },
     taijutsu_furia: { steps: [[0, C('taijutsu_furia', { tx: X + 3, ty: Y })]], shots: [40, 140, 260, 380, 520, 800] },
-    taijutsu_4: { steps: [[0, CS('taijutsu_4', 600)], [600, C('taijutsu_4')]], shots: [640, 760, 880, 1000, 1150, 1500] },
+    taijutsu_4: { steps: [[0, CS('taijutsu_4', 600)], [600, C('taijutsu_4')]], shots: [650, 860, 960, 1120, 1300, 1480] },
     taijutsu_queda: { steps: [[0, C('taijutsu_queda', { tx: X + 4, ty: Y })], ...aviso(9750, 'taijutsu_queda', X + 4, Y, 2.5, 700)], shots: [200, 450, 600, 760, 1050, 1600] },
     wind: { steps: [[0, C('wind')]], shots: [40, 150, 280, 420, 560, 900] },
     wind_salto: { steps: [[0, C('wind_salto')]], shots: [40, 150, 260, 380, 560, 900] },
@@ -241,7 +241,7 @@ function PLANOS(X: number, Y: number): Record<string, Plan> {
       [900, { type: 'monster_spawned', monster: { id: 'ars1', type: 'arsenal', x: X + 1.5, y: Y, hp: 50, maxHp: 50 } }],
       [950, { type: 'summon', id: 'ars1', ownerId: '__ME__', kind: 'arsenal', hp: 50, maxHp: 50, ms: 10000 }]], shots: [850, 1000, 1300, 1700, 2100, 2500] },
     // ---- v84
-    taijutsu_3: { steps: [[0, C('taijutsu_3')]], shots: [40, 140, 260, 380, 520, 800] },
+    taijutsu_3: { steps: [[0, C('taijutsu_3')]], shots: [60, 200, 330, 470, 700, 1100] },
     taijutsu_pressao: { steps: [[0, C('taijutsu_pressao')], [80, proj(9790, 'taijutsu_pressao', 0, 14, 3.6)], [337, imp(9790, 'taijutsu_pressao', X + 4, Y)]], shots: [40, 150, 260, 360, 500, 800] },
     taijutsu_bloqueio: { steps: [[0, C('taijutsu_bloqueio')], [1200, { type: 'hit', target: 'player', id: '__ME__', amount: 0, kind: 'damage', hp: 100, maxHp: 100, shielded: true }]],
       shots: [60, 250, 500, 1250, 1450, 1800] },
