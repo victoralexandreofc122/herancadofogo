@@ -8043,5 +8043,300 @@
       ]
     ],
     "limpa_magenta": true
+  },
+  "weapons_laco": {
+    "pixel": 7,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        6,
+        122,
+        851,
+        709
+      ],
+      [
+        866,
+        122,
+        1712,
+        709
+      ],
+      [
+        1725,
+        122,
+        2570,
+        709
+      ],
+      [
+        6,
+        844,
+        851,
+        1431
+      ],
+      [
+        866,
+        844,
+        1712,
+        1431
+      ],
+      [
+        1725,
+        844,
+        2570,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "02": {
+          "arte": 0.6,
+          "ancora": "esquerda"
+        },
+        "03": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": true
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "esquerda",
+          "eixo": true
+        }
+      }
+    },
+    "trocar": [
+      [
+        91,
+        76,
+        69,
+        40,
+        1721,
+        1238,
+        2576,
+        1438
+      ],
+      [
+        96,
+        60,
+        41,
+        40,
+        1721,
+        1238,
+        2576,
+        1438
+      ],
+      [
+        139,
+        92,
+        57,
+        40,
+        1721,
+        1238,
+        2576,
+        1438
+      ]
+    ],
+    "limpa_magenta": true
+  },
+  "weapons_arsenal": {
+    "pixel": 11,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        193,
+        142,
+        2450,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "alpha": 0.9
+    },
+    "limiar_m": 0.35,
+    "alfa_suave": true
+  },
+  "weapons_dragoes": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        0,
+        103,
+        851,
+        709
+      ],
+      [
+        866,
+        103,
+        1710,
+        709
+      ],
+      [
+        1728,
+        103,
+        2576,
+        709
+      ],
+      [
+        0,
+        828,
+        851,
+        1431
+      ],
+      [
+        866,
+        828,
+        1710,
+        1431
+      ],
+      [
+        1728,
+        828,
+        2576,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal"
+    }
+  },
+  "weapons_ceu": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        13,
+        101,
+        851,
+        709
+      ],
+      [
+        866,
+        101,
+        1710,
+        709
+      ],
+      [
+        1725,
+        101,
+        2566,
+        709
+      ],
+      [
+        13,
+        823,
+        851,
+        1429
+      ],
+      [
+        866,
+        823,
+        1710,
+        1429
+      ],
+      [
+        1725,
+        823,
+        2566,
+        1429
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal"
+    }
+  },
+  "weapons_4": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        28,
+        19,
+        825,
+        696
+      ],
+      [
+        890,
+        19,
+        1689,
+        696
+      ],
+      [
+        1747,
+        19,
+        2546,
+        696
+      ],
+      [
+        28,
+        748,
+        825,
+        1425
+      ],
+      [
+        890,
+        748,
+        1689,
+        1425
+      ],
+      [
+        1747,
+        748,
+        2546,
+        1425
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal"
+    },
+    "cantos": [
+      [
+        0,
+        0,
+        520,
+        70
+      ]
+    ],
+    "apagar": {
+      "1": [
+        [
+          0,
+          0,
+          900,
+          110
+        ]
+      ]
+    }
   }
 }

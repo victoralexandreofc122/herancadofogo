@@ -227,6 +227,16 @@ function PLANOS(X: number, Y: number): Record<string, Plan> {
     weapons_arco: { steps: [[0, C('weapons_arco', { tx: X + 5, ty: Y })]], shots: [60, 180, 300, 420, 600, 900] },
     weapons_3: { steps: [[0, C('weapons_3', { tx: X + 4, ty: Y })]], shots: [40, 140, 260, 380, 520, 800] },
     weapons_kunai: { steps: [[0, C('weapons_kunai', { tx: X + 4, ty: Y })], ...aviso(9773, 'weapons_kunai', X + 4, Y, 2, 800)], shots: [200, 500, 700, 860, 1150, 1700] },
+    // ---- v83: as Armas completas
+    weapons_4: { steps: [[0, CS('weapons_4', 500)], [500, C('weapons_4')], ...zona(9780, 'weapons_4', 'armas', X, Y, 1.5, 1600, true).map(([t, m]) => [t + 500, m] as Step)],
+      shots: [560, 750, 1000, 1400, 1900, 2400] },
+    weapons_dragoes: { steps: [[0, C('weapons_dragoes', { tx: X + 4, ty: Y })], ...[0, 1, 2, 3].flatMap((i) => aviso(9781 + i, 'weapons_dragoes', X + 4, Y, 3, 1000 + i * 250))],
+      shots: [300, 700, 900, 1050, 1300, 1900] },
+    weapons_ceu: { steps: chuva('weapons_ceu', 9785), shots: [200, 500, 700, 850, 1100, 1700] },
+    weapons_laco: { steps: [[0, C('weapons_laco', { tx: X + 4, ty: Y })]], shots: [60, 200, 400, 900, 1500, 2000] },
+    weapons_arsenal: { steps: [[0, CS('weapons_arsenal', 800)], [800, C('weapons_arsenal')],
+      [900, { type: 'monster_spawned', monster: { id: 'ars1', type: 'arsenal', x: X + 1.5, y: Y, hp: 50, maxHp: 50 } }],
+      [950, { type: 'summon', id: 'ars1', ownerId: '__ME__', kind: 'arsenal', hp: 50, maxHp: 50, ms: 10000 }]], shots: [850, 1000, 1300, 1700, 2100, 2500] },
     // ---- exemplos de Cura (zona que anda com quem lançou)
     heal_santuario: { steps: [[0, CS('heal_santuario', 500)], [500, C('heal_santuario')], ...zona(9820, 'heal_santuario', 'cura', X, Y, 2.5, 5000, true).map(([t, m]) => [t + 500, m] as Step)],
       shots: [620, 820, 1100, 2000, 3300, 5500] },

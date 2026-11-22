@@ -106,7 +106,15 @@ const TIPO = {
   weapons_arco: { t: 'lamina', fixo: true },
   weapons_3: { t: 'rastro', saida: ['01', '02'], estica: ['03', '04'], chegada: ['05', '06'] },
   weapons_kunai: { t: 'aviso', ref: '05', avisa: ['01', '02'], cai: ['03'], bate: ['04', '05', '06'] },
+  // v83: as Armas completas
+  weapons_4: { t: 'zona', intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  weapons_dragoes: { t: 'aviso', unico: true, avisa: ['01'], cai: ['02', '03', '04'], bate: ['05', '06'] },
+  weapons_ceu: { t: 'chuva' },
+  weapons_laco: { t: 'corrente' },
+  weapons_arsenal: { t: 'invoca', circulo: '01' },
 };
+/** Avisos que vêm em ondas no mesmo lugar (a Ascensão Dupla): o desenho toca uma vez só. */
+const ONDA = new Map();
 
 /** O jutsu tem a folha desta leva (para o fogoAnim saber se chama). */
 export const folhaPronta = ready;
@@ -125,6 +133,10 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
   switch (k.t) {
     case 'zona': case 'invoca': case 'muro':
       // o desenho vem com a `ground`, a `summon` ou a `barrier`; aqui só a sentinela sobe do círculo de runas
+      if (k.circulo) {   // o círculo de invocação no chão, girando devagar, onde a invocação aparece
+        const p = { x: msg.x + msg.fx * 1.5, y: msg.y + msg.fy * 1.5 };
+        seq(jfx, s, p.x, p.y + 0.2, now, [[k.circulo, 0, 1400, { layer: 'ground', fadeIn: 200, fadeOut: 600, scale: 2.6 / largura(s, k.circulo), grow: 0.15 }]]);
+      }
       if (k.sobe) {
         const p = { x: msg.x + msg.fx * 1.5, y: msg.y + msg.fy * 1.5 };
         seq(jfx, s, p.x, p.y + 0.3, now, corrida(k.sobe, 0, 220, 380), { scale: 0.9 });
@@ -229,6 +241,25 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       if (k.chao) seq(jfx, s, fim.x, fim.y + 0.2, now, corrida(k.chao, 520 + k.chegada.length * 130, 200, 900), { layer: 'ground', scale: 0.7 });
       return true;
     }
+    case 'chuva': {   // Céu de Lâminas: a folha inteira tem os 5 alvos: toca uma vez no centro da área, no tempo dos avisos
+      if (msg.tx === undefined) return false;
+      const sc = (2 * (info.radius ?? 4) * 0.8) / largura(s, '01'), d0 = info.durationMs ?? 800;
+      seq(jfx, s, msg.tx, msg.ty, now, [['01', 0, d0 * 0.5, { layer: 'ground', fadeIn: 120 }], ['02', d0 * 0.45, d0 * 0.45, { layer: 'ground' }],
+        ['03', d0 * 0.8, 160], ['04', d0 * 0.95, 180], ['05', d0 + 120, 500], ['06', d0 + 600, 900, { fadeOut: 600 }]], { scale: sc });
+      return true;
+    }
+    case 'corrente': {   // Laço de Ferro: a corrente enrolada na mão, voa, prende os alvos (esticada até eles), brilha, quebra e cai
+      const hit = near(h.x, h.y, end.x, end.y, 1.2, [msg.playerId]).slice(0, info.targets ?? 2);
+      const alvo = hit.length ? hit.map((id) => follow(id)).filter(Boolean) : [end];
+      const c = { x: alvo.reduce((t, p) => t + p.x, 0) / alvo.length, y: alvo.reduce((t, p) => t + p.y, 0) / alvo.length - 0.3 };
+      const dd = Math.max(0.8, Math.hypot(c.x - h.x, c.y - h.y)), aa = Math.atan2(c.y - h.y, c.x - h.x), hold = info.rootMs ?? 1300;
+      seq(jfx, s, h.x, h.y - 0.1, now, [['01', 0, 160, { scale: 0.5 }], ['02', 130, 160, { angle: aa, scale: 0.6 }]]);
+      const st = [['03', 280, 220, { angle: aa, len: dd }]];
+      for (let t = 480, i = 0; t < 280 + hold; t += 260, i++) st.push([i % 2 ? '03' : '04', t, 300, { angle: aa, len: dd }]);
+      seq(jfx, s, h.x, h.y - 0.1, now, st);
+      seq(jfx, s, c.x, c.y, now, [['05', 280 + hold, 260, { scale: 0.6 }], ['06', 520 + hold, 700, { scale: 0.6, fadeOut: 450 }]]);
+      return true;
+    }
     case 'ao_longo': {   // os quadros em pontos do caminho até o alcance (o Punho do Céu: o soco sai da mão e estoura na ponta)
       const range = info.range ?? 3, a0 = angle;
       k.fr.forEach(([f, p], i) => {
@@ -298,6 +329,12 @@ export function folhaChao(jfx, msg, now, follow = () => null) {
     const x0 = msg.follow ? 0 : msg.x, y0 = msg.follow ? 0 : msg.y;
     seq(jfx, s, x0, y0, now, laco(k.intro, k.meio, k.fim, ms), { ...o, scale: sc, tag: `zona:${msg.id}`, ...(k.chao ? { layer: 'ground' } : {}) });
     return true;
+  }
+  if (k.t === 'chuva') return msg.kind === 'aviso';   // o desenho veio no lançamento
+  if (k.t === 'aviso' && msg.kind === 'aviso' && k.unico) {
+    const key = `${s}:${Math.round(msg.x * 2)}:${Math.round(msg.y * 2)}`;
+    if (now - (ONDA.get(key) ?? -1e9) < 2500) return true;
+    ONDA.set(key, now);
   }
   if (k.t === 'aviso' && msg.kind === 'aviso') {   // o aviso no chão, a queda no fim (o punho, o meteoro, o tornado), o golpe e o rastro
     const sc = (2 * r) / largura(s, k.ref ?? k.avisa[0]);   // ref: o quadro do anel (o tamanho da área)
