@@ -17,9 +17,9 @@ const BASE = { fire: 'fogo', fire_endan: 'sopro', fire_kasumi: 'nevoa', fire_hib
 const ready = (skill) => !!skill && jutsuSpritesReady(BASE[skill] ?? skill);
 /** O elemento da camada pelo prefixo do jutsu (fire_, heal_, lightning_). */
 const elOf = (skill) => (/^heal/.test(skill) ? 'cura' : /^lightning/.test(skill) ? 'raio' : /^stone/.test(skill) ? 'pedra'
-  : /^wind/.test(skill) ? 'vento' : /^water/.test(skill) ? 'agua' : /^shadow/.test(skill) ? 'sombra' : /^taijutsu/.test(skill) ? 'taijutsu' : 'fogo');
+  : /^wind/.test(skill) ? 'vento' : /^weapons/.test(skill) ? 'armas' : /^water/.test(skill) ? 'agua' : /^shadow/.test(skill) ? 'sombra' : /^taijutsu/.test(skill) ? 'taijutsu' : 'fogo');
 /** v80: Água, Sombra e Taijutsu: a carga dos selos e a faísca do acerto na cor da classe (sem coreografia própria por jutsu). */
-const LEVA80 = (skill) => /^(water|shadow|taijutsu|wind)/.test(skill);   // v81: + Vento
+const LEVA80 = (skill) => /^(water|shadow|taijutsu|wind|weapons)/.test(skill);   // v81: + Vento
 
 // Raio de cada camada em casas (para casar com a área do servidor): o anel de fogo corre 92 px, o de cura, o estalo do
 // trovão e a poeira 104 px; as runas têm ~2 casas; brasas, cruzes e faíscas se espalham ~0,6 casa (× 0,035 casa/px).

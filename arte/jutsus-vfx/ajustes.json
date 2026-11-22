@@ -6937,5 +6937,1101 @@
         }
       }
     }
+  },
+  "wind_vortice": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        6,
+        110,
+        851,
+        709
+      ],
+      [
+        866,
+        110,
+        1712,
+        709
+      ],
+      [
+        1725,
+        110,
+        2570,
+        709
+      ],
+      [
+        6,
+        832,
+        851,
+        1431
+      ],
+      [
+        866,
+        832,
+        1712,
+        1431
+      ],
+      [
+        1725,
+        832,
+        2570,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal"
+    }
+  },
+  "wind_cadeia": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        6,
+        88,
+        851,
+        703
+      ],
+      [
+        866,
+        88,
+        1712,
+        703
+      ],
+      [
+        1725,
+        88,
+        2570,
+        703
+      ],
+      [
+        6,
+        806,
+        851,
+        1431
+      ],
+      [
+        866,
+        806,
+        1712,
+        1431
+      ],
+      [
+        1725,
+        806,
+        2570,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "02": {
+          "arte": 0
+        },
+        "03": {
+          "arte": 0
+        },
+        "04": {
+          "arte": 0
+        },
+        "05": {
+          "arte": 0
+        }
+      }
+    }
+  },
+  "wind_4": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        6,
+        148,
+        851,
+        754
+      ],
+      [
+        866,
+        148,
+        1712,
+        754
+      ],
+      [
+        1725,
+        148,
+        2570,
+        754
+      ],
+      [
+        6,
+        774,
+        851,
+        1431
+      ],
+      [
+        866,
+        774,
+        1712,
+        1431
+      ],
+      [
+        1725,
+        774,
+        2570,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "03": {
+          "arte": 0,
+          "ancora": "cabeca"
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "cabeca"
+        }
+      }
+    },
+    "cantos": [
+      [
+        0,
+        0,
+        90,
+        80
+      ]
+    ]
+  },
+  "wind_fenda": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        0,
+        52,
+        854,
+        713
+      ],
+      [
+        861,
+        52,
+        1712,
+        713
+      ],
+      [
+        1721,
+        52,
+        2576,
+        713
+      ],
+      [
+        0,
+        774,
+        854,
+        1438
+      ],
+      [
+        861,
+        774,
+        1712,
+        1438
+      ],
+      [
+        1721,
+        774,
+        2576,
+        1438
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "02": {
+          "arte": 0
+        },
+        "04": {
+          "arte": 0
+        }
+      }
+    }
+  },
+  "weapons": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        45,
+        144,
+        857,
+        728
+      ],
+      [
+        879,
+        144,
+        1695,
+        728
+      ],
+      [
+        1719,
+        193,
+        2533,
+        567
+      ],
+      [
+        1719,
+        593,
+        2533,
+        928
+      ],
+      [
+        45,
+        761,
+        857,
+        1399
+      ],
+      [
+        879,
+        761,
+        1695,
+        1399
+      ],
+      [
+        1719,
+        1057,
+        2533,
+        1399
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "03": {
+          "arte": 0
+        },
+        "04": {
+          "arte": 0
+        },
+        "04b": {
+          "arte": 0,
+          "ancora": "cabeca"
+        },
+        "05b": {
+          "ancora": "base"
+        }
+      }
+    },
+    "partes": {
+      "4": {
+        "b": [
+          0.2,
+          0.3,
+          1,
+          0.68
+        ]
+      },
+      "5": {
+        "b": [
+          0.36,
+          0,
+          0.64,
+          1
+        ]
+      }
+    }
+  },
+  "weapons_multi": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        155,
+        258,
+        851,
+        722
+      ],
+      [
+        877,
+        258,
+        1715,
+        722
+      ],
+      [
+        1728,
+        193,
+        2566,
+        722
+      ],
+      [
+        52,
+        774,
+        851,
+        1392
+      ],
+      [
+        877,
+        799,
+        1715,
+        1392
+      ],
+      [
+        1728,
+        799,
+        2566,
+        1392
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "03": {
+          "arte": 0
+        },
+        "03b": {
+          "arte": 0,
+          "ancora": "cabeca"
+        }
+      }
+    },
+    "partes": {
+      "3": {
+        "b": [
+          0.3,
+          0,
+          1,
+          0.52
+        ]
+      },
+      "5": {
+        "b": [
+          0,
+          0.25,
+          0.52,
+          1
+        ]
+      },
+      "6": {
+        "b": [
+          0,
+          0.2,
+          0.52,
+          1
+        ]
+      }
+    },
+    "cantos": [
+      [
+        0,
+        0,
+        130,
+        90
+      ]
+    ]
+  },
+  "weapons_corte": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        71,
+        187,
+        786,
+        696
+      ],
+      [
+        928,
+        187,
+        1644,
+        696
+      ],
+      [
+        1786,
+        187,
+        2501,
+        696
+      ],
+      [
+        71,
+        903,
+        786,
+        1418
+      ],
+      [
+        928,
+        903,
+        1644,
+        1418
+      ],
+      [
+        1786,
+        903,
+        2501,
+        1418
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "02": {
+          "arte": 0,
+          "ancora": "direita",
+          "eixo": true
+        },
+        "03": {
+          "arte": 0,
+          "ancora": "direita",
+          "eixo": true
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "direita",
+          "eixo": true
+        },
+        "05": {
+          "arte": 0,
+          "ancora": "direita"
+        },
+        "01": {
+          "arte": 0
+        }
+      }
+    }
+  },
+  "weapons_pregos": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        32,
+        187,
+        854,
+        786
+      ],
+      [
+        881,
+        187,
+        1692,
+        786
+      ],
+      [
+        1728,
+        187,
+        2546,
+        786
+      ],
+      [
+        32,
+        815,
+        854,
+        1412
+      ],
+      [
+        881,
+        815,
+        1692,
+        1412
+      ],
+      [
+        1728,
+        815,
+        2546,
+        1412
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.022,
+      "ancora": "centro",
+      "blend": "normal"
+    },
+    "cantos": [
+      [
+        0,
+        0,
+        110,
+        80
+      ]
+    ]
+  },
+  "weapons_peconha": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        77,
+        193,
+        815,
+        664
+      ],
+      [
+        926,
+        193,
+        1653,
+        664
+      ],
+      [
+        1761,
+        193,
+        2499,
+        664
+      ],
+      [
+        77,
+        890,
+        815,
+        1369
+      ],
+      [
+        926,
+        890,
+        1653,
+        1369
+      ],
+      [
+        1761,
+        890,
+        2499,
+        1369
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "03": {
+          "arte": 0,
+          "ancora": "cabeca"
+        },
+        "04": {
+          "arte": 0,
+          "ancora": "cabeca"
+        },
+        "05b": {
+          "arte": 0,
+          "ancora": "direita"
+        }
+      }
+    },
+    "partes": {
+      "5": {
+        "b": [
+          0,
+          0,
+          0.7,
+          1
+        ]
+      }
+    }
+  },
+  "weapons_2": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        129,
+        93,
+        810,
+        690
+      ],
+      [
+        948,
+        93,
+        1635,
+        690
+      ],
+      [
+        1783,
+        93,
+        2452,
+        690
+      ],
+      [
+        129,
+        812,
+        810,
+        1408
+      ],
+      [
+        948,
+        812,
+        1635,
+        1408
+      ],
+      [
+        1783,
+        812,
+        2452,
+        1408
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal"
+    }
+  },
+  "weapons_gigante": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 75,
+    "paineis": [
+      [
+        93,
+        142,
+        815,
+        651
+      ],
+      [
+        928,
+        142,
+        1648,
+        651
+      ],
+      [
+        1760,
+        142,
+        2482,
+        651
+      ],
+      [
+        93,
+        789,
+        815,
+        1377
+      ],
+      [
+        928,
+        789,
+        1648,
+        1377
+      ],
+      [
+        1760,
+        789,
+        2482,
+        1377
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "03": {
+          "arte": 0,
+          "ancora": "cabeca"
+        },
+        "05": {
+          "arte": 0,
+          "ancora": "cabeca"
+        }
+      }
+    },
+    "cantos": [
+      [
+        -100,
+        -80,
+        0,
+        0
+      ]
+    ]
+  },
+  "weapons_serrilhada": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        191,
+        144,
+        677,
+        629
+      ],
+      [
+        1047,
+        144,
+        1532,
+        629
+      ],
+      [
+        1902,
+        144,
+        2388,
+        629
+      ],
+      [
+        191,
+        866,
+        677,
+        1351
+      ],
+      [
+        1047,
+        866,
+        1532,
+        1351
+      ],
+      [
+        1902,
+        866,
+        2388,
+        1351
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "03": {
+          "arte": 0,
+          "ancora": "cabeca"
+        }
+      }
+    },
+    "inundar": [
+      [
+        110,
+        82,
+        65,
+        32
+      ],
+      [
+        95,
+        70,
+        55,
+        25
+      ]
+    ],
+    "limiar_m": 0.35
+  },
+  "weapons_polida": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        0,
+        129,
+        854,
+        709
+      ],
+      [
+        861,
+        129,
+        1712,
+        709
+      ],
+      [
+        1721,
+        129,
+        2576,
+        709
+      ],
+      [
+        0,
+        851,
+        854,
+        1431
+      ],
+      [
+        861,
+        851,
+        1712,
+        1431
+      ],
+      [
+        1721,
+        851,
+        2576,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.012,
+      "ancora": "centro",
+      "blend": "normal"
+    },
+    "cantos": [
+      [
+        0,
+        -110,
+        120,
+        0
+      ]
+    ]
+  },
+  "weapons_arco": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        36,
+        110,
+        835,
+        677
+      ],
+      [
+        887,
+        110,
+        1686,
+        677
+      ],
+      [
+        1721,
+        110,
+        2537,
+        677
+      ],
+      [
+        36,
+        825,
+        835,
+        1392
+      ],
+      [
+        887,
+        825,
+        1686,
+        1392
+      ],
+      [
+        1721,
+        825,
+        2537,
+        1392
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.034,
+      "ancora": "centro",
+      "blend": "normal",
+      "arte": 0,
+      "quadros": {
+        "01": {
+          "eixo": true
+        },
+        "02": {
+          "ancora": "direita"
+        },
+        "03": {
+          "ancora": "direita"
+        },
+        "04": {
+          "ancora": "direita"
+        },
+        "05": {
+          "ancora": "direita"
+        },
+        "06": {
+          "arte": null
+        }
+      }
+    }
+  },
+  "weapons_3": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        13,
+        116,
+        425,
+        1431
+      ],
+      [
+        436,
+        116,
+        854,
+        1431
+      ],
+      [
+        864,
+        116,
+        1283,
+        1431
+      ],
+      [
+        1293,
+        116,
+        1715,
+        1431
+      ],
+      [
+        1725,
+        116,
+        2143,
+        1431
+      ],
+      [
+        2153,
+        116,
+        2570,
+        1431
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal",
+      "quadros": {
+        "03": {
+          "arte": -0.95,
+          "ancora": "direita",
+          "eixo": true
+        },
+        "04": {
+          "arte": -0.95,
+          "ancora": "direita",
+          "eixo": true
+        }
+      }
+    }
+  },
+  "weapons_kunai": {
+    "pixel": 8,
+    "fundo": "magenta",
+    "margem": 12,
+    "detector_texto": false,
+    "grao": 1.2,
+    "topo": 0,
+    "paineis": [
+      [
+        32,
+        97,
+        857,
+        709
+      ],
+      [
+        877,
+        97,
+        1699,
+        709
+      ],
+      [
+        1721,
+        97,
+        2542,
+        709
+      ],
+      [
+        32,
+        810,
+        857,
+        1418
+      ],
+      [
+        877,
+        810,
+        1699,
+        1418
+      ],
+      [
+        1721,
+        810,
+        2542,
+        1418
+      ]
+    ],
+    "jogo": {
+      "pxCasa": 0.03,
+      "ancora": "centro",
+      "blend": "normal"
+    },
+    "limiar_m": 0.35,
+    "trocar": [
+      [
+        111,
+        80,
+        60,
+        34
+      ],
+      [
+        96,
+        70,
+        53,
+        26
+      ],
+      [
+        125,
+        90,
+        68,
+        26
+      ]
+    ],
+    "limpa_magenta": true
   }
 }

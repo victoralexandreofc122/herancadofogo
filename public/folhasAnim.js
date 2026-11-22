@@ -89,6 +89,23 @@ const TIPO = {
   wind_pulso: { t: 'anel' },
   wind_3: { t: 'aviso', avisa: ['01', '02'], cai: ['03', '04'], bate: ['05', '06'] },
   wind_asa: { t: 'rastro', saida: ['01', '02'], voa: '03', estica: [], chegada: ['05', '06'] },
+  // v82: o resto do Vento e as Armas
+  wind_vortice: { t: 'zona', chao: true, intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
+  wind_cadeia: { t: 'entre', mao: ['01'] },
+  wind_4: { t: 'proj', sai: ['01', '02'], voa: '04', bate: ['05', '06'] },
+  wind_fenda: { t: 'ao_longo', fr: [['01', 0], ['02', 0.25], ['04', 0.45], ['03', 0.65], ['05', 0.8], ['06', 0.85]] },
+  weapons: { t: 'proj', sai: ['01', '02'], voa: '04b', bate: ['05b', '07'] },
+  weapons_multi: { t: 'proj', sai: ['01', '02'], voa: '03b', bate: ['05b', '06b'] },
+  weapons_corte: { t: 'linha', mao: ['01'], estica: ['02', '03', '04'], fimLinha: ['05'] },
+  weapons_pregos: { t: 'zona', chao: true, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  weapons_peconha: { t: 'proj', sai: ['01', '02'], voa: '03', bate: ['05b', '06'] },
+  weapons_2: { t: 'zona', intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
+  weapons_gigante: { t: 'proj', sai: ['01', '02'], voa: '03', bate: ['02'] },
+  weapons_serrilhada: { t: 'proj', sai: ['01', '02'], voa: '03', bate: ['05', '06'] },
+  weapons_polida: { t: 'corpo', mao: true, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  weapons_arco: { t: 'lamina', fixo: true },
+  weapons_3: { t: 'rastro', saida: ['01', '02'], estica: ['03', '04'], chegada: ['05', '06'] },
+  weapons_kunai: { t: 'aviso', avisa: ['01', '02'], cai: ['03'], bate: ['04', '05', '06'] },
 };
 
 /** O jutsu tem a folha desta leva (para o fogoAnim saber se chama). */
@@ -124,8 +141,8 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       jfx.drop(tag);
       // escudo: em volta do corpo; pes: a aura sobe dos pés (o apoio é a base do desenho); chao: o redemoinho deitado no chão
       const y = k.escudo ? -0.5 : k.pes ? 0.32 : k.chao ? 0.15 : -0.35;
-      const extra = k.escudo || k.pes ? {} : k.chao ? { layer: 'ground' } : { scale: 1.1, alpha: 0.85 };
-      seq(jfx, s, 0, y, now, laco(k.intro, k.meio, k.fim, dur), { ...me, tag, ...extra });
+      const extra = k.escudo || k.pes ? {} : k.chao ? { layer: 'ground' } : k.mao ? {} : { scale: 1.1, alpha: 0.85 };
+      seq(jfx, s, k.mao ? msg.fx * 0.4 : 0, k.mao ? -0.35 : y, now, laco(k.intro, k.meio, k.fim, dur), { ...me, tag, ...extra });
       return true;
     }
     case 'escudo': {
