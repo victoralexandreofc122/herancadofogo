@@ -44,6 +44,13 @@ golpe cada quadro aparece. Tudo é **só visual**: o servidor continua decidindo
    `TEST_DATABASE_URL="postgres://postgres@localhost:5433/postgres?host=/var/tmp"`; commit, push e mandar as folhas
    (`folha_<id>.png`) ao Victor, com o que mudou em cada jutsu e o que não foi testado com um ninja de verdade.
 
+## Folhas tocadas pela forma (v80)
+
+Da Água em diante, a folha nova entra numa linha da tabela `TIPO` de `public/folhasAnim.js` (zona, anel, corpo, escudo,
+proj, cone, linha, laco, prende, lamina, rastro, alvo, entre, agarre, aviso, invoca, muro), com os quadros de cada fase;
+o resto sai da ordem da folha. Só precisa de `case` próprio no `fogoAnim.js` quando o desenho pede algo que a forma não
+cobre. No recorte, `manter_escuro` mantém o roxo-escuro opaco e `manter_claro` o clarão claro (a arte da Sombra).
+
 ## Camadas por cima das folhas (v78)
 
 Cada jutsu desenhado ganha **camadas** do PixelFX (a carga dos selos, anel, poeira, brasas, cruzes, faíscas, choque) em
@@ -68,25 +75,27 @@ no tempo dos quadros. O passo a passo e as lições estão em `arte/pixelfx/LEIA
 - Projétil desenhado: o rastro e o estouro antigos do elemento saem (`drawnArt` em `game.js`).
 - Captura de noite deixa o brilho mais forte; a Academia é o lugar padrão (chão liso, de dia).
 
-## Situação (18/11/2026)
+## Situação (22/11/2026)
 
-**Feitos (66):**
+**Feitos (105):**
 
 - Fogo (17): Fogo, Sopro Incinerador, Névoa Inflamável, Linha de Fogo Rasante, Revoada de Brasas, Lança de Fogo, Cinzas Detonantes, Lâmina de Fogo, Varredura Flamejante, Projétil Dracônico, Chuva de Meteoros, Marca Incandescente, Chão Incandescente, Cometa Rasteiro, Rugido da Fornalha, Coroa de Chamas, Coluna Infernal.
 - Cura (17): Cura, Desintoxicação Celular, Corte Cirúrgico, Palma Curadora, Descontrole Muscular, Punho Sísmico, Regeneração de Área, Renovação Celular, Selo dos Meridianos, Agulha Calmante, Casca de Chakra, Lâmina Séptica, Banho de Chakra, Onda Anestésica, Milagre Verde, Santuário Vital, Punho do Colosso.
 - Relâmpago (16): Corrente Rasteira, Shuriken do Trovão, Impulso Estático, Farpas de Trovão, Lança Saltadora, Descarga Envolvente, Investida Elétrica, Julgamento do Trovão, Ida e Volta, Rede de Faíscas, Rugido do Trovão, Mãos de Trovão, Correntes de Raio, Céu em Fúria, Armadura Relampejante, Risco de Luz.
-- Pedra (16, v79): Pedra, Coração de Montanha (`stone_4`, o tier 4 do escudo), Prisão de Pilares, Projétil de Rocha, Escavação Furtiva, Muralha de Terra, Lamaçal Profundo, Pisão da Montanha, Punho de Rocha, Chuva de Cascalho, Carga do Rochedo, Lanças da Terra, Resposta da Montanha, Couraça Mineral, Avalanche (uma folha só, duas crateras), Golem de Terra Titânico (o golem desenhado anda e soca no lugar do de código).
+- Pedra (17, v79/v80): Pedra, Coração de Montanha (`stone_4`, o tier 4 do escudo), Prisão de Pilares, Projétil de Rocha, Escavação Furtiva, Muralha de Terra, Lamaçal Profundo, Pisão da Montanha, Punho de Rocha, Chuva de Cascalho, Carga do Rochedo, Lanças da Terra, Resposta da Montanha, Couraça Mineral, Avalanche (uma folha só, duas crateras), Golem de Terra Titânico (o golem desenhado anda e soca no lugar do de código)., Sumidouro (v80).
+- Água (15, v80): Água, Serpente d’Água, Muro de Água, Duplo de Água (o desenhado anda e soca), Véu de Bruma, Estouro de Maré, Poça Viscosa, Cárcere Líquido, Prisão do Vórtice, Laço da Correnteza, Lâmina d’Água, Rajada de Gotas, Casulo de Água, Tromba d’Água, Grande Onda.
+- Sombra (18, v80): todas (a Sentinela desenhada anda e soca; o Véu Sombrio se desfaz no golpe).
+- Taijutsu (5, v80): Taijutsu, Rasteira Baixa, Esquiva Rápida, Fôlego de Luta, Chute Ciclone.
 
-**Faltam (134), com o id e a forma no servidor:**
+**Faltam (95), com o id e a forma no servidor:**
 
 - **Cura (1):** Aura de Regeneração (`heal_aura`, zona).
 - **Relâmpago (1):** Relâmpago (`lightning`).
-- **Água (17):** Água (`water`); Serpente d’Água (`water_dragao`, projetil); Muro de Água (`water_muro`, muro); Duplo de Água (`water_clone`, invocacao); Véu de Bruma (`water_nevoa`, zona); Estouro de Maré (`water_2`, anel_golpe); Poça Viscosa (`water_xarope`, zona); Cárcere Líquido (`water_3`, linha); Prisão do Vórtice (`water_4`, zona); Laço da Correnteza (`water_laco`, linha); Lâmina d’Água (`water_lamina`, faixa); Rajada de Gotas (`water_gotas`, leque); Coluna d’Água (`water_coluna`, aviso); Casulo de Água (`water_casulo`, escudo_vida); Tromba d’Água (`water_tromba`, linha_explode); Grande Onda (`water_onda`, anel_golpe); Corpo de Água (`water_corpo`, transformacao).
+- **Água (2):** Coluna d’Água (`water_coluna`, aviso); Corpo de Água (`water_corpo`, transformacao).
 - **Vento (17):** Vento (`wind`); Shuriken do Vento (`wind_shuriken`, projetil); Véu de Vento (`wind_veu`, escudo_vida); Passo Aéreo (`wind_salto`, recuo); Balas de Vento (`wind_2`, leque); Lâmina em Arco (`wind_arco`, faixa); Tornado Cortante (`wind_3`, aviso); Disco do Furacão (`wind_4`, linha_explode); Espelho de Ar (`wind_espelho`, reflexo); Pulso de Vento (`wind_pulso`, anel_golpe); Passo Leve (`wind_leve`, buff_basico); Asa Cortante (`wind_asa`, investida); Vórtice de Ar (`wind_vortice`, zona); Corte em Cadeia (`wind_cadeia`, ricochete); Mil Cortes do Céu (`wind_milcortes`, meteoros); Fenda do Vento (`wind_fenda`, faixa); Olho da Tempestade (`wind_olho`, transformacao).
-- **Pedra (2):** Esmagamento de Paredes (`stone_3`, alvo); Sumidouro (`stone_sumidouro`, zona).
-- **Sombra (18):** Sombra (`shadow`); Reflexo Tático (`shadow_recuo`, recuo); Agulhas de Sombra (`shadow_2`, leque); Sombra Oculta (`shadow_armadilha`, zona); Garrote de Sombra (`shadow_estrangular`, alvo); Lâmina Umbral (`shadow_3`, projetil); Rede de Sombra (`shadow_agarre`, agarre); Domínio das Sombras (`shadow_4`, zona); Beijo do Breu (`shadow_beijo`, linha); Passo Trocado (`shadow_troca`, alvo); Espinho Sombrio (`shadow_espinho`, projetil); Véu Sombrio (`shadow_veu`, escudo); Mergulho na Sombra (`shadow_mergulho`, investida); Ciranda Sombria (`shadow_ciranda`, anel_golpe); Mancha Negra (`shadow_mancha`, zona); Sombra Saltadora (`shadow_saltadora`, ricochete); Punho do Abismo (`shadow_punho`, aviso); Sentinela de Sombra (`shadow_sentinela`, invocacao).
+- **Pedra (1):** Esmagamento de Paredes (`stone_3`, alvo).
 - **Ilusão (18):** Ilusão (`illusion`); Dissipação (`illusion_kai`, limpeza); Visão do Abismo (`illusion_2`, linha); Estaca da Ilusão (`illusion_estaca`, linha); Noite Eterna (`illusion_noite`, alvo); Raízes do Pesadelo (`illusion_3`, alvo); Ciclo Sem Fim (`illusion_4`, alvo); Santuário das Penas (`illusion_templo`, zona); Empréstimo Forçado (`illusion_emprestimo`, alvo); Segunda Voz (`illusion_voz`, invocacao); Olho Errante (`illusion_olho`, projetil); Passo Falso (`illusion_passo`, recuo); Véu da Meia-Noite (`illusion_veu`, zona); Espelho Quebrado (`illusion_espelho`, alvo); Coro do Silêncio (`illusion_coro`, anel_golpe); Colapso Onírico (`illusion_colapso`, aviso); Canção de Ninar (`illusion_ninar`, linha); Reflexo Vazio (`illusion_reflexo`, invocacao).
-- **Taijutsu (17):** Taijutsu (`taijutsu`); Rasteira Baixa (`taijutsu_rasteira`, cone_golpe); Chute Ciclone (`taijutsu_2`, anel_golpe); Chute Ascendente (`taijutsu_ascendente`, investida); Cem Golpes (`taijutsu_3`, cone_golpe); Mergulho Esmagador (`taijutsu_lotus`, investida); Despertar do Corpo (`taijutsu_portoes`, buff_basico); Punho do Céu (`taijutsu_4`, cone_golpe); Fúria do Encurralado (`taijutsu_furia`, investida); Esquiva Rápida (`taijutsu_esquiva`, recuo); Fôlego de Luta (`taijutsu_folego`, buff_basico); Bloqueio Firme (`taijutsu_bloqueio`, escudo); Soco de Pressão (`taijutsu_pressao`, projetil); Chave de Braço (`taijutsu_chave`, alvo); Impacto Circular (`taijutsu_impacto`, anel_golpe); Flecha Humana (`taijutsu_flecha`, investida); Queda do Meteoro (`taijutsu_queda`, aviso).
+- **Taijutsu (12):** Cem Golpes (`taijutsu_3`, cone_golpe); Mergulho Esmagador (`taijutsu_lotus`, investida); Chute Ascendente (`taijutsu_ascendente`, investida); Despertar do Corpo (`taijutsu_portoes`, buff_basico); Punho do Céu (`taijutsu_4`, cone_golpe); Fúria do Encurralado (`taijutsu_furia`, investida); Bloqueio Firme (`taijutsu_bloqueio`, escudo); Soco de Pressão (`taijutsu_pressao`, projetil); Chave de Braço (`taijutsu_chave`, alvo); Impacto Circular (`taijutsu_impacto`, anel_golpe); Flecha Humana (`taijutsu_flecha`, investida); Queda do Meteoro (`taijutsu_queda`, aviso).
 - **Armas (17):** Armas (`weapons`); Shuriken Espelhada (`weapons_multi`, leque); Lâminas Flutuantes (`weapons_2`, zona); Shuriken Colossal (`weapons_gigante`, bumerangue); Corte Relâmpago (`weapons_3`, investida); Kunai Explosiva (`weapons_kunai`, aviso); Dança dos Mil Cortes (`weapons_4`, zona); Ascensão Dupla (`weapons_dragoes`, aviso); Fio Peçonhento (`weapons_peconha`, projetil); Corte Rápido (`weapons_corte`, linha); Tapete de Pregos (`weapons_pregos`, zona); Lâmina Serrilhada (`weapons_serrilhada`, projetil); Lâmina Polida (`weapons_polida`, buff_basico); Laço de Ferro (`weapons_laco`, agarre); Arco de Aço (`weapons_arco`, faixa); Céu de Lâminas (`weapons_ceu`, meteoros); Arsenal Vivo (`weapons_arsenal`, invocacao).
 - **Clã Rubro (6):** Olhar Rubro (`rubro_olho`, escudo); Transe Ocular (`rubro_transe`, linha); Brasa Sem Luz (`rubro_chamas`, linha); Sentinela Espectral (`rubro_guardiao`, escudo_vida); Mundo Espelhado (`rubro_lua`, linha); Colosso Espectral (`rubro_completo`, transformacao).
 - **Clã Umbra (4):** Deslize Noturno (`umbra_deslize`, recuo); Sombra Faminta (`umbra_faminta`, marca); Noite Fechada (`umbra_noite`, zona); Forma Umbral (`umbra_forma`, forma_sombra).

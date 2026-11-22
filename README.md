@@ -246,6 +246,17 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v80: animações desenhadas da Água, da Sombra, do Taijutsu e o Sumidouro (sem migração)
+
+- 39 folhas do Victor: 15 da Água, as 18 da Sombra, 5 do Taijutsu e o Sumidouro (a Pedra fica só sem o Esmagamento de
+  Paredes). Elas são tocadas pela forma do jutsu (`public/folhasAnim.js`): a zona entra, gira enquanto dura e sai; o
+  anel abre do tamanho da área; o projétil sai da mão, voa e estoura; a linha, o rastro da investida e do recuo, a rede
+  e o laço vão do ninja até onde o servidor disse.
+- O Duplo de Água e a Sentinela de Sombra desenhados substituem os de código (parados, socando e sumindo); o Muro de
+  Água segue a caixa do muro; o Véu Sombrio se desfaz em pó quando o golpe bate.
+- Camadas: a carga dos selos e a faísca do acerto na cor de cada classe nova.
+- Faltam: Coluna d’Água e Corpo de Água; 12 do Taijutsu; o Esmagamento de Paredes.
+
 ### v79: animações desenhadas de 16 jutsus da Pedra (sem migração)
 
 - Pedra, Coração de Montanha, Prisão de Pilares, Projétil de Rocha, Escavação Furtiva, Muralha de Terra, Lamaçal Profundo,
