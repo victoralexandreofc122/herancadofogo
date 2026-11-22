@@ -18,7 +18,7 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   `public/figure.js` cache e giro). Detalhes em `arte/personagem-rig/LEIAME.md`. O estilo segue a folha de referência
   do Victor (chibi, contorno escuro, sombreado em 2-3 tons). Toda mudança de arte é comparada lado a lado com a
   referência e conferida dentro do jogo antes de fechar.
-- **Versão atual:** v78 na `main` (PRs #33 a #48; o #48 trouxe a v71 a v78, as animações desenhadas e as camadas do PixelFX). **Banco:** todas as
+- **Versão atual:** v80 na `main` (PRs #33 a #49; o #49 trouxe a v79 e a v80, as folhas da Pedra, Água, Sombra e Taijutsu). **Banco:** todas as
   migrações até a **v40** rodaram no `production` do Neon (confirmado pelo Victor em 17/11/2026); nenhuma pendente.
   Jutsus v2 com 96 jutsus (10 classes, Vento nova, e o Clã Rubro), mais os 74 da Fase 2.5 e os 16 dos clãs novos;
   conjuração, sistemas próprios (muros, invocações, escuridão...), clãs por linhagem, Extração e maestria, rankeado 1v1 e
@@ -33,7 +33,7 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   Vivo com desenho próprio). v54: curas e escudos com valor fixo (sem % da vida), Cura rebalanceada, Cegueira como estado
   (perde o alvo), Duplo de Água bate. Mesclado (PR #34; a v32 rodou no Neon).
 - **v80 (sem migração):** as folhas da Água (15), da Sombra (18), do Taijutsu (5) e o Sumidouro, tocadas pela forma do
-  jutsu em `public/folhasAnim.js`; Duplo de Água e Sentinela de Sombra desenhados. Branch `ccr-f46a25fd-4ie1yd`.
+  jutsu em `public/folhasAnim.js`; Duplo de Água e Sentinela de Sombra desenhados. Mesclado (PR #49, junto com a v79).
 - **v79 (sem migração):** os 16 jutsus da Pedra desenhados pelo Victor (o Golem desenhado anda e soca, o escudo quebra no
   golpe, a Resposta devolve, o muro gira para o eixo da parede) e as camadas de Pedra (carga âmbar, chão afundando,
   poeira). Recorte com fundo pintado no painel (`inundar`). Falta o Esmagamento de Paredes.
