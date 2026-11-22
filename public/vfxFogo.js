@@ -527,7 +527,7 @@ export const FOGO_FRAMES = {
   taijutsu_rasteira_01: {"casas": 1.65, "ancora": [32, 41], "blend": "normal", "arte": -1.5708},
   taijutsu_rasteira_02: {"casas": 2.4, "ancora": [43, 53], "blend": "normal", "arte": -1.5708},
   taijutsu_rasteira_03: {"casas": 2.64, "ancora": [44, 66], "blend": "normal", "arte": -1.5708},
-  taijutsu_rasteira_04: {"casas": 2.73, "ancora": [44, 64], "blend": "normal", "arte": -1.5708},
+  taijutsu_rasteira_04: {"casas": 2.73, "ancora": [45, 63], "blend": "normal", "arte": -1.5708},
   taijutsu_rasteira_05: {"casas": 2.31, "ancora": [38, 26], "blend": "normal"},
   taijutsu_rasteira_06: {"casas": 1.62, "ancora": [27, 16], "blend": "normal"},
   water_01: {"casas": 0.18, "ancora": [3, 3], "blend": "normal"},

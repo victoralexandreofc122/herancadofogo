@@ -98,21 +98,22 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       return true;
     case 'anel': {
       const r = info.radius ?? 2;
-      const sc = (2 * r) / largura(s, fs[Math.min(3, fs.length - 1)]);
+      const sc = (2 * r) / Math.max(...fs.map((n) => largura(s, n)));   // o maior quadro do tamanho da área
       seq(jfx, s, msg.x, msg.y + 0.1, now, corrida(fs, 0, 120, 600), { scale: sc });
       return true;
     }
     case 'corpo': {
       const dur = info.durationMs ?? 4000, tag = `folha:${s}:${msg.playerId}`;
       jfx.drop(tag);
-      seq(jfx, s, 0, k.escudo ? -0.5 : -0.05, now, laco(k.intro, k.meio, k.fim, dur), { ...me, tag, ...(k.escudo ? {} : { layer: 'ground', scale: 0.9 }) });
+      seq(jfx, s, 0, k.escudo ? -0.5 : -0.35, now, laco(k.intro, k.meio, k.fim, dur), { ...me, tag, ...(k.escudo ? {} : { scale: 1.1, alpha: 0.85 }) });
       return true;
     }
     case 'escudo': {
       const tag = `escudo:${msg.playerId}`;
       jfx.drop(tag);
       ESCUDO.set(msg.playerId, s);
-      seq(jfx, s, 0, -0.5, now, corrida(k.monta, 0, 150, 600), { ...me, tag });
+      // o escudo fica (no último quadro) até um golpe bater nele, ou some sozinho em 10 s
+      seq(jfx, s, 0, -0.5, now, corrida(k.monta, 0, 150, 10_000), { ...me, tag });
       return true;
     }
     case 'proj':
@@ -128,7 +129,9 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       return true;
     }
     case 'linha': {
-      seq(jfx, s, h.x, h.y, now, corrida(k.mao, 0, 110, 160, k.estica ? {} : { angle: a, len: d }));
+      // sem `estica`, os quadros da mão são o jato inteiro: a ponta (o apoio) fica no alvo e ele estica até a mão
+      if (k.estica) seq(jfx, s, h.x, h.y, now, corrida(k.mao, 0, 110, 160));
+      else seq(jfx, s, end.x, end.y - 0.3, now, corrida(k.mao, 0, 110, 160, { angle: a, len: d }));
       if (k.estica) seq(jfx, s, end.x, end.y - 0.3, now, corrida(k.estica, 120, 110, 220, { angle: a, len: d }));
       if (k.fimLinha) seq(jfx, s, end.x, end.y - 0.3, now, corrida(k.fimLinha, 560, 150, 500));
       if (k.alvo) {
@@ -207,7 +210,7 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
         const st = [['02', 160, 160], ['03', 300, 180]];
         for (let t = 460, i = 0; t < 460 + hold; t += 300, i++) st.push([i % 2 ? '05' : '04', t, 340]);
         st.push(['06', 460 + hold, 600, { fadeOut: 420 }]);
-        seq(jfx, s, x0, y0, now, st, { ...o, scale: 0.5 });
+        seq(jfx, s, x0, y0, now, st, { ...o, scale: 0.9 });
       }
       return true;
     }

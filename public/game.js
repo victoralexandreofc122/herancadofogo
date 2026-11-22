@@ -3476,12 +3476,12 @@ function drawGround(toScreenX, toScreenY, T, now) {
     if (now > z.end + 300) { state.ground.delete(id); continue; }
     const owner = z.follow ? state.players.get(z.follow) : null;      // v30: zona que anda junto (Aura, Lâminas, Dança)
     const x = toScreenX(owner ? owner.x : z.x), y = toScreenY(owner ? owner.y : z.y), r = z.r * T;
+    if (folhaPronta(z.skill)) continue;   // v80: as zonas e o Punho do Abismo desenhados (folhasAnim.js)
     // v48: zona com desenho próprio (poça, redemoinho, domínio de sombras, santuário, lâminas, cura...)
     if (z.kind !== 'aviso' && ZONE_ART[z.skill] && particles.quality !== 'off'
       && drawZoneArt(ctx, z.skill, x, y, r, T, Math.max(0, Math.min(1, (now - z.start) / Math.max(1, z.end - z.start))), now, seedOf(id))) continue;
     if (z.skill === 'vinculo_aranha' || z.skill === 'vinculo_aranha_aura') { drawWeb(x, y, r, now, z.skill === 'vinculo_aranha_aura'); continue; }   // v60
     if ((z.skill === 'stone_2' && z.kind !== 'aviso' || z.skill === 'stone_lancas') && jutsuSpritesReady(z.skill)) continue;   // v79: a lama e as lanças desenhadas
-    if (folhaPronta(z.skill)) continue;   // v80: as zonas e o Punho do Abismo desenhados (folhasAnim.js)
     const [fill, edge] = GROUND_COLORS[z.kind] || GROUND_COLORS.fogo;
     ctx.save();
     ctx.beginPath(); ctx.ellipse(x, y, r, r * 0.9, 0, 0, Math.PI * 2);
