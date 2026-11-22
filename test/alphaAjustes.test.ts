@@ -141,6 +141,8 @@ describe('v53: as invocações andam até o alvo e batem', () => {
       const { a, world, run, row } = ninja(skill);
       const target = world.spawnMonster({ x: row.x + 7, y: row.y }, undefined, 'map_2');
       const hp0 = world.monsters.get(target.id).hp;
+      // v93: o monstro iria no ninja (a invocação só atrai quando bate e está mais perto); aqui ele fica parado no lugar
+      Object.assign(world.monsters.get(target.id), { nextThinkAt: Infinity, nextStepAt: Infinity, mind: 'idle' });
       a.send({ type: 'cast', skill });
       run(1400);   // os selos
       const summon: any = [...world.monsters.values()].find((m: any) => m.ownerId === a.id);

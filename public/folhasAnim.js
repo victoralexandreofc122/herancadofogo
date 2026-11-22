@@ -149,7 +149,7 @@ const TIPO = {
   rubro_completo: { t: 'corpo', pes: true, intro: ['01', '02'], meio: ['03', '04'], fim: [], golpe: ['05', '06'] },
   umbra_deslize: { t: 'rastro', saida: ['01'], estica: ['02', '03'], chegada: ['04', '05', '06'] },
   umbra_faminta: { t: 'alvo', cabeca: true, ms: 6000, esc: 0.6, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },   // markMs
-  umbra_noite: { t: 'zona', gira: 0.6, intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
+  umbra_noite: { t: 'zona', chao: true, gira: 0.6, sy: 0.6, intro: ['01', '02'], meio: ['03', '04', '05'], fim: ['06'] },
   water_corpo: { t: 'corpo', escudo: true, intro: ['01'], meio: ['02', '03', '04'], fim: [], golpe: ['05', '06'] },
   water_coluna: { t: 'aviso', ref: '01', avisa: ['01'], cai: ['02', '03'], bate: ['04', '05', '06'] },
   wind_milcortes: { t: 'aviso', ref: '04', avisa: ['01'], cai: ['02', '03'], bate: ['04', '05', '06'] },   // uma lâmina por golpe
@@ -163,7 +163,7 @@ const TIPO = {
   stone_3: { t: 'alvo', ms: 1600, esc: 1.1, intro: ['01', '02', '03'], meio: ['04', '05'], fim: ['06'] },   // rootMs
   illusion_voz: { t: 'invoca', sobe: ['01', '02', '03', '04'] },   // o clone é o próprio boneco (como o Reflexo)
   illusion_emprestimo: { t: 'alvo', ms: 1200, esc: 0.75, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
-  umbra_forma: { t: 'corpo', lugar: 'corpo', tras: true, corte: -0.69, alto: 1.6, alpha: 0.85, gira: 0, ms: 5000, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
+  umbra_forma: { t: 'corpo', lugar: 'corpo', tras: true, corte: -0.69, alto: 1.6, sy: 0.78, alpha: 0.85, gira: 0, ms: 5000, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   bastiao_muralha: { t: 'corpo', lugar: 'corpo', tras: true, alto: 1.2, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   bastiao_guarda: { t: 'corpo', lugar: 'corpo', tras: true, corte: -0.69, alpha: 0.8, alto: 1.5, intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
   bastiao_resposta: { t: 'corpo', lugar: 'pes', y: 0.34, largura: 1.6, dur: 'durationMs', intro: ['01', '02'], meio: ['03', '04'], fim: ['05', '06'] },
@@ -230,7 +230,7 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
           corpo: { y: 0.47, o: { apoio: 'base', alto: k.alto ?? 1.45, split: !!k.tras, corte: k.corte ?? -0.3 } },
           pes: { y: k.y ?? 0.42, o: { scale: (k.largura ?? 1.5) / largura(s, k.meio[0]), split: true } },
         }[k.lugar];
-        seq(jfx, s, 0, L.y, now, laco(k.intro, k.meio, k.fim, dur), { ...me, tag, spin: k.gira ?? 0, ...L.o, ...(k.alpha ? { alpha: k.alpha } : {}) });
+        seq(jfx, s, 0, L.y, now, laco(k.intro, k.meio, k.fim, dur), { ...me, tag, spin: k.gira ?? 0, ...L.o, ...(k.alpha ? { alpha: k.alpha } : {}), ...(k.sy ? { sy: k.sy } : {}) });
         return true;
       }
       const y = k.escudo ? -0.5 : k.pes ? 0.32 : k.chao ? 0.15 : -0.35;
@@ -478,7 +478,7 @@ export function folhaChao(jfx, msg, now, follow = () => null) {
     // submerso (a Aura de Regeneração): o ninja fica dentro da arte, que vai inteira por cima, translúcida
     const x0 = msg.follow ? 0 : msg.x, y0 = msg.follow ? (k.lugar === 'pes' ? 0.42 : 0) : msg.y;
     seq(jfx, s, x0, y0, now, laco(k.intro, k.meio, k.fim, ms), { ...o, scale: sc, tag: `zona:${msg.id}`, spin: k.gira ?? 0, ...(k.chao ? { layer: 'ground' } : {}),
-      ...(k.lugar === 'pes' ? { split: !k.submerso } : {}), ...(k.submerso ? { alpha: k.alpha ?? 0.6 } : {}) });
+      ...(k.lugar === 'pes' ? { split: !k.submerso } : {}), ...(k.submerso ? { alpha: k.alpha ?? 0.6 } : {}), ...(k.sy ? { sy: k.sy } : {}) });
     return true;
   }
   if (k.t === 'chuva') return msg.kind === 'aviso';   // o desenho veio no lançamento

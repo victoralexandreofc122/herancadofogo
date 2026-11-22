@@ -102,10 +102,10 @@ Ilusão, Taijutsu, Cura, Pedra e os jutsus da Academia continuam como estavam.
   - a câmera treme se cair perto.
 - **Primeiro chefe: o Rei Lodo (v19, já no jogo)**, no canto leste da câmara do lago da Caverna do Lodo. Fases
   disparadas uma vez só (`config.ts`, `boss.phases`):
-  - **65% da vida:** invoca 4 slimes (adds), que vão atrás do alvo dele;
+  - **65% da vida:** fica agitado (bate 15% mais rápido); v93: não invoca mais slimes (a luta é só com ele, no Salão do Rei Lodo);
   - **30%:** fica furioso (ataques 30% mais rápidos) e libera o **Esmagar**, o golpe pesado no alvo ("tank buster"):
     círculo roxo de 1,2 casa, 1,5 s de preparo, 60 de dano. Pede Pedra, Substituição ou correr;
-  - voltou para casa (corda): vida toda, as fases recomeçam e os filhos somem;
+  - voltou para casa (corda): vida toda e as fases recomeçam (v93: o chefe não chama mais os filhos; luta só com ele, no Salão do Rei Lodo);
   - **próximas ideias:** marcar um jogador com uma poça (**espalhar**: os outros se afastam dele) e uma onda que se
     evita escondendo-se atrás das pedras (a **linha de visão** já funciona: linhas e projéteis param na parede).
 - **Agrupar** (dividir o dano) faz sentido em grupo. Fica para quando houver grupos.

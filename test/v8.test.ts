@@ -320,7 +320,7 @@ describe('v8: Modo Administrador', () => {
     assert.deepEqual(admin.audit.map((a) => [a.command, a.targetId, a.ok]), [['rank', 'k1', true], ['rank', 'k1', true], ['rank', 'v1', true], ['rank', 'v1', true]]);
   });
 
-  it('admin: /admin resetarclasses (só em conta de admin) volta à Academia sem classe, linhagem nem jutsus de classe; "eu" vale', async () => {
+  it('admin: /admin resetarclasses (só em conta de admin) volta à Academia sem classe nem jutsus de classe; a linhagem continua desperta (v93); "eu" vale', async () => {
     const admin = fakeAdmin({ Victor: { id: 'v1', admin: true }, kaito: { id: 'k1' } });
     const { join, sess, run } = setup({ admin: admin.store });
     const v = join('Victor', { id: 'v1', isAdmin: true, classes: { primary: 'fire', secondary: 'water' }, clan: 'rubro',
@@ -333,11 +333,12 @@ describe('v8: Modo Administrador', () => {
     v.send({ type: 'chat', message: '/admin resetarclasses eu' });
     run(1200); await flush(); await flush();
     const s = sess('v1');
-    assert.deepEqual([s.classes, s.clan, s.rank.code], [{ primary: null, secondary: null }, null, 'ACADEMY']);
-    assert.deepEqual([...s.jutsus.keys()].sort(), ['substitution', 'teleport']);
+    // v93 (pedido do Victor): o clã continua desperto (não refaz o Rito) e os jutsus do clã do nível voltam
+    assert.deepEqual([s.classes, s.clan, s.rank.code], [{ primary: null, secondary: null }, 'rubro', 'ACADEMY']);
+    assert.ok(![...s.jutsus.keys()].some((k) => ['fire', 'water_2'].includes(k)), 'os jutsus de classe saem');
     assert.deepEqual(v.conn.last('kit').kits, { A: ['teleport'], B: [] });
     assert.deepEqual(v.conn.last('classes'), { type: 'classes', primary: null, secondary: null });
-    assert.match(v.conn.last('notice').text, /Victor voltou à Academia sem classe/);
+    assert.match(v.conn.of('notice').map((n: any) => n.text).join(' | '), /Victor voltou à Academia sem classe.*a linhagem \(Clã Rubro\) continua desperta/);
     assert.deepEqual(admin.audit.map((a) => [a.command, a.targetId, a.ok]), [['resetclasses', 'k1', false], ['resetclasses', 'v1', true]]);
   });
 

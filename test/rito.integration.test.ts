@@ -68,7 +68,8 @@ describe('Rito do Despertar de ponta a ponta (banco)', { skip: noDatabase }, () 
     return { conn, send, s, handle };
   }
 
-  const toDirector = (w: GameWorld, id: string) => placeIn(w, id, 'academy_interior', ACADEMY.director.x, ACADEMY.director.y + 2);
+  // v93: o Rito é com O Cronista (o Diretor ficou só com as classes)
+  const toDirector = (w: GameWorld, id: string) => placeIn(w, id, 'academy_interior', 51, 8);
 
   /** Derrota `n` Lodos Escuros na Floresta no soco (ataque básico de verdade, com o tick do jogo). */
   function hunt(w: GameWorld, run: (ms: number) => void, p: Awaited<ReturnType<typeof enter>>, n: number, type: string = RITE.monster) {
@@ -97,7 +98,7 @@ describe('Rito do Despertar de ponta a ponta (banco)', { skip: noDatabase }, () 
 
     // 2. O Diretor passa o Rito.
     toDirector(w, id);
-    p.send({ type: 'talk', npcId: 'director' });
+    p.send({ type: 'talk', npcId: 'cronista' });
     await settle();
     assert.match(p.conn.last('npc_say').text, /Rito do Despertar \(Clã Umbra\): derrote 10 Lodos Escuros/);
     assert.deepEqual(p.conn.last('rite'), { type: 'rite', progress: 0, count: 10 });
@@ -118,7 +119,7 @@ describe('Rito do Despertar de ponta a ponta (banco)', { skip: noDatabase }, () 
     hunt(w, run, p, 6);
     await settle();
     assert.equal(p.s.riteProgress, 10);
-    assert.match(p.conn.of('notice').map((n: any) => n.text).join(' | '), /10\/10! Volte ao Diretor/);
+    assert.match(p.conn.of('notice').map((n: any) => n.text).join(' | '), /10\/10! Volte ao Cronista/);
 
     // 5. Mais Lodos depois de completar não passam de 10.
     hunt(w, run, p, 1);
@@ -126,7 +127,7 @@ describe('Rito do Despertar de ponta a ponta (banco)', { skip: noDatabase }, () 
 
     // 6. Volta ao Diretor: desperta.
     toDirector(w, id);
-    p.send({ type: 'talk', npcId: 'director' });
+    p.send({ type: 'talk', npcId: 'cronista' });
     await settle();
     assert.equal(p.s.clan, 'umbra');
     assert.equal(p.s.riteProgress, null);
@@ -141,7 +142,7 @@ describe('Rito do Despertar de ponta a ponta (banco)', { skip: noDatabase }, () 
     await settle();
     assert.equal((await one('SELECT clan FROM game.players WHERE id = $1', [id])).clan, 'umbra');
     const before = p.conn.of('npc_say').length;
-    p.send({ type: 'talk', npcId: 'director' });
+    p.send({ type: 'talk', npcId: 'cronista' });
     for (const m of p.conn.of('npc_say').slice(before)) assert.doesNotMatch(m.text, /Rito/);
 
     // 8. Entrar de novo: a linhagem e o jutsu continuam.
@@ -153,26 +154,26 @@ describe('Rito do Despertar de ponta a ponta (banco)', { skip: noDatabase }, () 
     w.close();
   });
 
-  it('ninguém trava: sem marca o Diretor explica; quem passou do 11 sem fazer o Rito faz igual e recebe os tiers do nível', async () => {
+  it('ninguém trava: sem marca O Cronista explica; quem passou do 11 sem fazer o Rito faz igual e recebe os tiers do nível', async () => {
     const id = await genin('rito_tarde', 25);
     const { w, run } = world();
     const p = await enter(w, id);
     toDirector(w, id);
-    p.send({ type: 'talk', npcId: 'director' });
+    p.send({ type: 'talk', npcId: 'cronista' });
     assert.match(p.conn.last('npc_say').text, /Criador de Personagem/, 'sem marca: diz onde marcar');
     assert.equal(p.s.riteProgress, null);
 
     p.send({ type: 'clan', clan: 'rubro' });
     await settle();
     run(2000);                                         // o jogador abre o Criador, marca e volta a falar
-    p.send({ type: 'talk', npcId: 'director' });
+    p.send({ type: 'talk', npcId: 'cronista' });
     await settle();
     assert.equal(p.s.riteProgress, 0, JSON.stringify({ mark: p.s.clanMark, map: p.s.map, rank: p.s.rank, level: p.s.level, say: p.conn.of('npc_say').map((m: any) => m.text), err: p.conn.of('error'), notice: p.conn.of('notice').map((m: any) => m.text) }));
     hunt(w, run, p, 10);
     await settle();
     assert.equal(p.s.riteProgress, 10);
     toDirector(w, id);
-    p.send({ type: 'talk', npcId: 'director' });
+    p.send({ type: 'talk', npcId: 'cronista' });
     await settle();
     assert.equal(p.s.clan, 'rubro', p.conn.of('npc_say').map((m: any) => m.text).join(' | '));
     assert.ok(p.s.jutsus.has('rubro_olho') && p.s.jutsus.has('rubro_transe'), 'nível 25: tiers 1 e 2 de uma vez');
@@ -187,7 +188,7 @@ describe('Rito do Despertar de ponta a ponta (banco)', { skip: noDatabase }, () 
     p.send({ type: 'clan', clan: 'rubro' });
     await settle();
     toDirector(w, id);
-    p.send({ type: 'talk', npcId: 'director' });
+    p.send({ type: 'talk', npcId: 'cronista' });
     await settle();
     hunt(w, run, p, 10);
     await settle();
@@ -195,7 +196,7 @@ describe('Rito do Despertar de ponta a ponta (banco)', { skip: noDatabase }, () 
     run(2000);
     // 5 gravações lentas na fila (o limite): antes da v36, o despertar seria descartado com PROFILE_BUSY
     for (let i = 0; i < 5; i++) (w as any).queueTask(p.s, () => new Promise((r) => setTimeout(r, 5)));
-    p.send({ type: 'talk', npcId: 'director' });
+    p.send({ type: 'talk', npcId: 'cronista' });
     await settle();
     assert.equal(p.conn.of('error').filter((e: any) => e.code === 'PROFILE_BUSY').length, 0);
     assert.deepEqual(await one('SELECT clan, rite_progress FROM game.players WHERE id = $1', [id]), { clan: 'rubro', rite_progress: null });
@@ -203,14 +204,14 @@ describe('Rito do Despertar de ponta a ponta (banco)', { skip: noDatabase }, () 
     w.close();
   });
 
-  it('se o banco recusar o despertar, ninguém perde o Rito: volta a "não desperto" e basta falar com o Diretor de novo', async () => {
+  it('se o banco recusar o despertar, ninguém perde o Rito: volta a "não desperto" e basta falar com O Cronista de novo', async () => {
     const id = await genin('rito_falha', 11);
     const { w, run } = world();
     const p = await enter(w, id);
     p.send({ type: 'clan', clan: 'umbra' });
     await settle();
     toDirector(w, id);
-    p.send({ type: 'talk', npcId: 'director' });
+    p.send({ type: 'talk', npcId: 'cronista' });
     await settle();
     hunt(w, run, p, 10);
     await settle();
@@ -220,14 +221,14 @@ describe('Rito do Despertar de ponta a ponta (banco)', { skip: noDatabase }, () 
     (w as any).log = { warn() {}, info() {}, error() {} };
     toDirector(w, id);
     run(2000);
-    p.send({ type: 'talk', npcId: 'director' });
+    p.send({ type: 'talk', npcId: 'cronista' });
     await settle();
     assert.equal(p.s.clan, null, 'não ficou meio desperto');
     assert.equal(p.s.riteProgress, 10, 'o Rito completo continua');
     assert.equal((await one('SELECT rite_progress FROM game.players WHERE id = $1', [id])).rite_progress, 10);
     store.chooseClan = real;
     run(2000);
-    p.send({ type: 'talk', npcId: 'director' });
+    p.send({ type: 'talk', npcId: 'cronista' });
     await settle();
     assert.equal(p.s.clan, 'umbra');
     assert.equal((await one('SELECT clan FROM game.players WHERE id = $1', [id])).clan, 'umbra');
@@ -241,7 +242,7 @@ describe('Rito do Despertar de ponta a ponta (banco)', { skip: noDatabase }, () 
     p.send({ type: 'clan', clan: 'rubro' });
     await settle();
     toDirector(w, id);
-    p.send({ type: 'talk', npcId: 'director' });
+    p.send({ type: 'talk', npcId: 'cronista' });
     await settle();
     hunt(w, run, p, 3);                                 // 3 gravações na fila, uma a cada 250 ms
     await w.flushAll();                                 // o que o servidor faz ao receber SIGTERM
@@ -256,7 +257,7 @@ describe('Rito do Despertar de ponta a ponta (banco)', { skip: noDatabase }, () 
     p.send({ type: 'clan', clan: 'andarilho' });
     await settle();
     toDirector(w, id);
-    p.send({ type: 'talk', npcId: 'director' });
+    p.send({ type: 'talk', npcId: 'cronista' });
     await settle();
     hunt(w, run, p, 2, 'lodo_sombrio');
     assert.equal(p.s.riteProgress, 0);

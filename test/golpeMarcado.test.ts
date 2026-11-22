@@ -150,14 +150,15 @@ describe('Rei Lodo (chefe da Caverna do Lodo)', () => {
   }
   const hit = (w: any, boss: any, a: any, amount: number) => (w.world as any).damageMonster(boss, amount, session(w.world, a.id), w.clock.now(), 'skill');
 
-  it('fases uma vez só, na ordem: 65% chama 4 filhos; 30% fica furioso e libera o Esmagar', () => {
+  it('fases uma vez só, na ordem: 65% se agita (v93: sem chamar Lodos); 30% fica furioso e libera o Esmagar', () => {
     const { w, a, boss } = lair();
     hit(w, boss, a, 300);                                           // 70%: nada
     assert.equal(a.conn.of('boss_phase').length, 0);
     hit(w, boss, a, 60);                                            // 64%: fase 1
     assert.deepEqual(a.conn.of('boss_phase').map((p: any) => [p.phase, p.text]), [[1, PH[0]!.text]]);
     const adds = w.world.monsterList().filter((m) => m.type === 'slime' && (w.world as any).monsters.get(m.id).summonedBy === boss.id);
-    assert.equal(adds.length, 4, 'os filhos');
+    assert.equal(adds.length, 0, 'v93: a luta é só com ele');
+    assert.equal(boss.enrage, PH[0]!.enrage);
     hit(w, boss, a, 10);
     assert.equal(a.conn.of('boss_phase').length, 1, 'não repete');
     hit(w, boss, a, 350);                                           // 28%: fase 2
@@ -180,16 +181,22 @@ describe('Rei Lodo (chefe da Caverna do Lodo)', () => {
     assert.equal(session(w.world, a.id).hp, Math.max(0, 100 - PH[1]!.crush!.damage), 'ficou: apanhou');
   });
 
-  it('voltou para casa (corda): vida toda, as fases recomeçam e os filhos vão embora', () => {
+  it('v93: o Salão do Rei Lodo: os Lodos Escuros nunca nascem nele nem no túnel leste', () => {
+    const cave = REALTIME.maps.caverna_lodo;
+    const sala = { x: 38.4, y: 2, w: 15.6, h: 22 };   // o salão e o túnel leste
+    for (const z of cave.zones ?? []) {
+      const dentro = z.x < sala.x + sala.w && z.x + z.w > sala.x && z.y < sala.y + sala.h && z.y + z.h > sala.y;
+      assert.ok(!dentro || z.y >= 24, `a zona ${z.name} invade o salão do chefe`);
+    }
+  });
+
+  it('voltou para casa (corda): vida toda e as fases recomeçam', () => {
     const { w, a, boss } = lair();
     hit(w, boss, a, 720);
     const adds = () => [...(w.world as any).monsters.values()].filter((m: any) => m.summonedBy === boss.id).map((m: any) => m.id);
-    const gone = adds();
-    assert.equal(gone.length, 4);
+    assert.deepEqual(adds(), [], 'v93: nenhum filho');
     (w.world as any).monsterHome(boss, w.clock.now());
     assert.deepEqual([boss.hp, boss.phase, boss.enrage, boss.crush], [boss.maxHp, 0, 1, null]);
-    assert.deepEqual(adds(), [], 'sem filhos sobrando');
-    assert.deepEqual(a.conn.of('monster_gone').map((g: any) => g.id).sort(), gone.sort());
   });
 });
 
