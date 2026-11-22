@@ -246,6 +246,12 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v92: ajustes do Victor no lugar da arte no corpo (sem migração)
+
+- Forma Umbral e Guarda Compartilhada: a parte de trás vai até o pescoço (`corte`), a cabeça fica na frente da arte.
+- Casulo de Água e Aura de Regeneração: o ninja fica dentro (a arte inteira por cima, translúcida; `submerso` na zona).
+- Muro que Responde: o anel um pouco mais para cima (`y` no `lugar: 'pes'`).
+
 ### v91: o lugar da arte no corpo, a fileira de ícones em cima da cabeça e a página das texturas salvando (sem migração)
 
 - O lugar no corpo (pedido do Victor, 22/11), em `folhasAnim.js` (`lugar`): `torso` (do pescoço ao quadril, sem cobrir a
