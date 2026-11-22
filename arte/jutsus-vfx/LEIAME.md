@@ -87,6 +87,24 @@ no tempo dos quadros. O passo a passo e as lições estão em `arte/pixelfx/LEIA
 - Hitbox: `AUDITAR=1 npx tsx arte/jutsus-vfx/capturar.ts <pasta>` e `npx tsx arte/jutsus-vfx/auditar.ts <pasta>/auditoria.json`
   (copiar o `auditoria-hitbox.md` para esta pasta). Casado é de 75% a 135% do raio do servidor.
 
+## Folhas de direção: para baixo e para cima (v86)
+
+A folha base aponta para a direita (o jogo espelha para a esquerda e gira nas diagonais). O que tem volume (objeto,
+criatura, chama que sobe, pontas que saem do chão, muro) fica deitado de lado quando o golpe vai para baixo ou para cima,
+então esses jutsus ganham mais folhas:
+
+- `folhas/<id>_baixo.jpg` e `folhas/<id>_cima.jpg`, com a entrada `<id>_baixo` / `<id>_cima` no `ajustes.json` (mesmos
+  cortes da base) e `jogo.arte` = `1.5708` (para baixo) ou `-1.5708` (para cima), com a âncora na ponta de onde sai
+  (`topo` para baixo, `base` para cima). Os quadros saem como `<id>_baixo_0N`.
+- O motor (`variante()` em `public/vfxJutsus.js`) troca sozinho: quando a direção do golpe é mais vertical que horizontal
+  (|seno| > 0,75), usa o quadro de mesmo número da folha daquela direção, se ela existir; senão, gira a base como antes.
+- Invocações: `drawJutsuFrame(..., { dir })` usa `baixo` (de frente) ou `cima` (de costas) quando ela anda mais na
+  vertical (`m.faceV`, em `game.js`). Golem e Sentinela usam os quadros 04/05 (parado e golpe): renomear as folhas novas
+  para casar com esses números.
+- Muros: a folha vertical serve às duas direções; recortar como `<id>_baixo` e copiar a entrada para `<id>_cima`.
+- A lista das folhas de direção que faltam está no `pendencias.py` (`DIRECOES` e `DIRECOES_FEITAS`).
+- Toda folha nova traz o nome do jutsu escrito no topo (fora dos painéis): o recorte corta o título com `topo`.
+
 ## Pendências e prompts do Flow (v85)
 
 `python3 arte/jutsus-vfx/pendencias.py` gera `pendencias.json` e `pendencias.md`: as folhas que faltam, as que precisam

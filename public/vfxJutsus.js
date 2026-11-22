@@ -198,7 +198,16 @@ export class JutsuSprites {
 }
 
 /** v79: desenha um quadro direto (o Golem desenhado no lugar do boneco de código). flip: vira para a esquerda. */
-export function drawJutsuFrame(g, name, sx, sy, T, { scale = 1, alpha = 1, flip = false } = {}) {
+/** v86: o mesmo quadro na folha de outra direção (<id>_baixo_0N ou <id>_cima_0N), se ela já carregou; senão, o próprio. */
+export function variante(name, dir) {
+  if (!dir) return name;
+  const alt = name.replace(/(_0\d\w?)$/, `_${dir}$1`);
+  return alt !== name && imgs[alt] && FRAMES[alt] ? alt : name;
+}
+
+export function drawJutsuFrame(g, name, sx, sy, T, { scale = 1, alpha = 1, flip = false, dir = null } = {}) {
+  // v86: dir 'baixo' ou 'cima': a invocação andando de frente ou de costas usa a folha daquela direção
+  if (dir) { const alt = variante(name, dir); if (alt !== name) { name = alt; flip = false; } }
   if (!imgs[name] || !FRAMES[name]) return false;
   if (!flip) { drawSprite(g, name, sx, sy, T, 0, scale, alpha, 0); return true; }
   g.save(); g.translate(sx, sy); g.scale(-1, 1); drawSprite(g, name, 0, 0, T, 0, scale, alpha, 0); g.restore();
@@ -210,6 +219,9 @@ export function drawJutsuFrame(g, name, sx, sy, T, { scale = 1, alpha = 1, flip 
  * flickerNow: > 0 faz o fogo "respirar" (escala e espelho a FLICKER_FPS), já que cada fase tem um quadro só.
  */
 function drawSprite(g, name, sx, sy, T, angle, scale, alpha, flickerNow, len = 0, age = 0) {
+  // v86: indo para baixo ou para cima, usa a folha desenhada naquela direção (<id>_baixo_0N, <id>_cima_0N), se existir,
+  // em vez de deitar de lado a arte desenhada para a direita (o que tem volume: estaca, olho, chamas, onda)
+  if (FRAMES[name]?.arte !== undefined && Math.abs(Math.sin(angle)) > 0.75) name = variante(name, Math.sin(angle) > 0 ? 'baixo' : 'cima');
   const img = imgs[name];
   const f = FRAMES[name];
   if (!img || !f || alpha <= 0) return;
