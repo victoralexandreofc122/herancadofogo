@@ -496,7 +496,7 @@ def auditoria():
 FEITOS = {
     'illusion', 'illusion_2', 'illusion_3', 'illusion_kai', 'illusion_estaca', 'illusion_templo', 'illusion_noite',   # v88
     'illusion_olho', 'illusion_passo', 'illusion_veu', 'illusion_espelho', 'illusion_coro', 'illusion_colapso',
-    'illusion_ninar', 'illusion_reflexo',
+    'illusion_ninar', 'illusion_reflexo', 'illusion_4',   # v95: o Ciclo Sem Fim, a última
     'rubro_olho', 'rubro_transe', 'rubro_chamas', 'rubro_lua', 'rubro_guardiao', 'rubro_completo',   # v89
     'umbra_deslize', 'umbra_faminta', 'umbra_noite', 'water_corpo', 'water_coluna', 'wind_milcortes',
     'taijutsu_impacto', 'taijutsu_chave', 'taijutsu_lotus', 'heal_aura',
@@ -504,7 +504,9 @@ FEITOS = {
     'bastiao_resposta', 'bastiao_juramento', 'aspide_cuspe', 'aspide_nevoa', 'aspide_constricao', 'aspide_ninho',
     'garra_matilha', 'garra_uivo', 'garra_troca', 'garra_rei', 'zefiro_passo', 'zefiro_veu', 'zefiro_eco', 'zefiro_mil',
 }
-DIR_FEITAS = {'illusion_estaca': ['baixo'], 'garra_rei': ['baixo', 'cima']}   # v88, v90
+DIR_FEITAS = {'illusion_estaca': ['baixo'], 'garra_rei': ['baixo', 'cima'], 'aspide_ninho': ['baixo', 'cima']}   # v88, v90, v95
+# v95: refeitas pelo Victor (22/11) e já no jogo: saem do grupo refazer
+REFEITAS = {'aspide_ninho', 'wind_veu', 'wind_espelho', 'taijutsu_pressao', 'wind_olho', 'water_tromba', 'wind_3', 'wind_fenda', 'heal_desintox', 'fire_cometa'}
 
 
 def item_resto(t):
@@ -522,7 +524,7 @@ def item_resto(t):
 
 def main():
     itens = ([item_falta(t) for t in FALTAM if t[0] not in FEITOS] + [i for i in (item_resto(t) for t in FALTAM if t[0] in FEITOS) if i]
-             + [item_ajuste(t) for t in REFAZER + QUADROS] + [item_direcao(t) for t in DIRECOES_FEITAS])
+             + [item_ajuste(t) for t in [r for r in REFAZER if r[0] not in REFEITAS] + QUADROS] + [item_direcao(t) for t in DIRECOES_FEITAS])
     with open(os.path.join(AQUI, 'pendencias.json'), 'w', encoding='utf-8') as f:
         json.dump({'gerado': '2026-11-22', 'itens': itens, 'auditoria': auditoria()}, f, ensure_ascii=False, separators=(',', ':'))
         f.write('\n')
