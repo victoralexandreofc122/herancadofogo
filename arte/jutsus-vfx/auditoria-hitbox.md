@@ -1,6 +1,6 @@
 # Auditoria de hitbox (arte x área do servidor)
 
-Fora da faixa (75% a 135%): 1
+Fora da faixa (75% a 135%): 0
 
 | Jutsu | Forma | Raio do servidor (casas) | Raio da arte (casas) | Arte / dano |
 |---|---|---|---|---|
@@ -20,7 +20,7 @@ Fora da faixa (75% a 135%): 1
 | Poça Viscosa (`water_xarope`) | zona | 1.5 | 1.52 | 101% casado |
 | Descarga Envolvente (`lightning_fluxo`) | anel_golpe | 2 | 2.23 | 111% casado |
 | Kunai Explosiva (`weapons_kunai`) | aviso | 2 | 2.00 | 100% casado |
-| Ascensão Dupla (`weapons_dragoes`) | aviso | 3 | 4.71 | 157% arte MAIOR que o dano |
+| Ascensão Dupla (`weapons_dragoes`) | aviso | 3 | 3.69 | 123% casado |
 | Véu de Bruma (`water_nevoa`) | zona | 3 | 3.21 | 107% casado |
 | Sombra Oculta (`shadow_armadilha`) | zona | 1 | 1.03 | 103% casado |
 | Chão Incandescente (`fire_chao`) | zona | 2.5 | 2.54 | 102% casado |

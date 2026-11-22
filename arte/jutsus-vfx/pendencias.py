@@ -286,7 +286,7 @@ QUADROS = [
      'Uma pedra por folha: aviso, caindo (2), impacto, poeira, sumir.', 'meteoros', 'big falling boulder', VERDE),
     ('weapons_ceu', 'Céu de Lâminas', 'weapons', 'quadros', 'A folha tem 5 lâminas em lugares fixos; o servidor sorteia os pontos, então a arte não cai onde o dano cai.',
      'Uma lâmina por folha, e o jogo põe uma em cada golpe sorteado.', 'meteoros', 'giant falling sword blade', VERDE),
-    ('weapons_dragoes', 'Ascensão Dupla', 'weapons', 'opcional', 'As lâminas eram 57% maiores que a área do dano. Já diminuí no código (agora casa), mas ficam um pouco pequenas.',
+    ('weapons_dragoes', 'Ascensão Dupla', 'weapons', 'opcional', 'As lâminas eram 57% maiores que a área do dano (157%). Diminuí no código: agora estão em 123%, dentro da faixa, mas o desenho fica um pouco pequeno na tela.',
      'Opcional: refazer com as duas lâminas dentro de um círculo do tamanho do aviso.', 'aviso', 'two rising twin dragon blades', VERDE),
 ]
 

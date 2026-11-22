@@ -1245,7 +1245,7 @@ F6: the last streaks fading.
 
 ### Ascensão Dupla (`weapons_dragoes`), Armas, golpe com aviso no chão, fundo verde
 
-As lâminas eram 57% maiores que a área do dano. Já diminuí no código (agora casa), mas ficam um pouco pequenas.
+As lâminas eram 57% maiores que a área do dano (157%). Diminuí no código: agora estão em 123%, dentro da faixa, mas o desenho fica um pouco pequeno na tela.
 
 **Pedido:** Opcional: refazer com as duas lâminas dentro de um círculo do tamanho do aviso.
 
