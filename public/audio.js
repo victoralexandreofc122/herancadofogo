@@ -9,6 +9,15 @@
  * estourar); cada tipo de efeito também tem limite de vozes ao mesmo tempo.
  *
  * Navegadores só deixam tocar som depois de um toque/clique: nada toca até `unlock()` (primeiro toque na tela).
+ *
+ * v103 (o celular esquentava com o áudio ligado; medido: o áudio sozinho gastava 3,5% de um núcleo só com a música, 7,6%
+ * numa luta e 3,6% MUDO). Agora:
+ *   - cada efeito é sintetizado UMA vez, em segundo plano (OfflineAudioContext), e depois toca a gravação pronta (1 fonte
+ *     e 1 volume no lugar de dezenas de osciladores, filtros e envelopes por golpe); guarda até 3 versões de cada um
+ *     (o crepitar e as bolhas são sorteados) e varia um pouco a altura, para não soar repetido;
+ *   - o áudio trabalha com 50 ms de margem (o padrão é 10 ms): acorda menos vezes por segundo, metade do processador;
+ *   - mudo, ou música e efeitos no zero: a música pausa (o MP3 para de ser lido) e o áudio desliga (0%);
+ *   - música no zero: a faixa pausa e o áudio desliga sozinho depois de uns segundos sem efeito (liga no próximo).
  */
 
 const KEY = 'nin.audio';
@@ -17,6 +26,13 @@ const FADE_S = 1.5;
 const CALM_SWAP_MS = 5 * 60_000;
 /** Vitória e derrota: tocam por 10 s e a música de antes volta de onde parou. */
 const STINGER_MS = 10_000;
+/** v103: sem música, o áudio desliga depois deste tempo sem nenhum efeito (ms). */
+const DESLIGA_MS = 4000;
+/** v103: quantas versões gravadas de cada efeito (o sorteio do crepitar, das bolhas) e o tempo máximo de uma gravação. */
+const VERSOES = 3;
+/** v103: a margem do áudio (s). Medido: 10 ms (o padrão) gasta 2,1% de um núcleo ligado; 40 ms, 1,1%; 60 ms, 0,6%. */
+const LATENCIA_S = 0.05;
+const GRAVA_S = 2;
 
 /** Música de cada clima do jogo (mais de uma: revezam). Falta uma faixa: a lista só tem as que existem. */
 export const MUSIC = {
@@ -73,6 +89,10 @@ export class AudioManager {
     this.stingerUntil = 0;
     this.stingerTimer = 0;
     this.voices = new Map();        // tipo -> { n, last }
+    /** v103: as gravações dos efeitos: chave -> { buffers: AudioBuffer[], gravando: boolean } */
+    this.gravacoes = new Map();
+    this.ultimoSom = 0;
+    this.desligaTimer = 0;
   }
 
   get unlocked() { return !!this.ctx; }
@@ -82,7 +102,10 @@ export class AudioManager {
     if (this.ctx) { this.wake(); return; }
     const AC = globalThis.AudioContext || globalThis.webkitAudioContext;
     if (!AC) return;
-    const ctx = new AC();
+    let ctx;
+    // v103: 50 ms de margem (o 'interactive' usa 10 ms): o áudio acorda menos vezes por segundo e gasta metade do
+    // processador; 50 ms é uns 3 quadros, o golpe e o som continuam juntos
+    try { ctx = new AC({ latencyHint: LATENCIA_S }); } catch { ctx = new AC(); }
     this.ctx = ctx;
     this.master = ctx.createGain();
     this.master.connect(ctx.destination);
@@ -125,12 +148,52 @@ export class AudioManager {
   wake() {
     if (!this.ctx || document.hidden) return;
     this.asleep = false;
-    if (this.ctx.state !== 'running') this.ctx.resume().catch(() => {});
+    this.ajustarEnergia();
+  }
+
+  /** v103: a música toca? (mudo ou no zero: não, e o MP3 nem é lido) */
+  get musicaAudivel() { return !this.settings.mute && this.settings.music > 0; }
+  get efeitosAudiveis() { return !this.settings.mute && this.settings.sfx > 0; }
+
+  /**
+   * v103: o áudio só fica ligado quando tem o que tocar. Com a música audível: ligado e a faixa tocando. Sem a música:
+   * a faixa pausa; o áudio desliga já (sem efeitos) ou depois de uns segundos sem efeito (o próximo efeito religa).
+   */
+  ajustarEnergia() {
+    if (!this.ctx || this.asleep) return;
     const t = this.current && this.tracks.get(this.current);
-    if (t && t.el.paused && (t.el.loop || performance.now() < this.stingerUntil)) {
-      const p = t.el.play();
-      if (p && p.catch) p.catch(() => {});
+    if (this.musicaAudivel) {
+      if (this.ctx.state !== 'running') this.religar();
+      if (t && t.el.paused && (t.el.loop || performance.now() < this.stingerUntil)) {
+        const p = t.el.play();
+        if (p && p.catch) p.catch(() => {});
+      }
+      return;
     }
+    if (t && !t.el.paused) t.el.pause();
+    if (!this.efeitosAudiveis) { this.desligar(); return; }
+    this.desligarDepois();
+  }
+
+  /** Liga o áudio; se, quando ligar, ele já não precisar estar ligado (mudo no meio do caminho), desliga de novo. */
+  religar() {
+    this.ctx.resume().then(() => {
+      const precisa = !this.asleep && (this.musicaAudivel || (this.efeitosAudiveis && performance.now() - this.ultimoSom < DESLIGA_MS));
+      if (!precisa) this.desligar();
+    }).catch(() => {});
+  }
+
+  desligar() {
+    clearTimeout(this.desligaTimer);
+    if (this.ctx && this.ctx.state === 'running') this.ctx.suspend().catch(() => {});
+  }
+
+  /** Sem música: desliga o áudio uns segundos depois do último efeito. */
+  desligarDepois() {
+    clearTimeout(this.desligaTimer);
+    this.desligaTimer = setTimeout(() => {
+      if (!this.musicaAudivel && performance.now() - this.ultimoSom >= DESLIGA_MS - 50) this.desligar();
+    }, DESLIGA_MS);
   }
 
   // ---------------- volumes ----------------
@@ -153,6 +216,7 @@ export class AudioManager {
     this.master.gain.setTargetAtTime(this.settings.mute ? 0 : 1, t, 0.03);
     this.musicBus.gain.setTargetAtTime(curve(this.settings.music), t, 0.03);
     this.sfxBus.gain.setTargetAtTime(curve(this.settings.sfx), t, 0.03);
+    this.ajustarEnergia();
   }
 
   // ---------------- música ----------------
@@ -235,9 +299,10 @@ export class AudioManager {
     next.gain.gain.cancelScheduledValues(t0);
     next.gain.gain.setValueAtTime(next.gain.gain.value, t0);
     next.gain.gain.linearRampToValueAtTime(1, t0 + FADE_S);
+    this.current = name;
+    if (!this.musicaAudivel) return;                         // v103: mudo ou no zero, a faixa nem toca
     const p = next.el.play();
     if (p && p.catch) p.catch(() => {});
-    this.current = name;
   }
 
   // ---------------- efeitos ----------------
@@ -257,11 +322,61 @@ export class AudioManager {
 
   /** Toca um efeito. vol: 0 a 1 (longe = mais baixo; quem chamou calcula). Devolve um controle para os longos. */
   sfx(kind, vol = 1, opt = {}) {
-    if (!this.ctx || this.settings.mute || this.asleep || vol < 0.03) return null;
+    if (!this.ctx || this.settings.mute || this.asleep || vol < 0.03 || this.settings.sfx <= 0) return null;
     const fn = SFX[kind];
     if (!fn) return null;
     if (!this.voice(kind, opt.voiceMs ?? opt.ms ?? 400)) return null;
+    this.acordarParaEfeito();
+    if (!AO_VIVO.has(kind)) { this.tocarGravado(kind, Math.min(1, vol), opt); return null; }
     try { return fn(this, Math.min(1, vol), opt) || null; } catch { return null; }
+  }
+
+  /** v103: um efeito com o áudio desligado (sem música): liga e marca a hora (desliga de novo depois de uns segundos). */
+  acordarParaEfeito() {
+    this.ultimoSom = performance.now();
+    if (this.ctx.state !== 'running') this.religar();
+    if (!this.musicaAudivel) this.desligarDepois();
+  }
+
+  /**
+   * v103: toca a gravação pronta do efeito (1 fonte + 1 volume). Na primeira vez de cada um, toca ao vivo e grava em
+   * segundo plano; depois grava mais versões (até 3) aos poucos, para o sorteio do crepitar e das bolhas continuar.
+   */
+  tocarGravado(kind, vol, opt = {}) {
+    const fn = SFX[kind] || INTERNOS[kind];
+    if (!fn) return;
+    const chave = chaveDe(kind, opt);
+    let g = this.gravacoes.get(chave);
+    if (!g) { g = { buffers: [], gravando: false }; this.gravacoes.set(chave, g); }
+    if (g.buffers.length < VERSOES && !g.gravando && typeof OfflineAudioContext !== 'undefined') this.gravar(g, fn, opt);
+    if (!g.buffers.length) { try { fn(this, vol, opt); } catch { /* sem som */ } return; }
+    const src = this.ctx.createBufferSource();
+    src.buffer = g.buffers[Math.floor(Math.random() * g.buffers.length)];
+    src.playbackRate.value = 0.97 + Math.random() * 0.06;   // a mesma gravação soa um pouco diferente a cada vez
+    const ganho = this.ctx.createGain();
+    ganho.gain.value = vol;
+    src.connect(ganho);
+    ganho.connect(this.sfxBus);
+    src.start();
+  }
+
+  /** Sintetiza o efeito (volume 1) num contexto fora do ar e guarda o resultado, sem o silêncio do fim. */
+  gravar(g, fn, opt) {
+    g.gravando = true;
+    const rate = this.ctx.sampleRate;
+    const off = new OfflineAudioContext(1, Math.ceil(rate * GRAVA_S), rate);
+    const fora = { ctx: off, sfxBus: off.destination, noise: this.noise, env: this.env, noiseSrc: this.noiseSrc };
+    try { fn(fora, 1, opt); } catch { g.gravando = false; return; }
+    off.startRendering().then((buf) => {
+      const d = buf.getChannelData(0);
+      let fim = d.length - 1;
+      while (fim > 0 && Math.abs(d[fim]) < 2e-4) fim -= 1;
+      const n = Math.min(d.length, fim + Math.ceil(rate * 0.01) + 1);
+      const corte = this.ctx.createBuffer(1, n, rate);
+      corte.copyToChannel(d.subarray(0, n), 0);
+      g.buffers.push(corte);
+      g.gravando = false;
+    }).catch(() => { g.gravando = false; });
   }
 
   /** Envelope: ataque curto e queda exponencial até quase zero. */
@@ -647,7 +762,7 @@ export const SFX = {
     // os selos de mão
     const seals = [];
     const n = Math.max(1, Math.floor(dur / 0.16));
-    for (let i = 0; i < n; i++) seals.push(setTimeout(() => SFX.seal(a, vol, { i }), i * 160));
+    for (let i = 0; i < n; i++) seals.push(setTimeout(() => (a.tocarGravado ? a.tocarGravado('seal', vol, { i: i % 4 }) : SFX.seal(a, vol, { i })), i * 160));
     let done = false;
     return {
       stop(abrupt = false) {
@@ -670,7 +785,8 @@ export const SFX = {
     h.vol = vol;
     let timer = 0;
     if (cfg.crackle) {
-      const tick = () => { crackle(a, { dur: 0.12, n: 2, f: el === 'lightning' ? 6000 : 2800, peak: 0.08 * h.vol }); timer = setTimeout(tick, 90); };
+      // v103: o crepitar do voo (a cada 90 ms) também sai gravado
+      const tick = () => { a.tocarGravado('crepitar_voo', h.vol, { el: el === 'lightning' ? 'lightning' : 'fire' }); timer = setTimeout(tick, 90); };
       tick();
     }
     return {
@@ -748,6 +864,19 @@ export const SFX = {
   /** Item usado (Shuriken lançada, poção). */
   shuriken(a, vol) { noise(a, { type: 'bandpass', f: 3000, fEnd: 5000, Q: 8, peak: 0.25 * vol, attack: 0.002, dur: 0.15 }); },
 };
+
+/** v103: sons que DURAM e têm controle (parar, volume pela distância): continuam ao vivo. Os outros saem gravados. */
+const AO_VIVO = new Set(['charge', 'fly']);
+
+/** v103: pedaços usados por dentro (não são tipos de efeito do jogo). */
+const INTERNOS = {
+  crepitar_voo(a, vol, { el = 'fire' } = {}) { crackle(a, { dur: 0.12, n: 2, f: el === 'lightning' ? 6000 : 2800, peak: 0.08 * vol }); },
+};
+
+/** v103: a chave da gravação: o tipo e o que muda o som (elemento, estado, pé, selo, tom). */
+function chaveDe(kind, opt) {
+  return [kind, opt.el ?? '', opt.code ?? '', opt.alt ? 1 : 0, opt.i ?? '', opt.tone ?? ''].join('|');
+}
 
 export const SFX_KINDS = Object.keys(SFX);
 export const SOUND_TABLES = { CAST, IMPACT, STATUS, FLY };
