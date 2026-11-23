@@ -78,6 +78,41 @@ describe('v97: o HUD desenhado (joystick, minimapa, retratos e a barra dos selos
   });
 });
 
+describe('v98: o lote 4 (o painel de fundo que vazou fica de fora; ícones, insígnias e espaços)', () => {
+  const css = readFileSync(new URL('../public/uiLaca.css', import.meta.url), 'utf8');
+  const game = readFileSync(new URL('../public/game.js', import.meta.url), 'utf8');
+  const py = readFileSync(new URL('../arte/ui/recortar_ui.py', import.meta.url), 'utf8');
+  it('o recorte tira o painel de fundo (área e o roxo) e corta as folhas de ícones por célula', () => {
+    assert.match(py, /'area': \[\(0, 0\.43, 1, 0\.575\)\], 'tirar_roxo': True/);
+    assert.match(py, /def celulas\(low, cols, rows\)/);
+    for (const n of ['ui_icones_menu_tela_cheia', 'ui_campo_texto_1', 'ui_campo_texto_2', 'ui_aviso', 'ui_dialogo', 'ui_dialogo_nome', 'ui_dialogo_rosto',
+      'ui_dialogo_seta', 'ui_balao_chat', 'ui_balao_chat_ponta', 'ui_aviso_grande', 'ui_aviso_grande_selo', 'ui_logo', 'ui_slot_lendario', 'ui_slot_equip_mascara',
+      'ui_faixas_lenda', 'ui_patentes_kage', 'ui_emblemas_aldeias_rocha', 'ui_icones_classes_armas', 'ui_icones_estados_invertido', 'ui_icones_recursos_ryo',
+      'ui_icones_aviso_travado']) assert.ok(UI_ARTE.includes(n), n);
+  });
+  it('os 14 ícones do menu ☰ estão no seu botão', () => {
+    for (const [id, n] of [['inv-toggle', 'mochila'], ['status-toggle', 'perfil'], ['missions-toggle', 'missoes'], ['vinculo-toggle', 'vinculo'],
+      ['settings-toggle', 'config'], ['village-toggle', 'aldeia'], ['history-toggle', 'historico'], ['chat-toggle', 'chat'], ['manual-toggle', 'manual'],
+      ['feedback-toggle', 'feedback'], ['admin-toggle', 'admin'], ['ranked-toggle', 'rankeado'], ['fullscreen-toggle', 'tela_cheia'], ['logout', 'sair']]) {
+      assert.ok(css.includes(`#${id} .ico-svg { background-image: url(/assets/ui/ui_icones_menu_${n}.png)`), id);
+    }
+  });
+  it('as molduras: aviso, campos de texto, caixa da fala, aviso grande e as medalhas das faixas', () => {
+    assert.match(css, /\.toast \{[^}]*ui_aviso\.png\) 5 6 5 24 fill/);
+    assert.match(css, /#chat-input:focus[^{]*\{\s*border-image-source: url\(\/assets\/ui\/ui_campo_texto_2\.png\)/);
+    assert.match(css, /\.dialog \{[^}]*ui_dialogo\.png\) 9 10 10 fill/);
+    assert.match(css, /\.duel-banner::before \{[^}]*ui_aviso_grande_selo\.png/);
+    for (const t of ['bronze', 'prata', 'ouro', 'diamante', 'lenda']) assert.ok(css.includes(`.tier-seal.tier-${t} { background-image: url(/assets/ui/ui_faixas_${t}.png)`), t);
+  });
+  it('no canvas: o balão do chat de 9 fatias com a ponta e os ícones de estado desenhados (com o desenho antigo de reserva)', () => {
+    assert.match(game, /function desenha9\(g, im, \[t, r, b, l\]/);
+    assert.match(game, /if \(!balaoDesenhado\(ctx, x - 6, y - 6, w \+ 12, h \+ 12\)\)/);
+    assert.match(game, /const ESTADO_ICONE = \{ queimadura: 'queimando'/);
+    assert.match(game, /return uiPref\.uiDesenhada && im\.complete && im\.naturalWidth \? im : null/);
+    assert.match(game, /b\.dataset\.raridade = rar/);
+  });
+});
+
 describe('v96: o servidor serve as peças da interface como PNG', () => {
   it('cada /assets/ui/<peça>.png é image/png em bytes', async () => {
     const { loadPublicFiles } = await import('../src/web/staticFiles.js');

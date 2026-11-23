@@ -246,6 +246,33 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v98: o lote 4 da interface (ícones, insígnias, molduras) sem o painel de fundo que vazou (sem migração)
+
+- 16 folhas do Victor (23/11). Em algumas, o Flow desenhou um pedaço do painel de fundo junto.
+  `arte/ui/recortar_ui.py` tira esse pedaço:
+  - `area` deixa só a parte da peça;
+  - `tirar_roxo` apaga o brilho roxo;
+  - `reparar_topo` refaz a borda apagada do aviso.
+- As folhas de ícones são cortadas por célula da grade (`celulas`). Assim um ícone de partes soltas, como as 4 setas da tela
+  cheia, fica junto.
+- No jogo, com a interface desenhada:
+  - os 14 ícones do menu ☰;
+  - o aviso rápido, com o ícone de informação no encaixe;
+  - os campos de texto: entrada, chat, trio e admin; com o foco, a borda acende;
+  - a caixa da fala do NPC: a moldura, a aba do nome, o quadro do retrato e a setinha, separados da mesma folha;
+  - o aviso grande do rankeado, com o medalhão por cima e as medalhas das faixas;
+  - o emblema da entrada e a moeda do ryō;
+  - os espaços da mochila, com a borda pela raridade das relíquias;
+  - os espaços do equipamento, com a silhueta quando vazios, e o cadeado nos travados;
+  - a insígnia da patente e o ícone da classe nos Atributos.
+- No canvas:
+  - o balão do chat e o da fala do NPC, em 9 fatias com a ponta;
+  - os ícones de estado em cima da cabeça: queimando, veneno, lento, atordoado, cego, silêncio, sono e embaralhado.
+- Ainda sem lugar no jogo, já recortados:
+  - os emblemas das 4 aldeias;
+  - os ícones de recurso: XP, chakra, vida, fragmento, shuriken, pergaminho e recarga;
+  - os ícones de aviso: ok, novo e não lido.
+
 ### v97: o HUD desenhado (joystick, minimapa, retratos e a barra dos selos) (sem migração)
 
 - Mais 4 folhas do Victor (23/11), recortadas por `arte/ui/recortar_ui.py`. A 5ª (o anel do ataque) já estava no jogo.

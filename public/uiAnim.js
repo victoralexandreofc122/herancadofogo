@@ -120,7 +120,7 @@ export const ANIMADAS = {
   ui_cartao_entrada: '.card',
   ui_pergaminho: '.scroll-paper',
   ui_dica: '.hint-card',
-  ui_painel_pequeno: '.toast',
+  ui_aviso: '.toast',
   ui_aba_2: '.tab.active, .tab[aria-selected="true"], .creator-tab[aria-selected="true"]',
   ui_botao_principal_1: 'button.primary:not(:active):not(:disabled)',
   ui_jutsu_1: '.cbtn.skill:not(.cooling):not(.empty)',
@@ -131,6 +131,11 @@ export const ANIMADAS = {
   ui_retrato_2: { sel: '.target-window .portrait.foe::after', prop: 'background-image' },
   ui_minimapa: { sel: '.minimap::after', prop: 'background-image' },
   ui_selos_fogo: { sel: '.cast-bar .fill', prop: 'background-image', chamaGrande: true },
+  // v98: o lote 4 (a caixa da fala, o aviso grande e o emblema da entrada)
+  ui_dialogo: '.dialog',
+  ui_aviso_grande: '.duel-banner',
+  ui_aviso_grande_selo: { sel: '.duel-banner::before', prop: 'background-image' },
+  ui_slot_lendario: '.eq-cell[data-raridade="lendario"]',
 };
 
 /** Liga a animação nas peças (só com o gráfico no máximo: quem chama decide). Devolve a função que desliga. */

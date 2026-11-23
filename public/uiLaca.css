@@ -202,3 +202,157 @@
   height: calc(10px * var(--sel)); box-shadow: none; background: url(/assets/ui/ui_selos_fogo.png) left bottom / auto 100% repeat-x;
   image-rendering: pixelated;
 }
+
+/* ---- v98: o lote 4 (16 folhas do Victor de 23/11) ------------------------------------------------------------- */
+/* os ícones do menu ☰: o desenho do Flow no lugar do traço, no mesmo círculo de bronze */
+.ui-laca .menu-btn .ico-svg > * { display: none; }
+.ui-laca .menu-btn .ico-svg { background-position: center; background-size: 30px 30px; background-repeat: no-repeat; image-rendering: pixelated; }
+.ui-laca #inv-toggle .ico-svg { background-image: url(/assets/ui/ui_icones_menu_mochila.png), radial-gradient(circle at 40% 30%, #3a3f66, #12152e 70%); }
+.ui-laca #status-toggle .ico-svg { background-image: url(/assets/ui/ui_icones_menu_perfil.png), radial-gradient(circle at 40% 30%, #3a3f66, #12152e 70%); }
+.ui-laca #missions-toggle .ico-svg { background-image: url(/assets/ui/ui_icones_menu_missoes.png), radial-gradient(circle at 40% 30%, #3a3f66, #12152e 70%); }
+.ui-laca #vinculo-toggle .ico-svg { background-image: url(/assets/ui/ui_icones_menu_vinculo.png), radial-gradient(circle at 40% 30%, #3a3f66, #12152e 70%); }
+.ui-laca #settings-toggle .ico-svg { background-image: url(/assets/ui/ui_icones_menu_config.png), radial-gradient(circle at 40% 30%, #3a3f66, #12152e 70%); }
+.ui-laca #village-toggle .ico-svg { background-image: url(/assets/ui/ui_icones_menu_aldeia.png), radial-gradient(circle at 40% 30%, #3a3f66, #12152e 70%); }
+.ui-laca #history-toggle .ico-svg { background-image: url(/assets/ui/ui_icones_menu_historico.png), radial-gradient(circle at 40% 30%, #3a3f66, #12152e 70%); }
+.ui-laca #chat-toggle .ico-svg { background-image: url(/assets/ui/ui_icones_menu_chat.png), radial-gradient(circle at 40% 30%, #3a3f66, #12152e 70%); }
+.ui-laca #manual-toggle .ico-svg { background-image: url(/assets/ui/ui_icones_menu_manual.png), radial-gradient(circle at 40% 30%, #3a3f66, #12152e 70%); }
+.ui-laca #feedback-toggle .ico-svg { background-image: url(/assets/ui/ui_icones_menu_feedback.png), radial-gradient(circle at 40% 30%, #3a3f66, #12152e 70%); }
+.ui-laca #admin-toggle .ico-svg { background-image: url(/assets/ui/ui_icones_menu_admin.png), radial-gradient(circle at 40% 30%, #3a3f66, #12152e 70%); }
+.ui-laca #ranked-toggle .ico-svg { background-image: url(/assets/ui/ui_icones_menu_rankeado.png), radial-gradient(circle at 40% 30%, #3a3f66, #12152e 70%); }
+.ui-laca #fullscreen-toggle .ico-svg { background-image: url(/assets/ui/ui_icones_menu_tela_cheia.png), radial-gradient(circle at 40% 30%, #3a3f66, #12152e 70%); }
+.ui-laca #logout .ico-svg { background-image: url(/assets/ui/ui_icones_menu_sair.png), radial-gradient(circle at 40% 30%, #3a3f66, #12152e 70%); }
+
+/* o aviso rápido: a barra com o encaixe redondo à esquerda (o ícone de informação dentro) */
+.ui-laca .toast {
+  --av: 2;
+  border-width: calc(5px * var(--av)) calc(6px * var(--av)) calc(5px * var(--av)) calc(24px * var(--av));
+  border-image: url(/assets/ui/ui_aviso.png) 5 6 5 24 fill / calc(5px * var(--av)) calc(6px * var(--av)) calc(5px * var(--av)) calc(24px * var(--av)) stretch;
+  padding: 2px 6px 2px 4px;
+  min-height: calc(21px * var(--av));
+}
+.ui-laca .toast::before {
+  content: ''; position: absolute; left: calc(-19px * var(--av)); top: 50%; translate: 0 -50%;
+  width: calc(12px * var(--av)); height: calc(12px * var(--av));
+  background: url(/assets/ui/ui_icones_aviso_info.png) center / 100% 100% no-repeat; image-rendering: pixelated;
+}
+
+/* os campos de texto (entrada, chat, trio, admin): o fundo escuro com a borda de bronze; com o foco, a borda acesa */
+.ui-laca .card input, .ui-laca #chat-input, .ui-laca #trio-name, .ui-laca #admin-target {
+  background: none; border-radius: 0; outline: none;
+  border: calc(4px * var(--uis)) solid transparent;
+  border-image: url(/assets/ui/ui_campo_texto_1.png) 4 fill / calc(4px * var(--uis)) stretch;
+  image-rendering: pixelated;
+}
+.ui-laca .card input:focus, .ui-laca #chat-input:focus, .ui-laca #trio-name:focus, .ui-laca #admin-target:focus {
+  border-image-source: url(/assets/ui/ui_campo_texto_2.png); outline: none;
+}
+
+/* a caixa da fala do NPC: a moldura com as chamas nos cantos, a aba do nome, o quadro do retrato e a setinha */
+.ui-laca .dialog {
+  --dl: 3;
+  background: none; border-radius: 0; box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+  border: calc(9px * var(--dl)) solid transparent; border-width: calc(9px * var(--dl)) calc(10px * var(--dl)) calc(10px * var(--dl));
+  border-image: url(/assets/ui/ui_dialogo.png) 9 10 10 fill / calc(9px * var(--dl)) calc(10px * var(--dl)) calc(10px * var(--dl)) stretch;
+  padding: 2px 4px 0; image-rendering: pixelated;
+}
+.ui-laca .dialog-name {
+  margin-top: calc(-9px * var(--dl) - 12px); color: #ffe7b0; text-shadow: 0 1px 0 #000;
+  background: none; border-radius: 0;
+  border: 9px solid transparent; border-width: 9px 9px 6px;
+  border-image: url(/assets/ui/ui_dialogo_nome.png) 3 3 2 fill / 9px 9px 6px stretch; image-rendering: pixelated;
+  padding: 0 4px;
+}
+.ui-laca .dialog-face {
+  border-radius: 0; background: #1c2240;
+  border: 12px solid transparent; border-image: url(/assets/ui/ui_dialogo_rosto.png) 3 / 12px stretch;
+}
+.ui-laca .dialog-next {
+  font-size: 0; width: 18px; height: 12px;
+  background: url(/assets/ui/ui_dialogo_seta.png) center / 100% 100% no-repeat; image-rendering: pixelated;
+}
+
+/* o aviso grande do rankeado (vitória, derrota, subiu de faixa): o painel vermelho com as faixas e o medalhão em cima */
+.ui-laca .duel-banner {
+  --ag: 2;
+  background: none; border-radius: 0; box-shadow: none;
+  border: 0 solid transparent;
+  border-width: calc(24px * var(--ag)) calc(29px * var(--ag)) calc(26px * var(--ag));
+  border-image: url(/assets/ui/ui_aviso_grande.png) 24 29 26 fill / calc(24px * var(--ag)) calc(29px * var(--ag)) calc(26px * var(--ag)) stretch;
+  padding: 0 4px; image-rendering: pixelated;
+}
+.ui-laca .duel-banner::before {
+  content: ''; position: absolute; left: 50%; top: calc(-24px * var(--ag)); translate: -50% 0;
+  width: calc(51px * var(--ag)); height: calc(16px * var(--ag)); pointer-events: none;
+  background: url(/assets/ui/ui_aviso_grande_selo.png) center / 100% 100% no-repeat; image-rendering: pixelated;
+}
+/* o selo da faixa: a medalha desenhada (a letra fica só para o leitor de tela) */
+.ui-laca .tier-seal {
+  width: 38px; height: 52px; border: 0; border-radius: 0; box-shadow: none; color: transparent; text-shadow: none;
+  background: center / 100% 100% no-repeat; image-rendering: pixelated;
+}
+.ui-laca .tier-seal.tier-bronze { background-image: url(/assets/ui/ui_faixas_bronze.png); }
+.ui-laca .tier-seal.tier-prata { background-image: url(/assets/ui/ui_faixas_prata.png); }
+.ui-laca .tier-seal.tier-ouro { background-image: url(/assets/ui/ui_faixas_ouro.png); }
+.ui-laca .tier-seal.tier-diamante { background-image: url(/assets/ui/ui_faixas_diamante.png); }
+.ui-laca .tier-seal.tier-lenda { background-image: url(/assets/ui/ui_faixas_lenda.png); }
+
+/* o emblema na entrada e a moeda do ryō */
+.ui-laca .login-logo { content: url(/assets/ui/ui_logo.png); image-rendering: pixelated; object-fit: contain; }
+.ui-laca .coin {
+  width: 16px; height: 16px; border-radius: 0; box-shadow: none;
+  background: url(/assets/ui/ui_icones_recursos_ryo.png) center / 100% 100% no-repeat; image-rendering: pixelated;
+}
+
+/* a mochila: o espaço desenhado (a borda pela raridade do item) */
+.ui-laca .eq-cell {
+  border-radius: 0; box-shadow: none; background: none;
+  border: 8px solid transparent; border-image: url(/assets/ui/ui_slot_comum.png) 4 fill / 8px stretch; image-rendering: pixelated;
+}
+.ui-laca .eq-cell[data-raridade="raro"] { border-image-source: url(/assets/ui/ui_slot_raro.png); }
+.ui-laca .eq-cell[data-raridade="epico"] { border-image-source: url(/assets/ui/ui_slot_epico.png); }
+.ui-laca .eq-cell[data-raridade="lendario"] { border-image-source: url(/assets/ui/ui_slot_lendario.png); }
+.ui-laca .eq-cell.equipped { box-shadow: 0 0 0 2px #3fd0e8, 0 0 10px rgba(63, 208, 232, 0.55); }
+.ui-laca .eq-cell[aria-selected="true"] { box-shadow: 0 0 0 3px #ffd76a, 0 0 14px rgba(255, 215, 106, 0.75); }
+/* o equipamento: o espaço vazio mostra a silhueta do que vai nele; com o item, o espaço liso */
+.ui-laca .eq-box {
+  border-radius: 0; box-shadow: none;
+  background: url(/assets/ui/ui_slot_vazio.png) center / 100% 100% no-repeat; image-rendering: pixelated;
+}
+.ui-laca .eq-slot:not(.filled)[data-slot="weapon"] .eq-box,
+.ui-laca .eq-slot:not(.filled)[data-slot="weapon2"] .eq-box { background-image: url(/assets/ui/ui_slot_equip_arma.png); image-rendering: auto; }
+.ui-laca .eq-slot:not(.filled)[data-slot="cape"] .eq-box { background-image: url(/assets/ui/ui_slot_equip_capa.png); image-rendering: auto; }
+.ui-laca .eq-slot:not(.filled)[data-slot="feet"] .eq-box { background-image: url(/assets/ui/ui_slot_equip_pes.png); image-rendering: auto; }
+.ui-laca .eq-slot:not(.filled)[data-slot="accessory"] .eq-box { background-image: url(/assets/ui/ui_slot_equip_acessorio.png); image-rendering: auto; }
+.ui-laca .eq-slot:not(.filled)[data-slot="scroll"] .eq-box { background-image: url(/assets/ui/ui_slot_equip_pergaminho.png); image-rendering: auto; }
+.ui-laca .eq-slot:not(.filled)[data-slot="mask"] .eq-box { background-image: url(/assets/ui/ui_slot_equip_mascara.png); image-rendering: auto; }
+.ui-laca .eq-slot.filled .eq-box, .ui-laca .eq-slot.wide .eq-box { box-shadow: 0 0 10px rgba(140, 90, 255, 0.4); }
+.ui-laca .duel-banner { padding: 0 44px; }
+.ui-laca .duel-banner .tier-seal { left: -6px; }
+.ui-laca .dialog-close {
+  top: calc(-9px * var(--dl) - 18px); right: calc(-10px * var(--dl) - 8px);
+  border: 0; color: transparent; background: url(/assets/ui/ui_botao_fechar.png) center / 100% 100% no-repeat; image-rendering: pixelated;
+}
+.ui-laca .dialog-close > span { visibility: hidden; }
+.ui-laca .login-logo { background: none; box-shadow: none; border-radius: 0; filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.5)); }
+
+/* a insígnia da patente (Perfil → Atributos), o ícone da classe e o cadeado dos espaços travados */
+.ui-laca .eq-score .eq-ico.shield { width: 28px; height: 34px; background: center / contain no-repeat; image-rendering: pixelated; }
+.ui-laca .eq-score .eq-ico.shield::before { content: none; }
+.ui-laca .eq-score[data-patente="academia"] .eq-ico.shield { background-image: url(/assets/ui/ui_patentes_academia.png); }
+.ui-laca .eq-score[data-patente="genin"] .eq-ico.shield { background-image: url(/assets/ui/ui_patentes_genin.png); }
+.ui-laca .eq-score[data-patente="chunin"] .eq-ico.shield { background-image: url(/assets/ui/ui_patentes_chunin.png); }
+.ui-laca .eq-score[data-patente="jonin"] .eq-ico.shield { background-image: url(/assets/ui/ui_patentes_jonin.png); }
+.ui-laca .eq-score[data-patente="anbu"] .eq-ico.shield { background-image: url(/assets/ui/ui_patentes_anbu.png); }
+.ui-laca .eq-score[data-patente="kage"] .eq-ico.shield { background-image: url(/assets/ui/ui_patentes_kage.png); }
+.ui-laca .eq-class[data-classe]::before { content: ""; display: inline-block; width: 22px; height: 22px; margin-right: 6px; vertical-align: -6px; background: center / 100% 100% no-repeat; image-rendering: pixelated; }
+.ui-laca .eq-class[data-classe="fire"]::before { background-image: url(/assets/ui/ui_icones_classes_fogo.png); }
+.ui-laca .eq-class[data-classe="water"]::before { background-image: url(/assets/ui/ui_icones_classes_agua.png); }
+.ui-laca .eq-class[data-classe="lightning"]::before { background-image: url(/assets/ui/ui_icones_classes_raio.png); }
+.ui-laca .eq-class[data-classe="stone"]::before { background-image: url(/assets/ui/ui_icones_classes_pedra.png); }
+.ui-laca .eq-class[data-classe="wind"]::before { background-image: url(/assets/ui/ui_icones_classes_vento.png); }
+.ui-laca .eq-class[data-classe="heal"]::before { background-image: url(/assets/ui/ui_icones_classes_cura.png); }
+.ui-laca .eq-class[data-classe="shadow"]::before { background-image: url(/assets/ui/ui_icones_classes_sombra.png); }
+.ui-laca .eq-class[data-classe="illusion"]::before { background-image: url(/assets/ui/ui_icones_classes_ilusao.png); }
+.ui-laca .eq-class[data-classe="taijutsu"]::before { background-image: url(/assets/ui/ui_icones_classes_taijutsu.png); }
+.ui-laca .eq-class[data-classe="weapons"]::before { background-image: url(/assets/ui/ui_icones_classes_armas.png); }
+.ui-laca .eq-slot.locked .eq-box::after { content: ""; width: 22px; height: 22px; filter: none; background: url(/assets/ui/ui_icones_aviso_travado.png) center / 100% 100% no-repeat; image-rendering: pixelated; }

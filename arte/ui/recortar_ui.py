@@ -44,7 +44,31 @@ PECAS = {
     'ui_joystick': {'versoes': 2},                    # 1 = a base, 2 = a manopla
     'ui_minimapa': {'vazar': True},                   # o mapa aparece pelo meio
     'ui_retrato': {'versoes': 4, 'vazar': True},      # 1 = você, 2 = o inimigo, 3 e 4 = as plaquinhas do nível
-    'ui_selos': {'selos': True, 'fatia': [3, 3, 3, 3]},                      # o trilho vazio e a faixa de fogo que enche
+    'ui_selos': {'selos': True, 'fatia': [3, 3, 3, 3]},
+    # v98: o lote 4 (16 folhas do Victor de 23/11). "area" tira o pedaço do painel de fundo que vazou na folha.
+    'ui_campo_texto': {'celulas': (2, 1), 'area': [(0, 0.43, 1, 0.575)], 'tirar_roxo': True, 'nomes': ['1', '2'],
+                       'fatia': [4, 4, 4, 4], 'miolo': (24, 7)},   # 1 = normal, 2 = com o foco
+    'ui_logo': {},
+    'ui_balao_chat': {'area': [(0, 0, 1, 0.80), (0.40, 0, 0.60, 0.835)], 'fatia': [13, 12, 12, 12], 'miolo': (47, 30)},
+    'ui_aviso_grande': {'fatia': [24, 29, 26, 29], 'miolo': (48, 35)},
+    'ui_aviso': {'area': [(0, 0.40, 1, 0.61)], 'tirar_roxo': True, 'reparar_topo': 4, 'fatia': [5, 6, 5, 24], 'miolo': (50, 10)},
+    'ui_dialogo': {'area': [(0, 0.30, 1, 0.675)], 'fatia': [9, 10, 10, 10], 'miolo': (50, 15)},
+    'ui_emblemas_aldeias': {'celulas': (2, 2), 'nomes': ['chama', 'mare', 'vento', 'rocha']},
+    'ui_patentes': {'celulas': (4, 3), 'nomes': ['academia', 'genin', 'chunin', 'jonin', 'anbu', 'kage']},
+    'ui_faixas': {'celulas': (5, 1), 'area': [(0, 0.38, 1, 0.81)], 'nomes': ['bronze', 'prata', 'ouro', 'diamante', 'lenda']},
+    'ui_icones_aviso': {'celulas': (3, 3), 'nomes': ['alerta', 'ok', 'info', 'novo', 'nao_lido', 'travado']},
+    'ui_icones_estados': {'celulas': (4, 4), 'nomes': ['atordoado', 'queimando', 'veneno', 'lento', 'preso', 'silencio', 'sono',
+                                                     'escudo', 'dano_mais', 'defesa_menos', 'cego', 'invertido']},
+    'ui_icones_classes': {'celulas': (4, 3), 'area': [(0, 0, 1, 0.735)],
+                          'nomes': ['fogo', 'agua', 'raio', 'pedra', 'vento', 'cura', 'sombra', 'ilusao', 'taijutsu', 'armas']},
+    'ui_icones_recursos': {'celulas': (4, 3), 'nomes': ['ryo', 'xp', 'chakra', 'vida', None, 'fragmento', 'shuriken', None,
+                                                      'pergaminho', None, None, 'recarga']},
+    'ui_icones_menu': {'celulas': (4, 4), 'nomes': ['mochila', 'perfil', 'missoes', 'vinculo', 'config', 'aldeia', 'historico',
+                                                  'chat', 'manual', 'feedback', 'rankeado', 'tela_cheia', 'sair', 'admin']},
+    'ui_slot': {'celulas': (5, 1), 'area': [(0, 0.39, 1, 0.61)], 'nomes': ['vazio', 'comum', 'raro', 'epico', 'lendario'],
+                'fatia': [4, 4, 4, 4], 'miolo': (9, 9)},
+    'ui_slot_equip': {'celulas': (3, 3), 'passo': (9.5, 11), 'nomes': ['arma', 'capa', 'pes', 'acessorio', 'pergaminho', None,
+                                                                    None, None, 'mascara']},                      # o trilho vazio e a faixa de fogo que enche
 }
 
 def fundo(a):
@@ -57,7 +81,7 @@ def fundo(a):
     return (d < 75) | mag
 
 
-def grade(a, bgm):
+def grade(a, bgm, faixa=(17, 24)):
     """O tamanho do pixel e o deslocamento: as bordas entre cores (dentro do desenho) caem nas linhas da grade."""
     lum = a.astype(float).mean(-1)
     dx = np.abs(np.diff(lum, axis=1)) > 28
@@ -66,7 +90,7 @@ def grade(a, bgm):
     ys = np.nonzero(dy & ~bgm[1:, :] & ~bgm[:-1, :])[0] + 1.0
     melhor = None
     res = []
-    for p in np.arange(17, 24, 0.0625):   # o Flow desenha as folhas de 2048 px com o pixel perto de 20,5 (100 pixels de arte)
+    for p in np.arange(faixa[0], faixa[1], 0.0625):   # o Flow desenha as folhas de 2048 px com o pixel perto de 20,5 (100 pixels de arte)
         e = 0
         fases = []
         for v in (xs, ys):
@@ -96,6 +120,39 @@ def reduz(a, bgm, p, fx, fy):
             cel = a[y0:y1, x0:x1][~m]
             out[j, i, :3] = np.median(cel, 0)
             out[j, i, 3] = 255
+    return out
+
+
+def celulas(low, cols, rows):
+    """As folhas de ícones vêm numa grade: cada célula é um ícone (um ícone feito de partes soltas, como as 4 setas da
+    tela cheia, fica junto). Devolve o desenho de cada célula, aparado, na ordem de leitura (vazias = None)."""
+    op = low[..., 3] > 0
+    ys, xs = np.nonzero(op)
+    y0, y1, x0, x1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1
+    out = []
+    for j in range(rows):
+        for i in range(cols):
+            cy0, cy1 = y0 + (y1 - y0) * j // rows, y0 + (y1 - y0) * (j + 1) // rows
+            cx0, cx1 = x0 + (x1 - x0) * i // cols, x0 + (x1 - x0) * (i + 1) // cols
+            cel = low[cy0:cy1, cx0:cx1].copy()
+            # só a mancha maior da célula e o que estiver perto dela (tira as sobras do vizinho que caíram na borda)
+            m = cel[..., 3] > 0
+            lab, k = ndi.label(m, structure=np.ones((3, 3)))
+            if not k:
+                out.append(None); continue
+            tam = ndi.sum(m, lab, range(1, k + 1))
+            # ficam as partes grandes (as 4 setas da tela cheia) e as pequenas coladas na maior (faíscas, brilhos);
+            # o resto é sobra do ícone vizinho
+            perto = ndi.binary_dilation(lab == (int(np.argmax(tam)) + 1), iterations=2)
+            caixas = ndi.find_objects(lab)
+            Hc = cel.shape[0]
+            def sobra(i):   # um fiapo encostado na borda de cima ou de baixo da célula: o fundo do ícone de outra fileira
+                sl = caixas[i]
+                return (sl[0].start == 0 or sl[0].stop == Hc) and sl[0].stop - sl[0].start <= 2 and tam[i] < 0.5 * tam.max()
+            manter = np.isin(lab, [i + 1 for i in range(k) if not sobra(i) and (tam[i] >= 0.15 * tam.max() or ((perto & (lab == i + 1)).any() and tam[i] >= 2))])
+            cel[~manter] = 0
+            yy, xx = np.nonzero(cel[..., 3] > 0)
+            out.append(cel[yy.min():yy.max() + 1, xx.min():xx.max() + 1].copy())
     return out
 
 
@@ -174,6 +231,37 @@ def selos(v):
     return v
 
 
+def dialogo(v):
+    """A caixa da fala veio com tudo junto: a aba do nome em cima, o quadro do retrato à esquerda e a setinha embaixo.
+    Cada parte vira uma peça própria (o jogo põe cada uma no seu elemento) e a moldura fica limpa para esticar."""
+    def salva(nome, img):
+        Image.fromarray(img, 'RGBA').save(os.path.join(SAIDA, nome + '.png'))
+    H, W = v.shape[:2]
+    # a aba do nome (linhas 0 a 6, colunas 12 a 34) com o contorno de baixo fechado
+    aba = v[0:7, 12:35].copy()
+    aba[-1] = aba[0]
+    salva('ui_dialogo_nome', aba)
+    # o quadro do retrato (16 x 16): o meio vazado, o rosto do NPC aparece por baixo
+    rosto = v[11:27, 8:24].copy()
+    rosto[3:13, 3:13, 3] = 0
+    salva('ui_dialogo_rosto', rosto)
+    # a setinha de continuar
+    seta = v[25:29, 82:88].copy()
+    rgb = seta[..., :3].astype(int)
+    seta[~((rgb[..., 0] > 150) & (rgb[..., 2] < 110)), 3] = 0
+    salva('ui_dialogo_seta', seta)
+    # a moldura limpa: sem a aba (as linhas de cima saem), sem o retrato (a esquerda vem da direita espelhada) e sem a seta
+    q = v.copy()
+    q[3:6, 10:88, 3] = 0
+    for r in range(12, 26):
+        q[r, 0:10] = q[r, W - 1:W - 11:-1]
+    for r in list(range(9, 12)) + list(range(25, 29)):   # a sombra e as linhas do quadro do retrato perto da borda
+        q[r, 8:30] = q[r, 50]
+    for r in range(25, 29):
+        q[r, 80:88] = q[r, 60]
+    return q[3:].copy()
+
+
 def acabamento(nome, k, v, cfg):
     """Os ajustes de cada peça depois da redução."""
     if cfg.get('girar'):
@@ -184,6 +272,24 @@ def acabamento(nome, k, v, cfg):
         W0 = v.shape[1]
         manter = [x for x in range(W0) if not (a <= x < b or W0 - b <= x < W0 - a)]
         v = v[:, manter].copy()
+    if nome == 'ui_dialogo':
+        v = dialogo(v)
+    if nome == 'ui_balao_chat':
+        # a ponta do balão (embaixo, no meio) vira uma peça própria: o jogo estica o balão e põe a ponta embaixo do ninja
+        ponta = v[58:74, 36:58].copy()
+        Image.fromarray(ponta, 'RGBA').save(os.path.join(SAIDA, 'ui_balao_chat_ponta.png'))
+        v = v[:63].copy()
+        for x in range(36, 58):   # a borda de baixo fechada no lugar da ponta
+            v[56:63, x] = v[56:63, 25]
+    if nome == 'ui_aviso_grande':
+        # o medalhão de cima (e as chamas em volta dele) vira uma peça por cima, no meio: assim a moldura estica sem
+        # deformar o medalhão; a chama solta da borda de baixo sai (esticaria junto)
+        selo = v[0:16, 26:77].copy()
+        Image.fromarray(selo, 'RGBA').save(os.path.join(SAIDA, 'ui_aviso_grande_selo.png'))
+        for x in range(29, 69):
+            v[0:7, x, 3] = 0
+            v[7:24, x] = v[7:24, 31]
+            v[48:74, x] = v[48:74, 45]
     H, W = v.shape[:2]
     if cfg.get('fatia') and cfg.get('miolo'):
         t, r, b, l = cfg['fatia']
@@ -215,6 +321,17 @@ def acabamento(nome, k, v, cfg):
             Image.fromarray(chama, 'RGBA').save(os.path.join(SAIDA, 'ui_aba_chama.png'))
             for y, x in zip(ys, xs):   # no lugar da chama, a borda da aba (a mesma linha, uma coluna antes)
                 v[y, x] = v[y, x0 - 2]
+    if cfg.get('reparar_topo'):
+        # a borda de cima da direita veio apagada pelo painel que vazou (o Flow misturou os dois): a borda de cima é
+        # refeita com uma coluna boa do meio, e a ponta da direita com a de baixo espelhada (a peça é simétrica)
+        a0 = v[..., 3] > 0
+        ref = int(W * 0.3)
+        t = cfg['reparar_topo']
+        for x in range(ref, W - 9):
+            v[:t, x] = v[:t, ref]
+        ponta = v[H - t:, W - 9:][::-1].copy()
+        v[:t, W - 9:] = ponta
+        v[:t, :, 3] = np.where(v[:t, :, 3] > 0, 255, 0)
     if cfg.get('selos'):
         v = selos(v)
     if cfg.get('knob'):
@@ -240,12 +357,30 @@ def main():
             continue
         a = np.array(Image.open(os.path.join(FOLHAS, nome + '.jpg')).convert('RGB'))
         bgm = fundo(a)
-        p, fx, fy, e = grade(a, bgm)
+        if cfg.get('area'):
+            # o Flow às vezes desenha a peça por cima de um pedaço do painel de fundo (o da referência): fica só a área
+            # da peça (retângulos em fração da folha: x0, y0, x1, y1), o resto vira fundo
+            H0, W0 = bgm.shape
+            manter = np.zeros_like(bgm)
+            for x0, y0, x1, y1 in cfg['area']:
+                manter[int(y0 * H0):int(y1 * H0), int(x0 * W0):int(x1 * W0)] = True
+            bgm = bgm | ~manter
+        if cfg.get('tirar_roxo'):
+            # o brilho roxo do painel que vazou (o magenta misturado com o azul): vira fundo
+            r, g, b = a[..., 0].astype(int), a[..., 1].astype(int), a[..., 2].astype(int)
+            bgm = bgm | ((r > 70) & (b > 90) & (g < 0.55 * np.minimum(r, b)))
+        p, fx, fy, e = grade(a, bgm, cfg.get('passo', (17, 24)))
         low = reduz(a, bgm, p, fx, fy)
-        vs = pecas(low, cfg.get('versoes', 1))
+        if cfg.get('celulas'):
+            vs = celulas(low, *cfg['celulas'])
+        else:
+            vs = pecas(low, cfg.get('versoes', 1))
+        nomes = cfg.get('nomes')
         info = {'pixel': round(float(p), 3), 'versoes': []}
         for k, v in enumerate(vs):
-            arq = nome if len(vs) == 1 else f'{nome}_{k + 1}'
+            if nomes is not None and (k >= len(nomes) or not nomes[k] or v is None):
+                continue
+            arq = f'{nome}_{nomes[k]}' if nomes else (nome if len(vs) == 1 else f'{nome}_{k + 1}')
             v = acabamento(nome, k, v, cfg)
             f = cfg.get('fatia')   # marcadas à mão, olhando a peça na grade (cima, direita, baixo, esquerda)
             Image.fromarray(v, 'RGBA').save(os.path.join(SAIDA, arq + '.png'))

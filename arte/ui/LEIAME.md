@@ -80,5 +80,16 @@ v97 (mais 4 folhas, 23/11):
 - A barra dos selos: o trilho de 9 fatias e a faixa de fogo `ui_selos_fogo`, repetida na largura e animada inteira
   (`chamaGrande`).
 
-Faltam no Flow: título do painel, marcador do alvo, barras, slots da
-mochila, as folhas de ícones, insígnias, emblemas, caixa de conversa, avisos, balão do chat, logotipo e campo de texto.
+v98 (o lote 4, 16 folhas, 23/11). Quando o Flow desenha a peça por cima de um pedaço do painel de fundo, o recorte
+deixa esse pedaço de fora:
+- `area`: os retângulos da peça, em fração da folha;
+- `tirar_roxo`: o brilho roxo;
+- `reparar_topo`: refaz a borda apagada.
+
+As folhas de ícones são cortadas por célula (`celulas`: colunas e linhas) e cada célula ganha um nome (`nomes`, `None`
+pula as repetidas). A caixa da fala vira 4 peças: moldura, aba do nome, quadro do retrato e seta. O balão do chat vira
+moldura e ponta. O aviso grande vira moldura e medalhão, para os ornamentos do meio não esticarem.
+
+Ainda sem lugar no jogo: os emblemas das aldeias, parte dos ícones de recurso e de aviso.
+
+Faltam no Flow: título do painel, marcador do alvo, barras (moldura, cores e a do chefe).
