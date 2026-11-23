@@ -40,3 +40,24 @@ describe('v100 (pedido do Victor, 23/11): o chat é um botão; a barra da arena 
     assert.match(game, /flatMap\(fenceLanternProps\)/);
   });
 });
+
+describe('v101 (pedido do Victor, 23/11): a borda de baixo do painel e o painel que rolava', () => {
+  const css = readFileSync(new URL('../public/hud.css', import.meta.url), 'utf8');
+  const anim = readFileSync(new URL('../public/uiAnim.js', import.meta.url), 'utf8');
+  const py = readFileSync(new URL('../arte/ui/recortar_ui.py', import.meta.url), 'utf8');
+  it('o bronze da moldura não vira fogo (só o laranja forte das chamas); as bordas lisas e a linha de baixo mais grossa', async () => {
+    assert.match(anim, /const eFogo = \(r, g, b\) => r > 200 && b < 110 && r - g > 75;/);
+    const { quadrosDe } = await import(new URL('../public/uiAnim.js', import.meta.url).href);
+    const W = 12, H = 6, data = new Uint8ClampedArray(W * H * 4);
+    for (let x = 0; x < W; x++) data.set([0xc0, 0x88, 0x48, 255], (2 * W + x) * 4);   // o bronze aceso (c0 88 48)
+    const r = quadrosDe({ data }, W, H, (w: number, h: number) => ({ data: new Uint8ClampedArray(w * h * 4) }));
+    assert.ok(!r || r.frames.every((f: { data: Uint8ClampedArray }) => (f.data[(2 * W + 3) * 4 + 1] ?? 0) >= 0x88 - 1), 'o bronze não anda na rampa do fogo');
+    assert.match(py, /'ui_painel': \{[^}]*'bordas_lisas': True, 'bronze_baixo': True\}/);
+  });
+  it('o ranking e o Torneio não rolam: duas colunas, só a tabela rola quando a lista cresce', () => {
+    assert.match(html, /<section id="ranked-panel"[\s\S]*?<div class="ranked-cols">\s*<div class="ranked-info">[\s\S]*?<div class="ranked-scroll">\s*<table class="ranked-table">/);
+    assert.match(html, /<section id="jounin-panel"[\s\S]*?<div class="ranked-cols">[\s\S]*?<div class="ranked-scroll">/);
+    assert.match(css, /#ranked-panel, #jounin-panel \{\s*display: flex; flex-direction: column; overflow: hidden;/);
+    assert.match(css, /\.ranked-info, \.ranked-scroll \{ min-height: 0; overflow-y: auto;/);
+  });
+});

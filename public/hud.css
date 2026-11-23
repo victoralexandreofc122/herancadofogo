@@ -1478,3 +1478,20 @@ body.dialog-open .skill-tip { display: none; }
 }
 .history-panel .chat-bar button { min-width: 44px; min-height: 44px; border-radius: 8px; border: 0; background: rgba(240, 207, 122, 0.22); color: #ffd76a; font-size: 16px; }
 .history-list li.system { color: #b8c4e8; font-style: italic; }
+
+/* v101 (pedido do Victor, 23/11): o ranking e o Torneio não rolam no celular (o título cortado parecia que faltava algo):
+   duas colunas, os textos à esquerda e a tabela à direita; quando a lista cresce, só a tabela rola, o título fica parado. */
+#ranked-panel, #jounin-panel {
+  display: flex; flex-direction: column; overflow: hidden;
+  width: min(640px, calc(84vw - 24px)); max-width: none;   /* no celular o painel fica em 42% (os botões de luta à direita) */
+}
+.ranked-cols { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 4px 10px; }
+.ranked-info, .ranked-scroll { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+.ranked-scroll .ranked-table { width: 100%; margin: 4px 0; }
+.ranked-info .ranked-season, .ranked-info .ranked-me, .ranked-info .ranked-note, .ranked-info .jounin-cut, .ranked-info .jounin-me { margin-left: 4px; margin-right: 0; }
+.ranked-info .ranked-progress { margin-left: 4px; margin-right: 0; }
+.ranked-info .jounin-queue { margin-left: 4px; width: calc(100% - 4px); }
+@media (max-height: 430px) { .ranked-info .ranked-note { font-size: 12px; line-height: 1.35; } }
+@media (max-width: 600px) { .ranked-cols { grid-template-columns: 1fr; } }
+/* o equipamento passava 4 px no celular (a grade de itens já rola sozinha) */
+@media (max-height: 430px) { #inv-panel { overflow: hidden; } }

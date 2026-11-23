@@ -19,7 +19,8 @@ const hsv = (r, g, b) => {
   if (d) h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
   return [(h * 60 + 360) % 360, mx ? d / mx : 0, mx / 255];
 };
-const eFogo = (r, g, b) => r > 190 && b < 110 && r - g > 55;
+// v101: só o laranja forte das chamas é fogo (o bronze aceso da moldura, c0 88 48, ficava na divisa e piscava em laranja)
+const eFogo = (r, g, b) => r > 200 && b < 110 && r - g > 75;
 const eOuro = (r, g, b) => { const [h, s, v] = hsv(r, g, b); return h >= 20 && h <= 52 && s >= 0.28 && s <= 0.85 && v >= 0.42; };
 const nivel = (r, g, b) => { let best = 0, bd = 1e9; RAMPA.forEach((c, i) => { const d = (c[0] - r) ** 2 + (c[1] - g) ** 2 + (c[2] - b) ** 2; if (d < bd) { bd = d; best = i; } }); return best; };
 
