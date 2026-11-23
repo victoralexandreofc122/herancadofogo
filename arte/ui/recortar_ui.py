@@ -40,6 +40,11 @@ PECAS = {
     'ui_slider': {'knob': True},
     'ui_jutsu': {'versoes': 3, 'vazar': True},
     'ui_ataque': {'vazar': True},
+    # v97: as 4 do HUD (folhas do Victor de 23/11)
+    'ui_joystick': {'versoes': 2},                    # 1 = a base, 2 = a manopla
+    'ui_minimapa': {'vazar': True},                   # o mapa aparece pelo meio
+    'ui_retrato': {'versoes': 4, 'vazar': True},      # 1 = você, 2 = o inimigo, 3 e 4 = as plaquinhas do nível
+    'ui_selos': {'selos': True, 'fatia': [3, 3, 3, 3]},                      # o trilho vazio e a faixa de fogo que enche
 }
 
 def fundo(a):
@@ -138,6 +143,37 @@ def fatia_auto(img):
     return [int(v) for v in f]
 
 
+def selos(v):
+    """A barra dos selos veio com o fogo enchendo a metade da esquerda: sai o trilho vazio (o fogo vira o fundo escuro
+    do trilho, a coluna vazia da direita) e a faixa de fogo (ui_selos_fogo), que o jogo repete na largura que encheu.
+    O cravo do meio da borda sai (esticaria junto); os das pontas ficam."""
+    rgb = v[..., :3].astype(int)
+    H, W = v.shape[:2]
+    quente = (rgb[..., 0] > 190) & (rgb[..., 2] < 170) & (v[..., 3] > 0)
+    fogo = quente & (rgb[..., 0] - rgb[..., 1] > 70)
+    fogo[:4] = False; fogo[H - 4:] = False   # o fogo fica dentro do trilho (as linhas de ouro da borda não são fogo)
+    cols = np.nonzero(fogo.sum(0) >= 2)[0]
+    x0, x1 = cols.min(), cols.max() + 1
+    y0, y1 = 3, H - 3   # o miolo do trilho (fatia 3 em cima e embaixo)
+    faixa = v[y0:y1, x0:x1].copy()
+    dentro = quente[y0:y1, x0:x1].copy()
+    dentro[:1] = False
+    faixa[~dentro, 3] = 0   # entre as chamas: transparente (o escuro do trilho aparece por trás)
+    Image.fromarray(faixa, 'RGBA').save(os.path.join(SAIDA, 'ui_selos_fogo.png'))
+    ref = int(W * 0.8)
+    vazia = v[:, ref].copy()   # uma coluna do trilho vazio (o escuro de dentro e as bordas)
+    for x in range(x0, x1):
+        v[3:H - 3, x] = vazia[3:H - 3]
+    # o cravo do meio (em cima e embaixo) esticaria junto: as colunas dele viram a coluna vazia
+    meio = [x for x in range(int(W * 0.3), int(W * 0.7)) if rgb[1, x].sum() > 300 or rgb[H - 2, x].sum() > 300]
+    if meio:
+        viz = v[:, min(meio) - 3].copy()   # a coluna logo antes do cravo (a borda de ouro continua igual)
+        for x in range(min(meio) - 2, max(meio) + 3):
+            v[:, x] = viz
+    print('  selos: fogo x', x0, x1, '| cravo', (min(meio), max(meio)) if meio else None)
+    return v
+
+
 def acabamento(nome, k, v, cfg):
     """Os ajustes de cada peça depois da redução."""
     if cfg.get('girar'):
@@ -154,7 +190,7 @@ def acabamento(nome, k, v, cfg):
         mx, my = cfg['miolo']
         cor = v[min(my, H - 1), min(mx, W - 1)].copy()
         v[t:H - b, l:W - r] = cor   # o miolo que estica: uma cor lisa (sem manchas nem ruído do gerador)
-    if cfg.get('vazar'):
+    if cfg.get('vazar') and not (nome == 'ui_retrato' and k >= 2):
         # o disco escuro do meio fica transparente: a cor do botão (o elemento do jutsu) aparece por baixo do anel
         rgb = v[..., :3].astype(int)
         cy, cx = H // 2, W // 2
@@ -179,6 +215,8 @@ def acabamento(nome, k, v, cfg):
             Image.fromarray(chama, 'RGBA').save(os.path.join(SAIDA, 'ui_aba_chama.png'))
             for y, x in zip(ys, xs):   # no lugar da chama, a borda da aba (a mesma linha, uma coluna antes)
                 v[y, x] = v[y, x0 - 2]
+    if cfg.get('selos'):
+        v = selos(v)
     if cfg.get('knob'):
         # o puxador redondo do meio (o que passa da altura da barra) vira o polegar do controle; a barra, o trilho
         a = v[..., 3] > 0

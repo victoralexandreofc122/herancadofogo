@@ -153,3 +153,52 @@
   background: url(/assets/ui/ui_slider_polegar.png) center / 100% 100% no-repeat;
 }
 
+/* ---- v97: o HUD (folhas do Victor de 23/11) ---------------------------------------------------------------- */
+/* o retrato: a moldura em pé (você em bronze com o selo vermelho; o inimigo em ferro com o fio vermelho). O buraco da
+   arte tem 34 x 58 de 46 x 72 pixels: o boneco (canvas em pé) fica nele e a moldura vem por cima. */
+.ui-laca .hud-me .portrait, .ui-laca .target-window .portrait {
+  width: calc(52px * var(--s-hud)); height: calc(81px * var(--s-hud));
+  border-radius: 0; background: none; box-shadow: none;
+}
+.ui-laca .target-window .portrait { width: calc(40px * var(--s-hud)); height: calc(63px * var(--s-hud)); }
+.ui-laca .hud-me .portrait canvas, .ui-laca .target-window .portrait canvas {
+  position: absolute; left: 13.04%; top: 11.11%; width: 73.92%; height: 80.56%;
+  border-radius: 0; object-fit: contain;
+  background: linear-gradient(#1d2445, #141a33);
+}
+.ui-laca .hud-me .portrait::after, .ui-laca .target-window .portrait::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: url(/assets/ui/ui_retrato_1.png) center / 100% 100% no-repeat; image-rendering: pixelated;
+}
+.ui-laca .target-window .portrait.foe::after { background-image: url(/assets/ui/ui_retrato_2.png); }
+/* a plaquinha do nível, embaixo do retrato, por cima da borda de baixo */
+.ui-laca .level-badge {
+  left: 50%; bottom: calc(-9px * var(--s-hud)); translate: -50% 0; z-index: 1;
+  min-width: calc(40px * var(--s-hud)); height: calc(19px * var(--s-hud)); padding: 0 calc(6px * var(--s-hud));
+  border-radius: 0; box-shadow: none;
+  background: url(/assets/ui/ui_retrato_3.png) center / 100% 100% no-repeat; image-rendering: pixelated;
+  font-size: calc(13px * var(--s-hud)); color: #fff4d6;
+}
+.ui-laca .portrait-points { right: calc(-10px * var(--s-hud)); top: calc(-4px * var(--s-hud)); z-index: 2; }
+
+/* o minimapa: o anel de bronze com a chama em cima e os cravos; o mapa aparece pelo buraco (68 de 98 pixels) */
+.ui-laca .minimap { box-shadow: 0 8px 18px rgba(0, 0, 0, 0.55); }
+.ui-laca .minimap::after {
+  content: ''; position: absolute; inset: calc(-9px * var(--s-hud)); pointer-events: none;
+  background: url(/assets/ui/ui_minimapa.png) center / 100% 100% no-repeat; image-rendering: pixelated;
+}
+.ui-laca .mm-pin { display: none; }
+
+/* a barra dos selos (conjurando): o trilho de laca com o ouro e o fogo que enche, repetido na largura */
+.ui-laca .cast-bar { --sel: 2; }
+@media (min-width: 1100px) and (min-height: 700px) { .ui-laca .cast-bar { --sel: 2.5; } }
+.ui-laca .cast-bar .track {
+  height: auto; border-radius: 0; background: none; overflow: hidden;
+  border: calc(3px * var(--sel)) solid transparent;
+  border-image: url(/assets/ui/ui_selos.png) 3 fill / calc(3px * var(--sel)) stretch;
+  image-rendering: pixelated;
+}
+.ui-laca .cast-bar .fill {
+  height: calc(10px * var(--sel)); box-shadow: none; background: url(/assets/ui/ui_selos_fogo.png) left bottom / auto 100% repeat-x;
+  image-rendering: pixelated;
+}

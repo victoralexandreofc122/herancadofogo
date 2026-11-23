@@ -1845,7 +1845,8 @@ function drawBust(c, look) {
   const g = c.getContext('2d');
   g.clearRect(0, 0, c.width, c.height);
   g.imageSmoothingEnabled = false;
-  const s = 2;
+  // v97: na moldura alta da interface desenhada (o canvas fica em pé), o boneco aparece da cabeça até as pernas
+  const s = c.height > c.width ? 2.6 : 2;
   g.drawImage(figureCanvas(look), (c.width - 64 * s) / 2, -12 * s, 64 * s, 96 * s);
   return true;
 }
@@ -2344,6 +2345,9 @@ let desligaAnimacao = null, ligandoAnimacao = false;
 function aplicarInterface() {
   const raiz = document.documentElement;
   raiz.classList.toggle('ui-laca', !!uiPref.uiDesenhada);
+  // v97: o retrato desenhado é uma moldura em pé (o buraco tem 34 x 58 pixels de arte): o canvas fica em pé junto
+  const alto = uiPref.uiDesenhada ? 218 : 128;
+  if (ui.portrait && ui.portrait.height !== alto) { ui.portrait.height = alto; updatePortrait.key = null; }
   const calmo = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
   const quer = !!uiPref.uiDesenhada && !!uiPref.uiAnimada && particles.quality === 'full' && !calmo;
   if (quer && !desligaAnimacao && !ligandoAnimacao) {
@@ -10193,6 +10197,16 @@ const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 let touchSeen = false;
 window.addEventListener('pointerdown', (e) => { if (e.pointerType === 'touch') touchSeen = true; }, { capture: true, passive: true });
 
+/** v97: as duas peças do joystick desenhado (carregam na primeira vez; até lá, o círculo antigo). */
+function joyArte() {
+  if (!joyArte.img) {
+    const carrega = (n) => { const im = new Image(); im.src = `/assets/ui/${n}.png`; return im; };
+    joyArte.img = { base: carrega('ui_joystick_1'), knob: carrega('ui_joystick_2') };
+  }
+  const { base, knob } = joyArte.img;
+  return base.complete && base.naturalWidth && knob.complete && knob.naturalWidth ? joyArte.img : null;
+}
+
 function drawJoystick() {
   if (ui.hud.hidden) return;
   if (finePointer && !touchSeen && !hud.editing) return;
@@ -10207,18 +10221,31 @@ function drawJoystick() {
     ctx.beginPath(); ctx.arc(joy.baseX, joy.baseY, joy.radius + 8, 0, Math.PI * 2); ctx.stroke();
     ctx.restore();
   }
-  ctx.fillStyle = 'rgba(12, 16, 32, 0.45)';
-  ctx.strokeStyle = 'rgba(233, 214, 170, 0.5)';
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.arc(joy.baseX, joy.baseY, joy.radius, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.stroke();
   const meditating = state.me.meditating;
-  ctx.fillStyle = meditating ? 'rgba(111, 192, 255, 0.6)' : active ? '#e9c46a' : 'rgba(244, 236, 216, 0.85)';
-  ctx.beginPath();
-  ctx.arc(joy.baseX + joy.knobX, joy.baseY + joy.knobY, joy.radius * 0.48, 0, Math.PI * 2);
-  ctx.fill();
+  const arte = uiPref.uiDesenhada && joyArte();
+  if (arte) {
+    // v97: o joystick desenhado no Flow (a base de bronze com as setas e a manopla de brasa), sem borrar o pixel.
+    // A base de arte tem 61 px: o anel de fora fica um pouco além do raio de toque, como o contorno antigo.
+    const liso = ctx.imageSmoothingEnabled;
+    ctx.imageSmoothingEnabled = false;
+    const d = joy.radius * 2.12, k = joy.radius * 1.04;
+    ctx.drawImage(arte.base, Math.round(joy.baseX - d / 2), Math.round(joy.baseY - d / 2), Math.round(d), Math.round(d));
+    if (meditating) ctx.globalAlpha *= 0.55;
+    ctx.drawImage(arte.knob, Math.round(joy.baseX + joy.knobX - k / 2), Math.round(joy.baseY + joy.knobY - k / 2), Math.round(k), Math.round(k * 32 / 30));
+    ctx.imageSmoothingEnabled = liso;
+  } else {
+    ctx.fillStyle = 'rgba(12, 16, 32, 0.45)';
+    ctx.strokeStyle = 'rgba(233, 214, 170, 0.5)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(joy.baseX, joy.baseY, joy.radius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = meditating ? 'rgba(111, 192, 255, 0.6)' : active ? '#e9c46a' : 'rgba(244, 236, 216, 0.85)';
+    ctx.beginPath();
+    ctx.arc(joy.baseX + joy.knobX, joy.baseY + joy.knobY, joy.radius * 0.48, 0, Math.PI * 2);
+    ctx.fill();
+  }
   if (meditating) {                   // travado: mexer aqui encerra a meditação
     ctx.globalAlpha = 1;
     ctx.font = `${Math.round(joy.radius * 0.5)}px system-ui, sans-serif`;

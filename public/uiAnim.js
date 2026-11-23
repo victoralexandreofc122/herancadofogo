@@ -24,7 +24,7 @@ const eOuro = (r, g, b) => { const [h, s, v] = hsv(r, g, b); return h >= 20 && h
 const nivel = (r, g, b) => { let best = 0, bd = 1e9; RAMPA.forEach((c, i) => { const d = (c[0] - r) ** 2 + (c[1] - g) ** 2 + (c[2] - b) ** 2; if (d < bd) { bd = d; best = i; } }); return best; };
 
 /** Os quadros de uma peça: { urls, ms } (ou null, se ela não tem fogo nem ouro). Puro: recebe e devolve ImageData. */
-export function quadrosDe(img, W, H, criar) {
+export function quadrosDe(img, W, H, criar, opc = {}) {
   const px = img.data;
   const fogo = new Uint8Array(W * H), ouro = new Uint8Array(W * H), lv = new Int8Array(W * H);
   let nf = 0, no = 0;
@@ -35,7 +35,8 @@ export function quadrosDe(img, W, H, criar) {
   }
   // a chama é uma mancha pequena (as chamas dos cantos, as do anel): uma linha longa da mesma cor é o bronze aceso da
   // moldura, que não pode pegar fogo. Manchas maiores que 16 pixels ou compridas (4 vezes mais longas que largas) saem.
-  {
+  // (a faixa de fogo da barra dos selos é toda chama: lá a mancha grande é fogo mesmo, opc.chamaGrande)
+  if (!opc.chamaGrande) {
     const visto = new Uint8Array(W * H);
     for (let i0 = 0; i0 < W * H; i0++) {
       if (!fogo[i0] || visto[i0]) continue;
@@ -125,24 +126,30 @@ export const ANIMADAS = {
   ui_jutsu_1: '.cbtn.skill:not(.cooling):not(.empty)',
   ui_ataque: '.cbtn.attack',
   ui_botao_redondo_1: '.round-btn:not(:active)',
+  // v97: o HUD. Estas ficam no fundo (background-image) de um pseudo-elemento ou da própria peça.
+  ui_retrato_1: { sel: '.hud-me .portrait::after', prop: 'background-image' },
+  ui_retrato_2: { sel: '.target-window .portrait.foe::after', prop: 'background-image' },
+  ui_minimapa: { sel: '.minimap::after', prop: 'background-image' },
+  ui_selos_fogo: { sel: '.cast-bar .fill', prop: 'background-image', chamaGrande: true },
 };
 
 /** Liga a animação nas peças (só com o gráfico no máximo: quem chama decide). Devolve a função que desliga. */
 export async function ligarAnimacao(pecas = ANIMADAS) {
   if (typeof CSSStyleSheet === 'undefined' || !('adoptedStyleSheets' in document)) return () => {};
   const regras = [];
-  for (const [nome, seletor] of Object.entries(pecas)) {
+  for (const [nome, peca] of Object.entries(pecas)) {
+    const { sel: seletor, prop = 'border-image-source', ...opc } = typeof peca === 'string' ? { sel: peca } : peca;
     try {
       const img = await new Promise((ok, falha) => { const im = new Image(); im.onload = () => ok(im); im.onerror = falha; im.src = `/assets/ui/${nome}.png`; });
       const cv = document.createElement('canvas');
       cv.width = img.width; cv.height = img.height;
       const g = cv.getContext('2d');
       g.drawImage(img, 0, 0);
-      const r = quadrosDe(g.getImageData(0, 0, img.width, img.height), img.width, img.height, (w, h) => g.createImageData(w, h));
+      const r = quadrosDe(g.getImageData(0, 0, img.width, img.height), img.width, img.height, (w, h) => g.createImageData(w, h), opc);
       if (!r) continue;
       const urls = r.frames.map((fr) => { g.clearRect(0, 0, cv.width, cv.height); g.putImageData(fr, 0, 0); return cv.toDataURL('image/png'); });
       const passo = 100 / urls.length;
-      regras.push(`@keyframes uia-${nome} {${urls.map((u, i) => `${(i * passo).toFixed(3)}% { border-image-source: url("${u}"); }`).join(' ')}}`);
+      regras.push(`@keyframes uia-${nome} {${urls.map((u, i) => `${(i * passo).toFixed(3)}% { ${prop}: url("${u}"); }`).join(' ')}}`);
       const sel = seletor.split(',').map((x) => `.ui-laca.ui-anim ${x.trim()}`).join(', ');
       regras.push(`${sel} { animation: uia-${nome} ${r.ms}ms step-end infinite; }`);
     } catch { /* sem a imagem: a peça fica parada */ }

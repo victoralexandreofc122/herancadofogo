@@ -59,6 +59,9 @@ Peças animadas (em `ANIMADAS`, no `uiAnim.js`):
 | anel do jutsu pronto | os jutsus prontos |
 | anel do ataque | o ataque básico |
 | botão redondo | o botão redondo |
+| retrato (você e o inimigo) | o retrato e o alvo |
+| minimapa | o minimapa |
+| faixa de fogo dos selos | a barra dos selos enchendo |
 
 O apertado, o desligado e o jutsu em recarga ficam parados: o movimento é para o que está pronto para usar.
 
@@ -68,5 +71,14 @@ Painel, painel pequeno, pergaminho, cartão de entrada (a 2ª versão do painel,
 botão principal, secundário (deitado), de perigo, redondo, fechar, caixa de marcar, controle deslizante, anel do jutsu
 (pronto, recarga, travado) e anel do ataque.
 
-Faltam no Flow: título do painel, joystick, minimapa, retratos, barra dos selos, marcador do alvo, barras, slots da
+v97 (mais 4 folhas, 23/11):
+- O joystick: a base e a manopla, desenhadas no canvas em `drawJoystick`.
+- O minimapa: o anel por cima do mapa.
+- Os retratos:
+  - em pé, com o canvas alto (o boneco da cabeça às pernas);
+  - a plaquinha do nível embaixo.
+- A barra dos selos: o trilho de 9 fatias e a faixa de fogo `ui_selos_fogo`, repetida na largura e animada inteira
+  (`chamaGrande`).
+
+Faltam no Flow: título do painel, marcador do alvo, barras, slots da
 mochila, as folhas de ícones, insígnias, emblemas, caixa de conversa, avisos, balão do chat, logotipo e campo de texto.
