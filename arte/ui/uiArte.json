@@ -925,5 +925,77 @@
     "h": 61
    }
   ]
+ },
+ "ui_barra_chefe": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_barra_chefe",
+    "w": 98,
+    "h": 26,
+    "fatia": [
+     10,
+     14,
+     9,
+     22
+    ]
+   }
+  ]
+ },
+ "ui_barra_cores": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_barra_cores_vida",
+    "w": 4,
+    "h": 19
+   },
+   {
+    "arquivo": "ui_barra_cores_chakra",
+    "w": 4,
+    "h": 18
+   },
+   {
+    "arquivo": "ui_barra_cores_xp",
+    "w": 4,
+    "h": 16
+   },
+   {
+    "arquivo": "ui_barra_cores_inimigo",
+    "w": 4,
+    "h": 19
+   },
+   {
+    "arquivo": "ui_barra_cores_escudo",
+    "w": 4,
+    "h": 18
+   }
+  ]
+ },
+ "ui_titulo": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_titulo",
+    "w": 96,
+    "h": 16,
+    "fatia": [
+     4,
+     12,
+     4,
+     12
+    ]
+   }
+  ]
+ },
+ "ui_alvo": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_alvo_1",
+    "w": 90,
+    "h": 73
+   }
+  ]
  }
 }

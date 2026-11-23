@@ -136,6 +136,9 @@ export const ANIMADAS = {
   ui_aviso_grande: '.duel-banner',
   ui_aviso_grande_selo: { sel: '.duel-banner::before', prop: 'background-image' },
   ui_slot_lendario: '.eq-cell[data-raridade="lendario"]',
+  // v99: a faixa do título e a barra do chefe
+  ui_titulo: '.mission-head h2',
+  ui_barra_chefe: '.boss-track',
 };
 
 /** Liga a animação nas peças (só com o gráfico no máximo: quem chama decide). Devolve a função que desliga. */

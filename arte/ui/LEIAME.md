@@ -92,4 +92,8 @@ moldura e ponta. O aviso grande vira moldura e medalhão, para os ornamentos do 
 
 Ainda sem lugar no jogo: os emblemas das aldeias, parte dos ícones de recurso e de aviso.
 
-Faltam no Flow: título do painel, marcador do alvo, barras (moldura, cores e a do chefe).
+v99 (as 4 últimas, 23/11): a faixa do título, as cores das barras, a barra do chefe e o marcador do alvo no chão (no
+canvas). As cores das barras vieram em pé: `perfil` pega o corte do meio, de cima para baixo, encolhe cada faixa de cor
+e faz uma tira de 4 colunas que o CSS repete na largura.
+
+Falta no Flow: a moldura das barras (vida, chakra, XP).
