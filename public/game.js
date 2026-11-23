@@ -30,6 +30,7 @@ import { fogoBarrier, fogoBarrierEnd, fogoCast, fogoCastStart, fogoDetona, fogoE
 import { folhaClanFx, folhaEscudoHit, folhaMuro, folhaMuroFim, folhaPronta, summonFrames } from './folhasAnim.js';
 import { camadasCast, camadasCastStart, camadasDetona, camadasGround, camadasImpact, camadasMarca } from './camadasJutsus.js';
 import { AudioManager } from './audio.js';
+import { ligarAnimacao } from './uiAnim.js';
 import { GROUND_ELEMENT, Particles, elementOf } from './particles.js';
 import { STRIKE_ART, ZONE_ART, drawBolt, drawDecal, drawStatusArt, drawStrikeArt, drawWindDisc, drawZoneArt, iconesCabeca } from './jutsuArt.js';
 import { drawBackWeapon, drawHandWeapon, drawWeaponIcon, drawnForStrike, isThrown, loadWeapons, weaponReady } from './weapons.js';
@@ -2308,13 +2309,13 @@ setInterval(updateCombatHud, 400);
  *   portraits     no PvP, os retratos dos inimigos perto do polegar: um toque foca aquele ninja
  *   hideFullBars  fora da luta, com vida e chakra cheios, as duas barras somem (o retrato fica)
  */
-const UI_PREF_DEFAULT = { joystick: 'flutuante', aimCamera: true, holdInfo: true, portraits: true, hideFullBars: false, dlgPortrait: true };
+const UI_PREF_DEFAULT = { joystick: 'flutuante', aimCamera: true, holdInfo: true, portraits: true, hideFullBars: false, dlgPortrait: true, uiDesenhada: true, uiAnimada: true };
 const uiPref = (() => {
   const out = { ...UI_PREF_DEFAULT };
   try {
     const raw = JSON.parse(localStorage.getItem('nin.uiPrefs') || '{}');
     if (raw.joystick === 'fixo' || raw.joystick === 'flutuante') out.joystick = raw.joystick;
-    for (const k of ['aimCamera', 'holdInfo', 'portraits', 'hideFullBars', 'dlgPortrait']) if (typeof raw[k] === 'boolean') out[k] = raw[k];
+    for (const k of ['aimCamera', 'holdInfo', 'portraits', 'hideFullBars', 'dlgPortrait', 'uiDesenhada', 'uiAnimada']) if (typeof raw[k] === 'boolean') out[k] = raw[k];
   } catch { /* sem armazenamento ou dado estragado: o padrão */ }
   return out;
 })();
@@ -2327,12 +2328,28 @@ function saveUiPref() {
     sel.value = uiPref.joystick;
     sel.addEventListener('change', () => { uiPref.joystick = sel.value === 'fixo' ? 'fixo' : 'flutuante'; saveUiPref(); });
   }
-  for (const [id, key] of [['pref-aim-camera', 'aimCamera'], ['pref-hold-info', 'holdInfo'], ['pref-portraits', 'portraits'], ['pref-hide-bars', 'hideFullBars'], ['pref-dlg-portrait', 'dlgPortrait']]) {
+  for (const [id, key] of [['pref-aim-camera', 'aimCamera'], ['pref-hold-info', 'holdInfo'], ['pref-portraits', 'portraits'], ['pref-hide-bars', 'hideFullBars'], ['pref-dlg-portrait', 'dlgPortrait'], ['pref-ui-desenhada', 'uiDesenhada'], ['pref-ui-animada', 'uiAnimada']]) {
     const box = $(id);
     if (!box) continue;
     box.checked = uiPref[key];
-    box.addEventListener('change', () => { uiPref[key] = box.checked; saveUiPref(); updateCombatHud(); });
+    box.addEventListener('change', () => { uiPref[key] = box.checked; saveUiPref(); updateCombatHud(); aplicarInterface(); });
   }
+}
+/**
+ * v96: a interface desenhada no Flow (tema Laca e Brasa, uiLaca.css) e a animação dela (uiAnim.js: o fogo e o brilho do
+ * ouro, feitos no aparelho a partir da arte). A animação só liga com o gráfico no máximo: efeitos dos jutsus Completos,
+ * a opção ligada e sem "reduzir movimento" no aparelho.
+ */
+let desligaAnimacao = null, ligandoAnimacao = false;
+function aplicarInterface() {
+  const raiz = document.documentElement;
+  raiz.classList.toggle('ui-laca', !!uiPref.uiDesenhada);
+  const calmo = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const quer = !!uiPref.uiDesenhada && !!uiPref.uiAnimada && particles.quality === 'full' && !calmo;
+  if (quer && !desligaAnimacao && !ligandoAnimacao) {
+    ligandoAnimacao = true;
+    ligarAnimacao().then((desliga) => { ligandoAnimacao = false; desligaAnimacao = desliga; if (!(uiPref.uiDesenhada && uiPref.uiAnimada && particles.quality === 'full')) aplicarInterface(); });
+  } else if (!quer && desligaAnimacao) { desligaAnimacao(); desligaAnimacao = null; }
 }
 
 /*
@@ -6714,8 +6731,10 @@ ui.openCreator.addEventListener('click', () => openCreator(false));
     sel.addEventListener('change', () => {
       particles.setQuality(sel.value);
       try { localStorage.setItem(VFX_KEY, particles.quality); } catch { /* modo privado */ }
+      aplicarInterface();   // v96: a animação da interface segue o gráfico
     });
   }
+  aplicarInterface();
 }
 for (const [key, input] of Object.entries(ui.sliders)) {
   input.addEventListener('input', () => {

@@ -41,8 +41,11 @@ export const FOGO_SPRITE_FRAMES = [...readFileSync(new URL('../../public/vfxFogo
 export const CAMADAS_FRAMES = [...readFileSync(new URL('../../public/vfxCamadas.js', import.meta.url), 'utf8').matchAll(/^ {2}(pfx_\w+): \{/gm)].map((m) => m[1] ?? '');
 export const JUTSU_SPRITE_FRAMES = [...JUTSU_SPRITES.flatMap((n) => [1, 2, 3].map((i) => `${n}_0${i}`)), ...FOGO_SPRITE_FRAMES, ...CAMADAS_FRAMES];
 
+/** v96: as peças da interface desenhada (tema Laca e Brasa; a lista sai de public/uiArte.js, gerado por arte/ui/recortar_ui.py). */
+export const UI_ARTE = [...readFileSync(new URL('../../public/uiArte.js', import.meta.url), 'utf8').matchAll(/^ {2}(ui_\w+): \{/gm)].map((m) => m[1] ?? '');
+
 /** Folhas PNG de public/assets/<pasta>/ (a lista bate com vfxData.js e weaponData.js: test/static.test.ts confere). */
-function sheets(folder: 'vfx' | 'weapons', names: readonly string[]) {
+function sheets(folder: 'vfx' | 'weapons' | 'ui', names: readonly string[]) {
   return names.map((n) => ({ route: `/assets/${folder}/${n}.png`, file: `assets/${folder}/${n}.png`, contentType: 'image/png', binary: true as const }));
 }
 
@@ -83,6 +86,11 @@ const FILES = [
   { route: '/prediction.js', file: 'prediction.js', contentType: 'text/javascript; charset=utf-8' },
   { route: '/styles.css', file: 'styles.css', contentType: 'text/css; charset=utf-8' },
   { route: '/hud.css', file: 'hud.css', contentType: 'text/css; charset=utf-8' },
+  // v96: a interface desenhada (Laca e Brasa): o tema, o mapa das peças, a animação do fogo e do ouro e as peças
+  { route: '/uiLaca.css', file: 'uiLaca.css', contentType: 'text/css; charset=utf-8' },
+  { route: '/uiArte.js', file: 'uiArte.js', contentType: 'text/javascript; charset=utf-8' },
+  { route: '/uiAnim.js', file: 'uiAnim.js', contentType: 'text/javascript; charset=utf-8' },
+  ...sheets('ui', UI_ARTE),
   // Personagem (v25, arte/personagem-rig): desenhado por código no aparelho. Visual e opções, paletas, esqueleto 3D
   // animado, pixel art em camadas e o cache de quadros.
   { route: '/sprites.js', file: 'sprites.js', contentType: 'text/javascript; charset=utf-8' },

@@ -1,0 +1,314 @@
+<title>Interface no Flow</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: oficina de produção. Regras do estilo no alto, depois o catálogo filtrável com um cartão por asset e o prompt pronto. */
+:root {
+  --bg: #eceee8; --surface: #f7f8f4; --ink: #1c2320; --muted: #56615b; --line: #c6ccc3; --accent: #b9441d; --ok: #2f7d4a;
+  --mag: #ff00ff; --code: #eef1ea; --b: #6b7570; --s: #3b4a6b; --l: #c98a00; --m: #1d8584;
+  --font-display: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111513; --surface: #192019; --ink: #e5eae3; --muted: #9ba79f; --line: #2d3731; --accent: #ff7d4a; --ok: #5cc27f;
+  --code: #141a16; --b: #9aa59e; --s: #8ea2d6; --l: #ffc933; --m: #42c4c1; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #111513; --surface: #192019; --ink: #e5eae3; --muted: #9ba79f; --line: #2d3731; --accent: #ff7d4a; --ok: #5cc27f;
+  --code: #141a16; --b: #9aa59e; --s: #8ea2d6; --l: #ffc933; --m: #42c4c1; color-scheme: dark }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.2; }
+h1 { font-size: clamp(28px, 5vw, 42px); }
+h2 { font-size: 23px; }
+h3 { font-size: 16px; }
+p { margin: 0; max-width: 72ch; }
+.eyebrow { font-family: var(--font-display); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--accent); font-weight: 600; }
+.muted { color: var(--muted); }
+section, header { display: grid; gap: 14px; min-width: 0; }
+.plate { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px; display: grid; gap: 12px; min-width: 0; }
+.steps { margin: 0; padding-left: 22px; display: grid; gap: 8px; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.fact { background: var(--surface); padding: 12px 14px; display: grid; gap: 2px; align-content: start; }
+.fact b { font-family: var(--font-display); font-size: 21px; font-variant-numeric: tabular-nums; }
+.fact span { font-size: 13px; color: var(--muted); }
+.refs { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.refs figure { margin: 0; display: grid; gap: 4px; }
+.refs img { width: 100%; border-radius: 4px; border: 1px solid var(--line); image-rendering: auto; }
+.refs figcaption { font-size: 12.5px; color: var(--muted); }
+pre.block { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: var(--font-mono); font-size: 12.5px; background: var(--code); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; max-height: 260px; overflow: auto; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+th { font-family: var(--font-display); font-weight: 600; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+.lay { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 4px; font: 700 12px/1 var(--font-display); color: var(--surface); }
+.lay.B { background: var(--b); } .lay.S { background: var(--s); } .lay.L { background: var(--l); color: #1c2320; } .lay.M { background: var(--m); }
+
+.bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--bg); padding-block: 10px; z-index: 5; border-bottom: 1px solid var(--line); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+select, input[type="search"] { font: 500 14px var(--font-body); min-height: 44px; padding: 0 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); min-width: 0; }
+input[type="search"] { flex: 1 1 180px; }
+label.chk { display: inline-flex; gap: 6px; align-items: center; min-height: 44px; font-size: 14px; }
+.prog { font-family: var(--font-display); font-variant-numeric: tabular-nums; font-size: 14px; }
+.regionhead { display: grid; gap: 4px; margin-top: 10px; }
+.regionhead h3 { font-size: 19px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 12px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.card.done { opacity: .6; }
+.card .top { display: flex; justify-content: space-between; gap: 8px; align-items: start; }
+.card .id { font-family: var(--font-mono); font-size: 12px; color: var(--muted); word-break: break-all; }
+.card .meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12.5px; color: var(--muted); }
+.card .desc { font-size: 13.5px; }
+.btns { display: flex; flex-wrap: wrap; gap: 6px; }
+.layers-note { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 3px; font-size: 13px; line-height: 1.4; }
+.layers-note .lay { margin-right: 4px; }
+button.cp { font: 600 13px/1 var(--font-display); min-height: 44px; padding: 0 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+button.cp.main { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+button.cp:focus-visible, select:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button.cp.copied { background: var(--ok); color: #fff; border-color: var(--ok); }
+details summary { cursor: pointer; font-size: 13px; color: var(--muted); min-height: 32px; display: flex; align-items: center; }
+.estado { display: flex; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.estado button { font: 600 12.5px/1 var(--font-display); min-height: 44px; padding: 0 10px; border: 0; border-right: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; flex: 1 1 auto; }
+.estado button:last-child { border-right: 0; }
+.estado button[aria-pressed="true"][data-e="afazer"] { background: var(--b); color: #fff; }
+.estado button[aria-pressed="true"][data-e="feita"] { background: var(--s); color: #fff; }
+.estado button[aria-pressed="true"][data-e="revisar"] { background: var(--l); color: #1c2320; }
+.estado button[aria-pressed="true"][data-e="refazer"] { background: var(--accent); color: #fff; }
+.estado button[aria-pressed="true"][data-e="aprovada"] { background: var(--ok); color: #fff; }
+.estado button:disabled { opacity: .55; cursor: not-allowed; }
+.pill { font: 600 11.5px/1 var(--font-display); padding: 4px 7px; border-radius: 4px; border: 1px solid currentColor; white-space: nowrap; }
+.pill[data-e="afazer"] { color: var(--b); } .pill[data-e="feita"] { color: var(--s); } .pill[data-e="revisar"] { color: var(--l); }
+.pill[data-e="refazer"] { color: var(--accent); } .pill[data-e="aprovada"] { color: var(--ok); }
+.card textarea { width: 100%; min-height: 56px; font: 400 13.5px var(--font-body); padding: 8px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); resize: vertical; }
+.card .salvo { font-size: 12px; color: var(--muted); }
+.novo { border: 1px solid var(--accent); border-radius: 6px; padding: 10px; display: grid; gap: 6px; }
+.novo b { font-family: var(--font-display); color: var(--accent); font-size: 13px; }
+.aviso { font-size: 13px; color: var(--muted); }
+.aviso[data-tom="erro"] { color: var(--accent); }
+.toast { position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 6px; font-size: 14px; z-index: 20; }
+.pal { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.sw { display: grid; grid-template-columns: 34px 1fr; gap: 8px; align-items: center; font-size: 13px; }
+.sw i { width: 34px; height: 34px; border-radius: 4px; border: 1px solid var(--line); display: block; }
+.sw small { display: block; color: var(--muted); font-family: var(--font-mono); font-size: 11.5px; }
+.vers { margin: 6px 0 0; padding-left: 18px; font-size: 13px; color: var(--muted); display: grid; gap: 2px; }
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Herança do Fogo · interface · 23/11/2026</div>
+    <h1>Interface no Flow</h1>
+    <p>Um prompt para cada peça da interface: painéis, pergaminhos, botões, o HUD de combate, as barras, a mochila, os ícones, as insígnias e a caixa de conversa, todas no mesmo tema. Você gera uma peça por vez no Flow, marca aqui em que pé está e me manda as imagens; eu recorto, corto em 9 fatias o que estica e troco a interface de hoje, peça por peça.</p>
+    <div class="facts" id="facts"></div>
+  </header>
+
+  <section>
+    <div class="eyebrow">O tema</div>
+    <h2>Laca e Brasa</h2>
+    <p>A interface parece um objeto do próprio mundo: madeira laqueada azul-tinta (a cor dos painéis de hoje), molduras de bronze envelhecido com fio de ouro, papel de arroz cor de creme onde se lê (Manual, falas, notas), pequenas chamas cor de brasa nos cantos (o fogo da herança) e um selo vermelho de carimbo nos avisos. Fica no estilo do jogo: pixel art de 16 bits, contorno marrom-escuro de 1 pixel, 3 a 4 tons por material e luz de cima à esquerda, como o boneco e as folhas dos jutsus.</p>
+    <div class="pal" id="pal"></div>
+    <div class="refs" id="refs"></div>
+    <div class="plate">
+      <h3>O bloco de estilo (abre todo prompt)</h3>
+      <pre class="block" id="styleBlock"></pre>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Como usar</div>
+    <h2>Uma peça por vez</h2>
+    <ol class="steps">
+      <li><b>Copie o prompt</b> do cartão e cole no Flow, em criação de imagem. Gere 4 variações e fique com a que seguir melhor o tema; comece pelo <b>Painel grande</b> e pelo <b>Botão principal</b>, que viram o padrão das outras.</li>
+      <li><b>Salve com o id do cartão</b> (ex.: <code>ui_painel.png</code>) e marque aqui: <b>Feita</b>, <b>Revisar</b>, <b>Refazer</b> ou <b>Aprovada</b>. Anote o que não ficou bom.</li>
+      <li><b>Sem texto na arte.</b> Os prompts pedem o centro liso: o jogo escreve os nomes, os números e os rótulos por cima, em português, no tamanho certo para o celular.</li>
+      <li><b>Molduras em 9 fatias:</b> painéis, barras e caixas esticam para qualquer tamanho. Os cantos ficam como você gerou; só as bordas retas e o meio esticam.</li>
+      <li><b>Me mande as imagens</b> em lotes. Eu tiro o fundo magenta, acerto a grade de pixels, recorto as versões (estados, raridades, faixas) e ligo no jogo, conferindo o guia de UI (toque de 44 px, texto de 12 px).</li>
+    </ol>
+    <p class="muted">Os prompts estão em inglês porque o gerador segue melhor as instruções técnicas de pixel art nessa língua. O nome e a descrição de cada peça estão em português no cartão.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Tamanho</div>
+    <h2>Cada pixel de arte vira 2 pixels de tela</h2>
+    <p>No celular deitado, o jogo mostra cada pixel de arte com 2 pixels de tela (3 no computador). Por isso um botão de jutsu tem 32 pixels de arte (64 na tela) e um botão comum tem 22 de altura (44 na tela, o toque mínimo do guia de UI). Cada cartão diz o tamanho da arte; o prompt pede ao Flow para desenhar nessa grade e ampliar sem borrar.</p>
+  </section>
+
+  <section id="catalogo">
+    <div class="eyebrow">Catálogo</div>
+    <h2>Todas as peças</h2>
+    <div class="bar">
+      <select id="fGrupo" aria-label="Grupo"></select>
+      <input type="search" id="fText" placeholder="Buscar (ex.: botão, barra)" aria-label="Buscar">
+      <select id="fEstado" aria-label="Situação">
+        <option value="">Qualquer situação</option><option value="afazer">A fazer</option><option value="feita">Feita</option>
+        <option value="revisar">Revisar</option><option value="refazer">Refazer</option><option value="aprovada">Aprovada</option>
+        <option value="novo">Com prompt novo</option>
+      </select>
+      <span class="prog" id="prog"></span>
+    </div>
+    <p class="aviso" id="aviso" role="status">Conectando ao que já foi marcado…</p>
+    <div id="list"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Depois do Flow</div>
+    <h2>O que eu faço com as imagens</h2>
+    <ol class="steps">
+      <li>Tiro o fundo magenta, reduzo para a grade de pixels do cartão sem borrar e uno as cores na paleta do tema.</li>
+      <li>Separo as versões de cada imagem (normal, apertado, desligado; as raridades; as faixas) e corto as molduras em 9 fatias.</li>
+      <li>Troco a interface de hoje pela nova, tela por tela, mantendo os mesmos botões e lugares; a auditoria de UI confere toque, texto e contraste.</li>
+      <li>Te mando as telas antes e depois, no celular e no computador.</li>
+    </ol>
+  </section>
+</div>
+
+<script>
+/*__REFS__*/
+/*__CAT__*/
+const STYLE = "16-bit pixel art user interface asset for a chibi anime ninja action MMORPG played on a phone held sideways and on a computer, in a feudal-Japan-inspired fantasy world with an original design. Visual theme \"lacquer and ember\": panels of deep ink-navy lacquered wood (#0E1430, #1B2448), trims of aged bronze with warm gold highlights (#B8893F, #F0CF7A, dark #3A2610), cream rice-paper surfaces (#F3E2BD) for reading, small ember-orange flame accents (#F0A03C, #E8572F) and a red seal-stamp accent (#B5451B). Rendering: crisp square pixels on an even grid, a one-pixel outline in very dark warm brown (#1D1408) around every shape, every material shaded with 3 to 4 close tones, light from the top left so top and left edges are brighter and bottom and right edges darker, a few bright highlight pixels on metal and lacquer.";
+const VIEW = "View: a perfectly flat front view of a 2D interface element, square to the viewer, centered and symmetrical.";
+const FUNDO = "The element sits isolated and complete in the middle of the image on a perfectly flat solid magenta background (#FF00FF) that fills the rest of the image evenly, with a clear empty margin on all four sides.";
+const LISO = "Every area meant for text or numbers is plain and empty, so the game writes its own text on top.";
+const PAL = [["#0E1430", "Laca azul-tinta", "painel"], ["#1B2448", "Laca clara", "painel"], ["#B8893F", "Bronze", "moldura"], ["#F0CF7A", "Fio de ouro", "brilho"], ["#3A2610", "Bronze escuro", "sombra"], ["#F3E2BD", "Papel de arroz", "leitura"], ["#F0A03C", "Brasa", "destaque"], ["#E8572F", "Chama", "destaque"], ["#B5451B", "Selo vermelho", "aviso"], ["#1D1408", "Contorno", "1 px"]];
+function framing(a) {
+  if (a.k === 'moldura') return "Built as a nine-slice frame: all ornaments sit only in the four corners, the four edges are straight, even borders that can stretch without breaking the pattern, and the center is one plain flat fill. " + FUNDO;
+  if (a.k === 'estados') return `Show ${a.v.length} versions of the same element side by side in one single row, evenly spaced, all the same size and aligned on the same baseline, from left to right: ` + a.v.map((v, i) => `(${i + 1}) ${v}`).join('; ') + ". Each version is complete and separate, on a perfectly flat solid magenta background (#FF00FF) filling the rest of the image, with clear empty space between the versions.";
+  if (a.k === 'icones') { const c = Math.min(4, a.t.length), r = Math.ceil(a.t.length / c); return `An icon sheet: ${a.t.length} separate icons arranged in a neat grid of ${c} columns and ${r} rows, all the same size, evenly spaced, each one centered in its own cell, in this order from top left to bottom right: ` + a.t.map((t, i) => `(${i + 1}) ${t}`).join('; ') + ". The icons share the same outline thickness, the same light direction and the same level of detail. Perfectly flat solid magenta background (#FF00FF) between and around the icons."; }
+  return FUNDO;
+}
+function scale(a) {
+  const n = a.k === 'estados' ? a.v.length : a.k === 'icones' ? a.t.length : 1;
+  const each = n > 1 ? ` each version or icon is drawn on a ${a.w}x${a.h} pixel grid` : ` drawn on a ${a.w}x${a.h} pixel grid`;
+  return `Pixel density:${each} and enlarged with nearest-neighbor, so every pixel is a large, uniform, crisp square and the detail stays at that density.`;
+}
+function basePrompt(a) { return [STYLE, VIEW, `Subject: ${a.d}`, framing(a), LISO, scale(a)].join('\n\n'); }
+const A = UI;
+const ESTADOS = [['afazer', 'A fazer'], ['feita', 'Feita'], ['revisar', 'Revisar'], ['refazer', 'Refazer'], ['aprovada', 'Aprovada']];
+const NOME_E = Object.fromEntries(ESTADOS);
+let st = {}, db = null, ligado = false;
+const estadoDe = (id) => (st[id] && st[id].estado) || 'afazer';
+const aviso = (t, tom) => { const a = document.getElementById('aviso'); a.textContent = t; if (tom) a.dataset.tom = tom; else delete a.dataset.tom; };
+const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+const KIND = { moldura: 'moldura em 9 fatias', peca: 'peça inteira', estados: 'versões em fila', icones: 'folha de ícones' };
+
+document.getElementById('facts').innerHTML = [
+  [A.length, 'peças no catálogo'], [Object.keys(GRUPOS).length, 'grupos'],
+  [A.filter((a) => a.k === 'moldura').length, 'molduras que esticam'],
+  [A.filter((a) => a.k === 'icones').reduce((t, a) => t + a.t.length, 0), 'ícones nas folhas'],
+].map(([b, s]) => `<div class="fact"><b>${b}</b><span>${s}</span></div>`).join('');
+document.getElementById('styleBlock').textContent = STYLE + '\n\n' + VIEW + '\n\n' + LISO;
+document.getElementById('pal').innerHTML = PAL.map(([c, n, u]) => `<div class="sw"><i style="background:${c}"></i><span>${n}<small>${c} · ${u}</small></span></div>`).join('');
+document.getElementById('refs').innerHTML = REFS.map(([src, cap]) => `<figure><img src="${src}" alt="${cap}"><figcaption>${cap}</figcaption></figure>`).join('');
+
+const fGrupo = document.getElementById('fGrupo'), fText = document.getElementById('fText'), fEstado = document.getElementById('fEstado');
+fGrupo.innerHTML = '<option value="">Todos os grupos</option>' + Object.entries(GRUPOS).map(([k, n]) => `<option value="${k}">${n}</option>`).join('');
+
+function card(a) {
+  const e = estadoDe(a.id), d = st[a.id] || {};
+  const quando = d.em ? 'Atualizado em ' + new Date(d.em).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : '';
+  const lista = a.v || a.t;
+  const novo = d.promptNovo ? `<div class="novo"><b>Prompt novo${d.motivo ? ': ' + esc(d.motivo) : ''}</b>
+      <div class="btns"><button class="cp main" data-id="${a.id}" data-p="N">Copiar o prompt novo</button></div>
+      <details><summary>Ver o prompt novo</summary><pre class="block">${esc(d.promptNovo)}</pre></details></div>` : '';
+  return `<article class="card" id="card-${a.id}">
+    <div class="top"><div><h3>${a.n}</h3><div class="id">${a.id}.png</div></div>
+      <span class="pill" data-e="${e}">${NOME_E[e]}</span></div>
+    <div class="meta"><span>${a.w}×${a.h} px de arte (${a.w * 2}×${a.h * 2} na tela do celular)</span><span>${KIND[a.k]}</span>${lista ? `<span>${lista.length} ${a.k === 'icones' ? 'ícones' : 'versões'}</span>` : ''}</div>
+    <p class="desc muted">${a.d}</p>
+    ${lista ? `<ol class="vers">${lista.map((x) => `<li>${esc(x)}</li>`).join('')}</ol>` : ''}
+    <div class="btns"><button class="cp main" data-id="${a.id}" data-p="B">Copiar o prompt</button></div>
+    <details><summary>Ver o prompt inteiro</summary><pre class="block">${esc(basePrompt(a))}</pre></details>
+    ${novo}
+    <div class="estado" role="group" aria-label="Situação de ${esc(a.n)}">${ESTADOS.map(([k, n]) => `<button type="button" data-id="${a.id}" data-e="${k}" aria-pressed="${e === k}" ${ligado ? '' : 'disabled'}>${n}</button>`).join('')}</div>
+    <textarea id="nota-${a.id}" data-nota="${a.id}" placeholder="${ligado ? 'Anotação (o que não ficou bom, o que mudar)' : 'Entre na conta para anotar'}" ${ligado ? '' : 'disabled'}>${esc(d.nota || '')}</textarea>
+    <span class="salvo" id="salvo-${a.id}">${quando}</span>
+  </article>`;
+}
+function render() {
+  const g = fGrupo.value, q = fText.value.trim().toLowerCase(), fe = fEstado.value;
+  const okE = (a) => !fe || (fe === 'novo' ? !!(st[a.id] && st[a.id].promptNovo) : estadoDe(a.id) === fe);
+  const sel = A.filter((a) => (!g || a.g === g) && okE(a) && (!q || (a.n + ' ' + a.id + ' ' + a.d).toLowerCase().includes(q)));
+  let html = '';
+  for (const k of Object.keys(GRUPOS)) {
+    const items = sel.filter((a) => a.g === k);
+    if (!items.length) continue;
+    const feitos = A.filter((a) => a.g === k && estadoDe(a.id) !== 'afazer').length, total = A.filter((a) => a.g === k).length;
+    html += `<div class="regionhead"><h3>${GRUPOS[k]}</h3><span class="muted" style="font-size:13px">${feitos} de ${total} geradas</span></div><div class="grid">${items.map(card).join('')}</div>`;
+  }
+  document.getElementById('list').innerHTML = html || '<p class="muted">Nada com esse filtro. Limpe a busca ou escolha outro grupo.</p>';
+  progresso();
+}
+function progresso() {
+  const c = {}; for (const a of A) { const e = estadoDe(a.id); c[e] = (c[e] || 0) + 1; }
+  document.getElementById('prog').textContent = ESTADOS.filter(([k]) => k !== 'afazer').map(([k, n]) => `${c[k] || 0} ${n.toLowerCase()}`).join(' · ') + ` · ${c.afazer || 0} a fazer (de ${A.length})`;
+}
+[fGrupo, fEstado].forEach((el) => el.addEventListener('change', render));
+fText.addEventListener('input', render);
+function promptFor(id, p) { return p === 'N' && st[id] && st[id].promptNovo ? st[id].promptNovo : basePrompt(A.find((x) => x.id === id)); }
+function toast(t) { const el = document.createElement('div'); el.className = 'toast'; el.textContent = t; document.body.appendChild(el); setTimeout(() => el.remove(), 2600); }
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.top = '0'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  let ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+  ta.remove(); return ok;
+}
+document.getElementById('list').addEventListener('click', (e) => {
+  const b = e.target.closest('button.cp'); if (!b) return;
+  const text = promptFor(b.dataset.id, b.dataset.p);
+  const name = `${b.dataset.id}.png`;
+  const okUI = () => { b.classList.add('copied'); setTimeout(() => b.classList.remove('copied'), 1600); toast(`Prompt copiado. Salve a imagem como ${name}`); };
+  const fail = () => { if (fallbackCopy(text)) okUI(); else { toast('Não deu para copiar. Abra "Ver o prompt" e copie o texto.'); } };
+  try { navigator.clipboard.writeText(text).then(okUI, fail); } catch (err) { fail(); }
+});
+/* ---- salvar ---- */
+const fila = {};
+function salvar(id, mudanca) {
+  if (!db) return Promise.resolve();
+  const atual = st[id] || {};
+  const novo = { ...atual, estado: atual.estado || 'afazer', nota: atual.nota || '', ...mudanca, em: new Date().toISOString() };
+  st[id] = novo;
+  const marca = document.getElementById('salvo-' + id);
+  if (marca) marca.textContent = 'Salvando…';
+  // uma escrita de cada vez por peça
+  fila[id] = (fila[id] || Promise.resolve()).then(() => db.collection('interface').doc(id).set(novo)).then(
+    () => { if (marca) marca.textContent = 'Salvo'; },
+    (err) => { if (marca) marca.textContent = 'Não salvou (' + ((err && (err.code || err.message)) || 'erro do banco') + '). Tente de novo.'; });
+  return fila[id];
+}
+document.getElementById('list').addEventListener('click', (e) => {
+  const b = e.target.closest('.estado button'); if (!b || b.disabled) return;
+  const id = b.dataset.id, k = b.dataset.e;
+  if (estadoDe(id) === k) return;
+  salvar(id, { estado: k });
+  const card = document.getElementById('card-' + id);
+  card.querySelectorAll('.estado button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.e === k)));
+  const pill = card.querySelector('.pill'); pill.dataset.e = k; pill.textContent = NOME_E[k];
+  progresso();
+});
+document.getElementById('list').addEventListener('change', (e) => {
+  const id = e.target.dataset && e.target.dataset.nota; if (!id) return;
+  if (e.target.value !== ((st[id] && st[id].nota) || '')) salvar(id, { nota: e.target.value });
+});
+render();
+
+/* ---- o banco ---- */
+(function ligar() {
+  const limite = setTimeout(() => aviso('O banco não respondeu em 10 s: dá para copiar os prompts, mas as marcações não aparecem agora.', 'erro'), 10000);
+  const use = window.claude && window.claude.use;
+  if (!use) { clearTimeout(limite); aviso('Fora do Claude: dá para copiar os prompts, sem salvar as marcações.'); return; }
+  use('db').then((d) => {
+    if (!d) { clearTimeout(limite); aviso('Entre na sua conta do Claude para salvar as marcações. Os prompts dá para copiar assim mesmo.'); return; }
+    db = d;
+    db.collection('interface').onSnapshot((snap) => {
+      clearTimeout(limite);
+      const novo = {}; for (const doc of snap.docs) { const v = doc.data(); if (v) novo[doc.id] = v; }
+      st = novo;
+      const primeira = !ligado; ligado = true;
+      aviso('Marcações salvas. O que você marcar aqui eu leio na próxima entrega.');
+      const ativo = document.activeElement;
+      if (primeira || !(ativo && ativo.tagName === 'TEXTAREA')) render(); else progresso();
+    }, (err) => { clearTimeout(limite); aviso('Não deu para ler as marcações (' + ((err && (err.code || err.message)) || 'erro') + ').', 'erro'); });
+  });
+})();
+</script>

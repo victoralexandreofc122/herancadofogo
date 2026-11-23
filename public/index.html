@@ -18,6 +18,7 @@
   <link rel="preload" href="/fonts/barlow-condensed-600.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/hud.css">
+  <link rel="stylesheet" href="/uiLaca.css">
   <script type="module" src="/game.js"></script>
 </head>
 <body>
@@ -591,6 +592,7 @@
             <option value="off">Desligados (sem partículas nem tremor)</option>
           </select>
         </label>
+
         <button id="reset-layout" type="button" class="link">Restaurar layout padrão</button>
       </div>
       <div id="set-hud" class="pane set-pane" hidden>
@@ -618,6 +620,12 @@
           <label><input id="show-cape" type="checkbox" checked> Capa</label>
           <label><input id="show-weapon" type="checkbox" checked> Arma</label>
           <label><input id="show-scroll" type="checkbox" checked> Pergaminho</label>
+        </fieldset>
+        <!-- v96: a interface desenhada no Flow (tema Laca e Brasa) e a animação dela (o fogo e o brilho do ouro) -->
+        <fieldset class="display-opts">
+          <legend>Interface</legend>
+          <label><input id="pref-ui-desenhada" type="checkbox" checked> Interface desenhada (laca e bronze)</label>
+          <label><input id="pref-ui-animada" type="checkbox" checked> Fogo e brilho do ouro animados (com os efeitos Completos)</label>
         </fieldset>
         <button id="open-creator" type="button" class="secondary">🎨 Mudar visual do personagem</button>
       </div>

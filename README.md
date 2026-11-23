@@ -246,6 +246,23 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v96: a interface desenhada (tema Laca e Brasa) e a animação do fogo e do ouro (sem migração)
+
+- Pedido do Victor (23/11): uma interface própria, gerada no Flow pela página Interface no Flow (`arte/ui/flow/`, 41 peças).
+  As 16 primeiras folhas já estão no jogo: painéis, cartão da entrada, pergaminho, dica, aviso, abas, os botões principal,
+  secundário e de perigo, os redondos, o fechar, a caixa de marcar, o controle deslizante e os anéis do jutsu e do ataque.
+- `arte/ui/recortar_ui.py`:
+  - acha a grade de pixels de cada folha e reduz a 1 pixel por célula;
+  - tira o fundo e separa as versões (normal, apertado, desligado);
+  - marca as 9 fatias e vaza o centro dos anéis (a cor do elemento do jutsu aparece);
+  - gera `public/assets/ui/` e `public/uiArte.js`.
+- `public/uiLaca.css` liga tudo com `border-image`, sem mudar o tamanho dos botões e painéis. Nada rola em nenhuma tela (`scripts/auditar-primeira.ts`).
+  Dá para desligar no ⚙️ → Visual → Interface.
+- A animação (`public/uiAnim.js`), só com o gráfico no máximo (efeitos Completos):
+  - o fogo anima com ciclo de paleta, a ponta da chama piscando e faíscas;
+  - o ouro ganha um reflexo diagonal de vez em quando.
+  Os quadros são feitos no aparelho a partir da arte. Os conceitos estão em `arte/ui/LEIAME.md`.
+
 ### v95: o Ciclo Sem Fim, o lugar no corpo em todos e as 12 folhas refeitas (sem migração)
 
 - Guia de estilo das animações (pedido do Victor, 22/11): auditoria das 224 animações (`arte/jutsus-vfx/auditoria_estilo.py`),
