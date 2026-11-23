@@ -2,7 +2,10 @@
 
 Pedido do Victor (22/11/2026): as habilidades parecem de artistas ou de jogos diferentes. Este guia junta a auditoria
 (Fase 1), as regras canônicas (Fase 2) e o plano de correção (Fases 3 a 5). **Nada da arte do Victor é mudado sem o OK
-dele**: as correções abaixo só valem depois que ele escolher quais aplicar.
+dele**. Escolhas do Victor (22/11): aplicar os 3 tons com contorno nas silhuetas brancas, a transparência em 2 níveis
+no brilho borrado, recortar o Milagre de novo e pedir as outras 5 folhas de pixel grande no Flow; **sem paleta mestra
+única** (as cores por elemento ficam), só os casos da tabela da seção 3. Feito na v95: no recorte (`recortar.py`,
+opções `tons`, `contorno` e `alfa_niveis` em `ajustes.json`), então a folha original fica como veio.
 
 - Auditoria: `python3 arte/jutsus-vfx/auditoria_estilo.py` (gera `arte/jutsus-vfx/auditoria/auditoria.md`, a tabela de
   cada jutsu, e as folhas de contato `familia_A.png` a `familia_D.png`). Só lê os PNG.
@@ -53,11 +56,11 @@ Prévias geradas sem mexer na arte (`arte/jutsus-vfx/auditoria/previas/previa_1.
 
 | Grupo | Correção mínima | Resultado da prévia | Recomendação |
 |---|---|---|---|
-| D: silhuetas brancas (Soco, Cem Golpes, Corte, Rasteira, Flecha) | 3 tons da paleta do Taijutsu desenhado + contorno de 1 px, luz de cima | fica no estilo da folha de rajada | **aplicar** (ou pedir a folha nova no Flow) |
-| Pixel grande (Milagre, Explosão Florescente, Chamas do Rubro, Coluna Infernal, Julgamento, Céu em Fúria) | recortar de novo da folha a 33 px por casa | mais detalhe, mas a folha original já foi desenhada com pixel grande | aplicar onde melhora (Milagre); nos outros, refazer a folha |
+| D: silhuetas brancas (Soco, Cem Golpes, Corte, Rasteira, Flecha) | 3 tons da paleta do Taijutsu desenhado + contorno de 1 px, luz de cima | fica no estilo da folha de rajada | **aplicado** (v95) |
+| Pixel grande (Milagre, Explosão Florescente, Chamas do Rubro, Coluna Infernal, Julgamento, Céu em Fúria) | recortar de novo da folha a 33 px por casa | mais detalhe, mas a folha original já foi desenhada com pixel grande | **Milagre recortado de novo** (v95); as outras 5 na lista de refazer, com o prompt |
 | Pixel miúdo (Ninho, Mãos de Trovão, Lâmina Polida, Séptica) | recortar com pixel maior | quase igual na tela | **não precisa** |
-| C: brilho borrado (Cura, Relâmpago neon) | transparência em 2 níveis; o brilho vem do código | borda nítida, como pixel art | aplicar |
-| Granulado (Ciclo, Rede, Correntes, Gotas) | paleta limpa por quadro | melhora pouco; no Arsenal tira o dourado | aplicar só no Ciclo e na Rede, sem reduzir cor demais |
+| C: brilho borrado (Cura, Relâmpago neon) | transparência em 2 níveis; o brilho vem do código | borda nítida, como pixel art | **aplicado** nos 11 (v95) |
+| Granulado (Ciclo, Rede, Correntes, Gotas) | paleta limpa por quadro | melhora pouco; no Arsenal tira o dourado | fora (o Victor escolheu só os casos acima) |
 
 ## 4. Animação (Fase 4) e partículas (Fase 5)
 

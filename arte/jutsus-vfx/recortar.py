@@ -25,6 +25,36 @@ SAIDA = os.path.join(RAIZ, 'public', 'assets', 'vfx')
 AJUSTES = json.load(open(os.path.join(AQUI, 'ajustes.json'), encoding='utf-8'))
 
 
+def tonaliza(peq, tons, contorno=None):
+    """v95: a silhueta branca lisa vira 3 tons (claro no miolo, médio e sombra perto da borda, a borda de baixo mais escura:
+    a luz vem de cima) e ganha contorno de 1 px. Só os pixels quase brancos mudam; o que já tem cor (poeira) fica."""
+    a = np.pad(peq, ((1, 1), (1, 1), (0, 0)))
+    op = a[..., 3] > 128
+    rgb = a[..., :3].astype(int)
+    branco = op & (rgb.min(-1) > 175) & (rgb.max(-1) - rgb.min(-1) < 60)
+    dist = ndi.distance_transform_edt(op)
+    ys = np.arange(op.shape[0])[:, None].repeat(op.shape[1], 1)
+    cy = ys[op].mean() if op.any() else 0
+    claro, medio, sombra = [np.array(t, np.uint8) for t in tons]
+    D = dist[op].max() if op.any() else 1   # a espessura: nos desenhos grossos as faixas de tom crescem junto
+    f1, f2 = max(1, 0.2 * D), max(2, 0.5 * D)
+    tom = np.where((dist <= f1)[..., None], sombra, np.where((dist <= f2)[..., None], medio, claro))
+    tom = np.where(((dist <= f2) & (ys > cy))[..., None], sombra, tom)
+    a[..., :3] = np.where(branco[..., None], tom, a[..., :3])
+    if contorno:
+        borda = ndi.binary_dilation(op) & ~op
+        a[borda] = list(contorno) + [255]
+    return a
+
+
+def alfa_em_niveis(peq):
+    """v95: o brilho borrado (semitransparente) em 2 níveis, como pixel art: some, meio (170) ou cheio."""
+    a = peq.copy()
+    al = a[..., 3].astype(int)
+    a[..., 3] = np.select([al < 70, al < 170], [0, 170], 255).astype(np.uint8)
+    return a
+
+
 def verdura(a):
     r, g, b = a[..., 0].astype(int), a[..., 1].astype(int), a[..., 2].astype(int)
     return g - np.maximum(r, b)
@@ -305,6 +335,11 @@ def recorta(nome, debug=None):
         lado_frac = ajuste.get('roer', {}).get(str(k))
         if lado_frac:
             roer(peq, *lado_frac, k * 7 + len(nome))
+        # v95 (guia de estilo, OK do Victor de 22/11): as correções de estilo, aplicadas no recorte (a folha fica como veio)
+        if ajuste.get('tons'):
+            peq = tonaliza(peq, ajuste['tons'], ajuste.get('contorno'))
+        if ajuste.get('alfa_niveis'):
+            peq = alfa_em_niveis(peq)
         out = Image.fromarray(peq, 'RGBA')
         dest = os.path.join(SAIDA, f'{nome}_0{k}.png')
         out.save(dest)

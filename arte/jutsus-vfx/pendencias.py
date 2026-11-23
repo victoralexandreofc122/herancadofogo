@@ -271,6 +271,12 @@ FALTAM = [
 ]
 
 REFAZER = [
+    # v95: guia de estilo (OK do Victor de 22/11): o pixel grande demais
+    ('heal_3', 'Regeneração de Área', 'heal', 'refazer', 'O pixel desenhado ficou grande demais no jogo (de 11 a 17 pixels de arte por casa; o padrão é 33): fica com cara de outro jogo ao lado dos outros (guia de estilo, v95).', 'Refazer com o pixel menor (o desenho com o dobro de detalhe), o contorno de 1 px e 2 a 3 tons por cor, no estilo das outras folhas.', 'zona', 'a blooming circle of healing green light with leaves and sparkles', MAGENTA),
+    ('rubro_chamas', 'Brasa Sem Luz', 'rubro', 'refazer', 'O pixel desenhado ficou grande demais no jogo (de 11 a 17 pixels de arte por casa; o padrão é 33): fica com cara de outro jogo ao lado dos outros (guia de estilo, v95).', 'Refazer com o pixel menor (o desenho com o dobro de detalhe), o contorno de 1 px e 2 a 3 tons por cor, no estilo das outras folhas.', 'linha', 'a long line of dark crimson flames with black smoke', VERDE),
+    ('fire_coluna', 'Coluna Infernal', 'fire', 'refazer', 'O pixel desenhado ficou grande demais no jogo (de 11 a 17 pixels de arte por casa; o padrão é 33): fica com cara de outro jogo ao lado dos outros (guia de estilo, v95).', 'Refazer com o pixel menor (o desenho com o dobro de detalhe), o contorno de 1 px e 2 a 3 tons por cor, no estilo das outras folhas.', 'aviso', 'a tall pillar of roaring fire', VERDE),
+    ('lightning_4', 'Julgamento do Trovão', 'lightning', 'refazer', 'O pixel desenhado ficou grande demais no jogo (de 11 a 17 pixels de arte por casa; o padrão é 33): fica com cara de outro jogo ao lado dos outros (guia de estilo, v95).', 'Refazer com o pixel menor (o desenho com o dobro de detalhe), o contorno de 1 px e 2 a 3 tons por cor, no estilo das outras folhas.', 'aviso', 'a huge bolt of yellow and cyan lightning striking down from the sky', MAGENTA),
+    ('lightning_ceu', 'Céu em Fúria', 'lightning', 'refazer', 'O pixel desenhado ficou grande demais no jogo (de 11 a 17 pixels de arte por casa; o padrão é 33): fica com cara de outro jogo ao lado dos outros (guia de estilo, v95).', 'Refazer com o pixel menor (o desenho com o dobro de detalhe), o contorno de 1 px e 2 a 3 tons por cor, no estilo das outras folhas.', 'aviso', 'one bolt of yellow and cyan lightning striking down from a storm cloud', MAGENTA),
     ('aspide_ninho', 'Ninho de Áspides', 'aspide', 'refazer', 'As serpentes F2 a F6 vieram em cima de um quadrado de grama; no jogo ficaria um pedaço de chão andando junto. Hoje só o círculo de invocação (F1) toca; a serpente é a de código.',
      'Refazer só a serpente, sem chão embaixo: o fundo magenta direto em volta dela.', 'invocacao', 'one small green viper with no ground tile under it', MAGENTA),
     ('wind_veu', 'Véu de Vento', 'wind', 'refazer', 'O F1 sumiu no recorte: o rosa do véu é perto do fundo magenta.',
@@ -432,7 +438,7 @@ def item_ajuste(t):
         'forma': molde, 'molde': titulo, 'descricao': problema, 'pedido': pedido,
         'fundo': 'verde' if fundo == VERDE else 'magenta', 'quadros': quadros_de(molde, fx),
         'comoToca': toca, 'nota': '',
-        'folhas': folhas(code, nome, classe, molde, fx, fundo),
+        'folhas': [dict(f, prompt=f['prompt'] + (' Small fine pixels with plenty of detail: the effect is drawn with about twice as many pixels as a chunky retro sprite, matching the detail of the other effects of this game.' if 'pixel desenhado ficou grande' in problema else '')) for f in folhas(code, nome, classe, molde, fx, fundo)],
     }
 
 
