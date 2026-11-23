@@ -649,7 +649,19 @@
         <fieldset class="display-opts">
           <legend>Interface</legend>
           <label><input id="pref-ui-desenhada" type="checkbox" checked> Interface desenhada (laca e bronze)</label>
-          <label><input id="pref-ui-animada" type="checkbox" checked> Fogo e brilho do ouro animados (com os efeitos Completos)</label>
+          <label><input id="pref-ui-animada" type="checkbox" checked> Fogo e ouro animados (efeitos Completos)</label>
+        </fieldset>
+        <!-- v104: quantos quadros por segundo (o celular esquentava) e o contador de FPS junto do ping -->
+        <fieldset class="display-opts">
+          <legend>Desempenho</legend>
+          <label class="slider">FPS
+            <select id="pref-fps" aria-label="Quadros por segundo">
+              <option value="60">60 (suave)</option>
+              <option value="30">30 (bateria)</option>
+              <option value="24">24 (fraco)</option>
+            </select>
+          </label>
+          <label><input id="pref-show-fps" type="checkbox"> Mostrar o FPS no topo</label>
         </fieldset>
         <button id="open-creator" type="button" class="secondary">🎨 Mudar visual do personagem</button>
       </div>

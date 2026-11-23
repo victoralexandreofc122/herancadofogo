@@ -2199,7 +2199,8 @@ function updateOnline() {
   // v69 (revisão de celular, rodada 5: o texto cortava): sem o "online" (a bolinha verde já diz) e a zona segura em 🕊️
   const zone = state.inSafeZone ? '🕊️ · ' : state.inArena ? `⚔️ ${rec ? `${rec.wins}V ${rec.losses}D` : 'arena'} · ` : '';
   const ping = state.pingMs ? ` · ${state.pingMs} ms` : '';
-  setStatus(`${n} ${n === 1 ? 'jogador' : 'jogadores'}${ping}`, 'ok', `${where ? `${where} · ` : ''}${zone}`);
+  const fps = uiPref.showFps && quadros.medido ? ` · ${quadros.medido} fps` : '';   // v104: o contador de FPS
+  setStatus(`${n} ${n === 1 ? 'jogador' : 'jogadores'}${ping}${fps}`, 'ok', `${where ? `${where} · ` : ''}${zone}`);
 }
 
 /**
@@ -2345,18 +2346,36 @@ setInterval(updateCombatHud, 400);
  *   portraits     no PvP, os retratos dos inimigos perto do polegar: um toque foca aquele ninja
  *   hideFullBars  fora da luta, com vida e chakra cheios, as duas barras somem (o retrato fica)
  */
-const UI_PREF_DEFAULT = { joystick: 'flutuante', aimCamera: true, holdInfo: true, portraits: true, hideFullBars: false, dlgPortrait: true, uiDesenhada: true, uiAnimada: true };
+const UI_PREF_DEFAULT = { joystick: 'flutuante', aimCamera: true, holdInfo: true, portraits: true, hideFullBars: false, dlgPortrait: true, uiDesenhada: true, uiAnimada: true, fps: 60, showFps: false };
+/** v104: os quadros por segundo que o jogador pode escolher (Config. → Visual → Desempenho). */
+const FPS_OPCOES = [24, 30, 60];
+/** v104: o compasso do desenho (próximo quadro, até quando a tela está "mexendo") e o FPS medido. */
+const quadros = { proximo: 0, agitoAte: 0, contados: 0, desde: 0, medido: 0 };
 const uiPref = (() => {
   const out = { ...UI_PREF_DEFAULT };
   try {
     const raw = JSON.parse(localStorage.getItem('nin.uiPrefs') || '{}');
     if (raw.joystick === 'fixo' || raw.joystick === 'flutuante') out.joystick = raw.joystick;
-    for (const k of ['aimCamera', 'holdInfo', 'portraits', 'hideFullBars', 'dlgPortrait', 'uiDesenhada', 'uiAnimada']) if (typeof raw[k] === 'boolean') out[k] = raw[k];
+    for (const k of ['aimCamera', 'holdInfo', 'portraits', 'hideFullBars', 'dlgPortrait', 'uiDesenhada', 'uiAnimada', 'showFps']) if (typeof raw[k] === 'boolean') out[k] = raw[k];
+    if (FPS_OPCOES.includes(raw.fps)) out.fps = raw.fps;
   } catch { /* sem armazenamento ou dado estragado: o padrão */ }
   return out;
 })();
 function saveUiPref() {
   try { localStorage.setItem('nin.uiPrefs', JSON.stringify(uiPref)); } catch { /* vale só até fechar */ }
+}
+{
+  // v104: quantos quadros por segundo (24, 30 ou 60) e o contador de FPS no canto (junto do ping)
+  const fpsSel = $('pref-fps');
+  if (fpsSel) {
+    fpsSel.value = String(uiPref.fps);
+    fpsSel.addEventListener('change', () => { const v = Number(fpsSel.value); uiPref.fps = FPS_OPCOES.includes(v) ? v : 60; saveUiPref(); });
+  }
+  const fpsChk = $('pref-show-fps');
+  if (fpsChk) {
+    fpsChk.checked = uiPref.showFps;
+    fpsChk.addEventListener('change', () => { uiPref.showFps = fpsChk.checked; saveUiPref(); updateOnline(); });
+  }
 }
 {
   const sel = $('pref-joystick');
@@ -7791,8 +7810,46 @@ let lastFrame = performance.now();
 let lastView = null;
 const drawList = [];                 // reaproveitada a cada quadro (sem lixo para o coletor)
 
+/*
+ * v104 (pedido do Victor, 23/11: o celular esquentava): o desenho não passa do que o jogador escolheu (24, 30 ou 60 fps;
+ * antes ia até onde a tela pedisse, 90 ou 120 nos Android de tela rápida). E, com nada se mexendo (ninguém andando, sem
+ * jutsu, sem partícula, sem toque), cai para 30: a cidade parada, a tela de entrada e os painéis abertos gastam metade.
+ * Andou, tocou ou chegou um golpe: volta na hora. O servidor simula 20 vezes por segundo; o resto é suavização.
+ */
+/** Marca a tela como "mexendo" por um tempo (o desenho volta ao máximo escolhido). */
+function agitar(now, ms = 600) { if (now + ms > quadros.agitoAte) quadros.agitoAte = now + ms; }
+/** Se o ponto do mapa aparece na tela (com 2 casas de folga): só quem se mexe à vista acorda o desenho. */
+function naTela(x, y) {
+  const v = lastView;
+  if (!v) return true;
+  const sx = v.toScreenX(x), sy = v.toScreenY(y), m = v.T * 2;
+  return sx > -m && sy > -m && sx < viewW + m && sy < viewH + m;
+}
+function telaParada(now) {
+  if (now < quadros.agitoAte) return false;
+  if (dir.x || dir.y || joy.pointerId !== null || mapFade.to) return false;
+  if (state.effects.length || vfx.list.length || jfx.list.length || particles.count) return false;
+  return true;
+}
+
+// v104: toque, tecla ou roda do mouse em qualquer lugar: o desenho volta ao máximo na hora (e fica 1,5 s)
+for (const ev of ['pointerdown', 'pointermove', 'keydown', 'wheel']) {
+  window.addEventListener(ev, () => agitar(performance.now(), 1500), { passive: true, capture: true });
+}
+
 function frame(now) {
   requestAnimationFrame(frame);       // agenda antes: um erro num quadro não congela o jogo
+  const alvo = telaParada(now) ? Math.min(uiPref.fps, 30) : uiPref.fps;
+  const passo = 1000 / alvo;
+  if (now < quadros.proximo - passo * 0.25) return;   // ainda não é a hora deste quadro (a folga cobre o tremor do relógio)
+  quadros.proximo = now - quadros.proximo > passo ? now + passo : quadros.proximo + passo;
+  quadros.contados += 1;
+  if (now - quadros.desde >= 1000) {                   // o contador de FPS: quadros desenhados no último segundo
+    quadros.medido = Math.round((quadros.contados * 1000) / (now - quadros.desde));
+    quadros.contados = 0;
+    quadros.desde = now;
+    if (uiPref.showFps) updateOnline();
+  }
   const dt = Math.max(0, Math.min(0.1, (now - lastFrame) / 1000));
   lastFrame = now;
   try {
@@ -7850,12 +7907,16 @@ function update(dt) {
   for (const p of state.players.values()) {
     if (p === me || p.map !== state.mapId) continue;
     const at = sampleSnapshots(p.snaps, now);   // outros: entre duas posições do servidor, ~100 ms atrás
-    if (at) { p.x = at[0]; p.y = at[1]; }
+    if (at) {
+      if (Math.abs(at[0] - p.x) + Math.abs(at[1] - p.y) > 0.002 && naTela(p.x, p.y)) agitar(now);   // v104: alguém andando à vista: desenho no máximo
+      p.x = at[0]; p.y = at[1];
+    }
   }
   animateWalk(dt, me);
   const k = Math.min(1, dt * 12);     // monstros: suavização exponencial até a posição do servidor
   for (const m of state.monsters.values()) {
     if (m.map !== state.mapId) continue;
+    if (Math.abs(m.tx - m.x) + Math.abs(m.ty - m.y) > 0.01 && naTela(m.x, m.y)) agitar(now);   // v104: monstro andando à vista
     m.x += (m.tx - m.x) * k;
     m.y += (m.ty - m.y) * k;
   }

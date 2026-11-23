@@ -1348,6 +1348,7 @@ body.tut-bag #inv-toggle { animation: ready-glow 1.4s ease-in-out infinite; bord
   .set-pane:not([hidden]) { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; align-items: start; }
   .set-pane .display-opts { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 2px 14px; padding: 4px 10px 6px; }
   .set-pane .display-opts legend { grid-column: 1 / -1; }
+  #display-opts { grid-template-columns: 1fr 1fr 1fr; }   /* v104: Capa, Arma e Pergaminho numa linha (a aba Visual cabe sem rolar) */
   .set-pane .display-opts label { margin: 0; min-height: 40px; font-size: 13px; }
   .set-pane .display-opts .slider { min-height: 0; }
   .set-pane .slider { font-size: 13px; }

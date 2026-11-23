@@ -246,6 +246,20 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v104: o jogador escolhe os quadros por segundo (sem migração)
+
+- Pedido do Victor (23/11), as 4 propostas aceitas:
+  1. O desenho para em 60 quadros por segundo em qualquer aparelho (antes seguia a tela: 90 ou 120 nos Android de tela
+     rápida, o dobro do trabalho sem ganho para um jogo que o servidor atualiza 20 vezes por segundo).
+  2. Com nada se mexendo na tela (ninguém andando à vista, sem jutsu, sem partícula, sem toque), cai para 30. Andou,
+     tocou, apertou uma tecla ou um monstro à vista andou: volta na hora. Quem se mexe fora da tela não conta.
+  3. Configurações → Visual → Desempenho: **FPS** 60 (suave), 30 (bateria) ou 24 (fraco). Guardado no aparelho.
+  4. **Mostrar o FPS no topo**: o contador de quadros desenhados no último segundo, junto do ping.
+- A aba Visual continua sem rolar no celular (Capa, Arma e Pergaminho numa linha só).
+- Medido no navegador (tela de 60 Hz): 60 escolhido fica em 60 andando e cai até 30 parado; 30 e 24 ficam firmes.
+- Código: `frame()`, `telaParada()`, `agitar()` e `naTela()` em `public/game.js`; teste `test/fps.test.ts` (roda o laço
+  de verdade contra telas de 60 e 120 Hz).
+
 ### v103: o áudio gasta bem menos (o celular esquentava) (sem migração)
 
 - Pedido do Victor (23/11). Medido com o `audio.js` sozinho, sem nada desenhando na tela:
