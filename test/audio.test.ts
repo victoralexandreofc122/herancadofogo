@@ -53,6 +53,72 @@ describe('v57: músicas', () => {
   });
 });
 
+/** v103: um contexto de áudio de mentira (só o que o AudioManager usa), para ver o que liga, desliga e quantos nós cria. */
+function fakeCtx() {
+  const node = (extra: Record<string, unknown> = {}) => ({ connect: (n: unknown) => n, start() {}, stop() {}, ...extra });
+  const param = () => ({ value: 0, setValueAtTime() {}, setTargetAtTime() {}, linearRampToValueAtTime() {}, exponentialRampToValueAtTime() {}, cancelScheduledValues() {} });
+  const ctx = {
+    state: 'running', currentTime: 0, sampleRate: 44100, criados: 0, suspensos: 0,
+    destination: {},
+    resume() { ctx.state = 'running'; return Promise.resolve(); },
+    suspend() { ctx.state = 'suspended'; ctx.suspensos += 1; return Promise.resolve(); },
+    createGain() { ctx.criados += 1; return node({ gain: param() }); },
+    createBufferSource() { ctx.criados += 1; return node({ buffer: null, playbackRate: param(), loop: false }); },
+    createBiquadFilter() { ctx.criados += 1; return node({ frequency: param(), Q: param(), type: '' }); },
+    createOscillator() { ctx.criados += 1; return node({ frequency: param(), detune: param(), type: '' }); },
+    createDynamicsCompressor() { return node({ threshold: param(), knee: param(), ratio: param(), attack: param(), release: param() }); },
+    createBuffer(_c: number, n: number) { return { length: n, getChannelData: () => new Float32Array(n), copyToChannel() {} }; },
+  };
+  return ctx;
+}
+function comFake() {
+  const a = new A.AudioManager();
+  const ctx = fakeCtx();
+  a.ctx = ctx; a.master = ctx.createGain(); a.musicBus = ctx.createGain(); a.sfxBus = ctx.createGain(); a.noise = ctx.createBuffer(1, 10);
+  return { a, ctx };
+}
+
+describe('v103: o áudio não esquenta o celular', () => {
+  it('50 ms de margem (o padrão de 10 ms acorda o processador o tempo todo)', async () => {
+    const src = (await import('node:fs')).readFileSync(new URL('../public/audio.js', import.meta.url), 'utf8');
+    assert.match(src, /const LATENCIA_S = 0\.05;/);
+    assert.match(src, /new AC\(\{ latencyHint: LATENCIA_S \}\)/);
+  });
+  it('mudo (ou tudo no zero): a música pausa e o áudio desliga', () => {
+    const { a, ctx } = comFake();
+    a.settings = { music: 40, sfx: 60, mute: false };
+    a.setMute(true);
+    assert.equal(ctx.state, 'suspended');
+    a.setMute(false);
+    assert.equal(ctx.state, 'running');
+    a.settings.mute = false;
+    a.setVolume('music', 0); a.setVolume('sfx', 0);
+    assert.equal(ctx.state, 'suspended');
+    assert.equal(a.sfx('slash'), null, 'efeitos no zero: nada toca');
+  });
+  it('música no zero: o efeito religa o áudio e ele desliga sozinho depois', async () => {
+    const { a, ctx } = comFake();
+    a.settings = { music: 0, sfx: 60, mute: false };
+    ctx.state = 'suspended';
+    a.sfx('slash');
+    assert.equal(ctx.state, 'running', 'o efeito religou');
+    assert.ok(a.desligaTimer, 'com o desligar marcado');
+    clearTimeout(a.desligaTimer);
+  });
+  it('o efeito gravado toca com 2 nós (fonte e volume); os longos (selos, voo) seguem ao vivo', () => {
+    const { a, ctx } = comFake();
+    a.settings = { music: 40, sfx: 60, mute: false };
+    a.gravacoes.set('slash|||0||', { buffers: [{ length: 10 }], gravando: false });
+    a.gravacoes.get('slash|||0||')!.buffers.push({ length: 10 }, { length: 10 });
+    const antes = ctx.criados;
+    a.sfx('slash');
+    assert.equal(ctx.criados - antes, 2);
+    const vivo = ctx.criados;
+    a.sfx('cast', 1, { el: 'fire' });                 // ainda sem gravação: toca ao vivo (e grava em segundo plano, se puder)
+    assert.ok(ctx.criados - vivo > 10, 'ao vivo, dezenas de nós');
+  });
+});
+
 describe('v57: Range (o Safari do iPhone só toca áudio com 206)', () => {
   it('byteRange', () => {
     assert.equal(byteRange(undefined, 100), undefined);

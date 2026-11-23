@@ -246,6 +246,26 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v103: o áudio gasta bem menos (o celular esquentava) (sem migração)
+
+- Pedido do Victor (23/11). Medido com o `audio.js` sozinho, sem nada desenhando na tela:
+
+  | Situação | Antes | Agora |
+  |---|---|---|
+  | só a música | 3,5% de um núcleo | 2,2% |
+  | música e luta | 7,6% | 3,5% |
+  | som mudo | 3,6% | 0% |
+  | música no zero, sem efeito | não tinha | 0,1% |
+
+- **Efeitos gravados:** cada efeito é sintetizado uma vez, em segundo plano (`OfflineAudioContext`), e depois toca a gravação.
+  São 2 peças por som no lugar de dezenas de osciladores, filtros e envelopes.
+  - Ficam até 3 versões de cada efeito, e a altura varia um pouco a cada vez, para não soar repetido.
+  - Os sons que duram (os selos carregando, o projétil voando) continuam ao vivo.
+- **50 ms de margem:** o áudio usava 10 ms (o modo de menor atraso), e acordava o processador o tempo todo. Com 50 ms ele gasta
+  metade, e o som continua junto do golpe (são uns 3 quadros).
+- **Sem som, sem gasto:** mudo, ou música e efeitos no zero, pausa a música (o MP3 para de ser lido) e desliga o áudio. Com a
+  música no zero, o áudio desliga sozinho 4 s depois do último efeito e liga de novo no próximo.
+
 ### v102: o chat do clã e o da aldeia (migração v41)
 
 - Decisões do Victor (23/11).
