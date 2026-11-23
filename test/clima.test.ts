@@ -6,10 +6,11 @@
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
-import { CLIMA_ARTE, MAP_ART_CHUNK, loadPublicFiles } from '../src/web/staticFiles.js';
+import { CLIMA_ARTE, MAPA_ANIM_TIRAS, MAP_ART_CHUNK, loadPublicFiles } from '../src/web/staticFiles.js';
 import { WORLD_MAPS } from '../src/realtime/maps.js';
 
 const { CLIMA_ARTE: dados } = await import(new URL('../public/climaData.js', import.meta.url).href);
+const { MAPA_ANIM } = await import(new URL('../public/mapaAnim.js', import.meta.url).href);
 
 /** Largura e altura de um PNG (o cabeçalho IHDR). */
 function pngSize(path: URL): [number, number] {
@@ -76,5 +77,32 @@ describe('v105: Aldeia da Chama refeita com as peças', () => {
     const casas = VILA.walls.filter((w) => w.k === 'house' && w.s === 'home');
     const perto = (l: { x: number; y: number }) => casas.some((c) => l.x >= c.x - 0.5 && l.x <= c.x + c.w + 0.5 && l.y >= c.y && l.y <= c.y + c.h + 0.5);
     assert.ok((VILA.lights ?? []).filter(perto).length >= 8);
+  });
+});
+
+describe('v106: as peças grandes do Flow na Aldeia da Chama', () => {
+  const VILA = WORLD_MAPS.map_1;
+  it('o Salão, a Academia, o hospital, as três lojas e o poço são as peças novas, e as portas seguem a planta nova', () => {
+    for (const s of ['leader', 'academy', 'hospital', 'shop_weapon', 'shop_cloth', 'shop_scroll']) {
+      const w = VILA.walls.filter((x) => x.k === 'house' && x.s === s);
+      assert.equal(w.length, 1, s);
+    }
+    const arm = VILA.walls.find((x) => x.s === 'shop_weapon')!;
+    assert.ok(arm.w < 5, 'a armaria nova é a peça do Flow (menor que a antiga)');
+    const porta = VILA.doors.find((d) => d.map === 'interior_weapons')!;
+    assert.ok(Math.abs(porta.y - (arm.y + arm.h)) < 0.01, 'a porta fica embaixo da fachada nova');
+  });
+
+  it('a água do canal anda: os trechos do rio são a colisão de água, e as folhas dos quadros são servidas', () => {
+    const A = MAPA_ANIM.chama;
+    const agua = VILA.walls.filter((w) => w.k === 'water');
+    assert.equal(A.agua.length, agua.length);
+    for (const t of A.agua) assert.ok(agua.some((w) => w.x === t.x && w.y === t.y && w.w === t.w && t.h <= w.h), JSON.stringify(t));
+    const files = loadPublicFiles();
+    for (const n of MAPA_ANIM_TIRAS) {
+      assert.ok(existsSync(new URL(`../public/assets/mapas/${n}`, import.meta.url)), n);
+      assert.equal(files.find((f) => f.route === `/assets/mapas/${n}`)?.contentType, 'image/png', n);
+    }
+    assert.deepEqual(Object.values<any>(A.tiras).map((t) => t.quadros), [4, 4]);
   });
 });

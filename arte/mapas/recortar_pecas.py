@@ -28,7 +28,14 @@ REC = os.path.join(AQUI, 'flow', 'recebidas')
 PECAS = os.path.join(AQUI, 'pecas')
 CLIMA = os.path.join(RAIZ, 'public', 'assets', 'clima')
 # Efeitos que voltaram para o Flow (a refazer): ficam em arte/mapas/flow/recebidas, mas não vão para o jogo.
-FORA_DO_JOGO = {'fx_respingo'}
+FORA_DO_JOGO = {'fx_respingo', 'chama_muralha_canto', 'chama_ponte', 'chama_grade_canal'}
+# Tamanho de cada peça: a imagem inteira de 2000 px vira N px (288 = 6 casas, 3 px de tela por pixel do Flow). O poço é
+# pequeno (144: 1,5 px por pixel do Flow); os prédios grandes (Academia, Salão, portão e muralha) dobram com o Scale2x
+# (6 px por pixel do Flow, as diagonais lisas): é o tamanho que o cartão pede para eles no mapa.
+ESCALA = {'chama_poco': 144}
+DOBRO = {'chama_academia', 'chama_salao', 'chama_portao', 'chama_muralha'}
+# Peças que vieram com um pedaço de chão (grama e terra) em volta: o chão sai, a construção fica.
+TIRA_CHAO = {'chama_armaria': 0.5, 'chama_academia': 0.78, 'chama_portao': 0.5}   # de que altura para baixo pode ter chão
 N = 288          # 6 casas a 48 px (3 px por pixel do Flow)
 F = N / 192      # as medidas abaixo foram tiradas na grade de 192
 
@@ -63,13 +70,13 @@ def corta(rgba):
     return rgba[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
 
 
-def objeto(id_, img):
+def objeto(id_, img, n=N):
     """Objeto sobre magenta: tira o fundo, reduz para a grade e limpa a franja rosa."""
     big = np.asarray(img)
     fundo = magenta(big)
     fundo = ndimage.binary_dilation(fundo, iterations=3)       # a franja do JPEG em volta
-    cor = amostra(img)
-    frac = maioria(~fundo)
+    cor = amostra(img, n)
+    frac = maioria(~fundo, n)
     alfa = frac > 0.5
     # um pixel de cor ainda rosado na borda vira o vizinho de dentro mais próximo
     rosa = magenta(cor) | (alfa & (frac < 0.85))
@@ -78,8 +85,73 @@ def objeto(id_, img):
         _, (iy, ix) = ndimage.distance_transform_edt(~dentro, return_indices=True)
         cor = cor[iy, ix]
     alfa = ndimage.binary_opening(alfa, iterations=1) | (alfa & (frac > 0.9))
+    if id_ in TIRA_CHAO:
+        alfa &= ~chao_em_volta(cor, alfa, TIRA_CHAO[id_])
+        alfa = ndimage.binary_opening(alfa, iterations=1)
+        lab, n = ndimage.label(alfa)                         # sobras soltas do chão (pétalas, tufos) saem
+        if n > 1:
+            tam = ndimage.sum(alfa, lab, range(1, n + 1))
+            alfa = np.isin(lab, 1 + np.where(tam >= tam.max() * 0.02)[0])
     rgba = np.dstack([cor, (alfa * 255).astype(np.uint8)])
     return corta(rgba)
+
+
+def chao_em_volta(cor, alfa, desde=0.5):
+    """O chão que veio em volta da construção: grama (verde-amarelado, sem o azul do telhado de jade), terra clara e o
+    contorno escuro da beirada, ligados ao fundo transparente por fora."""
+    c = cor.astype(int)
+    r, g, b = c[..., 0], c[..., 1], c[..., 2]
+    grama = (g > r + 35) & (g > b + 55)
+    terra = (r > g + 20) & (r < g + 65) & (g > 140) & (g > b + 35) & (r > 170)   # a terra clara (o reboco e a porta não)
+    petala = (r > 200) & (b > 150) & (g < 190)
+    beira = (c.max(axis=2) < 95) & (g >= r)                                     # o contorno esverdeado do chão
+    # só da altura `desde` para baixo (o telhado verde de cima nunca é chão)
+    ys = np.where(alfa.any(axis=1))[0]
+    baixo = np.zeros_like(alfa)
+    if len(ys):
+        baixo[int(ys.min() + (ys.max() - ys.min()) * desde):] = True
+    chao = (grama | terra | petala | beira) & alfa & baixo
+    lab, _ = ndimage.label(chao | ~alfa)
+    fora = np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))
+    return np.isin(lab, fora[fora > 0]) & chao
+
+
+def scale2x(rgba):
+    """Scale2x (EPX): dobra o pixel art sem borrar, arredondando as diagonais."""
+    a = rgba
+    P = np.pad(a, ((1, 1), (1, 1), (0, 0)), mode='edge')
+    B, D, F, H = P[:-2, 1:-1], P[1:-1, :-2], P[1:-1, 2:], P[2:, 1:-1]
+    eq = lambda x, y: (x == y).all(axis=2)
+    E = a
+    e0 = np.where((eq(D, B) & ~eq(B, F) & ~eq(D, H))[..., None], D, E)
+    e1 = np.where((eq(B, F) & ~eq(B, D) & ~eq(F, H))[..., None], F, E)
+    e2 = np.where((eq(D, H) & ~eq(D, B) & ~eq(H, F))[..., None], D, E)
+    e3 = np.where((eq(H, F) & ~eq(D, H) & ~eq(B, F))[..., None], F, E)
+    h, w = a.shape[:2]
+    out = np.zeros((h * 2, w * 2, a.shape[2]), a.dtype)
+    out[0::2, 0::2], out[0::2, 1::2], out[1::2, 0::2], out[1::2, 1::2] = e0, e1, e2, e3
+    return out
+
+
+def canal(img):
+    """Um quadro do Canal de água: a água (as 132 linhas entre as margens) e as duas margens de pedra (sem a grama)."""
+    cor = amostra(img)
+    agua = cor[89:221]
+    def margem(a, b):
+        m = cor[a:b].astype(int)
+        grama = (m[..., 1] > m[..., 0] + 30) & (m[..., 1] > m[..., 2] + 20)
+        return np.dstack([cor[a:b], ((~grama) * 255).astype(np.uint8)])
+    return agua, margem(69, 89), margem(221, 240)
+
+
+def muralha(rgba):
+    """A muralha veio em duas faixas: o alto (só as telhas da cobertura, visto de cima) e a frente (telhado, reboco e
+    pedra). Separa pela linha vazia do meio."""
+    linhas = rgba[..., 3].any(axis=1)
+    lab, n = ndimage.label(linhas)
+    partes = [rgba[ndimage.find_objects(lab)[i][0]] for i in range(n)]
+    partes.sort(key=lambda p: p.shape[0])
+    return partes[-1], partes[0]          # a frente (a mais alta) e o alto
 
 
 def mosaico(img):
@@ -236,9 +308,26 @@ def main():
             chao(id_, img)
         elif id_.startswith('chama_mosaico'):
             Image.fromarray(mosaico(img)).save(os.path.join(PECAS, id_ + '.png'))
+        elif id_.startswith('chama_canal_agua_'):
+            continue                                   # os 4 quadros juntos, abaixo
         else:
-            Image.fromarray(objeto(id_, img)).save(os.path.join(PECAS, id_ + '.png'))
+            p = objeto(id_, img, ESCALA.get(id_, N))
+            if id_ in DOBRO:
+                p = scale2x(p)
+            if id_ == 'chama_muralha':
+                frente, alto = muralha(p)
+                Image.fromarray(alto).save(os.path.join(PECAS, 'chama_muralha_alto.png'))
+                p = frente
+            Image.fromarray(p).save(os.path.join(PECAS, id_ + '.png'))
         print('ok', id_)
+    quadros = sorted(f for f in os.listdir(REC) if f.startswith('chama_canal_agua_'))
+    if quadros and (not sys.argv[1:] or any(i.startswith('chama_canal_agua') for i in sys.argv[1:])):
+        partes = [canal(Image.open(os.path.join(REC, f)).convert('RGB')) for f in quadros]
+        # a água: os quadros um embaixo do outro; as margens são as do primeiro (iguais nos quatro)
+        Image.fromarray(np.concatenate([p[0] for p in partes])).save(os.path.join(PECAS, 'chama_canal_agua.png'))
+        Image.fromarray(partes[0][1]).save(os.path.join(PECAS, 'chama_canal_margem_cima.png'))
+        Image.fromarray(partes[0][2]).save(os.path.join(PECAS, 'chama_canal_margem_baixo.png'))
+        print('ok chama_canal_agua (', len(partes), 'quadros )')
     gera_js()
 
 

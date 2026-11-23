@@ -3,6 +3,7 @@
 // brasas e poeira são partículas com o desenho de cada pedaço. Enquanto a imagem não carrega, o jogo usa o desenho
 // por código de antes (game.js). Só visual: o servidor não muda.
 import { CLIMA_ARTE } from './climaData.js';
+import { MAPA_ANIM } from './mapaAnim.js';
 
 /** A arte está a 48 px por casa (a densidade do chão); `T` é quantos px de tela tem uma casa agora. */
 const PX = 48;
@@ -68,4 +69,49 @@ export function particula(ctx, id, q, sx, sy, T, escala, ang, alpha) {
     ctx.drawImage(e.img, x, y, w, h, Math.round(sx - w * s / 2), Math.round(sy - h * s / 2), Math.round(w * s), Math.round(h * s));
   }
   return true;
+}
+
+// ------------------------------------------------------------------ v106: o que anda no chão dos mapas em imagem
+
+const tiras = new Map();
+function tira(arquivo) {
+  let e = tiras.get(arquivo);
+  if (!e) { e = { img: new Image(), ok: false }; e.img.onload = () => { e.ok = true; }; e.img.src = `/assets/mapas/${arquivo}`; tiras.set(arquivo, e); }
+  return e.ok ? e.img : null;
+}
+
+/**
+ * A água do Canal (os 4 quadros do Flow) correndo nos rios dos mapas em imagem. `arts`: os mapas à vista
+ * ({ art, x, y } em casas); o quadro 0 já está pintado no chão, e aqui entram os outros por cima, no tempo.
+ */
+export function drawMapaAnim(ctx, arts, toScreenX, toScreenY, T, now, viewW, viewH) {
+  const k = T / PX;
+  for (const r of arts) {
+    const A = MAPA_ANIM[r.art];
+    if (!A) continue;
+    const q = Math.floor(now / A.ms);
+    for (const t of A.agua) {
+      const meta = A.tiras[t.o];
+      const img = meta && tira(meta.arquivo);
+      if (!img) continue;
+      const sx = toScreenX(r.x + t.x), sy = toScreenY(r.y + t.y), sw = t.w * T, sh = t.h * T;
+      if (sx > viewW || sy > viewH || sx + sw < 0 || sy + sh < 0) continue;
+      const f = q % meta.quadros, n = meta.n, L = 288;            // n: a largura do rio na folha; L: o comprimento do quadro
+      ctx.save();
+      ctx.beginPath(); ctx.rect(Math.round(sx), Math.round(sy), Math.ceil(sw), Math.ceil(sh)); ctx.clip();
+      ctx.imageSmoothingEnabled = false;
+      if (t.o === 'h') {
+        const y0 = toScreenY(r.y) + Math.round(t.y * PX) * k;     // o rio começa na linha da área (a folha cobre a largura dele)
+        for (let X = Math.floor(t.x * PX / L) * L; X < (t.x + t.w) * PX; X += L) {
+          ctx.drawImage(img, 0, f * n, L, n, toScreenX(r.x) + X * k, y0, L * k, n * k);
+        }
+      } else {
+        const x0 = toScreenX(r.x) + Math.round(t.x * PX) * k;
+        for (let Y = Math.floor(t.y * PX / L) * L; Y < (t.y + t.h) * PX; Y += L) {
+          ctx.drawImage(img, f * n, 0, n, L, x0, toScreenY(r.y) + Y * k, n * k, L * k);
+        }
+      }
+      ctx.restore();
+    }
+  }
 }

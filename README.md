@@ -246,6 +246,22 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v106: os prédios, o canal, a muralha e o portão do Flow na Aldeia da Chama (sem migração)
+
+- Pedido do Victor (23/11): mais 16 imagens do Flow (`arte/mapas/flow/recebidas/`).
+- **No mapa** (`arte/mapas/montar_chama.py`): o Salão do Conselho (no lugar da sede, com a rocha da montanha continuando
+  atrás dele), a Academia, o hospital, a Armaria, a Alfaiataria, a Casa dos Pergaminhos, o poço, a muralha (a frente em
+  cima e embaixo, o alto nos lados) e o portão. A Academia, o Salão, o portão e a muralha são dobrados com o Scale2x (sem
+  borrar). O recorte tira a grama e a terra que vieram em volta de algumas peças.
+- **O rio** é o Canal de água do Flow: a água encaixada na largura de cada trecho, as margens de pedra, e no jogo ela
+  corre trocando os 4 quadros (`drawMapaAnim` em `public/clima.js`, dados em `public/mapaAnim.js` e as folhas em
+  `public/assets/mapas/`, gerados pelo montador).
+- **Colisões**: o montador gera `src/realtime/chamaArte.ts` (as caixas das peças novas, as antigas que saem, as luzes das
+  janelas e lanternas e a planta que mudou: lojas, Academia e poço); `CHAMA_ART` lê dali, e as portas das lojas e da
+  Academia seguem as fachadas novas.
+- **A refazer** (prompt novo na página das texturas): o canto da muralha e a grade do canal (vieram em perspectiva de
+  lado) e a ponte (veio uma cena inteira em volta dela). Continuam a refazer a grama, a trilha e o respingo.
+
 ### v105: a Aldeia da Chama refeita com as texturas do Flow, e o clima desenhado (sem migração)
 
 - Pedido do Victor (23/11): recortar as 16 imagens que ele gerou no Flow e refazer os mapas com elas.

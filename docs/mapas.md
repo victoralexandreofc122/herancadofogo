@@ -295,10 +295,11 @@ novas) e a arte `public/mapas/chama/`, montada por `arte/mapas/montar_chama.py` 
 (recortadas por `arte/mapas/recortar_pecas.py`). Para refazer depois de uma peça nova:
 
 1. Salvar a imagem do Flow em `arte/mapas/flow/recebidas/<id>.jpg` e rodar `python3 arte/mapas/recortar_pecas.py <id>`.
-2. Pôr a peça no montador (`CASAS` para as casas; uma lista nova para cada tipo de peça) e tirar o provisório dela.
+2. Pôr a peça no montador (`CASAS` para as casas, `TROCAS` para os prédios no lugar de um antigo; o tamanho no
+   recortador: `ESCALA` e `DOBRO`) e tirar o provisório dela.
 3. `npx tsx -e "import {WORLD_MAPS} from './src/realtime/maps.ts'; console.log(JSON.stringify(WORLD_MAPS['map_1']))" > /tmp/map1.json`
-   e `python3 arte/mapas/montar_chama.py /tmp/map1.json --previa previa.png`; as paredes novas que ele imprime vão para
-   `CHAMA_ART`.
+   e `python3 arte/mapas/montar_chama.py /tmp/map1.json --previa previa.png`. Ele regrava `src/realtime/chamaArte.ts`
+   (colisões, luzes e planta) e `public/mapaAnim.js` (a água que corre); rode duas vezes quando a planta mudar.
 4. Conferir no jogo: `npx tsx arte/mapas/capturar_mapa.ts saida.png map_1 <x> <y> [clima] [hora]` (com o servidor de
    `scripts/ambiente-local.sh`), e marcar a peça na página das texturas do Flow.
 

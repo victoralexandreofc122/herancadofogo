@@ -47,6 +47,9 @@ export const UI_ARTE = [...readFileSync(new URL('../../public/uiArte.js', import
 /** v105: as texturas do clima desenhadas no Flow (public/climaData.js, gerado por arte/mapas/recortar_pecas.py). */
 export const CLIMA_ARTE = [...readFileSync(new URL('../../public/climaData.js', import.meta.url), 'utf8').matchAll(/^ {2}(fx_\w+): /gm)].map((m) => m[1] ?? '');
 
+/** v106: as folhas da água animada (public/mapaAnim.js, gerado por arte/mapas/montar_chama.py). */
+export const MAPA_ANIM_TIRAS = [...new Set([...readFileSync(new URL('../../public/mapaAnim.js', import.meta.url), 'utf8').matchAll(/"arquivo": "([\w.]+\.png)"/g)].map((m) => m[1] ?? ''))];
+
 /** Folhas PNG de public/assets/<pasta>/ (a lista bate com vfxData.js e weaponData.js: test/static.test.ts confere). */
 function sheets(folder: 'vfx' | 'weapons' | 'ui' | 'clima', names: readonly string[]) {
   return names.map((n) => ({ route: `/assets/${folder}/${n}.png`, file: `assets/${folder}/${n}.png`, contentType: 'image/png', binary: true as const }));
@@ -96,6 +99,9 @@ const FILES = [
   { route: '/clima.js', file: 'clima.js', contentType: 'text/javascript; charset=utf-8' },
   { route: '/climaData.js', file: 'climaData.js', contentType: 'text/javascript; charset=utf-8' },
   ...sheets('clima', CLIMA_ARTE),
+  // v106: o que anda no chão dos mapas em imagem (a água do canal)
+  { route: '/mapaAnim.js', file: 'mapaAnim.js', contentType: 'text/javascript; charset=utf-8' },
+  ...MAPA_ANIM_TIRAS.map((n) => ({ route: `/assets/mapas/${n}`, file: `assets/mapas/${n}`, contentType: 'image/png', binary: true as const })),
   { route: '/uiAnim.js', file: 'uiAnim.js', contentType: 'text/javascript; charset=utf-8' },
   ...sheets('ui', UI_ARTE),
   // Personagem (v25, arte/personagem-rig): desenhado por código no aparelho. Visual e opções, paletas, esqueleto 3D

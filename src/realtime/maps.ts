@@ -21,6 +21,7 @@
  * lanternas...) são só desenho. A regra de atravessar a borda fica em movement.ts e
  * public/movement.js: a mesma conta nos dois.
  */
+import { CHAMA_LUZES, CHAMA_NOVAS, CHAMA_PLANO, CHAMA_SAI } from './chamaArte.js';
 import type { Village } from './appearance.js';
 import type { Box } from './movement.js';
 
@@ -556,22 +557,22 @@ const FOLHA_ART: VillageArt = {
  * casas de morar e a cabana viraram as peças novas (casa pequena, média e de palha), menores que as antigas, e as
  * janelas delas acendem de noite.
  */
+const chave = (w: Wall) => `${w.k}:${w.x},${w.y},${w.w},${w.h}`;
 const CHAMA_ART: VillageArt = {
   ...FOLHA_ART,
   art: 'chama',
+  plan: {
+    ...FOLHA_ART.plan,
+    academy: { ...CHAMA_PLANO.academy },
+    shops: { weapons: { ...CHAMA_PLANO.shops.weapons }, clothes: { ...CHAMA_PLANO.shops.clothes }, scrolls: { ...CHAMA_PLANO.shops.scrolls } },
+    well: { ...CHAMA_PLANO.well },
+  },
+  // As peças do Flow (a peça inteira bloqueia, menos uma beirada: não há camada por cima do ninja) no lugar das antigas.
   walls: [
-    ...FOLHA_ART.walls.filter((w) => !(w.k === 'house' && (w.s === 'home' || w.s === 'hut'))),
-    // As casas novas (a peça inteira bloqueia: não há camada por cima do ninja).
-    wall('house', 3.76, 9.24, 4.39, 3.97, 'home'), wall('house', 3.58, 16.05, 4.81, 4.34, 'home'),
-    wall('house', 11.2, 5.61, 4.35, 4.82, 'hut'), wall('house', 64.76, 6.49, 4.81, 4.34, 'home'),
-    wall('house', 69.76, 9.74, 4.39, 3.97, 'home'), wall('house', 70.33, 15.93, 4.35, 4.82, 'hut'),
-    wall('house', 3.45, 32.42, 4.39, 3.97, 'home'), wall('house', 3.76, 42.67, 4.81, 4.34, 'home'),
+    ...FOLHA_ART.walls.filter((w) => !CHAMA_SAI.includes(chave(w))),
+    ...CHAMA_NOVAS.map((w) => wall(w.k as Wall['k'], w.x, w.y, w.w, w.h, w.s as Wall['s'])),
   ],
-  lights: [
-    ...FOLHA_ART.lights,
-    { x: 4.4, y: 11.7 }, { x: 7.5, y: 11.7 }, { x: 4.7, y: 18.6 }, { x: 65.9, y: 9.1 }, { x: 70.4, y: 12.2 },
-    { x: 73.5, y: 12.2 }, { x: 4.1, y: 34.9 }, { x: 7.2, y: 34.9 }, { x: 4.9, y: 45.2 },
-  ],
+  lights: [...FOLHA_ART.lights, ...CHAMA_LUZES],
 };
 
 /**

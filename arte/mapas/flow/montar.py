@@ -37,8 +37,10 @@ def main():
             im = Image.open(os.path.join(rec, f)).convert('RGB')
             im.thumbnail((240, 240), Image.LANCZOS)
             im.save(os.path.join(pasta, 'recebidas', f[:-4] + '.webp'), 'WEBP', quality=86)
+            if f.endswith('_1.jpg'):                       # a peça em quadros (canal_agua_1..4): o primeiro é a miniatura
+                im.save(os.path.join(pasta, 'recebidas', f[:-6] + '.webp'), 'WEBP', quality=86)
             n += 1
-    mapa = os.path.join(AQUI, '..', 'capturas', 'chama_v105.jpg')
+    mapa = os.path.join(AQUI, '..', 'capturas', 'chama_v105.jpg')   # o nome fica (a página aponta para ele)
     if os.path.exists(mapa):
         Image.open(mapa).save(os.path.join(pasta, 'chama_v105.jpg'), 'JPEG', quality=84)
     print('ok', len(out) // 1024, 'KB,', n, 'miniaturas')

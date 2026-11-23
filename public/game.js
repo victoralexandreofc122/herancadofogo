@@ -36,7 +36,7 @@ import { STRIKE_ART, ZONE_ART, drawBolt, drawDecal, drawStatusArt, drawStrikeArt
 import { drawBackWeapon, drawHandWeapon, drawWeaponIcon, drawnForStrike, isThrown, loadWeapons, weaponReady } from './weapons.js';
 import { VILLAGE_NAMES, egOn, factionStyle, mapAccess, mountEndgameUI, shopFactor, zoneFoe } from './endgame.js';
 import { mountAdminUI } from './adminPanel.js';
-import { camadaCorrendo, particula } from './clima.js';
+import { camadaCorrendo, drawMapaAnim, particula } from './clima.js';
 import { drawMonsterArt, drawMonsterPortrait, loadMonsterSprites, monsterArtReady, monsterDeathMs, playMonster } from './monsterSprites.js';
 
 const TOKEN_KEY = 'nin.token';
@@ -8201,6 +8201,7 @@ function draw(now) {
   let alive = 0;
   for (const fx of state.effects) if (SKILLS[fx.skill] && now - fx.start < SKILLS[fx.skill].ms) state.effects[alive++] = fx;
   state.effects.length = alive;
+  drawMapaAnim(ctx, state.arts, toScreenX, toScreenY, T, now, viewW, viewH);   // v106: a água do canal correndo
   drawDecals(toScreenX, toScreenY, T, now);           // v48: crateras e marcas de queimado
   drawGround(toScreenX, toScreenY, T, now);           // v29: zonas no chão e avisos de golpe
   drawWorldFog(toScreenX, toScreenY, T, now);         // v62: névoa nas saídas para mapas que o mundo não abriu

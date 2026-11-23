@@ -111,8 +111,8 @@ describe('servidor: entradas com predição (autoridade)', () => {
   it('paredes valem no servidor: andar contra uma casa da vila não atravessa', () => {
     const { connect, run, pos, world } = setupWorld(config);
     const a = connect('kaito');
-    const house = REALTIME.maps.map_1.walls.find((w) => w.s === 'leader')!;          // sede da vila (31..46,6; 5,5..20,5)
-    Object.assign(sess(world, a.id), { x: house.x - 1, y: house.y + 9.5 });          // no gramado à esquerda dela
+    const house = REALTIME.maps.map_1.walls.find((w) => w.s === 'leader')!;          // a sede da vila (v106: o Salão do Conselho)
+    Object.assign(sess(world, a.id), { x: house.x - 1, y: house.y + house.h / 2 });   // no gramado à esquerda dela
     a.send({ type: 'input', seq: 1, inputs: right(10) });
     a.send({ type: 'input', seq: 11, inputs: right(10) });
     run(1500);
