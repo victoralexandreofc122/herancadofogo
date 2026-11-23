@@ -2635,6 +2635,8 @@ export class GameWorld {
    *   "/admin ..."      comando do administrador (nunca vira chat; ver admin.ts)
    *   "/g texto"        global: todos os mapas
    *   "/w Nome texto"   sussurro: só o Nome (online) e quem mandou recebem
+   *   "/c texto"        (v102) clã: todos da mesma linhagem online
+   *   "/a texto"        (v102) aldeia: todos da mesma aldeia online; só o Kage dela manda
    *   outro "/..."      ajuda dos comandos (não vira chat)
    *   texto             fala local: quem está no mesmo mapa
    * Toda fala entra no histórico (24 h), fora do loop.
@@ -2655,7 +2657,11 @@ export class GameWorld {
       if (global) return this.sayGlobal(session, global[1]!);
       const whisper = /^\/(?:w|sussurro)\s+([A-Za-z0-9_]{3,24})\s+(.+)$/i.exec(message);
       if (whisper) return this.whisper(session, whisper[1]!, whisper[2]!);
-      return this.sendTo(session, { type: 'notice', text: 'Chat: /g mensagem (global) · /w Nome mensagem (sussurro).', tone: 'info' });
+      const cla = /^\/(?:c|cl[aã])\s+(.+)$/i.exec(message);
+      if (cla) return this.sayClan(session, cla[1]!);
+      const aldeia = /^\/(?:a|aldeia)\s+(.+)$/i.exec(message);
+      if (aldeia) return this.sayVillage(session, aldeia[1]!);
+      return this.sendTo(session, { type: 'notice', text: 'Chat: /g mensagem (global) · /w Nome mensagem (sussurro) · /c mensagem (clã) · /a mensagem (aldeia, só o Kage).', tone: 'info' });
     }
     this.broadcastMap(session.map, { type: 'chat', playerId: session.id, username: session.username, message, channel: 'local' });
     this.recordChat({ channel: 'local', senderId: session.id, senderName: session.username, map: session.map, message });
@@ -2665,6 +2671,30 @@ export class GameWorld {
   private sayGlobal(session: Session, message: string): void {
     this.broadcast({ type: 'chat', playerId: session.id, username: session.username, message, channel: 'global' });
     this.recordChat({ channel: 'global', senderId: session.id, senderName: session.username, message });
+  }
+
+  /** v102: a linhagem do jogador para o chat do clã (a marcada no Criador já vale, antes do Rito do Despertar). */
+  private chatClan(s: Session): Clan | null {
+    return s.clan ?? s.clanMark ?? null;
+  }
+
+  /** v102 (decisão do Victor, 23/11): clã = a linhagem. A mensagem vai para todos da mesma linhagem online. */
+  private sayClan(session: Session, message: string): void {
+    const clan = this.chatClan(session);
+    if (!clan) return this.sendTo(session, { type: 'notice', text: 'Você ainda não tem linhagem: marque a sua no Criador de Personagem (☰ → Aparência).', tone: 'info' });
+    const out: ServerMessage = { type: 'chat', playerId: session.id, username: session.username, message, channel: 'cla' };
+    for (const other of this.sessions.values()) if (!other.closed && this.chatClan(other) === clan) this.sendTo(other, out);
+    this.recordChat({ channel: 'cla', senderId: session.id, senderName: session.username, escopo: clan, message });
+  }
+
+  /** v102 (decisão do Victor, 23/11): a aldeia inteira online recebe; só o Kage da aldeia manda. */
+  private sayVillage(session: Session, message: string): void {
+    const village = session.village;
+    if (!village) return this.sendTo(session, { type: 'notice', text: 'Você não tem aldeia: renegados não falam com a aldeia.', tone: 'info' });
+    if (session.kageOf !== village) return this.sendTo(session, { type: 'notice', text: 'Só o Kage manda mensagem para a aldeia inteira.', tone: 'bad' });
+    const out: ServerMessage = { type: 'chat', playerId: session.id, username: session.username, message, channel: 'aldeia' };
+    for (const other of this.sessions.values()) if (!other.closed && other.village === village) this.sendTo(other, out);
+    this.recordChat({ channel: 'aldeia', senderId: session.id, senderName: session.username, escopo: village, message });
   }
 
   /** Sussurro: só para o destinatário (online) e de volta para quem mandou. */
@@ -2689,7 +2719,7 @@ export class GameWorld {
     if (t - session.lastHistoryAt < CHAT_HISTORY.requestEveryMs) return;
     session.lastHistoryAt = t;
     const { id } = session;
-    this.chatLog.history(id, session.map).then((messages) => {
+    this.chatLog.history(id, session.map, CHAT_HISTORY.limit, { cla: this.chatClan(session), aldeia: session.village }).then((messages) => {
       const current = this.sessions.get(id);
       if (current) this.sendTo(current, { type: 'chat_history', messages });
       this.flushKicks();

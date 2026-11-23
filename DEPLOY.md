@@ -1399,3 +1399,21 @@ mescle o código da v70. Pode rodar de novo sem erro. Nada é apagado.
 2. Saia do navegador por 1 minuto e volte: o jogo reconecta sozinho (os monstros voltam a reagir e a levar dano).
 3. Rankeado → 3v3: você vai para a arena nova, maior; o ⇄ leva ao 1v1.
 4. Conferência no Neon: `SELECT code, xp_reward FROM game.mission_difficulties WHERE code LIKE 'NPC_%' ORDER BY xp_reward;`
+
+## Passo 56 — O chat do clã e o da aldeia (SQL v41)
+
+Rode `db/schema_v41_chat_cla_aldeia.sql` inteiro no SQL Editor do Neon (branch `production`), **depois da v40**, e só então
+mescle o código da v102. Pode rodar de novo sem erro. Nada é apagado.
+
+- O histórico do chat (24 h) passa a aceitar os canais `cla` (a linhagem) e `aldeia` (só o Kage manda). A coluna nova
+  `escopo` guarda para quem foi (a linhagem, ex. `rubro`, ou a aldeia, ex. `vila_1`).
+- Sem a migração, o jogo não quebra: as mensagens do clã e da aldeia chegam na hora, mas não ficam no histórico.
+
+### Testar no celular
+
+1. Abra o 💬, toque na aba **Clã** e escreva: todos da sua linhagem que estiverem on-line recebem, em qualquer mapa.
+2. Na aba **Aldeia**, quem não é Kage vê o aviso "Só o Kage manda mensagem para a aldeia inteira."; o Kage escreve e todos
+   da aldeia on-line recebem.
+3. Feche e abra o jogo: as mensagens do clã e da aldeia continuam no painel (24 h).
+4. Conferência no Neon: `SELECT channel, escopo, count(*) FROM game.chat_logs GROUP BY 1, 2 ORDER BY 1, 2;`
+

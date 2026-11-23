@@ -246,6 +246,18 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v102: o chat do clã e o da aldeia (migração v41)
+
+- Decisões do Victor (23/11).
+- **Clã:** é a linhagem. A mensagem vai para todos da mesma linhagem on-line, em qualquer mapa; a marcada no Criador já
+  vale, antes do Rito.
+- **Aldeia:** vai para todos da mesma aldeia on-line, e só o Kage da aldeia manda.
+- No painel do chat entram as abas **Clã** e **Aldeia**, e a aba aberta decide para onde a mensagem vai (Global, Clã ou
+  Aldeia). Os comandos também valem: `/c texto` e `/a texto`.
+- O histórico de 24 h guarda os dois canais: migração `db/schema_v41_chat_cla_aldeia.sql` (coluna `escopo`), passo 56 do
+  `DEPLOY.md`.
+- Sem a v41 no banco o jogo não quebra: o histórico cai na busca de antes, e as mensagens chegam na hora sem ficar guardadas.
+
 ### v101: a borda de baixo do painel e os painéis que rolavam no celular (sem migração)
 
 - Pedido do Victor (23/11).

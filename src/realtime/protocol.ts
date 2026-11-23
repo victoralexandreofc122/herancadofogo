@@ -492,7 +492,8 @@ export interface ChatEntry {
   /** ISO 8601. */
   at: string;
 }
-export type ChatChannel = 'local' | 'global' | 'whisper';
+/** v102 (migração v41): 'cla' = a linhagem; 'aldeia' = a aldeia (só o Kage manda). */
+export type ChatChannel = 'local' | 'global' | 'whisper' | 'cla' | 'aldeia';
 
 /** Jutsu como o cliente mostra (botão, aba Jutsus). */
 export interface SkillInfo {

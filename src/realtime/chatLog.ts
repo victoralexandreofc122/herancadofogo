@@ -8,7 +8,9 @@ import type { ChatChannel, ChatEntry } from './protocol.js';
  * O que entra no histórico de um jogador:
  *   global .... todas (são para todo mundo);
  *   sussurro .. só as que ele mandou ou recebeu;
- *   local ..... as faladas no mapa onde ele está agora (a "conversa da sala").
+ *   local ..... as faladas no mapa onde ele está agora (a "conversa da sala");
+ *   clã ....... (v102, migração v41) as da linhagem dele;
+ *   aldeia .... (v102, migração v41) as do Kage para a aldeia dele.
  *
  * Gravar nunca segura o jogo: o tick e o envio do chat não esperam o banco (falhou, fica no log).
  * Sem banco (testes, jogo local), memoryChatLog guarda o mesmo em memória.
@@ -33,13 +35,21 @@ export interface ChatRecord {
   recipientName?: string;
   /** Mapa (só a fala local). */
   map?: string;
+  /** v102: a linhagem (canal 'cla') ou a aldeia (canal 'aldeia') que recebeu. */
+  escopo?: string;
   message: string;
+}
+
+/** v102: de quem é o histórico do clã e da aldeia (a linhagem e a aldeia do jogador; sem elas, nenhum). */
+export interface ChatScope {
+  cla?: string | null;
+  aldeia?: string | null;
 }
 
 export interface ChatLog {
   record(entry: ChatRecord): Promise<void>;
   /** Últimas mensagens (até `limit`) do histórico do jogador, da mais antiga para a mais nova. */
-  history(playerId: string, map: string, limit?: number): Promise<ChatEntry[]>;
+  history(playerId: string, map: string, limit?: number, scope?: ChatScope): Promise<ChatEntry[]>;
   /** Apaga o que passou da retenção. Devolve quantas linhas saíram. */
   purge(): Promise<number>;
 }
@@ -51,6 +61,10 @@ export const CHAT_SQL = {
   record: `
     INSERT INTO game.chat_logs (channel, sender_id, sender_name, recipient_id, recipient_name, map, message)
     VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+  /** v102 (migração v41): o clã e a aldeia guardam para quem foi (escopo). */
+  recordScoped: `
+    INSERT INTO game.chat_logs (channel, sender_id, sender_name, map, escopo, message)
+    VALUES ($1, $2, $3, NULL, $4, $5)`,
   /**
    * Quatro buscas pelos índices parciais da v8 (global, local do mapa, sussurros enviados e
    * recebidos), cada uma com o limite, e as `$3` mais novas do conjunto.
@@ -64,6 +78,23 @@ export const CHAT_SQL = {
       (SELECT ${COLUMNS} FROM game.chat_logs WHERE channel = 'whisper' AND sender_id = $1 AND ${RECENT} ORDER BY id DESC LIMIT $3)
       UNION ALL
       (SELECT ${COLUMNS} FROM game.chat_logs WHERE channel = 'whisper' AND recipient_id = $1 AND ${RECENT} ORDER BY id DESC LIMIT $3)
+    ) h
+    ORDER BY id DESC
+    LIMIT $3`,
+  /** v102 (migração v41): o mesmo, mais o clã ($4) e a aldeia ($5) do jogador. */
+  historyScoped: `
+    SELECT ${COLUMNS} FROM (
+      (SELECT ${COLUMNS} FROM game.chat_logs WHERE channel = 'global' AND ${RECENT} ORDER BY id DESC LIMIT $3)
+      UNION ALL
+      (SELECT ${COLUMNS} FROM game.chat_logs WHERE channel = 'local' AND map = $2 AND ${RECENT} ORDER BY id DESC LIMIT $3)
+      UNION ALL
+      (SELECT ${COLUMNS} FROM game.chat_logs WHERE channel = 'whisper' AND sender_id = $1 AND ${RECENT} ORDER BY id DESC LIMIT $3)
+      UNION ALL
+      (SELECT ${COLUMNS} FROM game.chat_logs WHERE channel = 'whisper' AND recipient_id = $1 AND ${RECENT} ORDER BY id DESC LIMIT $3)
+      UNION ALL
+      (SELECT ${COLUMNS} FROM game.chat_logs WHERE channel = 'cla' AND escopo = $4 AND ${RECENT} ORDER BY id DESC LIMIT $3)
+      UNION ALL
+      (SELECT ${COLUMNS} FROM game.chat_logs WHERE channel = 'aldeia' AND escopo = $5 AND ${RECENT} ORDER BY id DESC LIMIT $3)
     ) h
     ORDER BY id DESC
     LIMIT $3`,
@@ -91,10 +122,21 @@ const toEntry = (r: Row): ChatEntry => ({
 export function makeChatLog(db: Queryable): ChatLog {
   return {
     async record(e) {
+      if (e.channel === 'cla' || e.channel === 'aldeia') {
+        await db.query(CHAT_SQL.recordScoped, [e.channel, e.senderId, e.senderName, e.escopo ?? '', e.message]);
+        return;
+      }
       await db.query(CHAT_SQL.record, [e.channel, e.senderId, e.senderName, e.recipientId ?? null, e.recipientName ?? null, e.map ?? null, e.message]);
     },
-    async history(playerId, map, limit = CHAT_HISTORY.limit) {
-      const { rows } = await db.query<Row>(CHAT_SQL.history, [playerId, map, limit]);
+    async history(playerId, map, limit = CHAT_HISTORY.limit, scope = {}) {
+      // v102: com a v41 no banco, o clã e a aldeia entram; sem ela (coluna escopo ausente: 42703), o histórico de antes
+      let rows: Row[];
+      try {
+        rows = (await db.query<Row>(CHAT_SQL.historyScoped, [playerId, map, limit, scope.cla ?? null, scope.aldeia ?? null])).rows;
+      } catch (err) {
+        if ((err as { code?: string }).code !== '42703') throw err;
+        rows = (await db.query<Row>(CHAT_SQL.history, [playerId, map, limit])).rows;
+      }
       return rows.reverse().map(toEntry);   // da mais antiga para a mais nova
     },
     async purge() {
@@ -118,10 +160,12 @@ export function memoryChatLog(now: () => number = Date.now, max = 5000): ChatLog
       log.push({ ...e, at: now() });
       if (log.length > max) log.splice(0, log.length - max);
     },
-    async history(playerId, map, limit = CHAT_HISTORY.limit) {
+    async history(playerId, map, limit = CHAT_HISTORY.limit, scope = {}) {
       fresh();
       const mine = log.filter((e) => e.channel === 'global'
         || (e.channel === 'local' && e.map === map)
+        || (e.channel === 'cla' && !!scope.cla && e.escopo === scope.cla)
+        || (e.channel === 'aldeia' && !!scope.aldeia && e.escopo === scope.aldeia)
         || (e.channel === 'whisper' && (e.senderId === playerId || e.recipientId === playerId)));
       return mine.slice(-limit).map((e) => ({
         channel: e.channel, playerId: e.senderId, username: e.senderName,

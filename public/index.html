@@ -304,6 +304,8 @@
         <button type="button" class="tab" role="tab" aria-selected="false" data-filter="local">Local</button>
         <button type="button" class="tab" role="tab" aria-selected="false" data-filter="global">Global</button>
         <button type="button" class="tab" role="tab" aria-selected="false" data-filter="whisper">Sussurros</button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-filter="cla">Clã</button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-filter="aldeia">Aldeia</button>
       </div>
       <ol id="history-list" class="history-list" aria-live="polite"></ol>
       <p id="history-empty" class="mission-empty">Nenhuma mensagem nas últimas 24 horas.</p>
@@ -311,7 +313,7 @@
         <input id="chat-input" name="message" maxlength="200" placeholder="Chat" enterkeyhint="send" aria-label="Mensagem do chat (/g global · /w Nome sussurro)">
         <button type="submit" aria-label="Enviar">➤</button>
       </form>
-      <p class="kits-help">No chat: <strong>/g</strong> texto fala com todos · <strong>/w Nome</strong> texto sussurra.</p>
+      <p id="chat-help" class="kits-help">A aba aberta é para onde vai: Global fala com todos, Clã com a sua linhagem, Aldeia (só o Kage) com a aldeia. <strong>/w Nome</strong> texto sussurra.</p>
     </section>
 
     <!-- Sala de Missões do Mestre: cartões (título, descrição, recompensa, dificuldade) e o "Entregar". -->
