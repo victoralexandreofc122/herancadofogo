@@ -41,6 +41,43 @@ describe('v96: interface desenhada (Laca e Brasa)', () => {
   });
 });
 
+describe('v97: o HUD desenhado (joystick, minimapa, retratos e a barra dos selos)', () => {
+  const css = readFileSync(new URL('../public/uiLaca.css', import.meta.url), 'utf8');
+  const game = readFileSync(new URL('../public/game.js', import.meta.url), 'utf8');
+  it('as peças novas saíram do recorte e estão no lugar delas', () => {
+    for (const n of ['ui_joystick_1', 'ui_joystick_2', 'ui_minimapa', 'ui_retrato_1', 'ui_retrato_2', 'ui_retrato_3', 'ui_selos', 'ui_selos_fogo']) assert.ok(UI_ARTE.includes(n), n);
+    assert.match(css, /\.minimap::after[^}]*ui_minimapa\.png/);
+    assert.match(css, /\.portrait::after[^}]*ui_retrato_1\.png/);
+    assert.match(css, /\.portrait\.foe::after \{ background-image: url\(\/assets\/ui\/ui_retrato_2\.png\)/);
+    assert.match(css, /\.level-badge \{[^}]*ui_retrato_3\.png/);
+    assert.match(css, /ui_selos\.png\) 3 fill/);
+    assert.match(css, /\.cast-bar \.fill \{[^}]*ui_selos_fogo\.png[^}]*repeat-x/);
+  });
+  it('o joystick (desenhado no canvas) usa a base e a manopla, sem borrar, e volta ao círculo sem a interface', () => {
+    assert.match(game, /ui_joystick_1/);
+    assert.match(game, /ui_joystick_2/);
+    assert.match(game, /const arte = uiPref\.uiDesenhada && joyArte\(\)/);
+    assert.match(game, /ctx\.imageSmoothingEnabled = liso/);
+  });
+  it('o retrato em pé: o canvas fica alto com a interface desenhada', () => {
+    assert.match(game, /const alto = uiPref\.uiDesenhada \? 218 : 128/);
+    assert.match(game, /c\.height > c\.width \? 2\.6 : 2/);
+  });
+  it('a faixa de fogo dos selos anima inteira (a mancha grande ali é fogo, não bronze)', async () => {
+    const { quadrosDe, ANIMADAS } = await import(new URL('../public/uiAnim.js', import.meta.url).href);
+    assert.equal(ANIMADAS.ui_selos_fogo.prop, 'background-image');
+    const W = 30, H = 8, data = new Uint8ClampedArray(W * H * 4);
+    for (let y = 2; y < H; y++) for (let x = 0; x < W; x++) data.set([240, 112, 42, 255], (y * W + x) * 4);
+    const criar = (w: number, h: number) => ({ data: new Uint8ClampedArray(w * h * 4), width: w, height: h });
+    const comFogo = quadrosDe({ data }, W, H, criar, { chamaGrande: true });
+    const semOpcao = quadrosDe({ data }, W, H, criar);
+    const muda = (r: any) => r.frames.some((f: any) => f.data[(4 * W + 5) * 4 + 1] !== 112);
+    assert.ok(comFogo && muda(comFogo), 'a faixa queima');
+    assert.ok(!semOpcao || !muda(semOpcao) || semOpcao.frames.every((f: any) => f.data[(4 * W + 5) * 4] >= 200), 'sem a opção, a faixa comprida não vira fogo');
+    for (const n of ['ui_retrato_1', 'ui_minimapa']) assert.ok(ANIMADAS[n], n);
+  });
+});
+
 describe('v96: o servidor serve as peças da interface como PNG', () => {
   it('cada /assets/ui/<peça>.png é image/png em bytes', async () => {
     const { loadPublicFiles } = await import('../src/web/staticFiles.js');

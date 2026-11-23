@@ -246,6 +246,22 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v97: o HUD desenhado (joystick, minimapa, retratos e a barra dos selos) (sem migração)
+
+- Mais 4 folhas do Victor (23/11), recortadas por `arte/ui/recortar_ui.py`. A 5ª (o anel do ataque) já estava no jogo.
+- O joystick: a base de bronze com as setas e a manopla de brasa. Ele é desenhado no canvas, sem borrar o pixel.
+- O minimapa: o anel com a chama em cima e os cravos, por cima do mapa.
+- Os retratos:
+  - em pé: você no bronze com o selo vermelho, o alvo inimigo no ferro com o fio vermelho;
+  - o boneco aparece da cabeça às pernas;
+  - o nível fica numa plaquinha embaixo.
+- A barra dos selos:
+  - o trilho de laca com o ouro;
+  - o fogo que enche é uma faixa repetida na largura.
+- A animação, com o gráfico no máximo:
+  - a chama do retrato e a do minimapa queimam, e o ouro brilha;
+  - a faixa dos selos queima inteira.
+
 ### v96: a interface desenhada (tema Laca e Brasa) e a animação do fogo e do ouro (sem migração)
 
 - Pedido do Victor (23/11): uma interface própria, gerada no Flow pela página Interface no Flow (`arte/ui/flow/`, 41 peças).

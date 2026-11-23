@@ -298,5 +298,71 @@
     "h": 111
    }
   ]
+ },
+ "ui_joystick": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_joystick_1",
+    "w": 61,
+    "h": 60
+   },
+   {
+    "arquivo": "ui_joystick_2",
+    "w": 30,
+    "h": 32
+   }
+  ]
+ },
+ "ui_minimapa": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_minimapa",
+    "w": 98,
+    "h": 98
+   }
+  ]
+ },
+ "ui_retrato": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_retrato_1",
+    "w": 46,
+    "h": 72
+   },
+   {
+    "arquivo": "ui_retrato_2",
+    "w": 46,
+    "h": 72
+   },
+   {
+    "arquivo": "ui_retrato_3",
+    "w": 32,
+    "h": 15
+   },
+   {
+    "arquivo": "ui_retrato_4",
+    "w": 32,
+    "h": 15
+   }
+  ]
+ },
+ "ui_selos": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_selos",
+    "w": 90,
+    "h": 16,
+    "fatia": [
+     3,
+     3,
+     3,
+     3
+    ]
+   }
+  ]
  }
 }
