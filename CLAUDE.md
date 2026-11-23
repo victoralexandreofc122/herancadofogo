@@ -18,7 +18,7 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   `public/figure.js` cache e giro). Detalhes em `arte/personagem-rig/LEIAME.md`. O estilo segue a folha de referência
   do Victor (chibi, contorno escuro, sombreado em 2-3 tons). Toda mudança de arte é comparada lado a lado com a
   referência e conferida dentro do jogo antes de fechar.
-- **Versão atual:** v99 na `main` (PRs #33 a #70; o #70 trouxe a v99, as últimas peças da interface; o #69 a v98, o lote 4; o #68 a v97, o HUD desenhado; o #67 a v96, a interface desenhada; o #64 a #66 trouxeram a v95, com o guia de estilo das animações em `arte/jutsus-vfx/guia-de-estilo.md`: o Ciclo Sem Fim, o lugar no corpo em todos e as folhas refeitas). **Banco:** todas as
+- **Versão atual:** v100 na `main` (PRs #33 a #71; o #71 trouxe a v100, o chat em botão e a doca da arena; o #70 a v99, as últimas peças da interface; o #69 a v98, o lote 4; o #68 a v97, o HUD desenhado; o #67 a v96, a interface desenhada; o #64 a #66 trouxeram a v95, com o guia de estilo das animações em `arte/jutsus-vfx/guia-de-estilo.md`: o Ciclo Sem Fim, o lugar no corpo em todos e as folhas refeitas). **Banco:** todas as
   migrações até a **v40** rodaram no `production` do Neon (confirmado pelo Victor em 17/11/2026); nenhuma pendente.
   Jutsus v2 com 96 jutsus (10 classes, Vento nova, e o Clã Rubro), mais os 74 da Fase 2.5 e os 16 dos clãs novos;
   conjuração, sistemas próprios (muros, invocações, escuridão...), clãs por linhagem, Extração e maestria, rankeado 1v1 e
@@ -32,6 +32,10 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   aumenta a cura, item Shuriken (consumível, botão ✴️), invocações andam até o alvo e socam (Sentinela de Sombra e Arsenal
   Vivo com desenho próprio). v54: curas e escudos com valor fixo (sem % da vida), Cura rebalanceada, Cegueira como estado
   (perde o alvo), Duplo de Água bate. Mesclado (PR #34; a v32 rodou no Neon).
+- **v100 (sem migração, pedido do Victor de 23/11):** o chat virou um botão 💬 na doca de baixo (em qualquer mapa, com o
+  contador de novas), que abre o painel do chat (abas e linha de digitar); a barra da arena desceu para a doca (Desafio à
+  vista, o resto no 🏟️ Arena); as lanternas da mureta na frente de quem passa atrás (`fenceLanternProps`). Os canais de
+  clã e de aldeia pedidos esperam a escolha do Victor (precisam da migração v41).
 - **v99 (sem migração, folhas do Victor de 23/11):** as 4 últimas do catálogo: a faixa do título dos painéis, as cores das
   barras (vida, chakra, XP, inimigo, chefe; `perfil` no recorte), a barra do chefe e o marcador do alvo no chão (canvas).
 - **v98 (sem migração, 16 folhas do Victor de 23/11):** o lote 4 da interface sem o painel de fundo que vazou nas folhas

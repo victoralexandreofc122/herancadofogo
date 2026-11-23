@@ -999,10 +999,17 @@ function drawFence(g, x, y, w, h, tile, wall) {
     fr(g, SLATE.face, x, y + h - H - 1, w, H + 1);                              // a face na ponta de baixo
     fr(g, GOLD.mid, x, y + h - H - 1, w, 0.8);
   }
-  for (const l of fenceLanterns(wall)) {
-    const lx = x + (l.x - wall.x) * U, ly = y + (l.y - wall.y) * U;
-    drawLantern(g, lx, (w >= h ? y + h : ly + 4));
-  }
+  // v100 (pedido do Victor, 23/11): as lanternas saíram daqui; são objetos com altura (fenceLanternProps), desenhados
+  // junto dos bonecos pela linha da base: quem passa atrás da mureta fica atrás da lanterna.
+}
+
+/** v100: as lanternas da mureta como objetos com altura (o pé de cada uma é a base, para a ordem de profundidade). */
+export function fenceLanternProps(wall) {
+  const horiz = wall.w >= wall.h;
+  return fenceLanterns(wall).map((l) => {
+    const base = horiz ? wall.y + wall.h : l.y + 4 / 16;
+    return { k: 'lanterna_mureta', x: l.x - 0.3, y: base - 0.3, w: 0.6, h: 0.3, t: wall.t };
+  });
 }
 
 /** Bloco de ardósia da arena (cobertura): tampo com moldura dourada embutida, face escura e uma rachadura. */
@@ -1438,7 +1445,7 @@ function drawValeWall(g, x, y, w, h) {
   }
 }
 
-export const PROP_KINDS = new Set(['tree', 'deadtree', 'oak', 'seal', 'tent', 'statue']);
+export const PROP_KINDS = new Set(['tree', 'deadtree', 'oak', 'seal', 'tent', 'statue', 'lanterna_mureta']);
 
 export function propExtent(wall) {
   switch (wall.k) {
@@ -1448,6 +1455,7 @@ export function propExtent(wall) {
     case 'seal': return { left: 0.3, right: 0.3, top: 1.0, bottom: 0.3 };
     case 'tent': return { left: 0.4, right: 0.5, top: 0.3, bottom: 0.45 };
     case 'statue': return { left: 0.8, right: 1.4, top: 6.6, bottom: 0.4 };
+    case 'lanterna_mureta': return { left: 0.1, right: 0.1, top: 1.6, bottom: 0.25 };
     default: return { left: 0.2, right: 0.2, top: 0.5, bottom: 0.3 };
   }
 }
@@ -1462,6 +1470,7 @@ export function drawProp(g, wall, x, y, w, h, tile) {
     case 'seal': return drawSeal(g, x, y, w, h, wall.s !== 'out');
     case 'tent': return drawTent(g, x, y, w, h, Math.abs(seed));
     case 'statue': return drawStatue(g, x, y, w, h, wall.s);
+    case 'lanterna_mureta': return drawLantern(g, x + w / 2, y + h);
     default: return undefined;
   }
 }

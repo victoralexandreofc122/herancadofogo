@@ -366,8 +366,10 @@ if (process.env.CONSOLE) p.on('console', (m) => console.log('console:', m.text()
 await p.goto(`http://localhost:${process.env.PORT ?? 3000}`);
 await wait(4500);
 for (const sel of ['text=Entendi', 'text=Fechar (já entendi)', 'text=Guardar']) { try { await p.click(sel, { timeout: 800 }); } catch { /* sem aviso */ } }
+await p.evaluate(() => (document.getElementById('chat-open') as HTMLElement)?.click());   // v100: o chat abre no 💬
 await p.fill('#chat-input', '/admin ir academy_interior 13 5.5');   // Academia: chão liso, de dia
 await p.press('#chat-input', 'Enter');
+await p.evaluate(() => (document.getElementById('history-close') as HTMLElement)?.click());
 await wait(3000);
 await p.evaluate(() => (document.activeElement as HTMLElement)?.blur());
 await p.evaluate(() => document.querySelectorAll('body > :not(#game)').forEach((e) => { (e as HTMLElement).style.visibility = 'hidden'; }));
