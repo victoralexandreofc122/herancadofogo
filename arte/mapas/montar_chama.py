@@ -58,6 +58,17 @@ TROCAS = [
     ('chama_pergaminhos', 61.75, 35.0, (58.5, 29.4, 6.5, 5.6), ('house', 'shop_scroll'), 'shops.scrolls'),
     ('chama_poco', 48.85, 46.9, (47.3, 43.8, 3.1, 3), ('rock', None), 'well'),
 ]
+# Os objetos pequenos no lugar dos antigos: a colisão fica a de hoje e a peça assenta na base da caixa, centrada.
+# (peça, como achar as caixas no mapa: k, s, e um filtro (x, y, w, h) -> bool)
+OBJETOS = [
+    ('chama_cerejeira', 'tree', 'sakura', lambda x, y, w, h: True),
+    ('chama_barril', 'furniture', 'barrel', lambda x, y, w, h: True),
+    ('chama_pilar_treino', 'pillar', 'arena', lambda x, y, w, h: True),
+    ('chama_lanterna_pedra', 'furniture', None, lambda x, y, w, h: x in (33.4, 43.2) and 37 < y < 50),  # as 4 da praça
+    ('chama_lanterna_pedra', 'furniture', None, lambda x, y, w, h: x in (34.8, 41.9) and y == 20.5),     # as 2 da sede
+    ('chama_vaso', 'furniture', None, lambda x, y, w, h: x in (25.2, 27, 49.4, 51.3) and 38 < y < 50),  # os vasos da praça
+]
+ESTANDARTES = (61.8, 41.5, 10.4, 1.9)                  # a fileira dos estandartes da arena: duas peças lado a lado
 PORTAO = ('chama_portao', 38.95, 60.0)        # centro x, base y (o vão fica entre os pilares)
 VAO = (36.5, 41.4)                            # o vão do portão (sem muralha)
 MURALHA_MEIO = (19.5, 58.5)                   # em cima, o meio é a montanha (fica a arte antiga)
@@ -255,7 +266,7 @@ def chave(w):
     return (w['k'], round(w['x'], 2), round(w['y'], 2), round(w['w'], 2), round(w['h'], 2))
 
 
-def provisorios(old, L, trocadas, pular):
+def provisorios(old, L, trocadas, pular, so_recortes=()):
     """Uma máscara por objeto provisório: o recorte da arte antiga sem o chão que se liga à borda da caixa."""
     Hp, Wp = old.shape[:2]
     chao = chao_antigo(old)
@@ -298,8 +309,9 @@ def provisorios(old, L, trocadas, pular):
         else:
             m = np.ones((y1 - y0, x1 - x0), bool)
         apaga = np.zeros(m.shape, bool)
-        for t in trocadas:                                  # a casa antiga que saiu não volta por aqui
-            tx0, ty0, tx1, ty1 = caixa_px(t, 0.6)
+        # a casa antiga que saiu não volta por aqui; os objetos trocados, só nos recortes pela cor (pontes e montanha não)
+        for t in list(trocadas) + (list(so_recortes) if lados else []):
+            tx0, ty0, tx1, ty1 = caixa_px(t, 0.6 if t in trocadas else 0.0)
             apaga[max(0, ty0 - y0):max(0, ty1 - y0), max(0, tx0 - x0):max(0, tx1 - x0)] = True
         if apaga.any():
             if lados == 'copa':                             # na copa macia, o corte também é macio
@@ -461,6 +473,49 @@ def rocha_atras(old, objetos, pe_esq, pe_dir):
     return (9.2, x0, y0, np.dstack([tex.astype(np.float32), m * 255]), False)
 
 
+arvores_velhas = []                                    # as caixas dos objetos antigos trocados (apagam dos recortes)
+
+
+def objetos_pequenos(L, objetos):
+    """As peças de OBJETOS, a cerca da arena (em cima e embaixo, ladrilhada) e os estandartes. Devolve as chaves das
+    caixas antigas que não são mais desenhadas."""
+    P = lambda v: int(round(v * PX))
+    trocadas = set()
+    def poe(nome, cx, base, z=None):
+        p = rgba(nome)
+        objetos.append((z if z is not None else base, P(cx) - p.shape[1] // 2, P(base) - p.shape[0], p.astype(np.float32), True))
+    for nome, k, s_, filtro in OBJETOS:
+        for w in L['walls']:
+            if w['k'] != k or (s_ and w.get('s') != s_) or not filtro(w['x'], w['y'], w['w'], w['h']):
+                continue
+            trocadas.add(chave(w))
+            if k != 'tree':
+                arvores_velhas.append({'x': w['x'] - 0.2, 'y': w['y'] - 0.6, 'w': w['w'] + 0.4, 'h': w['h'] + 0.6})
+            if k == 'tree':                               # a cerejeira: a caixa da colisão é o tronco e o pé da copa
+                poe(nome, w['x'] + w['w'] / 2, w['y'] + w['h'] + 0.15)
+                arvores_velhas.append(copa(w))                # a copa antiga não volta pelo recorte dos vizinhos
+            elif nome == 'chama_vaso' and w['h'] > 3.5:   # dois vasos, um atrás do outro
+                poe(nome, w['x'] + w['w'] / 2, w['y'] + w['h'] / 2)
+                poe(nome, w['x'] + w['w'] / 2, w['y'] + w['h'])
+            else:
+                poe(nome, w['x'] + w['w'] / 2, w['y'] + w['h'])
+    # a cerca da arena: os trechos deitados (em cima e embaixo), ladrilhados presos ao x de cada um
+    cerca = rgba('chama_cerca')
+    for w in L['walls']:
+        if w['k'] == 'fence' and w['w'] > w['h']:
+            trocadas.add(chave(w))
+            camada = np.zeros((cerca.shape[0], P(w['w']), 4), np.float32)
+            ladrilha(camada, cerca, 0, 0, camada.shape[1], None, 'x')
+            objetos.append((w['y'] + w['h'], P(w['x']), P(w['y'] + w['h']) - cerca.shape[0], camada, True))
+    x, y, w, h = ESTANDARTES
+    for w_ in L['walls']:
+        if (w_['x'], w_['y'], w_['w'], w_['h']) == ESTANDARTES:
+            trocadas.add(chave(w_))
+    for f in (0.27, 0.73):
+        poe('chama_estandarte', x + w * f, y + h)
+    return trocadas
+
+
 def luzes_da_peca(p, X, Y):
     """As lanternas acesas de uma peça (pixels de chama: laranja claro), uma luz por lanterna."""
     q = p.astype(int)
@@ -563,10 +618,10 @@ def main():
                 d = d.setdefault(parte, {})
             d[campo.split('.')[-1]] = caixa
     muralha_e_portao(img, L, objetos)
-    pular = {chave(w) for w in novas} | {chave(w) for w in sai}
+    pular = {chave(w) for w in novas} | {chave(w) for w in sai} | objetos_pequenos(L, objetos)
 
     pe = None
-    for (x0, y0), mk, base, pix, sombreia in provisorios(old, L, velhas, pular):
+    for (x0, y0), mk, base, pix, sombreia in provisorios(old, L, velhas, pular, arvores_velhas):
         p = np.dstack([pix.astype(np.float32), mk.astype(np.float32) * 255])
         objetos.append((base, x0, y0, p, sombreia))
         if base == 9.0:                                    # a montanha: onde ela termina, logo fora da sede antiga

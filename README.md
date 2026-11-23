@@ -246,6 +246,16 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v107: os objetos da aldeia do Flow (sem migração)
+
+- Pedido do Victor (23/11): mais 16 imagens do Flow. No mapa (`OBJETOS` em `arte/mapas/montar_chama.py`, cada peça no
+  lugar do objeto antigo, assentada na base da colisão de hoje): as 6 cerejeiras, as lanternas de pedra (praça e sede),
+  os vasos da praça, os barris, os 4 pilares da arena, a cerca de cima e de baixo da arena (ladrilhada do 1º ao 3º
+  poste) e os estandartes. As colisões não mudam.
+- Guardadas para depois: caixotes, placa, e as da Floresta (fogueira, fogueira apagada, saco de dormir).
+- A refazer (prompt novo na página): o poste de lanterna (veio de lado e com chão), o banco (veio quase quadrado), a
+  placa de seta (veio com palavras e chamas) e as kunais no chão (vieram com um círculo de chão).
+
 ### v106: os prédios, o canal, a muralha e o portão do Flow na Aldeia da Chama (sem migração)
 
 - Pedido do Victor (23/11): mais 16 imagens do Flow (`arte/mapas/flow/recebidas/`).

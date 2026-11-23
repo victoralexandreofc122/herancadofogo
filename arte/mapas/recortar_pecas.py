@@ -28,14 +28,20 @@ REC = os.path.join(AQUI, 'flow', 'recebidas')
 PECAS = os.path.join(AQUI, 'pecas')
 CLIMA = os.path.join(RAIZ, 'public', 'assets', 'clima')
 # Efeitos que voltaram para o Flow (a refazer): ficam em arte/mapas/flow/recebidas, mas não vão para o jogo.
-FORA_DO_JOGO = {'fx_respingo', 'chama_muralha_canto', 'chama_ponte', 'chama_grade_canal'}
+FORA_DO_JOGO = {'fx_respingo', 'chama_muralha_canto', 'chama_ponte', 'chama_grade_canal', 'chama_lanterna_poste',
+                'floresta_placa_seta', 'floresta_kunais_chao', 'chama_banco'}
 # Tamanho de cada peça: a imagem inteira de 2000 px vira N px (288 = 6 casas, 3 px de tela por pixel do Flow). O poço é
 # pequeno (144: 1,5 px por pixel do Flow); os prédios grandes (Academia, Salão, portão e muralha) dobram com o Scale2x
 # (6 px por pixel do Flow, as diagonais lisas): é o tamanho que o cartão pede para eles no mapa.
-ESCALA = {'chama_poco': 144}
+ESCALA = {'chama_poco': 144, 'chama_lanterna_pedra': 144, 'chama_banco': 192, 'chama_vaso': 96, 'chama_barril': 96,
+          'chama_caixotes': 96, 'chama_placa': 96, 'chama_cerca': 192, 'chama_pilar_treino': 96,
+          'floresta_fogueira': 96, 'floresta_fogueira_apagada': 96, 'floresta_saco_dormir': 96}
+# Da altura (fração da peça) para baixo, só fica a madeira (os mastros, os postes): o chão em volta sai.
+SO_MADEIRA = {'chama_estandarte': 0.72, 'chama_cerca': 0.66}
 DOBRO = {'chama_academia', 'chama_salao', 'chama_portao', 'chama_muralha'}
 # Peças que vieram com um pedaço de chão (grama e terra) em volta: o chão sai, a construção fica.
-TIRA_CHAO = {'chama_armaria': 0.5, 'chama_academia': 0.78, 'chama_portao': 0.5}   # de que altura para baixo pode ter chão
+TIRA_CHAO = {'chama_armaria': 0.5, 'chama_academia': 0.78, 'chama_portao': 0.5, 'chama_barril': 0.6, 'chama_estandarte': 0.7,
+             'chama_cerca': 0.6, 'chama_cerejeira': 0.75}   # de que altura para baixo pode ter chão
 N = 288          # 6 casas a 48 px (3 px por pixel do Flow)
 F = N / 192      # as medidas abaixo foram tiradas na grade de 192
 
@@ -92,8 +98,32 @@ def objeto(id_, img, n=N):
         if n > 1:
             tam = ndimage.sum(alfa, lab, range(1, n + 1))
             alfa = np.isin(lab, 1 + np.where(tam >= tam.max() * 0.02)[0])
+    if id_ in SO_MADEIRA:
+        ys = np.where(alfa.any(axis=1))[0]
+        y0 = int(ys.min() + (ys.max() - ys.min()) * SO_MADEIRA[id_])
+        c = cor[y0:].astype(int)
+        madeira = (c[..., 0] > c[..., 1] + 20) & (c[..., 1] > c[..., 2]) & (c[..., 1] < 130)
+        alfa[y0:] &= madeira
+        alfa = ndimage.binary_opening(alfa, iterations=1) | (alfa & ~np.isin(np.arange(len(alfa))[:, None], range(y0, len(alfa))))
+        lab, n = ndimage.label(alfa)                         # a beirada escura do chão que sobrou, solta, sai
+        if n > 1:
+            tam = ndimage.sum(alfa, lab, range(1, n + 1))
+            alfa = np.isin(lab, 1 + np.where(tam >= tam.max() * 0.05)[0])
     rgba = np.dstack([cor, (alfa * 255).astype(np.uint8)])
-    return corta(rgba)
+    rgba = corta(rgba)
+    if id_ == 'chama_cerca':
+        rgba = periodo_cerca(rgba)
+    return rgba
+
+
+def periodo_cerca(rgba):
+    """A cerca repete: do começo do 1º poste ao começo do 3º (dois vãos), que é o que se ladrilha."""
+    topo = rgba[:4, :, 3].any(axis=0)
+    lab, n = ndimage.label(topo)
+    esq = [ndimage.find_objects(lab)[i][0].start for i in range(n)]
+    if n < 3:
+        return rgba
+    return rgba[:, esq[0]:esq[2]]
 
 
 def chao_em_volta(cor, alfa, desde=0.5):
