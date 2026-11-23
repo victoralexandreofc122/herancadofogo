@@ -364,5 +364,566 @@
     ]
    }
   ]
+ },
+ "ui_campo_texto": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_campo_texto_1",
+    "w": 48,
+    "h": 14,
+    "fatia": [
+     4,
+     4,
+     4,
+     4
+    ]
+   },
+   {
+    "arquivo": "ui_campo_texto_2",
+    "w": 48,
+    "h": 15,
+    "fatia": [
+     4,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "ui_logo": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_logo",
+    "w": 96,
+    "h": 94
+   }
+  ]
+ },
+ "ui_balao_chat": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_balao_chat",
+    "w": 94,
+    "h": 63,
+    "fatia": [
+     13,
+     12,
+     12,
+     12
+    ]
+   }
+  ]
+ },
+ "ui_aviso_grande": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_aviso_grande",
+    "w": 98,
+    "h": 74,
+    "fatia": [
+     24,
+     29,
+     26,
+     29
+    ]
+   }
+  ]
+ },
+ "ui_aviso": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_aviso",
+    "w": 94,
+    "h": 21,
+    "fatia": [
+     5,
+     6,
+     5,
+     24
+    ]
+   }
+  ]
+ },
+ "ui_dialogo": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_dialogo",
+    "w": 98,
+    "h": 33,
+    "fatia": [
+     9,
+     10,
+     10,
+     10
+    ]
+   }
+  ]
+ },
+ "ui_emblemas_aldeias": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_emblemas_aldeias_chama",
+    "w": 47,
+    "h": 47
+   },
+   {
+    "arquivo": "ui_emblemas_aldeias_mare",
+    "w": 47,
+    "h": 47
+   },
+   {
+    "arquivo": "ui_emblemas_aldeias_vento",
+    "w": 47,
+    "h": 47
+   },
+   {
+    "arquivo": "ui_emblemas_aldeias_rocha",
+    "w": 47,
+    "h": 47
+   }
+  ]
+ },
+ "ui_patentes": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_patentes_academia",
+    "w": 21,
+    "h": 25
+   },
+   {
+    "arquivo": "ui_patentes_genin",
+    "w": 21,
+    "h": 25
+   },
+   {
+    "arquivo": "ui_patentes_chunin",
+    "w": 21,
+    "h": 25
+   },
+   {
+    "arquivo": "ui_patentes_jonin",
+    "w": 21,
+    "h": 25
+   },
+   {
+    "arquivo": "ui_patentes_anbu",
+    "w": 22,
+    "h": 25
+   },
+   {
+    "arquivo": "ui_patentes_kage",
+    "w": 20,
+    "h": 26
+   }
+  ]
+ },
+ "ui_faixas": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_faixas_bronze",
+    "w": 19,
+    "h": 26
+   },
+   {
+    "arquivo": "ui_faixas_prata",
+    "w": 19,
+    "h": 26
+   },
+   {
+    "arquivo": "ui_faixas_ouro",
+    "w": 19,
+    "h": 26
+   },
+   {
+    "arquivo": "ui_faixas_diamante",
+    "w": 20,
+    "h": 26
+   },
+   {
+    "arquivo": "ui_faixas_lenda",
+    "w": 20,
+    "h": 27
+   }
+  ]
+ },
+ "ui_icones_aviso": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_icones_aviso_alerta",
+    "w": 29,
+    "h": 29
+   },
+   {
+    "arquivo": "ui_icones_aviso_ok",
+    "w": 30,
+    "h": 29
+   },
+   {
+    "arquivo": "ui_icones_aviso_info",
+    "w": 29,
+    "h": 29
+   },
+   {
+    "arquivo": "ui_icones_aviso_novo",
+    "w": 25,
+    "h": 25
+   },
+   {
+    "arquivo": "ui_icones_aviso_nao_lido",
+    "w": 16,
+    "h": 17
+   },
+   {
+    "arquivo": "ui_icones_aviso_travado",
+    "w": 22,
+    "h": 27
+   }
+  ]
+ },
+ "ui_icones_estados": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_icones_estados_atordoado",
+    "w": 22,
+    "h": 22
+   },
+   {
+    "arquivo": "ui_icones_estados_queimando",
+    "w": 23,
+    "h": 22
+   },
+   {
+    "arquivo": "ui_icones_estados_veneno",
+    "w": 23,
+    "h": 22
+   },
+   {
+    "arquivo": "ui_icones_estados_lento",
+    "w": 22,
+    "h": 22
+   },
+   {
+    "arquivo": "ui_icones_estados_preso",
+    "w": 22,
+    "h": 22
+   },
+   {
+    "arquivo": "ui_icones_estados_silencio",
+    "w": 23,
+    "h": 22
+   },
+   {
+    "arquivo": "ui_icones_estados_sono",
+    "w": 23,
+    "h": 22
+   },
+   {
+    "arquivo": "ui_icones_estados_escudo",
+    "w": 22,
+    "h": 22
+   },
+   {
+    "arquivo": "ui_icones_estados_dano_mais",
+    "w": 22,
+    "h": 21
+   },
+   {
+    "arquivo": "ui_icones_estados_defesa_menos",
+    "w": 23,
+    "h": 21
+   },
+   {
+    "arquivo": "ui_icones_estados_cego",
+    "w": 23,
+    "h": 21
+   },
+   {
+    "arquivo": "ui_icones_estados_invertido",
+    "w": 22,
+    "h": 21
+   }
+  ]
+ },
+ "ui_icones_classes": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_icones_classes_fogo",
+    "w": 23,
+    "h": 24
+   },
+   {
+    "arquivo": "ui_icones_classes_agua",
+    "w": 23,
+    "h": 24
+   },
+   {
+    "arquivo": "ui_icones_classes_raio",
+    "w": 23,
+    "h": 24
+   },
+   {
+    "arquivo": "ui_icones_classes_pedra",
+    "w": 23,
+    "h": 24
+   },
+   {
+    "arquivo": "ui_icones_classes_vento",
+    "w": 23,
+    "h": 23
+   },
+   {
+    "arquivo": "ui_icones_classes_cura",
+    "w": 23,
+    "h": 23
+   },
+   {
+    "arquivo": "ui_icones_classes_sombra",
+    "w": 23,
+    "h": 23
+   },
+   {
+    "arquivo": "ui_icones_classes_ilusao",
+    "w": 23,
+    "h": 23
+   },
+   {
+    "arquivo": "ui_icones_classes_taijutsu",
+    "w": 23,
+    "h": 22
+   },
+   {
+    "arquivo": "ui_icones_classes_armas",
+    "w": 23,
+    "h": 22
+   }
+  ]
+ },
+ "ui_icones_recursos": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_icones_recursos_ryo",
+    "w": 22,
+    "h": 22
+   },
+   {
+    "arquivo": "ui_icones_recursos_xp",
+    "w": 13,
+    "h": 13
+   },
+   {
+    "arquivo": "ui_icones_recursos_chakra",
+    "w": 16,
+    "h": 22
+   },
+   {
+    "arquivo": "ui_icones_recursos_vida",
+    "w": 19,
+    "h": 19
+   },
+   {
+    "arquivo": "ui_icones_recursos_fragmento",
+    "w": 18,
+    "h": 19
+   },
+   {
+    "arquivo": "ui_icones_recursos_shuriken",
+    "w": 20,
+    "h": 22
+   },
+   {
+    "arquivo": "ui_icones_recursos_pergaminho",
+    "w": 20,
+    "h": 22
+   },
+   {
+    "arquivo": "ui_icones_recursos_recarga",
+    "w": 15,
+    "h": 19
+   }
+  ]
+ },
+ "ui_icones_menu": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_icones_menu_mochila",
+    "w": 22,
+    "h": 20
+   },
+   {
+    "arquivo": "ui_icones_menu_perfil",
+    "w": 20,
+    "h": 21
+   },
+   {
+    "arquivo": "ui_icones_menu_missoes",
+    "w": 20,
+    "h": 21
+   },
+   {
+    "arquivo": "ui_icones_menu_vinculo",
+    "w": 20,
+    "h": 19
+   },
+   {
+    "arquivo": "ui_icones_menu_config",
+    "w": 20,
+    "h": 21
+   },
+   {
+    "arquivo": "ui_icones_menu_aldeia",
+    "w": 22,
+    "h": 21
+   },
+   {
+    "arquivo": "ui_icones_menu_historico",
+    "w": 16,
+    "h": 21
+   },
+   {
+    "arquivo": "ui_icones_menu_chat",
+    "w": 19,
+    "h": 17
+   },
+   {
+    "arquivo": "ui_icones_menu_manual",
+    "w": 22,
+    "h": 19
+   },
+   {
+    "arquivo": "ui_icones_menu_feedback",
+    "w": 21,
+    "h": 18
+   },
+   {
+    "arquivo": "ui_icones_menu_rankeado",
+    "w": 20,
+    "h": 21
+   },
+   {
+    "arquivo": "ui_icones_menu_tela_cheia",
+    "w": 21,
+    "h": 21
+   },
+   {
+    "arquivo": "ui_icones_menu_sair",
+    "w": 19,
+    "h": 20
+   },
+   {
+    "arquivo": "ui_icones_menu_admin",
+    "w": 16,
+    "h": 20
+   }
+  ]
+ },
+ "ui_slot": {
+  "pixel": 20.5,
+  "versoes": [
+   {
+    "arquivo": "ui_slot_vazio",
+    "w": 18,
+    "h": 18,
+    "fatia": [
+     4,
+     4,
+     4,
+     4
+    ]
+   },
+   {
+    "arquivo": "ui_slot_comum",
+    "w": 18,
+    "h": 18,
+    "fatia": [
+     4,
+     4,
+     4,
+     4
+    ]
+   },
+   {
+    "arquivo": "ui_slot_raro",
+    "w": 18,
+    "h": 18,
+    "fatia": [
+     4,
+     4,
+     4,
+     4
+    ]
+   },
+   {
+    "arquivo": "ui_slot_epico",
+    "w": 18,
+    "h": 18,
+    "fatia": [
+     4,
+     4,
+     4,
+     4
+    ]
+   },
+   {
+    "arquivo": "ui_slot_lendario",
+    "w": 19,
+    "h": 20,
+    "fatia": [
+     4,
+     4,
+     4,
+     4
+    ]
+   }
+  ]
+ },
+ "ui_slot_equip": {
+  "pixel": 10.25,
+  "versoes": [
+   {
+    "arquivo": "ui_slot_equip_arma",
+    "w": 61,
+    "h": 60
+   },
+   {
+    "arquivo": "ui_slot_equip_capa",
+    "w": 60,
+    "h": 60
+   },
+   {
+    "arquivo": "ui_slot_equip_pes",
+    "w": 61,
+    "h": 60
+   },
+   {
+    "arquivo": "ui_slot_equip_acessorio",
+    "w": 61,
+    "h": 61
+   },
+   {
+    "arquivo": "ui_slot_equip_pergaminho",
+    "w": 62,
+    "h": 61
+   },
+   {
+    "arquivo": "ui_slot_equip_mascara",
+    "w": 62,
+    "h": 61
+   }
+  ]
  }
 }

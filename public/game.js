@@ -645,7 +645,11 @@ function drawHeadRow(e, sx, bottom, T, now) {
   if (e.dead || e.diedAt) return;
   const w = Math.max(18, T * 0.5), gap = 4;
   const itens = [
-    ...iconesCabeca(e.fx, now < (e.stunnedUntil || 0), now).map(([, f]) => f),
+    // v98: com a interface desenhada, o ícone da folha do Victor no lugar do desenho feito por código
+    ...iconesCabeca(e.fx, now < (e.stunnedUntil || 0), now).map(([code, f]) => {
+      const im = ESTADO_NA_FILEIRA[code] && uiImg(`ui_icones_estados_${ESTADO_NA_FILEIRA[code]}`);
+      return im ? (g, cx, cy, ww) => { const liso = g.imageSmoothingEnabled; g.imageSmoothingEnabled = false; g.drawImage(im, Math.round(cx - ww / 2), Math.round(cy - ww / 2), Math.round(ww), Math.round(ww)); g.imageSmoothingEnabled = liso; } : f;
+    }),
     ...jfx.cabecaDe(e.id, now).map((s) => (g, cx, cy, ww) => jfx.drawCabeca(g, s, cx, cy, ww, T, now)),
   ];
   if (!itens.length) return;
@@ -656,7 +660,35 @@ function drawHeadRow(e, sx, bottom, T, now) {
   ctx.restore();
 }
 
+/** v98: os estados com ícone desenhado (folha do Victor); os outros seguem com o emoji do servidor. */
+const ESTADO_ICONE = { queimadura: 'queimando', veneno: 'veneno', lentidao: 'lento', paralisia: 'atordoado', escuridao: 'cego' };
+/** Os que já aparecem na fileira de cima da cabeça (drawHeadRow): com a interface desenhada, não repetem no emoji. */
+const ESTADO_NA_FILEIRA = { atordoado: 'atordoado', invertido: 'invertido', silencio: 'silencio', sono: 'sono' };
+
 function drawFxIcons(e, sx, y, T, now) {
+  if (uiPref.uiDesenhada) {
+    const catalog = state.world.effects || {};
+    const imgs = [], emojis = [];
+    for (const [code, until] of Object.entries(e.fx || {})) {
+      if (!(until > now) || !catalog[code] || ESTADO_NA_FILEIRA[code]) continue;
+      const im = ESTADO_ICONE[code] && uiImg(`ui_icones_estados_${ESTADO_ICONE[code]}`);
+      if (im) imgs.push(im); else emojis.push(catalog[code].icon);
+    }
+    if (imgs.length) {
+      const w = Math.max(16, Math.round(T * 0.34)), gap = 2;
+      const total = imgs.length * w + (imgs.length - 1) * gap + (emojis.length ? gap + emojis.length * w : 0);
+      ctx.save();
+      ctx.imageSmoothingEnabled = false;
+      imgs.forEach((im, i) => ctx.drawImage(im, Math.round(sx - total / 2 + i * (w + gap)), Math.round(y - w), w, w));
+      if (emojis.length) {
+        ctx.font = `${Math.max(11, Math.round(T * 0.3))}px system-ui, sans-serif`;
+        ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+        ctx.fillText(emojis.join(''), sx - total / 2 + imgs.length * (w + gap), y);
+      }
+      ctx.restore();
+      return;
+    }
+  }
   const icons = fxIcons(e, now);
   if (!icons.length) return;
   ctx.save();
@@ -4334,6 +4366,7 @@ function renderInventory() {
   const cls = (code) => state.world.classes?.find((c) => c.code === code);
   const p = cls(n.classes?.primary), s2 = cls(n.classes?.secondary);
   ui.invClass.textContent = p ? `Classe: ${p.icon} ${p.name}${s2 ? ` · ${s2.icon} ${s2.name}` : ''}` : 'Sem classe (Missão de Genin no nível 11)';
+  if (p) ui.invClass.dataset.classe = p.code; else delete ui.invClass.dataset.classe;   // v98: o ícone desenhado da classe
   if (ui.invPanel.hidden) return;                 // o resto só com a tela aberta
   const entries = equipEntries();
   if (eqSel && !entries.some(([code]) => code === eqSel)) eqSel = null;
@@ -4345,6 +4378,9 @@ function renderInventory() {
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'eq-cell';
+    // v98: a borda do espaço desenhado pela raridade (as relíquias dizem a raridade no começo do efeito)
+    const rar = def?.kind === 'relic' ? { 'Lendário': 'lendario', 'Épico': 'epico', 'Raro': 'raro', 'Comum': 'comum' }[String(def.effect || '').split(':')[0]] : null;
+    if (rar) b.dataset.raridade = rar;
     b.setAttribute('role', 'option');
     b.setAttribute('aria-selected', String(code === eqSel));
     b.setAttribute('aria-label', `${def?.name || code}${qty > 1 ? `, ${qty}` : ''}`);
@@ -4392,6 +4428,8 @@ function renderInventory() {
   const pr = state.progress, m = state.me;
   ui.equipLevel.textContent = pr ? `Nível ${pr.level}` : 'Nível 1';
   ui.equipRank.textContent = m.rank?.name || 'Academia';
+  // v98: a insígnia desenhada da patente (Academia a Kage) no lugar do escudo
+  ui.equipRank.parentElement.dataset.patente = { ACADEMY: 'academia', GENIN: 'genin', CHUNIN: 'chunin', JONIN: 'jonin', ANBU: 'anbu', HOKAGE: 'kage' }[m.rank?.code] || 'academia';
   const rows = ATTR_ROWS.map(([key, icon, name]) => {
     const li = document.createElement('li');
     const i = document.createElement('i');
@@ -9768,11 +9806,13 @@ function drawNpcBubble(n, sx, sy, T, now) {
     x = Math.max(8, Math.min(viewW - w - 8, side));
     y = Math.max(60, Math.min(viewH - h - 8, sy - h / 2));
   }
-  ctx.fillStyle = 'rgba(255, 246, 220, 0.97)';
-  ctx.strokeStyle = '#e8c66a';
-  ctx.lineWidth = 2;
-  roundRect(x, y, w, h, 10);
-  ctx.fill(); ctx.stroke();
+  if (!balaoDesenhado(ctx, x - 6, y - 6, w + 12, h + 12)) {
+    ctx.fillStyle = 'rgba(255, 246, 220, 0.97)';
+    ctx.strokeStyle = '#e8c66a';
+    ctx.lineWidth = 2;
+    roundRect(x, y, w, h, 10);
+    ctx.fill(); ctx.stroke();
+  }
   ctx.fillStyle = '#2a2140';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'top';
@@ -10148,7 +10188,7 @@ function drawPlayer(p, sx, sy, T, isMe, now) {
   ctx.fillText(label, sx, nameY);
   if (!p.dead) drawFxIcons(p, sx, nameY - fontSize - (style.bounty > 0 ? fontSize + 4 : 3), T, now);   // efeitos com tempo
   // v92: a fileira de ícones (estados e jutsus ativos) logo acima dos emojis de efeito
-  if (!p.dead) drawHeadRow(p, sx, nameY - fontSize - (style.bounty > 0 ? fontSize + 4 : 3) - (fxIcons(p, now).length ? Math.max(11, Math.round(T * 0.3)) + 2 : 0), T, now);
+  if (!p.dead) drawHeadRow(p, sx, nameY - fontSize - (style.bounty > 0 ? fontSize + 4 : 3) - (fxIcons(p, now).length ? (uiPref.uiDesenhada ? Math.max(16, Math.round(T * 0.34)) : Math.max(11, Math.round(T * 0.3))) + 2 : 0), T, now);
   if (style.bounty > 0) {
     ctx.font = `800 ${Math.max(10, Math.round(T * 0.28))}px system-ui, -apple-system, sans-serif`;
     ctx.fillStyle = '#ffd23f';
@@ -10168,15 +10208,20 @@ function drawPlayer(p, sx, sy, T, isMe, now) {
     const w = ctx.measureText(text).width + 14;
     const h = fontSize + 12;
     const by = nameY - fontSize - 6;
-    ctx.fillStyle = 'rgba(255, 250, 238, 0.95)';
-    roundRect(sx - w / 2, by - h, w, h, 8);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.moveTo(sx - 5, by); ctx.lineTo(sx + 5, by); ctx.lineTo(sx, by + 5);
-    ctx.fill();
+    const bw = Math.max(w + 10, 34), bh = Math.max(h + 8, 30);
+    let textoY = by - h / 2;
+    if (balaoDesenhado(ctx, sx - bw / 2, by - bh - 8, bw, bh, sx)) textoY = by - 8 - bh / 2;   // v98: o balão desenhado (a ponta embaixo)
+    else {
+      ctx.fillStyle = 'rgba(255, 250, 238, 0.95)';
+      roundRect(sx - w / 2, by - h, w, h, 8);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(sx - 5, by); ctx.lineTo(sx + 5, by); ctx.lineTo(sx, by + 5);
+      ctx.fill();
+    }
     ctx.fillStyle = '#14110d';
     ctx.textBaseline = 'middle';
-    ctx.fillText(text, sx, by - h / 2);
+    ctx.fillText(text, sx, textoY);
   } else if (p.bubble) {
     p.bubble = null;
   }
@@ -10196,6 +10241,35 @@ function roundRect(x, y, w, h, r) {
 const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 let touchSeen = false;
 window.addEventListener('pointerdown', (e) => { if (e.pointerType === 'touch') touchSeen = true; }, { capture: true, passive: true });
+
+/** v98: uma peça da interface desenhada para o canvas (carrega na primeira vez; até lá, null e o desenho antigo). */
+function uiImg(nome) {
+  uiImg.cache ||= new Map();
+  let im = uiImg.cache.get(nome);
+  if (!im) { im = new Image(); im.src = `/assets/ui/${nome}.png`; uiImg.cache.set(nome, im); }
+  return uiPref.uiDesenhada && im.complete && im.naturalWidth ? im : null;
+}
+
+/** v98: a moldura de 9 fatias no canvas (os cantos do tamanho da arte vezes s; as bordas e o miolo esticam). */
+function desenha9(g, im, [t, r, b, l], x, y, w, h, s = 1) {
+  const W = im.naturalWidth, H = im.naturalHeight, T = t * s, R = r * s, B = b * s, L = l * s;
+  const mw = Math.max(0, w - L - R), mh = Math.max(0, h - T - B);
+  const sx = [0, l, W - r], sw = [l, W - l - r, r], dx = [x, x + L, x + L + mw], dw = [L, mw, R];
+  const sy = [0, t, H - b], sh = [t, H - t - b, b], dy = [y, y + T, y + T + mh], dh = [T, mh, B];
+  for (let j = 0; j < 3; j++) for (let i = 0; i < 3; i++) if (dw[i] > 0 && dh[j] > 0) g.drawImage(im, sx[i], sy[j], sw[i], sh[j], Math.round(dx[i]), Math.round(dy[j]), Math.ceil(dw[i]), Math.ceil(dh[j]));
+}
+
+/** v98: o balão do chat desenhado (o papel com os cantos de bronze e a ponta embaixo, apontando para quem fala). */
+function balaoDesenhado(g, x, y, w, h, pontaX) {
+  const im = uiImg('ui_balao_chat'), ponta = uiImg('ui_balao_chat_ponta');
+  if (!im || !ponta) return false;
+  const liso = g.imageSmoothingEnabled;
+  g.imageSmoothingEnabled = false;
+  desenha9(g, im, [13, 12, 12, 12], x, y, w, h, 1);
+  if (pontaX !== undefined) g.drawImage(ponta, Math.round(pontaX - ponta.naturalWidth / 2), Math.round(y + h - 5), ponta.naturalWidth, ponta.naturalHeight);
+  g.imageSmoothingEnabled = liso;
+  return true;
+}
 
 /** v97: as duas peças do joystick desenhado (carregam na primeira vez; até lá, o círculo antigo). */
 function joyArte() {
