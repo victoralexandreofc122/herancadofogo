@@ -233,6 +233,20 @@ describe('v8 no banco: atributos, redefinição, chat, missões e equipamento', 
     await assert.rejects(log.record({ channel: 'global', senderId: a, senderName: 'chat_a', message: 'x'.repeat(201) }));
   });
 
+  it('v102 (migração v41): o clã e a aldeia no histórico, só de quem é da linhagem e da aldeia', async () => {
+    const log = makeChatLog(t.db);
+    const a = await t.createPlayer('cla_a');
+    const b = await t.createPlayer('cla_b');
+    await log.record({ channel: 'cla', senderId: a, senderName: 'cla_a', escopo: 'rubro', message: 'do clã' });
+    await log.record({ channel: 'aldeia', senderId: a, senderName: 'cla_a', escopo: 'vila_1', message: 'do kage' });
+    assert.deepEqual((await log.history(b, 'map_9', 100, { cla: 'rubro', aldeia: 'vila_1' })).map((m) => [m.channel, m.message]),
+      [['cla', 'do clã'], ['aldeia', 'do kage']]);
+    assert.deepEqual((await log.history(b, 'map_9', 100, { cla: 'umbra', aldeia: 'vila_3' })).map((m) => m.message), [], 'outra linhagem e outra aldeia');
+    assert.deepEqual((await log.history(b, 'map_9')).map((m) => m.message), [], 'sem linhagem nem aldeia, nada');
+    await assert.rejects(t.pool.query(`INSERT INTO game.chat_logs (channel, sender_id, sender_name, message) VALUES ('cla', $1, 'x', 'sem escopo')`, [a]), rule('ck_chat_logs_escopo'));
+    await t.pool.query(readFileSync(new URL('../db/schema_v41_chat_cla_aldeia.sql', import.meta.url), 'utf8'));   // rodar de novo: sem erro
+  });
+
   it('Sala de Missões: 3 cartões com recompensa do catálogo; o cartão escolhido vira a missão; "Entregar" sem missão não cria nada', async () => {
     const missions = makeMissions(t.db);
     const board = await missions.board();

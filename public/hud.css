@@ -1495,3 +1495,9 @@ body.dialog-open .skill-tip { display: none; }
 @media (max-width: 600px) { .ranked-cols { grid-template-columns: 1fr; } }
 /* o equipamento passava 4 px no celular (a grade de itens já rola sozinha) */
 @media (max-height: 430px) { #inv-panel { overflow: hidden; } }
+/* v102: as abas Clã e Aldeia no painel do chat (6 abas: o painel fica mais largo e as abas dividem a linha) */
+#history-panel { width: min(560px, calc(84vw - 24px)); }
+#history-panel .tabs { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; }
+#history-panel .tab { min-height: 44px; padding: 0 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.history-list li.cla .who { color: #ff8a6a; }
+.history-list li.aldeia .who { color: #ffd76a; }

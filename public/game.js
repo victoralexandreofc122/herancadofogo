@@ -6878,7 +6878,7 @@ function nameColor(name) {
 
 ui.chat.addEventListener('submit', (e) => {
   e.preventDefault();
-  const message = ui.chatInput.value.trim();
+  let message = ui.chatInput.value.trim();
   if (!message) return undefined;
   if (!state.connected) return addSystemLine('Sem conexão. Tentando reconectar…');
   // v30: o despertar da linhagem (a partir de Genin): /linhagem rubro | umbra | andarilho
@@ -6888,6 +6888,9 @@ ui.chat.addEventListener('submit', (e) => {
     ui.chatInput.value = '';
     return;
   }
+  // v102: a aba aberta decide o canal (Global, Clã, Aldeia); começar com "/" continua valendo (/w Nome, /g, /c, /a)
+  const PREFIXO = { global: '/g ', cla: '/c ', aldeia: '/a ' };
+  if (!message.startsWith('/') && PREFIXO[historyFilter]) message = PREFIXO[historyFilter] + message;
   send({ type: 'chat', message });
   ui.chatInput.value = '';
 });
@@ -6926,6 +6929,8 @@ function appendLine(li) {
 /** Quem falou, com o canal: "[Global] kaito", "kaito → mei" (sussurro). */
 function chatWho(e) {
   if (e.channel === 'system') return '';
+  if (e.channel === 'cla') return `[Clã] ${e.username}`;           // v102: a linhagem
+  if (e.channel === 'aldeia') return `[Aldeia] ${e.username}`;     // v102: o Kage para a aldeia
   if (e.channel === 'global') return `[Global] ${e.username}`;
   if (e.channel === 'whisper') return e.playerId === state.meId ? `Você → ${e.to || '?'}` : `${e.username} → você`;
   return e.username;
@@ -6978,9 +6983,12 @@ function closeHistory() {
 }
 ui.historyToggle.addEventListener('click', () => (ui.historyPanel.hidden ? openHistory() : closeHistory()));
 ui.historyClose.addEventListener('click', closeHistory);
+/** v102: o que a linha de digitar diz, pela aba aberta (para onde a mensagem vai). */
+const CHAT_PLACEHOLDER = { all: 'Falar no mapa', local: 'Falar no mapa', global: 'Falar com todos', whisper: '/w Nome mensagem', cla: 'Falar com o seu clã', aldeia: 'Falar com a aldeia (só o Kage)' };
 for (const tab of ui.historyTabs) {
   tab.addEventListener('click', () => {
     historyFilter = tab.dataset.filter;
+    ui.chatInput.placeholder = CHAT_PLACEHOLDER[historyFilter] || 'Chat';
     for (const t of ui.historyTabs) {
       t.classList.toggle('active', t === tab);
       t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
