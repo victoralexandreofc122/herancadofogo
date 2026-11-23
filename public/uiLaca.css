@@ -356,3 +356,38 @@
 .ui-laca .eq-class[data-classe="taijutsu"]::before { background-image: url(/assets/ui/ui_icones_classes_taijutsu.png); }
 .ui-laca .eq-class[data-classe="weapons"]::before { background-image: url(/assets/ui/ui_icones_classes_armas.png); }
 .ui-laca .eq-slot.locked .eq-box::after { content: ""; width: 22px; height: 22px; filter: none; background: url(/assets/ui/ui_icones_aviso_travado.png) center / 100% 100% no-repeat; image-rendering: pixelated; }
+
+/* ---- v99: as 4 últimas do catálogo (folhas do Victor de 23/11) ---------------------------------------------- */
+/* a faixa do título dos painéis: a placa de laca com as pontas cortadas e as chamazinhas */
+.ui-laca .mission-head h2 {
+  --tt: 1.5;
+  border: 0 solid transparent; border-width: calc(4px * var(--tt)) calc(12px * var(--tt));
+  border-image: url(/assets/ui/ui_titulo.png) 4 12 fill / calc(4px * var(--tt)) calc(12px * var(--tt)) stretch;
+  image-rendering: pixelated; padding: 1px 2px;
+}
+/* as cores das barras (a tira do corte de cima para baixo, repetida na largura) */
+.ui-laca .hud-me .bar-hp .fill, .ui-laca .target-window.friend .bar .fill { background: url(/assets/ui/ui_barra_cores_vida.png) left top / auto 100% repeat-x; image-rendering: pixelated; }
+.ui-laca .hud-me .bar-chakra .fill { background: url(/assets/ui/ui_barra_cores_chakra.png) left top / auto 100% repeat-x; image-rendering: pixelated; }
+.ui-laca .target-window:not(.friend) .bar .fill { background: url(/assets/ui/ui_barra_cores_inimigo.png) left top / auto 100% repeat-x; image-rendering: pixelated; }
+.ui-laca .xp-strip .fill, .ui-laca #xp-meter .fill { background: url(/assets/ui/ui_barra_cores_xp.png) left top / auto 100% repeat-x; image-rendering: pixelated; }
+.ui-laca .hud-me .bar.shielded { box-shadow: 0 0 0 1px #1d1408, 0 0 0 2px #f0cf7a, 0 0 10px rgba(240, 207, 122, 0.9); }
+/* a barra do chefe: a moldura pesada de bronze, o emblema da caveira de lodo à esquerda e as pontas de cravos */
+.ui-laca .boss-track {
+  --bc: 2;
+  height: auto; border-radius: 0; overflow: visible; background: none; box-shadow: none;
+  border: 0 solid transparent;
+  border-width: calc(10px * var(--bc)) calc(14px * var(--bc)) calc(9px * var(--bc)) calc(22px * var(--bc));
+  border-image: url(/assets/ui/ui_barra_chefe.png) 10 14 9 22 fill / calc(10px * var(--bc)) calc(14px * var(--bc)) calc(9px * var(--bc)) calc(22px * var(--bc)) stretch;
+  image-rendering: pixelated;
+}
+@media (min-width: 1100px) and (min-height: 700px) { .ui-laca .boss-track { --bc: 2.5; } }
+.ui-laca .boss-track::before { content: ''; display: block; height: calc(7px * var(--bc)); }
+.ui-laca .boss-fill { background: url(/assets/ui/ui_barra_cores_inimigo.png) left top / auto 100% repeat-x; image-rendering: pixelated; }
+.ui-laca .boss-bar:not(.furious) .boss-fill { background-image: url(/assets/ui/ui_barra_cores_vida.png); }
+/* o retrato do alvo em pé deixou a janela do alvo mais alta: a barra do chefe (e o aviso embaixo dela) descem um pouco */
+.ui-laca .boss-bar { top: calc(var(--safe-top) + 84px); }
+.ui-laca .boss-bar:not([hidden]) ~ .toast { top: calc(var(--safe-top) + 160px); }
+@media (max-height: 500px) {
+  .ui-laca .boss-bar { top: calc(var(--safe-top) + 76px); }
+  .ui-laca .boss-bar:not([hidden]) ~ .toast { top: calc(var(--safe-top) + 146px); }
+}

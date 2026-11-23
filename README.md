@@ -246,6 +246,20 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v99: as 4 últimas peças do catálogo da interface (sem migração)
+
+- Folhas do Victor (23/11). O painel de fundo que veio junto sai no recorte, como na v98.
+- **A faixa do título:** a placa de laca com as pontas cortadas e as chamazinhas, no título de todos os painéis.
+- **As cores das barras:**
+  - vieram em pé; o corte de cima para baixo de cada uma (linha clara, brilho, cor e linha escura) vira uma tira de 4
+    colunas, repetida na largura (`perfil` no recorte);
+  - vida, chakra, XP, a barra do alvo inimigo e a do chefe.
+- **A barra do chefe:** a moldura pesada de bronze, com o emblema da caveira de lodo e os cravos. Verde para o Rei Lodo e
+  vermelha na fúria. Ela desceu um pouco, porque a janela do alvo ficou mais alta com o retrato em pé.
+- **O marcador do alvo no chão:** o anel tracejado com as 4 pontas, deitado em perspectiva em volta do inimigo focado e
+  respirando devagar. O aliado focado segue com o anel verde.
+- Com isso o catálogo do Flow está completo, menos a moldura das barras, que não veio.
+
 ### v98: o lote 4 da interface (ícones, insígnias, molduras) sem o painel de fundo que vazou (sem migração)
 
 - 16 folhas do Victor (23/11). Em algumas, o Flow desenhou um pedaço do painel de fundo junto.

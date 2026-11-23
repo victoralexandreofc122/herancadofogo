@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
 import { UI_ARTE } from '../src/web/staticFiles.js';
+const UI_MAPA = await import(new URL('../public/uiArte.js', import.meta.url).href);
 
 // v96: a interface desenhada no Flow (tema Laca e Brasa) e a animação do fogo e do ouro (arte/ui/LEIAME.md)
 describe('v96: interface desenhada (Laca e Brasa)', () => {
@@ -110,6 +111,22 @@ describe('v98: o lote 4 (o painel de fundo que vazou fica de fora; ícones, ins�
     assert.match(game, /const ESTADO_ICONE = \{ queimadura: 'queimando'/);
     assert.match(game, /return uiPref\.uiDesenhada && im\.complete && im\.naturalWidth \? im : null/);
     assert.match(game, /b\.dataset\.raridade = rar/);
+  });
+});
+
+describe('v99: as 4 últimas do catálogo (título, cores das barras, barra do chefe, marcador do alvo)', () => {
+  const css = readFileSync(new URL('../public/uiLaca.css', import.meta.url), 'utf8');
+  const game = readFileSync(new URL('../public/game.js', import.meta.url), 'utf8');
+  it('recortadas sem o painel de fundo, e as cores das barras viram tiras de cima para baixo', () => {
+    for (const n of ['ui_titulo', 'ui_barra_chefe', 'ui_alvo_1', 'ui_barra_cores_vida', 'ui_barra_cores_chakra', 'ui_barra_cores_xp', 'ui_barra_cores_inimigo', 'ui_barra_cores_escudo']) assert.ok(UI_ARTE.includes(n), n);
+    const { UI_ARTE: mapa } = UI_MAPA;
+    assert.ok(mapa.ui_barra_cores_vida.w === 4 && mapa.ui_barra_cores_vida.h >= 10, 'a tira tem 4 colunas e o corte inteiro');
+  });
+  it('no lugar: a faixa do título, as barras (vida, chakra, XP, inimigo), a barra do chefe e o anel do alvo no chão', () => {
+    assert.match(css, /\.mission-head h2 \{[^}]*ui_titulo\.png\) 4 12 fill/);
+    assert.match(css, /\.bar-hp \.fill[^{]*\{ background: url\(\/assets\/ui\/ui_barra_cores_vida\.png\) left top \/ auto 100% repeat-x/);
+    assert.match(css, /\.boss-track \{[^}]*ui_barra_chefe\.png\) 10 14 9 22 fill/);
+    assert.match(game, /const alvo = !ally && part !== 'arrow' && uiImg\('ui_alvo_1'\)/);
   });
 });
 

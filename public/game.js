@@ -9647,7 +9647,13 @@ function drawMonster(m, sx, sy, T, now) {
 function drawFocusMarker(sx, sy, r, T, now, part, ally = false) {
   const color = ally ? '#7fe0a0' : '#ffb347';           // aliado: verde (Cura, apoio)
   ctx.save();
-  if (part !== 'arrow') {
+  const alvo = !ally && part !== 'arrow' && uiImg('ui_alvo_1');
+  if (alvo) {
+    // v98: o marcador desenhado (o anel tracejado com as 4 pontas), deitado no chão em perspectiva e respirando devagar
+    const w = r * 3.5, h = r * 1.55, k = 1 + 0.04 * Math.sin(now / 260);
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(alvo, Math.round(sx - (w * k) / 2), Math.round(sy + r * 0.9 - (h * k) / 2), Math.round(w * k), Math.round(h * k));
+  } else if (part !== 'arrow') {
     ctx.strokeStyle = color;
     ctx.lineWidth = Math.max(2, T * 0.07);
     ctx.setLineDash([T * 0.22, T * 0.12]);

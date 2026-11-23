@@ -67,6 +67,11 @@ PECAS = {
                                                   'chat', 'manual', 'feedback', 'rankeado', 'tela_cheia', 'sair', 'admin']},
     'ui_slot': {'celulas': (5, 1), 'area': [(0, 0.39, 1, 0.61)], 'nomes': ['vazio', 'comum', 'raro', 'epico', 'lendario'],
                 'fatia': [4, 4, 4, 4], 'miolo': (9, 9)},
+    # v99: as 4 últimas do catálogo (folhas do Victor de 23/11)
+    'ui_barra_chefe': {'area': [(0, 0.36, 1, 0.63)], 'tirar_roxo': True, 'fatia': [10, 14, 9, 22], 'miolo': (50, 13)},
+    'ui_barra_cores': {'celulas': (5, 1), 'area': [(0, 0.23, 1, 0.745)], 'nomes': ['vida', 'chakra', 'xp', 'inimigo', 'escudo'], 'perfil': True},
+    'ui_titulo': {'area': [(0, 0.40, 1, 0.575)], 'tirar_roxo': True, 'fatia': [4, 12, 4, 12], 'miolo': (48, 8)},
+    'ui_alvo': {'celulas': (1, 1), 'nomes': ['1']},
     'ui_slot_equip': {'celulas': (3, 3), 'passo': (9.5, 11), 'nomes': ['arma', 'capa', 'pes', 'acessorio', 'pergaminho', None,
                                                                     None, None, 'mascara']},                      # o trilho vazio e a faixa de fogo que enche
 }
@@ -281,6 +286,11 @@ def acabamento(nome, k, v, cfg):
         v = v[:63].copy()
         for x in range(36, 58):   # a borda de baixo fechada no lugar da ponta
             v[56:63, x] = v[56:63, 25]
+    if nome == 'ui_barra_chefe':
+        # as chamazinhas soltas na borda de cima e de baixo, no trecho que estica, esticariam junto: saem
+        for x in list(range(44, 49)) + list(range(77, 82)):
+            v[4:10, x] = v[4:10, 40]
+            v[17:22, x] = v[17:22, 40]
     if nome == 'ui_aviso_grande':
         # o medalhão de cima (e as chamas em volta dele) vira uma peça por cima, no meio: assim a moldura estica sem
         # deformar o medalhão; a chama solta da borda de baixo sai (esticaria junto)
@@ -332,6 +342,24 @@ def acabamento(nome, k, v, cfg):
         ponta = v[H - t:, W - 9:][::-1].copy()
         v[:t, W - 9:] = ponta
         v[:t, :, 3] = np.where(v[:t, :, 3] > 0, 255, 0)
+    if cfg.get('perfil'):
+        # as cores das barras vieram em pé: a coluna do meio é o corte de cima para baixo (a linha clara de cima, o
+        # brilho, a cor e a linha escura de baixo). Cada faixa de cor igual encolhe para poucos pixels e a peça vira uma
+        # tira de 4 colunas que o jogo repete na largura da barra
+        col = v[:, W // 2, :].astype(int)
+        col = col[col[:, 3] > 0][1:-1]   # sem o contorno de cima e de baixo
+        runs = []
+        for c in col:
+            if runs and np.abs(runs[-1][0][:3] - c[:3]).sum() < 24:
+                runs[-1][1] += 1
+            else:
+                runs.append([c, 1])
+        linhas = []
+        for c, n in runs:
+            linhas += [c] * max(1, round(n / 4))
+        tira = np.repeat(np.array(linhas, np.uint8)[:, None, :], 4, axis=1)
+        tira[..., 3] = 255
+        v = tira
     if cfg.get('selos'):
         v = selos(v)
     if cfg.get('knob'):
