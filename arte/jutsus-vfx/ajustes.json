@@ -641,7 +641,8 @@
           "alpha": 0.85
         }
       }
-    }
+    },
+    "alfa_niveis": 2
   },
   "heal_desintox": {
     "pixel": 8,
@@ -705,7 +706,8 @@
       "pxCasa": 0.0167,
       "ancora": "centro",
       "blend": "glow"
-    }
+    },
+    "alfa_niveis": 2
   },
   "heal_agulha": {
     "pixel": 8.5,
@@ -820,7 +822,8 @@
       "pxCasa": 0.016,
       "ancora": "centro",
       "blend": "glow"
-    }
+    },
+    "alfa_niveis": 2
   },
   "heal_2": {
     "pixel": 10,
@@ -1017,7 +1020,8 @@
       "ancora": "centro",
       "blend": "screen",
       "alpha": 0.7
-    }
+    },
+    "alfa_niveis": 2
   },
   "heal_meridianos": {
     "pixel": 5.75,
@@ -1045,7 +1049,7 @@
     }
   },
   "heal_milagre": {
-    "pixel": 10.75,
+    "pixel": 2.39,
     "fundo": "magenta",
     "detector_texto": false,
     "grao": 0.6,
@@ -1100,18 +1104,19 @@
       ]
     },
     "jogo": {
-      "pxCasa": 0.135,
+      "pxCasa": 0.03,
       "ancora": "centro",
       "blend": "screen",
       "quadros": {
         "01": {
-          "pxCasa": 0.06
+          "pxCasa": 0.0133
         },
         "02": {
-          "pxCasa": 0.06
+          "pxCasa": 0.0133
         }
       }
-    }
+    },
+    "alfa_niveis": 2
   },
   "heal_colosso": {
     "pixel": 5,
@@ -1208,7 +1213,8 @@
         0.35,
         0.8
       ]
-    }
+    },
+    "alfa_niveis": 2
   },
   "heal_santuario": {
     "pixel": 5,
@@ -1311,7 +1317,8 @@
           "blend": "normal"
         }
       }
-    }
+    },
+    "alfa_niveis": 2
   },
   "lightning_impulso": {
     "pixel": 5,
@@ -1444,7 +1451,8 @@
       "pxCasa": 0.045,
       "ancora": "centro",
       "blend": "glow"
-    }
+    },
+    "alfa_niveis": 2
   },
   "lightning_2": {
     "pixel": 5,
@@ -1494,7 +1502,8 @@
           "blend": "screen"
         }
       }
-    }
+    },
+    "alfa_niveis": 2
   },
   "lightning_volta": {
     "pixel": 10.5,
@@ -2065,7 +2074,8 @@
           "blend": "screen"
         }
       }
-    }
+    },
+    "alfa_niveis": 2
   },
   "lightning_risco": {
     "pixel": 5,
@@ -2150,7 +2160,8 @@
           "blend": "screen"
         }
       }
-    }
+    },
+    "alfa_niveis": 2
   },
   "stone": {
     "pixel": 10,
@@ -5654,7 +5665,29 @@
           "eixo": true
         }
       }
-    }
+    },
+    "tons": [
+      [
+        252,
+        236,
+        200
+      ],
+      [
+        244,
+        178,
+        92
+      ],
+      [
+        206,
+        112,
+        44
+      ]
+    ],
+    "contorno": [
+      58,
+      26,
+      12
+    ]
   },
   "taijutsu_rasteira": {
     "pixel": 8,
@@ -5727,7 +5760,29 @@
           ]
         }
       }
-    }
+    },
+    "tons": [
+      [
+        252,
+        236,
+        200
+      ],
+      [
+        244,
+        178,
+        92
+      ],
+      [
+        206,
+        112,
+        44
+      ]
+    ],
+    "contorno": [
+      58,
+      26,
+      12
+    ]
   },
   "taijutsu_esquiva": {
     "pixel": 8,
@@ -6054,7 +6109,29 @@
           "eixo": true
         }
       }
-    }
+    },
+    "tons": [
+      [
+        252,
+        236,
+        200
+      ],
+      [
+        244,
+        178,
+        92
+      ],
+      [
+        206,
+        112,
+        44
+      ]
+    ],
+    "contorno": [
+      58,
+      26,
+      12
+    ]
   },
   "taijutsu_furia": {
     "pixel": 8,
@@ -6197,6 +6274,28 @@
         90,
         60
       ]
+    ],
+    "tons": [
+      [
+        252,
+        236,
+        200
+      ],
+      [
+        244,
+        178,
+        92
+      ],
+      [
+        206,
+        112,
+        44
+      ]
+    ],
+    "contorno": [
+      58,
+      26,
+      12
     ]
   },
   "taijutsu_queda": {
@@ -7482,7 +7581,29 @@
           "arte": 0
         }
       }
-    }
+    },
+    "tons": [
+      [
+        238,
+        242,
+        248
+      ],
+      [
+        176,
+        188,
+        204
+      ],
+      [
+        112,
+        124,
+        146
+      ]
+    ],
+    "contorno": [
+      36,
+      40,
+      56
+    ]
   },
   "weapons_pregos": {
     "pixel": 8,
@@ -8489,7 +8610,29 @@
           "ancora": "esquerda"
         }
       }
-    }
+    },
+    "tons": [
+      [
+        252,
+        236,
+        200
+      ],
+      [
+        244,
+        178,
+        92
+      ],
+      [
+        206,
+        112,
+        44
+      ]
+    ],
+    "contorno": [
+      58,
+      26,
+      12
+    ]
   },
   "wind_olho": {
     "pixel": 8,
@@ -12257,7 +12400,8 @@
     "jogo": {
       "pxCasa": 0.03,
       "ancora": "centro",
-      "blend": "normal"
+      "blend": "normal",
+      "arte": 0
     }
   },
   "taijutsu_4_rajada": {
@@ -12306,7 +12450,8 @@
     "jogo": {
       "pxCasa": 0.03,
       "ancora": "centro",
-      "blend": "normal"
+      "blend": "normal",
+      "arte": 0
     }
   }
 }

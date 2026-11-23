@@ -26,7 +26,9 @@ describe('v56: sprites dos jutsus (vfxJutsus.js)', () => {
       const [w, h] = pngSize(name);
       const fogo = /^(fire|heal|lightning|stone|water|shadow|taijutsu|wind|weapons|illusion|umbra|rubro|bastiao|aspide|garra|zefiro)/.test(name);   // v88: + Ilusão   // v80: + Água, Sombra e Taijutsu   // v73/v74: as folhas desenhadas têm quadros maiores (o leque, o raio, o chão)
       const lim = name === 'lightning_rede_01' ? 320 : /^lightning_4_0[3-6]$/.test(name) ? 210 : fogo ? 170 : 96;   // a Rede é a malha inteira; o Julgamento, o raio do céu
-      assert.ok(w <= lim && h <= lim, `${name}: ${w}x${h} (reduzido para a escala do jogo)`);
+      // v95 (guia de estilo): o limite é a densidade do pixel (até 46 pixels de arte por casa), não um tamanho fixo
+      const lim2 = Math.max(lim, Math.ceil(f.casas * 46));
+      assert.ok(w <= lim2 && h <= lim2, `${name}: ${w}x${h} (reduzido para a escala do jogo)`);
       assert.ok(f.casas > 0 && f.casas <= (/^heal_(3|milagre)_/.test(name) ? 10 : fogo ? 9 : 6), `${name}: ${f.casas} casas`);   // zonas de raio 4
       if (f.eixoPx) assert.ok(f.arte !== undefined && f.eixoPx > 0, `${name}: eixo sem direção`);
       assert.ok(['glow', 'screen', 'lighter', 'normal'].includes(f.blend), `${name}: mistura`);
@@ -180,5 +182,24 @@ describe('v78: as camadas do PixelFX que complementam as folhas desenhadas (cama
   it('os créditos do PixelFX (MIT) vêm junto', () => {
     assert.match(readFileSync(new URL('../arte/pixelfx/LICENSE-pixelfx', import.meta.url), 'utf8'), /MIT License/);
     assert.match(readFileSync(new URL('../public/vfxCamadas.js', import.meta.url), 'utf8'), /PixelFX .*MIT/);
+  });
+});
+
+describe('v95: guia de estilo (as correções escolhidas pelo Victor, no recorte)', () => {
+  const aj = JSON.parse(readFileSync(new URL('../arte/jutsus-vfx/ajustes.json', import.meta.url), 'utf8'));
+  it('as silhuetas brancas lisas ganham 3 tons e contorno', () => {
+    for (const k of ['taijutsu', 'taijutsu_3', 'taijutsu_4', 'taijutsu_rasteira', 'taijutsu_flecha', 'weapons_corte']) {
+      assert.equal(aj[k].tons?.length, 3, k);
+      assert.equal(aj[k].contorno?.length, 3, k);
+    }
+  });
+  it('o brilho borrado fica em 2 níveis de transparência', () => {
+    for (const k of ['heal', 'heal_3', 'heal_4', 'heal_disturbio', 'heal_milagre', 'heal_palma', 'lightning_2', 'lightning_armadura', 'lightning_corrente', 'lightning_fluxo', 'lightning_risco'])
+      assert.equal(aj[k].alfa_niveis, 2, k);
+  });
+  it('o recorte aplica as correções (a folha original fica como veio)', () => {
+    const src = readFileSync(new URL('../arte/jutsus-vfx/recortar.py', import.meta.url), 'utf8');
+    assert.match(src, /def tonaliza\(/);
+    assert.match(src, /def alfa_em_niveis\(/);
   });
 });

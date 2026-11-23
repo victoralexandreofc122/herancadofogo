@@ -5,7 +5,140 @@ este arquivo é a mesma lista em texto.
 
 ## Faltam (folha nova) (0)
 
-## Refazer (0)
+## Refazer (5)
+
+### Regeneração de Área (`heal_3`), Cura, área que dura, fundo magenta
+
+O pixel desenhado ficou grande demais no jogo (de 11 a 17 pixels de arte por casa; o padrão é 33): fica com cara de outro jogo ao lado dos outros (guia de estilo, v95).
+
+**Pedido:** Refazer com o pixel menor (o desenho com o dobro de detalhe), o contorno de 1 px e 2 a 3 tons por cor, no estilo das outras folhas.
+
+**No jogo:** F1 e F2 na entrada, F3 a F5 em laço enquanto a área dura, F6 no fim. O tamanho no jogo segue o raio do servidor.
+
+**Folha: Regeneração de Área** (`heal_3`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Regeneração de Área" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Regeneração de Área": a blooming circle of healing green light with leaves and sparkles. Palette: fresh leaf green and mint, with soft white-gold light and a dark green outline.
+F1: the area starts small at the center: a blooming circle of healing green light with leaves and sparkles appears.
+F2: the area grows to two thirds of its size.
+F3: the area at full size, filling about 85% of the panel width (loop frame A).
+F4: the same area at full size with small changes in the details (loop frame B).
+F5: the same area at full size with other small changes (loop frame C).
+F6: the area dissolving into light particles. Small fine pixels with plenty of detail: the effect is drawn with about twice as many pixels as a chunky retro sprite, matching the detail of the other effects of this game.
+```
+
+### Brasa Sem Luz (`rubro_chamas`), Clã Rubro, linha reta, fundo verde
+
+O pixel desenhado ficou grande demais no jogo (de 11 a 17 pixels de arte por casa; o padrão é 33): fica com cara de outro jogo ao lado dos outros (guia de estilo, v95).
+
+**Pedido:** Refazer com o pixel menor (o desenho com o dobro de detalhe), o contorno de 1 px e 2 a 3 tons por cor, no estilo das outras folhas.
+
+**No jogo:** A arte aponta para a direita; o jogo gira para a direção do golpe e estica até o alcance (com folha para baixo e para cima, usa elas nessas direções).
+
+**Folha: Brasa Sem Luz** (`rubro_chamas`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Brasa Sem Luz" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Brasa Sem Luz": a long line of dark crimson flames with black smoke. Palette: crimson red and black, with a bright scarlet glow and a near-black outline.
+F1: a small charge of a long line of dark crimson flames with black smoke at the left side of the panel.
+F2: a long line of dark crimson flames with black smoke extends to the right, reaching the middle of the panel.
+F3: a long line of dark crimson flames with black smoke reaches the right side of the panel, a straight horizontal line through the middle of the panel.
+F4: the full line at its brightest, the same height and position as F3.
+F5: the line thins out, the same position.
+F6: the last sparks along the line fading. Small fine pixels with plenty of detail: the effect is drawn with about twice as many pixels as a chunky retro sprite, matching the detail of the other effects of this game.
+```
+
+**Folha: Brasa Sem Luz (para baixo)** (`rubro_chamas_baixo`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Brasa Sem Luz (para baixo)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Brasa Sem Luz": a long line of dark crimson flames with black smoke. Palette: crimson red and black, with a bright scarlet glow and a near-black outline.
+This sheet is the DOWN version of the jutsu: it travels from the top of each panel toward the bottom, seen from above with its front facing the viewer, with the same size, colors and style as the version going right.
+F1: a small charge of a long line of dark crimson flames with black smoke at the top of the panel.
+F2: a long line of dark crimson flames with black smoke extends down toward the bottom of the panel, reaching the middle of the panel.
+F3: a long line of dark crimson flames with black smoke reaches the bottom of the panel, a straight vertical line through the middle of the panel.
+F4: the full line at its brightest, the same height and position as F3.
+F5: the line thins out, the same position.
+F6: the last sparks along the line fading. Small fine pixels with plenty of detail: the effect is drawn with about twice as many pixels as a chunky retro sprite, matching the detail of the other effects of this game.
+```
+
+**Folha: Brasa Sem Luz (para cima)** (`rubro_chamas_cima`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Brasa Sem Luz (para cima)" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Brasa Sem Luz": a long line of dark crimson flames with black smoke. Palette: crimson red and black, with a bright scarlet glow and a near-black outline.
+This sheet is the UP version of the jutsu: it travels from the bottom of each panel toward the top, seen from above and from behind, with the same size, colors and style as the version going right.
+F1: a small charge of a long line of dark crimson flames with black smoke at the bottom of the panel.
+F2: a long line of dark crimson flames with black smoke extends up toward the top of the panel, reaching the middle of the panel.
+F3: a long line of dark crimson flames with black smoke reaches the top of the panel, a straight vertical line through the middle of the panel.
+F4: the full line at its brightest, the same height and position as F3.
+F5: the line thins out, the same position.
+F6: the last sparks along the line fading. Small fine pixels with plenty of detail: the effect is drawn with about twice as many pixels as a chunky retro sprite, matching the detail of the other effects of this game.
+```
+
+### Coluna Infernal (`fire_coluna`), Fogo, golpe com aviso no chão, fundo verde
+
+O pixel desenhado ficou grande demais no jogo (de 11 a 17 pixels de arte por casa; o padrão é 33): fica com cara de outro jogo ao lado dos outros (guia de estilo, v95).
+
+**Pedido:** Refazer com o pixel menor (o desenho com o dobro de detalhe), o contorno de 1 px e 2 a 3 tons por cor, no estilo das outras folhas.
+
+**No jogo:** F1 e F2 durante o aviso, F3 e F4 no golpe, F5 e F6 depois. A largura do impacto casa com o círculo do aviso.
+
+**Folha: Coluna Infernal** (`fire_coluna`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Coluna Infernal" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure green #00FF00 background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Coluna Infernal": a tall pillar of roaring fire. Palette: bright orange, yellow and deep red flame, with a dark brown-red outline.
+F1: a flat warning circle drawn on the ground, seen from above, filling about 85% of the panel width.
+F2: the warning circle glows brighter while a tall pillar of roaring fire gathers above it.
+F3: a tall pillar of roaring fire starts to strike the ground.
+F4: the full impact, the biggest and brightest frame, the same width as the warning circle.
+F5: the aftermath: a tall pillar of roaring fire breaking apart over the ground.
+F6: the last particles and a faint mark on the ground fading. Small fine pixels with plenty of detail: the effect is drawn with about twice as many pixels as a chunky retro sprite, matching the detail of the other effects of this game.
+```
+
+### Julgamento do Trovão (`lightning_4`), Relâmpago, golpe com aviso no chão, fundo magenta
+
+O pixel desenhado ficou grande demais no jogo (de 11 a 17 pixels de arte por casa; o padrão é 33): fica com cara de outro jogo ao lado dos outros (guia de estilo, v95).
+
+**Pedido:** Refazer com o pixel menor (o desenho com o dobro de detalhe), o contorno de 1 px e 2 a 3 tons por cor, no estilo das outras folhas.
+
+**No jogo:** F1 e F2 durante o aviso, F3 e F4 no golpe, F5 e F6 depois. A largura do impacto casa com o círculo do aviso.
+
+**Folha: Julgamento do Trovão** (`lightning_4`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Julgamento do Trovão" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Julgamento do Trovão": a huge bolt of yellow and cyan lightning striking down from the sky. Palette: electric yellow and pale cyan-white, with a deep blue outline.
+F1: a flat warning circle drawn on the ground, seen from above, filling about 85% of the panel width.
+F2: the warning circle glows brighter while a huge bolt of yellow and cyan lightning striking down from the sky gathers above it.
+F3: a huge bolt of yellow and cyan lightning striking down from the sky starts to strike the ground.
+F4: the full impact, the biggest and brightest frame, the same width as the warning circle.
+F5: the aftermath: a huge bolt of yellow and cyan lightning striking down from the sky breaking apart over the ground.
+F6: the last particles and a faint mark on the ground fading. Small fine pixels with plenty of detail: the effect is drawn with about twice as many pixels as a chunky retro sprite, matching the detail of the other effects of this game.
+```
+
+### Céu em Fúria (`lightning_ceu`), Relâmpago, golpe com aviso no chão, fundo magenta
+
+O pixel desenhado ficou grande demais no jogo (de 11 a 17 pixels de arte por casa; o padrão é 33): fica com cara de outro jogo ao lado dos outros (guia de estilo, v95).
+
+**Pedido:** Refazer com o pixel menor (o desenho com o dobro de detalhe), o contorno de 1 px e 2 a 3 tons por cor, no estilo das outras folhas.
+
+**No jogo:** F1 e F2 durante o aviso, F3 e F4 no golpe, F5 e F6 depois. A largura do impacto casa com o círculo do aviso.
+
+**Folha: Céu em Fúria** (`lightning_ceu`)
+
+```
+At the very top of the image, above the row of panels, a title band with the name "Céu em Fúria" written in large, clear, easy-to-read white letters with a dark outline; the title stays outside the panels. Pixel art sprite sheet for a 2D top-down action MMORPG, 3/4 view seen from the front and from above, chibi anime ninja game style, a dark outline around every shape, cel shading in 2 to 3 tones, crisp square pixels. One single row of 6 square panels of the same size, separated by thin straight divider lines, with a small label F1 to F6 written under each panel, outside the art. Every panel has a solid flat pure magenta #FF00FF background. The effect sits fully inside each panel with a clear empty margin on all four sides. The effect keeps the same center point and the same scale reference in all 6 panels, so the frames line up when played one after another.
+The jutsu "Céu em Fúria": one bolt of yellow and cyan lightning striking down from a storm cloud. Palette: electric yellow and pale cyan-white, with a deep blue outline.
+F1: a flat warning circle drawn on the ground, seen from above, filling about 85% of the panel width.
+F2: the warning circle glows brighter while one bolt of yellow and cyan lightning striking down from a storm cloud gathers above it.
+F3: one bolt of yellow and cyan lightning striking down from a storm cloud starts to strike the ground.
+F4: the full impact, the biggest and brightest frame, the same width as the warning circle.
+F5: the aftermath: one bolt of yellow and cyan lightning striking down from a storm cloud breaking apart over the ground.
+F6: the last particles and a faint mark on the ground fading. Small fine pixels with plenty of detail: the effect is drawn with about twice as many pixels as a chunky retro sprite, matching the detail of the other effects of this game.
+```
 
 ## Mais quadros (0)
 

@@ -80,7 +80,10 @@ const TIPO = {
   taijutsu_portoes: { t: 'corpo', pes: true, intro: ['01', '02', '03'], meio: ['04', '05'], fim: ['06'] },
   taijutsu_flecha: { t: 'rastro', saida: ['01'], estica: ['02', '03', '04'], chegada: ['05'], trilha: ['06'] },
   taijutsu_furia: { t: 'rastro', saida: ['01', '02'], estica: ['03', '04'], chegada: ['05', '06'] },
-  taijutsu_4: { t: 'ao_longo', fr: [['01', 0.2], ['02', 0], ['03', 0], ['04', 0.35], ['05', 0.85], ['06', 0.85]], rajada: { fr: ['03', '04'], n: 6, ms: 75, p: 0.4 } },
+  // v95 (pedido do Victor): com a folha de rajada, o Punho do Céu inteiro sai dela (o estouro branco da folha antiga parecia de outro
+  // jutsu): o punho sai da mão (01), os socos alternam no caminho (02, 04, 05), os três punhos (06) e o estouro na ponta (03)
+  taijutsu_4: { t: 'ao_longo', fr: [['01', 0.2], ['02', 0], ['03', 0], ['04', 0.35], ['05', 0.85], ['06', 0.85]], rajada: { fr: ['03', '04'], n: 6, ms: 75, p: 0.4,
+    folha: { abre: 'rajada_01', laco: ['rajada_02', 'rajada_04', 'rajada_05'], fecha: [['rajada_06', 0.7], ['rajada_03', 0.9]] } } },
   taijutsu_queda: { t: 'aviso', avisa: ['01', '02'], cai: ['03', '04', '05'], bate: ['06', '07'] },
   wind: { t: 'cone', meio: ['01', '02', '03', '04', '05'], resto: ['06'] },
   wind_salto: { t: 'rastro', saida: ['01', '02'], estica: ['03', '04'], chegada: ['05'], chao: ['06'] },
@@ -376,6 +379,18 @@ export function folhaCast(jfx, msg, info, lineEnd, now, follow, whoAt = () => nu
       if (k.rajada) {
         // v86: a rajada (Punho do Céu): os socos alternam no meio do caminho, cada um um pouco para um lado, e o estouro na ponta
         const { fr: base, n = 6, ms = 75, p: rp = 0.4 } = k.rajada, fr = rajadaDe(s, base);
+        const F = k.rajada.folha;
+        if (F && jutsuSpritesReady(`${s}_rajada`)) {   // v95: a animação toda da folha de rajada (um estilo só)
+          poe(F.abre, 0.15, 0, 150, { scale: 1.1 });
+          for (let i = 0; i < n; i++) {
+            const [j, e] = JIT[i % JIT.length];
+            poe(F.laco[i % F.laco.length], rp + j * 0.12, 110 + i * ms, ms + 30, { fadeIn: 0, fadeOut: 40, scale: 1.2 * e }, j * 0.4);
+          }
+          const t1 = 110 + n * ms;
+          poe(F.fecha[0][0], F.fecha[0][1], t1, 160, { fadeIn: 0, scale: 1.25 });
+          poe(F.fecha[1][0], F.fecha[1][1], t1 + 130, 520, { fadeIn: 0, fadeOut: 360, scale: 1.45, pop: 120 });
+          return true;
+        }
         const i0 = k.fr.findIndex(([f]) => base.includes(f)), i1 = k.fr.length - 1 - [...k.fr].reverse().findIndex(([f]) => base.includes(f));
         const antes = k.fr.slice(0, i0), depois = k.fr.slice(i1 + 1);   // a ordem da folha: o que vem antes e depois dos socos
         let t = 0;

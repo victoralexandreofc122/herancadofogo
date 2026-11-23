@@ -248,6 +248,11 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
 
 ### v95: o Ciclo Sem Fim, o lugar no corpo em todos e as 12 folhas refeitas (sem migração)
 
+- Guia de estilo das animações (pedido do Victor, 22/11): auditoria das 224 animações (`arte/jutsus-vfx/auditoria_estilo.py`),
+  as regras em `arte/jutsus-vfx/guia-de-estilo.md` e as correções que ele escolheu, aplicadas no recorte (opções `tons`,
+  `contorno` e `alfa_niveis`): as silhuetas brancas lisas (Soco, Cem Golpes, Punho do Céu, Rasteira, Flecha, Corte) com 3 tons e
+  contorno; o brilho borrado da Cura e dos raios neon em 2 níveis de transparência; o Milagre recortado com o pixel do jogo; as
+  outras 5 folhas de pixel grande na lista de refazer, com o prompt. O Punho do Céu todo da folha de rajada (sem o estouro branco).
 - Ciclo Sem Fim (`illusion_4`), a última folha: os 9 quadros tocam nos pés do alvo (entrada, laço girando enquanto prende,
   saída), com a metade de trás atrás dele. Os 200 jutsus têm folha desenhada pelo Victor.
 - O lugar no corpo em todos os jutsus desse tipo (OK do Victor, 22/11): `LUGAR` em `public/vfxJutsus.js` encaixa a arte de
