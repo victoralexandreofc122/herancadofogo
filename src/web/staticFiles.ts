@@ -44,8 +44,11 @@ export const JUTSU_SPRITE_FRAMES = [...JUTSU_SPRITES.flatMap((n) => [1, 2, 3].ma
 /** v96: as peças da interface desenhada (tema Laca e Brasa; a lista sai de public/uiArte.js, gerado por arte/ui/recortar_ui.py). */
 export const UI_ARTE = [...readFileSync(new URL('../../public/uiArte.js', import.meta.url), 'utf8').matchAll(/^ {2}(ui_\w+): \{/gm)].map((m) => m[1] ?? '');
 
+/** v105: as texturas do clima desenhadas no Flow (public/climaData.js, gerado por arte/mapas/recortar_pecas.py). */
+export const CLIMA_ARTE = [...readFileSync(new URL('../../public/climaData.js', import.meta.url), 'utf8').matchAll(/^ {2}(fx_\w+): /gm)].map((m) => m[1] ?? '');
+
 /** Folhas PNG de public/assets/<pasta>/ (a lista bate com vfxData.js e weaponData.js: test/static.test.ts confere). */
-function sheets(folder: 'vfx' | 'weapons' | 'ui', names: readonly string[]) {
+function sheets(folder: 'vfx' | 'weapons' | 'ui' | 'clima', names: readonly string[]) {
   return names.map((n) => ({ route: `/assets/${folder}/${n}.png`, file: `assets/${folder}/${n}.png`, contentType: 'image/png', binary: true as const }));
 }
 
@@ -89,6 +92,10 @@ const FILES = [
   // v96: a interface desenhada (Laca e Brasa): o tema, o mapa das peças, a animação do fogo e do ouro e as peças
   { route: '/uiLaca.css', file: 'uiLaca.css', contentType: 'text/css; charset=utf-8' },
   { route: '/uiArte.js', file: 'uiArte.js', contentType: 'text/javascript; charset=utf-8' },
+  // v105: o clima com as texturas do Flow (chuva, névoa e as partículas)
+  { route: '/clima.js', file: 'clima.js', contentType: 'text/javascript; charset=utf-8' },
+  { route: '/climaData.js', file: 'climaData.js', contentType: 'text/javascript; charset=utf-8' },
+  ...sheets('clima', CLIMA_ARTE),
   { route: '/uiAnim.js', file: 'uiAnim.js', contentType: 'text/javascript; charset=utf-8' },
   ...sheets('ui', UI_ARTE),
   // Personagem (v25, arte/personagem-rig): desenhado por código no aparelho. Visual e opções, paletas, esqueleto 3D

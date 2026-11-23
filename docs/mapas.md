@@ -290,6 +290,18 @@ de pontos das duas imagens e dá a conta (Névoa: escala 0,9875 e +1,49 casa em 
 cerejeiras e no pé da praça; na Nuvem, os oito mastros das bandeiras da praça. A Areia continua na planta antiga
 (80 x 80, `BASE_PLAN`) até a imagem nova dela chegar.
 
+**Refeita com as peças do Flow (v105):** `map_1` usa `CHAMA_ART` (a planta e as paredes da Folha, com as caixas das 8 casas
+novas) e a arte `public/mapas/chama/`, montada por `arte/mapas/montar_chama.py` a partir de `arte/mapas/pecas/`
+(recortadas por `arte/mapas/recortar_pecas.py`). Para refazer depois de uma peça nova:
+
+1. Salvar a imagem do Flow em `arte/mapas/flow/recebidas/<id>.jpg` e rodar `python3 arte/mapas/recortar_pecas.py <id>`.
+2. Pôr a peça no montador (`CASAS` para as casas; uma lista nova para cada tipo de peça) e tirar o provisório dela.
+3. `npx tsx -e "import {WORLD_MAPS} from './src/realtime/maps.ts'; console.log(JSON.stringify(WORLD_MAPS['map_1']))" > /tmp/map1.json`
+   e `python3 arte/mapas/montar_chama.py /tmp/map1.json --previa previa.png`; as paredes novas que ele imprime vão para
+   `CHAMA_ART`.
+4. Conferir no jogo: `npx tsx arte/mapas/capturar_mapa.ts saida.png map_1 <x> <y> [clima] [hora]` (com o servidor de
+   `scripts/ambiente-local.sh`), e marcar a peça na página das texturas do Flow.
+
 ### 7.1 Névoa, Nuvem e Areia (v22)
 
 Névoa, Nuvem e Areia têm a **mesma planta** (as mesmas colisões, portas e praça); o desenho muda com o tema do mapa,

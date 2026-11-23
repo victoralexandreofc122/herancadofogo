@@ -246,6 +246,28 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v105: a Aldeia da Chama refeita com as texturas do Flow, e o clima desenhado (sem migração)
+
+- Pedido do Victor (23/11): recortar as 16 imagens que ele gerou no Flow e refazer os mapas com elas.
+- **Recorte** (`arte/mapas/recortar_pecas.py`): as originais ficam em `arte/mapas/flow/recebidas/`; o fundo magenta (peças)
+  e o preto (efeitos) saem, e a imagem vira a grade do mapa sem borrar: cada pixel do Flow (~20 px na imagem de 2000)
+  vira 3 px de tela, a imagem inteira vale 6 x 6 casas. As peças vão para `arte/mapas/pecas/`, os efeitos para
+  `public/assets/clima/` (com os quadros das partículas em `public/climaData.js`, gerado).
+- **Aldeia da Chama** (`arte/mapas/montar_chama.py`, blocos em `public/mapas/chama/`): o chão inteiro é novo (o gramado
+  com manchas e os tufos e flores do Flow espalhados como carimbos, a terra das ruas com a beira escura, o calçamento da
+  praça com o mosaico da flor de chama, a água com a margem de pedra) e as 8 casas de morar viraram a casa pequena, a
+  média e a cabana de palha, com a sombra no chão e as janelas acesas de noite. O que ainda não chegou (sede, hospital,
+  Academia, lojas, árvores, muralha, montanha, pontes e os miúdos) fica provisório, recortado da vila antiga sem o chão
+  em volta; sai do mapa conforme cada peça chega. A planta é a mesma (`CHAMA_ART` em `src/realtime/maps.ts`, sobre
+  `FOLHA_ART`): só as caixas das casas trocadas mudaram.
+- **Clima** (`public/clima.js`): a chuva e a neblina são as texturas do Flow correndo em duas camadas; pétalas na
+  Aldeia da Chama, folhas na Floresta, vaga-lumes de noite, brasas na Clareira Queimada e poeira nos mapas abertos são
+  partículas com o desenho de cada pedaço. Sem a imagem, o desenho por código de antes.
+- **Página das texturas do Flow** (artefato): cada peça recebida mostra a miniatura, onde entrou no jogo e o parecer;
+  aprovadas: as 7 de efeito, o calçamento, o mosaico e as 3 casas; a refazer, com o prompt novo no cartão: a grama
+  (veio com sebes nas bordas), a trilha (veio com a beira escura dos lados) e o respingo (veio um jato de lado).
+- Conferir: `arte/mapas/capturar_mapa.ts` fotografa um mapa no jogo com o clima e a hora; teste `test/clima.test.ts`.
+
 ### v104: o jogador escolhe os quadros por segundo (sem migração)
 
 - Pedido do Victor (23/11), as 4 propostas aceitas:

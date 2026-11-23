@@ -36,6 +36,7 @@ import { STRIKE_ART, ZONE_ART, drawBolt, drawDecal, drawStatusArt, drawStrikeArt
 import { drawBackWeapon, drawHandWeapon, drawWeaponIcon, drawnForStrike, isThrown, loadWeapons, weaponReady } from './weapons.js';
 import { VILLAGE_NAMES, egOn, factionStyle, mapAccess, mountEndgameUI, shopFactor, zoneFoe } from './endgame.js';
 import { mountAdminUI } from './adminPanel.js';
+import { camadaCorrendo, particula } from './clima.js';
 import { drawMonsterArt, drawMonsterPortrait, loadMonsterSprites, monsterArtReady, monsterDeathMs, playMonster } from './monsterSprites.js';
 
 const TOKEN_KEY = 'nin.token';
@@ -8669,11 +8670,17 @@ function drawScatter(g, x, y, ux, uy) {
  * sobem e quantas; `vig`: a cor das bordas da tela. Tudo preso ao mundo (anda com o mapa, não com a câmera).
  */
 const ATMOS = {
-  forest: { canopy: 0.2, shafts: [255, 236, 170, 0.05], motes: { rgb: [255, 246, 190], rise: 0.08, cell: 3, glow: true }, vig: 'rgba(4, 18, 14, 0.42)' },
-  clareira_queimada: { motes: { rgb: [255, 150, 60], rise: 0.7, cell: 2, glow: true }, vig: 'rgba(48, 10, 2, 0.5)', haze: 'rgba(120, 50, 20, 0.07)' },
+  // v105: as partículas com o desenho do Flow (`sprite`, public/clima.js): folhas caindo na Floresta (e vaga-lumes de
+  // noite), brasas na Clareira Queimada, pétalas de cerejeira na Aldeia da Chama, poeira nos mapas abertos. `rise`
+  // negativo cai; `drift` anda de lado (casas/s); `spin` gira; `size` é a escala do desenho. Sem a imagem: o quadradinho.
+  forest: { canopy: 0.2, shafts: [255, 236, 170, 0.05], motes: { rgb: [255, 246, 190], rise: -0.22, drift: 0.12, cell: 3, glow: false, sprite: 'fx_folhas', spin: 1.1, size: 0.42 },
+    night: { rgb: [230, 255, 120], rise: 0.05, drift: 0.04, cell: 3, glow: true, sprite: 'fx_vagalumes', size: 0.5, blink: true }, vig: 'rgba(4, 18, 14, 0.42)' },
+  clareira_queimada: { motes: { rgb: [255, 150, 60], rise: 0.7, cell: 2, glow: true, sprite: 'fx_brasas', size: 0.3 }, vig: 'rgba(48, 10, 2, 0.5)', haze: 'rgba(120, 50, 20, 0.07)' },
   cave: { motes: { rgb: [205, 150, 255], rise: 0.05, cell: 3, glow: true }, vig: null },
+  map_1: { motes: { rgb: [255, 200, 220], rise: -0.2, drift: 0.16, cell: 3, glow: false, sprite: 'fx_petalas', spin: 0.9, size: 0.4 },
+    night: { rgb: [230, 255, 120], rise: 0.04, drift: 0.03, cell: 3, glow: true, sprite: 'fx_vagalumes', size: 0.45, blink: true }, vig: 'rgba(36, 20, 8, 0.2)' },
   village: { motes: { rgb: [255, 240, 210], rise: 0.04, cell: 5, glow: false }, vig: 'rgba(36, 20, 8, 0.2)' },
-  wild: { motes: { rgb: [230, 210, 170], rise: 0.03, cell: 4, glow: false }, vig: 'rgba(24, 14, 6, 0.32)' },
+  wild: { motes: { rgb: [230, 210, 170], rise: 0.02, drift: 0.55, cell: 6, glow: false, sprite: 'fx_poeira', size: 0.32 }, vig: 'rgba(24, 14, 6, 0.32)' },
 };
 
 function drawAtmosphere(toScreenX, toScreenY, T, now) {
@@ -8721,20 +8728,26 @@ function drawAtmosphere(toScreenX, toScreenY, T, now) {
       ctx.closePath(); ctx.fill();
     }
   }
-  if (mood.motes) {                                   // pólen, brasas, esporos: um por célula, subindo e balançando
-    const { rgb: [r, g, b], rise, cell: C, glow } = mood.motes;
+  // de noite, onde há (Floresta, Chama), os vaga-lumes no lugar das folhas e pétalas
+  const clock = mood.night && state.sky ? skyClock() : null;
+  const motes = clock && skyLight(clock.progress).dark > 0.45 ? mood.night : mood.motes;
+  if (motes) {                                        // pólen, brasas, esporos, folhas: um por célula, andando e balançando
+    const { rgb: [r, g, b], rise, drift = 0, cell: C, glow, sprite, spin = 0, size = 0.4, blink } = motes;
     const ps = Math.max(1.5, T * 0.045);
+    ctx.globalCompositeOperation = glow ? 'lighter' : 'source-over';
     for (let gy = Math.floor(y0 / C) - 1; gy <= Math.ceil(y1 / C) + 1; gy++) {
       for (let gx = Math.floor(x0 / C) - 1; gx <= Math.ceil(x1 / C) + 1; gx++) {
         const h = cellHash(gx * 17 + 1, gy * 23 + 9);
         if (h % 2) continue;
-        const life = 6 + (h % 5);                         // segundos para subir o caminho todo e recomeçar
+        const life = 6 + (h % 5);                         // segundos para fazer o caminho todo e recomeçar
         const ph = ((t + (h % 1000) / 100) % life) / life;
-        const px = (gx + (h % 97) / 97) * C + Math.sin(t * 0.8 + h) * 0.35;
+        const px = (gx + (h % 97) / 97) * C + Math.sin(t * 0.8 + h) * 0.35 + ph * drift * life;
         const py = (gy + ((h >> 7) % 97) / 97) * C - ph * rise * life;
         const sx = toScreenX(px), sy = toScreenY(py);
-        if (sx < -8 || sx > viewW + 8 || sy < -8 || sy > viewH + 8) continue;
-        const a = Math.sin(ph * Math.PI) * (0.55 + 0.45 * Math.sin(t * 3 + h));
+        if (sx < -40 || sx > viewW + 40 || sy < -40 || sy > viewH + 40) continue;
+        let a = Math.sin(ph * Math.PI) * (0.55 + 0.45 * Math.sin(t * 3 + h));
+        if (blink) a *= 0.35 + 0.65 * Math.max(0, Math.sin(t * 2.2 + h));
+        if (sprite && particula(ctx, sprite, h >> 3, sx, sy, T, size * (0.75 + (h % 50) / 100), spin ? t * spin * (h % 2 ? 1 : -1) + h : 0, Math.min(1, a * 1.1))) continue;
         if (glow) {
           ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${(a * 0.25).toFixed(3)})`;
           ctx.beginPath(); ctx.arc(sx, sy, ps * 2.6, 0, Math.PI * 2); ctx.fill();
@@ -8743,6 +8756,7 @@ function drawAtmosphere(toScreenX, toScreenY, T, now) {
         ctx.fillRect(Math.round(sx - ps / 2), Math.round(sy - ps / 2), Math.ceil(ps), Math.ceil(ps));
       }
     }
+    ctx.globalAlpha = 1;
   }
   ctx.globalCompositeOperation = 'source-over';
   if (mood.vig) {                                     // as bordas da tela na cor do lugar
@@ -8853,7 +8867,11 @@ function drawSky(toScreenX, toScreenY, T, now, me) {
       }
     }
     ctx.globalAlpha = 1;
-    // as gotas caindo (na tela, inclinadas pelo vento)
+    // as gotas caindo (na tela, inclinadas pelo vento): v105, a chuva desenhada no Flow em duas camadas (a de trás
+    // menor e mais lenta); sem a imagem, os riscos por código
+    const desenhada = camadaCorrendo(ctx, 'fx_chuva', viewW, viewH, T, -t * 300, t * 600, 0.42, 0.8)
+      && camadaCorrendo(ctx, 'fx_chuva', viewW, viewH, T, -t * 480 + 97, t * 960 + 53, 0.5, 1.25);
+    if (!desenhada) {
     ctx.strokeStyle = 'rgba(200, 220, 255, 0.42)';
     ctx.lineWidth = 1.2;
     ctx.beginPath();
@@ -8866,14 +8884,18 @@ function drawSky(toScreenX, toScreenY, T, now, me) {
       ctx.moveTo(x, y); ctx.lineTo(x - 4, y + 15);
     }
     ctx.stroke();
+    }
     // relâmpago: dois clarões rápidos, de ~30 em ~30 s
     const cyc = t % 31;
     if (cyc < 0.09 || (cyc > 0.18 && cyc < 0.24)) { ctx.fillStyle = 'rgba(235, 240, 255, 0.28)'; ctx.fillRect(0, 0, viewW, viewH); }
   } else if (weather === 'neblina') {
     ctx.fillStyle = 'rgba(200, 210, 222, 0.2)';
     ctx.fillRect(0, 0, viewW, viewH);
-    const S = 6;
-    for (let gy = Math.floor(y0 / S) - 1; gy <= Math.ceil(y1 / S) + 1; gy++) {
+    // v105: a névoa desenhada no Flow, em duas camadas presas ao mundo e passando devagar para a direita
+    const desenhada = camadaCorrendo(ctx, 'fx_nevoa', viewW, viewH, T, ox + t * 0.35 * T, oy, 0.3, 1.6)
+      && camadaCorrendo(ctx, 'fx_nevoa', viewW, viewH, T, ox + t * 0.6 * T + 211, oy + 137, 0.2, 2.4);
+    const S = desenhada ? 0 : 6;
+    for (let gy = Math.floor(y0 / S) - 1; S && gy <= Math.ceil(y1 / S) + 1; gy++) {
       for (let gx = Math.floor(x0 / S) - 2; gx <= Math.ceil(x1 / S) + 1; gx++) {
         const h = cellHash(gx * 19 + 2, gy * 29 + 4);
         const cx = (gx + (h % 100) / 100) * S + ((t * 0.25 + (h % 31)) % (S * 2)) - S, cy = (gy + ((h >> 8) % 100) / 100) * S;

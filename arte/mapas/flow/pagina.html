@@ -88,16 +88,32 @@ details summary { cursor: pointer; font-size: 13px; color: var(--muted); min-hei
 .novo b { font-family: var(--font-display); color: var(--accent); font-size: 13px; }
 .aviso { font-size: 13px; color: var(--muted); }
 .aviso[data-tom="erro"] { color: var(--accent); }
+.recebida { display: grid; grid-template-columns: 96px 1fr; gap: 10px; align-items: start; border: 1px solid var(--line); border-radius: 6px; padding: 8px; background: var(--bg); }
+.recebida img { width: 96px; height: 96px; object-fit: contain; border-radius: 4px; background: #000; image-rendering: pixelated; }
+.recebida .txt { font-size: 13px; display: grid; gap: 4px; min-width: 0; }
+.recebida .txt b { font-family: var(--font-display); font-size: 12.5px; }
+.pill.rec { color: var(--m); }
+.nojogo { display: grid; gap: 10px; }
+.nojogo img { width: 100%; border-radius: 6px; border: 1px solid var(--line); image-rendering: auto; }
+.legenda { display: flex; flex-wrap: wrap; gap: 8px 14px; font-size: 13px; color: var(--muted); }
 .toast { position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 6px; font-size: 14px; z-index: 20; }
 </style>
 
 <div class="wrap">
   <header>
-    <div class="eyebrow">Herança do Fogo · arte dos mapas · 17/11/2026</div>
+    <div class="eyebrow">Herança do Fogo · arte dos mapas · 17/11/2026 · atualizada em 23/11/2026</div>
     <h1>Texturas do Mapa no Flow</h1>
     <p>Um prompt para cada peça do mundo aberto: árvores, flores, pedras, casas, cabanas, cavernas, pontes, lanternas e efeitos, aldeia por aldeia e região por região, seguindo a lore e o mapa em anéis. Você gera uma peça por vez no Flow e me manda; eu monto os mapas com elas. Cada peça tem as camadas que o jogo usa nos gráficos Baixo, Médio e Alto.</p>
     <div class="facts" id="facts"></div>
   </header>
+
+  <section class="nojogo" id="nojogo">
+    <div class="eyebrow">Já no jogo (v105)</div>
+    <h2>A Aldeia da Chama refeita com as peças que chegaram</h2>
+    <p>O chão inteiro é novo: o gramado, a terra das ruas e o calçamento da praça com o mosaico da flor de chama no meio. As oito casas de morar viraram a casa pequena, a média e a cabana de palha. A chuva, a névoa, as pétalas, as folhas, os vaga-lumes, as brasas e a poeira já aparecem no jogo com o desenho de vocês. O que ainda não chegou (sede, hospital, Academia, lojas, árvores, muralha, montanha, pontes, lanternas e bancos) está provisório, recortado da vila antiga, e sai do mapa conforme cada peça chega.</p>
+    <img src="chama_v105.jpg" alt="A Aldeia da Chama Eterna montada com as peças do Flow: gramado, ruas de terra, praça de pedra com o mosaico, casas novas e os prédios provisórios" loading="lazy">
+    <div class="legenda" id="legenda"></div>
+  </section>
 
   <section>
     <div class="eyebrow">Como usar</div>
@@ -125,8 +141,8 @@ details summary { cursor: pointer; font-size: 13px; color: var(--muted); min-hei
 
   <section>
     <div class="eyebrow">Tamanho</div>
-    <h2>24 pixels de arte por casa</h2>
-    <p>O jogo mostra cada casa com 48 pixels. A arte é desenhada com 24 pixels por casa e ampliada 2 vezes, que é a densidade de detalhe das imagens provisórias. Cada cartão diz o tamanho em casas e em pixels de arte; o prompt pede ao Flow que desenhe "como se fosse num quadro desse tamanho". O Flow entrega a imagem grande, e eu reduzo para a grade certa sem perder a nitidez.</p>
+    <h2>Uma imagem do Flow vale 6 x 6 casas</h2>
+    <p>O jogo mostra cada casa com 48 pixels. Nas imagens que chegaram, o Flow desenha uns 97 pixels de lado na imagem de 2000; eu uso cada pixel dele como 3 pixels da tela, então a imagem inteira vira 6 x 6 casas (288 pixels). É a mesma conta para todas as peças, e assim elas combinam: as casas ficam com umas 5 casas de largura, a escala do ninja e dos prédios de hoje. Os cartões ainda dizem o tamanho que o prompt pede; o que vale é a peça ocupar a imagem do jeito do cartão.</p>
   </section>
 
   <section>
@@ -155,7 +171,7 @@ details summary { cursor: pointer; font-size: 13px; color: var(--muted); min-hei
       <select id="fEstado" aria-label="Situação">
         <option value="">Qualquer situação</option><option value="afazer">A fazer</option><option value="feita">Feita</option>
         <option value="revisar">Revisar</option><option value="refazer">Refazer</option><option value="aprovada">Aprovada</option>
-        <option value="novo">Com prompt novo</option>
+        <option value="novo">Com prompt novo</option><option value="recebida">Recebidas</option>
       </select>
       <span class="prog" id="prog"></span>
     </div>
@@ -240,15 +256,18 @@ function card(a) {
   const shNote = '';
   const e = estadoDe(a.id), d = st[a.id] || {};
   const quando = d.em ? 'Atualizado em ' + new Date(d.em).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : '';
+  const rec = d.recebida ? `<div class="recebida"><img src="recebidas/${a.id}.webp" alt="A imagem de ${esc(a.n)} que chegou" loading="lazy">
+      <div class="txt"><b>Recebida${d.recebidaEm ? ' em ' + esc(d.recebidaEm) : ''}</b>${d.uso ? `<span>${esc(d.uso)}</span>` : ''}${d.parecer ? `<span class="muted">${esc(d.parecer)}</span>` : ''}</div></div>` : '';
   const novo = d.promptNovo ? `<div class="novo"><b>Prompt novo${d.motivo ? ': ' + esc(d.motivo) : ''}</b>
       <div class="btns"><button class="cp main" data-id="${a.id}" data-p="N">Copiar o prompt novo</button></div>
       <details><summary>Ver o prompt novo</summary><pre class="block">${esc(d.promptNovo)}</pre></details></div>` : '';
   return `<article class="card" id="card-${a.id}">
     <div class="top"><div><h3>${a.n}</h3><div class="id">${a.id}.png</div></div>
-      <span class="pill" data-e="${e}">${NOME_E[e]}</span></div>
+      <span class="btns">${d.recebida ? '<span class="pill rec">Recebida</span>' : ''}<span class="pill" data-e="${e}">${NOME_E[e]}</span></span></div>
     <div class="meta"><span>${a.s[0]}×${a.s[1]} casas · ${W}×${H} px</span>${L.map((x) => `<span class="lay ${x}" title="${ICON[x]}">${x}</span>`).join('')}${shNote}${a.m ? `<span>${a.f} quadros</span>` : ''}</div>
     <p class="desc muted">${a.d}</p>
     <div class="btns">${btns.join('')}</div>${extra ? `<ul class="layers-note"><li class="muted">Camadas que eu faço a partir desta imagem:</li>${extra}</ul>` : ''}
+    ${rec}
     <details><summary>Ver o prompt inteiro</summary><pre class="block">${basePrompt(a).replace(/</g, '&lt;')}</pre></details>
     ${novo}
     <div class="estado" role="group" aria-label="Situação de ${esc(a.n)}">${ESTADOS.map(([k, n]) => `<button type="button" data-id="${a.id}" data-e="${k}" aria-pressed="${e === k}" ${ligado ? '' : 'disabled'}>${n}</button>`).join('')}</div>
@@ -258,7 +277,7 @@ function card(a) {
 }
 function render() {
   const r = fRegion.value, c = fCat.value, q = fText.value.trim().toLowerCase(), fe = fEstado.value;
-  const okE = (a) => !fe || (fe === 'novo' ? !!(st[a.id] && st[a.id].promptNovo) : estadoDe(a.id) === fe);
+  const okE = (a) => !fe || (fe === 'novo' ? !!(st[a.id] && st[a.id].promptNovo) : fe === 'recebida' ? !!(st[a.id] && st[a.id].recebida) : estadoDe(a.id) === fe);
   const sel = A.filter((a) => (!r || a.r === r) && (!c || a.c === c) && okE(a) && (!q || (a.n + ' ' + a.id + ' ' + a.d).toLowerCase().includes(q)));
   let html = '';
   for (const k of Object.keys(REGIONS)) {
@@ -272,6 +291,10 @@ function render() {
 }
 function progresso() {
   const c = {}; for (const a of A) { const e = estadoDe(a.id); c[e] = (c[e] || 0) + 1; }
+  const rec = A.filter((a) => st[a.id] && st[a.id].recebida);
+  const leg = document.getElementById('legenda');
+  if (leg) leg.innerHTML = rec.length ? [[rec.length, 'recebidas'], [rec.filter((a) => estadoDe(a.id) === 'aprovada').length, 'aprovadas e no jogo'],
+    [rec.filter((a) => estadoDe(a.id) === 'refazer').length, 'para refazer (com prompt novo)']].map(([n, t]) => `<span><b>${n}</b> ${t}</span>`).join('') : '';
   document.getElementById('prog').textContent = ESTADOS.filter(([k]) => k !== 'afazer').map(([k, n]) => `${c[k] || 0} ${n.toLowerCase()}`).join(' · ') + ` · ${c.afazer || 0} a fazer (de ${A.length})`;
 }
 [fRegion, fCat, fEstado].forEach((el) => el.addEventListener('change', render));

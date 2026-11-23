@@ -551,6 +551,30 @@ const FOLHA_ART: VillageArt = {
 };
 
 /**
+ * v105 (pedido do Victor, 23/11): a Aldeia da Chama refeita com as texturas do Flow (arte/mapas/montar_chama.py, blocos em
+ * public/mapas/chama). A planta é a da Folha (as outras vilas são medidas nela, por isso FOLHA_ART fica como estava); as
+ * casas de morar e a cabana viraram as peças novas (casa pequena, média e de palha), menores que as antigas, e as
+ * janelas delas acendem de noite.
+ */
+const CHAMA_ART: VillageArt = {
+  ...FOLHA_ART,
+  art: 'chama',
+  walls: [
+    ...FOLHA_ART.walls.filter((w) => !(w.k === 'house' && (w.s === 'home' || w.s === 'hut'))),
+    // As casas novas (a peça inteira bloqueia: não há camada por cima do ninja).
+    wall('house', 3.76, 9.24, 4.39, 3.97, 'home'), wall('house', 3.58, 16.05, 4.81, 4.34, 'home'),
+    wall('house', 11.2, 5.61, 4.35, 4.82, 'hut'), wall('house', 64.76, 6.49, 4.81, 4.34, 'home'),
+    wall('house', 69.76, 9.74, 4.39, 3.97, 'home'), wall('house', 70.33, 15.93, 4.35, 4.82, 'hut'),
+    wall('house', 3.45, 32.42, 4.39, 3.97, 'home'), wall('house', 3.76, 42.67, 4.81, 4.34, 'home'),
+  ],
+  lights: [
+    ...FOLHA_ART.lights,
+    { x: 4.4, y: 11.7 }, { x: 7.5, y: 11.7 }, { x: 4.7, y: 18.6 }, { x: 65.9, y: 9.1 }, { x: 70.4, y: 12.2 },
+    { x: 73.5, y: 12.2 }, { x: 4.1, y: 34.9 }, { x: 7.2, y: 34.9 }, { x: 4.9, y: 45.2 },
+  ],
+};
+
+/**
  * Outra vila desenhada sobre a planta da Folha: a IA partiu do mesmo desenho, então tudo fica no mesmo lugar a menos de
  * uma escala e um deslocamento (medidos casando milhares de pontos das duas imagens: arte/mapas/alinhar.py). A planta e
  * as paredes da Folha passam pela conta; `drop` tira o que a outra vila não tem e `add` põe o que só ela tem (já em
@@ -599,7 +623,7 @@ const NUVEM_ART = retrace(FOLHA_ART, 'nuvem', { sx: 1, ox: 0, sy: 1, oy: 0 }, { 
 ]);
 
 /** As vilas em imagem (as outras usam BASE_PLAN e são desenhadas por código). */
-const VILLAGE_ART: Partial<Record<MapId, VillageArt>> = { map_1: FOLHA_ART, vila_nevoa: NEVOA_ART, vila_nuvem: NUVEM_ART };
+const VILLAGE_ART: Partial<Record<MapId, VillageArt>> = { map_1: CHAMA_ART, vila_nevoa: NEVOA_ART, vila_nuvem: NUVEM_ART };
 
 /** A planta das vilas desenhadas por código (80 x 80, a mesma nas quatro). */
 const BASE_PLAN: VillagePlan = {
