@@ -228,6 +228,9 @@ folha: `arte/jutsus-vfx/pendencias.md` (gerado por `pendencias.py`).
   `docs/ui/estrutura-ui-ux-hud.md`. Toda tela, botão ou aviso novo segue o documento (taxonomia, zona do polegar, alvos
   de 44 px, texto de 12 px, matriz de estados, avisos de 2 a 5 s, erro com causa e números) e passa pela auditoria
   (`npx tsx scripts/auditar-hud.ts <pasta>`) e pelo `test/uiHud.test.ts`. As 8 propostas da seção 13 foram aceitas e feitas (v67).
+- **Mapas com as texturas do Flow (regra do Victor, 24/11/2026):** um mapa novo só é montado e posto no jogo depois de
+  conferir todas as imagens que ele mandou para aquele mapa e colocar cada uma no lugar. Enquanto faltar peça (ou houver
+  peça a refazer), as recebidas ficam recortadas e guardadas em `arte/mapas/pecas/` e marcadas na página das texturas.
 - **Renomeações (regra do Victor, 09/11/2026):** nunca aplicar nome novo sem aprovação. O processo é sempre: **auditar, propor 3 opções por item,
   o Victor escolhe, só então aplicar** (código, banco, testes e docs). "Continuar a partir da sua recomendação" não é escolha: se o Victor
   não disse qual opção, perguntar. Vale para jutsus, clãs, locais, itens, NPCs, títulos e organizações, nesta e nas próximas fases.
