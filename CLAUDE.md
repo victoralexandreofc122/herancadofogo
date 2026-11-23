@@ -18,7 +18,7 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   `public/figure.js` cache e giro). Detalhes em `arte/personagem-rig/LEIAME.md`. O estilo segue a folha de referência
   do Victor (chibi, contorno escuro, sombreado em 2-3 tons). Toda mudança de arte é comparada lado a lado com a
   referência e conferida dentro do jogo antes de fechar.
-- **Versão atual:** v103 na `main` (PRs #33 a #75; o #75 trouxe a v103, o áudio mais leve; o #73 a v102, o chat do clã e da aldeia; o #72 a v101, a borda do painel e os painéis sem rolar; o #71 a v100, o chat em botão e a doca da arena; o #70 a v99, as últimas peças da interface; o #69 a v98, o lote 4; o #68 a v97, o HUD desenhado; o #67 a v96, a interface desenhada; o #64 a #66 trouxeram a v95, com o guia de estilo das animações em `arte/jutsus-vfx/guia-de-estilo.md`: o Ciclo Sem Fim, o lugar no corpo em todos e as folhas refeitas). **Banco:** todas as
+- **Versão atual:** v104 na `main` (PRs #33 a #76; o #76 trouxe a v104, o FPS escolhido; o #75 a v103, o áudio mais leve; o #73 a v102, o chat do clã e da aldeia; o #72 a v101, a borda do painel e os painéis sem rolar; o #71 a v100, o chat em botão e a doca da arena; o #70 a v99, as últimas peças da interface; o #69 a v98, o lote 4; o #68 a v97, o HUD desenhado; o #67 a v96, a interface desenhada; o #64 a #66 trouxeram a v95, com o guia de estilo das animações em `arte/jutsus-vfx/guia-de-estilo.md`: o Ciclo Sem Fim, o lugar no corpo em todos e as folhas refeitas). **Banco:** todas as
   migrações até a **v41** rodaram no `production` do Neon (a v41, chat do clã e da aldeia, confirmada pelo Victor em
   23/11/2026); nenhuma pendente.
   Jutsus v2 com 96 jutsus (10 classes, Vento nova, e o Clã Rubro), mais os 74 da Fase 2.5 e os 16 dos clãs novos;
@@ -33,6 +33,9 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   aumenta a cura, item Shuriken (consumível, botão ✴️), invocações andam até o alvo e socam (Sentinela de Sombra e Arsenal
   Vivo com desenho próprio). v54: curas e escudos com valor fixo (sem % da vida), Cura rebalanceada, Cegueira como estado
   (perde o alvo), Duplo de Água bate. Mesclado (PR #34; a v32 rodou no Neon).
+- **v104 (sem migração, pedido do Victor de 23/11):** o desenho para em 60 fps (antes 90/120 nas telas rápidas), cai para 30
+  com nada se mexendo na tela e volta na hora ao mexer; Config. → Visual → Desempenho: FPS 60, 30 ou 24 e o contador de
+  FPS no topo (`frame()`/`telaParada()` em `public/game.js`, `test/fps.test.ts`).
 - **v103 (sem migração, pedido do Victor de 23/11):** o áudio gasta bem menos (o celular esquentava): efeitos sintetizados uma
   vez e tocados da gravação, 50 ms de margem no lugar de 10 ms, e mudo ou volume no zero desligam o áudio
   (`public/audio.js`). Medido: música e luta de 7,6% para 3,5% de um núcleo; mudo de 3,6% para 0%.
