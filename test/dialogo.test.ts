@@ -44,7 +44,7 @@ describe('v71: a caixa de conversa', () => {
   });
   it('o retrato é uma opção no ⚙️ (ligado por padrão, para testar com e sem)', () => {
     assert.match(html, /<input id="pref-dlg-portrait" type="checkbox" checked>/);
-    assert.match(game, /dlgPortrait: true \};/);
+    assert.match(game, /dlgPortrait: true[,}]/);
     assert.match(game, /\['pref-dlg-portrait', 'dlgPortrait'\]/);
     assert.match(fn('openDialog'), /drawBust\(dlgEl\.face, npcLookOf\(npc\)\)/);
   });

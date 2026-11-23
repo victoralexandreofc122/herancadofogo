@@ -18,7 +18,7 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   `public/figure.js` cache e giro). Detalhes em `arte/personagem-rig/LEIAME.md`. O estilo segue a folha de referência
   do Victor (chibi, contorno escuro, sombreado em 2-3 tons). Toda mudança de arte é comparada lado a lado com a
   referência e conferida dentro do jogo antes de fechar.
-- **Versão atual:** v95 na `main` (PRs #33 a #65; o #64 e o #65 trouxeram a v95: o Ciclo Sem Fim, o lugar no corpo em todos e as folhas refeitas). **Banco:** todas as
+- **Versão atual:** v96 na `main` (PRs #33 a #67; o #67 trouxe a v96, a interface desenhada; o #64 a #66 trouxeram a v95, com o guia de estilo das animações em `arte/jutsus-vfx/guia-de-estilo.md`: o Ciclo Sem Fim, o lugar no corpo em todos e as folhas refeitas). **Banco:** todas as
   migrações até a **v40** rodaram no `production` do Neon (confirmado pelo Victor em 17/11/2026); nenhuma pendente.
   Jutsus v2 com 96 jutsus (10 classes, Vento nova, e o Clã Rubro), mais os 74 da Fase 2.5 e os 16 dos clãs novos;
   conjuração, sistemas próprios (muros, invocações, escuridão...), clãs por linhagem, Extração e maestria, rankeado 1v1 e
@@ -32,6 +32,8 @@ Victor: ele escreve em português e quer as respostas em português do Brasil.
   aumenta a cura, item Shuriken (consumível, botão ✴️), invocações andam até o alvo e socam (Sentinela de Sombra e Arsenal
   Vivo com desenho próprio). v54: curas e escudos com valor fixo (sem % da vida), Cura rebalanceada, Cegueira como estado
   (perde o alvo), Duplo de Água bate. Mesclado (PR #34; a v32 rodou no Neon).
+- **v96 (sem migração, pedido do Victor de 23/11):** a interface desenhada no Flow (tema Laca e Brasa: 16 peças no jogo,
+  `arte/ui/LEIAME.md`, `public/uiLaca.css`) e a animação do fogo e do brilho do ouro com o gráfico no máximo (`public/uiAnim.js`).
 - **v95 (sem migração, pedidos do Victor de 22/11):** o Ciclo Sem Fim (a última folha: os 200 desenhados), o lugar no corpo em
   todos os jutsus desse tipo (`LUGAR` em `public/vfxJutsus.js`) e as 12 folhas refeitas (o Ninho de Áspides com as serpentes nas 3
   direções; a lista de refazer ficou vazia), mais 12 folhas (Arsenal Vivo e Duplo de Água nas 3 direções, Bloqueio, Rede, Avalanche e

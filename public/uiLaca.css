@@ -1,0 +1,155 @@
+/* v96 (pedido do Victor, 23/11): a interface desenhada no Flow, tema "Laca e Brasa" (arte/ui/flow/, recortada por
+   arte/ui/recortar_ui.py em public/assets/ui/). Liga com a classe .ui-laca no <html> (⚙️ → Visual: Interface desenhada).
+   As molduras são de 9 fatias (border-image): os cantos ficam como o Victor gerou, as bordas e o miolo esticam.
+   --uis = quantos pixels de tela por pixel de arte (1 no celular deitado, 2 no computador). Nada de borrar: pixelated.
+   O fogo e o brilho do ouro (uiAnim.js) entram por cima, só com o gráfico no máximo. */
+:root { --uis: 1; }
+@media (min-width: 1100px) and (min-height: 700px) { :root { --uis: 2; } }
+
+.ui-laca .mission-panel, .ui-laca .card, .ui-laca .scroll-paper, .ui-laca .hint-card, .ui-laca .toast,
+.ui-laca .tab, .ui-laca .creator-tab, .ui-laca button.primary, .ui-laca button.secondary, .ui-laca .reset-attrs.armed,
+.ui-laca .cbtn.skill, .ui-laca .cbtn.attack, .ui-laca .round-btn, .ui-laca .icon-btn.small, .ui-laca .equip-close,
+.ui-laca .set-pane input[type="checkbox"], .ui-laca .slider input[type="range"], .ui-laca .scroll-head {
+  image-rendering: pixelated;
+}
+
+/* ---- painéis (Missões, Perfil, Configurações, Vínculo...): a moldura de bronze com as chamas nos cantos */
+.ui-laca .mission-panel {
+  background: none;
+  border: calc(1px * var(--uis)) solid transparent;
+  border-image: url(/assets/ui/ui_painel.png) 18 fill / calc(18px * var(--uis)) / calc(6px * var(--uis)) stretch;
+  border-radius: 0;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+  padding-left: calc(16px * var(--uis)); padding-right: calc(16px * var(--uis));
+}
+/* ---- entrada e Criador */
+.ui-laca .card {
+  background: none;
+  border: 1px solid transparent;
+  border-image: url(/assets/ui/ui_cartao_entrada.png) 18 fill / calc(18px * var(--uis)) / calc(6px * var(--uis)) stretch;
+  border-radius: 0;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+}
+/* ---- o pergaminho (Manual, Nota de atualização, Pergaminho do Mestre): os rolos são da arte */
+.ui-laca .scroll-paper {
+  background: none;
+  border: 1px solid transparent;
+  border-image: url(/assets/ui/ui_pergaminho.png) 18 17 21 7 fill / calc(18px * var(--uis)) calc(17px * var(--uis)) calc(21px * var(--uis)) calc(7px * var(--uis)) / calc(4px * var(--uis)) stretch;
+  border-radius: 0;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.6);
+  padding-top: calc(12px + 8px * var(--uis)); padding-bottom: calc(10px + 8px * var(--uis));
+}
+.ui-laca .scroll-paper::before, .ui-laca .scroll-paper::after { display: none; }
+.ui-laca .scroll-head {
+  border-bottom: 0;
+  background: url(/assets/ui/ui_divisor.png) center bottom / 89px 14px no-repeat;
+  padding-bottom: 14px;
+}
+/* ---- a dica na hora (papel com o selo vermelho) e o aviso rápido */
+.ui-laca .hint-card {
+  background: none; color: #3a2614;
+  border: 1px solid transparent;
+  border-image: url(/assets/ui/ui_dica.png) 13 fill / calc(13px * var(--uis)) / calc(2px * var(--uis)) stretch;
+  border-radius: 0;
+  padding: calc(12px * var(--uis)) calc(14px * var(--uis)) calc(10px * var(--uis)) calc(16px * var(--uis));
+}
+.ui-laca .hint-card .hint-mute { color: #5a3a1c; border-color: #8a5a2b; }
+.ui-laca .toast {
+  background: none;
+  border: 1px solid transparent;
+  border-image: url(/assets/ui/ui_painel_pequeno.png) 16 fill / calc(16px * var(--uis)) / calc(4px * var(--uis)) stretch;
+  border-radius: 0;
+  padding: 10px 18px;
+}
+
+/* ---- abas: madeira laqueada; a ativa com a borda de ouro e a chamazinha em cima */
+.ui-laca .tab, .ui-laca .creator-tab {
+  position: relative;
+  background: none;
+  border: 1px solid transparent;
+  border-image: url(/assets/ui/ui_aba_1.png) 7 fill / calc(7px * var(--uis)) stretch;
+  border-radius: 0;
+  color: #c9c2e0;
+}
+.ui-laca .tab.active, .ui-laca .tab[aria-selected="true"], .ui-laca .creator-tab[aria-selected="true"] {
+  border-image-source: url(/assets/ui/ui_aba_2.png);
+  background: none; color: #ffd36b;
+}
+.ui-laca .tab.active::after, .ui-laca .tab[aria-selected="true"]::after, .ui-laca .creator-tab[aria-selected="true"]::after {
+  content: ''; position: absolute; left: 50%; top: calc(-2px * var(--uis)); transform: translateX(-50%);
+  width: calc(7px * var(--uis)); height: calc(7px * var(--uis));
+  background: url(/assets/ui/ui_aba_chama.png) center / 100% 100% no-repeat; image-rendering: pixelated; pointer-events: none;
+}
+
+/* ---- botões: o principal em laca cor de brasa, o secundário em laca azul com o papel no meio, o de perigo em vermelho */
+.ui-laca button.primary {
+  background: none; color: #2a1406; text-shadow: 0 1px 0 rgba(255, 226, 170, 0.55);
+  border: 1px solid transparent;
+  border-image: url(/assets/ui/ui_botao_principal_1.png) 12 8 10 8 fill / calc(12px * var(--uis)) calc(8px * var(--uis)) calc(10px * var(--uis)) calc(8px * var(--uis)) stretch;
+  border-radius: 0;
+}
+.ui-laca button.primary:active { border-image-source: url(/assets/ui/ui_botao_principal_2.png); }
+.ui-laca button.primary:disabled { border-image-source: url(/assets/ui/ui_botao_principal_3.png); opacity: 1; color: #4a4036; }
+.ui-laca button.secondary {
+  background: none; color: #3a2614;
+  border: 1px solid transparent;
+  border-image: url(/assets/ui/ui_botao_secundario_1.png) 7 10 7 10 fill / calc(7px * var(--uis)) calc(10px * var(--uis)) calc(7px * var(--uis)) calc(10px * var(--uis)) stretch;
+  border-radius: 0;
+}
+.ui-laca button.secondary:active { border-image-source: url(/assets/ui/ui_botao_secundario_2.png); }
+.ui-laca button.secondary:disabled { border-image-source: url(/assets/ui/ui_botao_secundario_3.png); opacity: 1; color: #5a554e; }
+.ui-laca .reset-attrs.armed {
+  background: none; color: #ffe8d8;
+  border: 1px solid transparent;
+  border-image: url(/assets/ui/ui_botao_perigo_1.png) 8 8 9 8 fill / calc(8px * var(--uis)) calc(8px * var(--uis)) calc(9px * var(--uis)) calc(8px * var(--uis)) stretch;
+}
+.ui-laca .reset-attrs.armed:active { border-image-source: url(/assets/ui/ui_botao_perigo_2.png); }
+
+/* ---- os anéis redondos (o centro é vazado: a cor do botão, do elemento do jutsu, aparece por baixo) */
+.ui-laca .cbtn.skill, .ui-laca .cbtn.attack, .ui-laca .round-btn {
+  border: 1px solid transparent;
+  border-image: url(/assets/ui/ui_jutsu_1.png) 50% / 50% stretch;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.55);
+}
+.ui-laca .cbtn.skill.cooling { border-image-source: url(/assets/ui/ui_jutsu_2.png); }
+.ui-laca .cbtn.skill.empty { border-image-source: url(/assets/ui/ui_jutsu_3.png); }
+.ui-laca .cbtn.attack { border-image-source: url(/assets/ui/ui_ataque.png); box-shadow: 0 0 22px rgba(255, 120, 40, 0.45), 0 6px 14px rgba(0, 0, 0, 0.6); }
+.ui-laca .round-btn { border-image-source: url(/assets/ui/ui_botao_redondo_1.png); }
+.ui-laca .round-btn:active { border-image-source: url(/assets/ui/ui_botao_redondo_2.png); }
+.ui-laca .cbtn.skill.aiming, .ui-laca .cbtn.skill.sky-up { box-shadow: 0 0 14px rgba(64, 232, 255, 0.55), 0 4px 10px rgba(0, 0, 0, 0.55); }
+
+/* ---- fechar (✕): o botão desenhado; o ✕ de texto some (o nome para o leitor de tela fica no aria-label) */
+.ui-laca .icon-btn.small, .ui-laca .equip-close {
+  background: url(/assets/ui/ui_botao_fechar.png) center / 100% 100% no-repeat;
+  border: 0; box-shadow: none; color: transparent; border-radius: 50%;
+}
+.ui-laca .icon-btn.small > span, .ui-laca .equip-close > span { visibility: hidden; }
+
+/* ---- caixa de marcar e o controle deslizante */
+.ui-laca .set-pane input[type="checkbox"], .ui-laca .display-opts input[type="checkbox"] {
+  appearance: none; -webkit-appearance: none; margin: 0;
+  width: calc(22px * var(--uis)); height: calc(22px * var(--uis)); flex: none;
+  background: url(/assets/ui/ui_check_1.png) center / 100% 100% no-repeat; image-rendering: pixelated; cursor: pointer;
+}
+.ui-laca .set-pane input[type="checkbox"]:checked, .ui-laca .display-opts input[type="checkbox"]:checked { background-image: url(/assets/ui/ui_check_2.png); }
+.ui-laca .set-pane input[type="checkbox"]:focus-visible { outline: 2px solid #f0cf7a; outline-offset: 2px; }
+.ui-laca .slider { --uis: 1; }   /* o controle fica na escala 1 (no computador, 2x deixava a aba Tela alta demais) */
+.ui-laca .slider input[type="range"] { appearance: none; -webkit-appearance: none; background: none; height: calc(32px * var(--uis)); }
+.ui-laca .slider input[type="range"]::-webkit-slider-runnable-track {
+  height: calc(16px * var(--uis)); border: 1px solid transparent;
+  border-image: url(/assets/ui/ui_slider_trilho.png) 4 8 4 8 fill / calc(4px * var(--uis)) calc(8px * var(--uis)) stretch; image-rendering: pixelated;
+}
+.ui-laca .slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: calc(12px * var(--uis)); height: calc(22px * var(--uis)); margin-top: calc(-4px * var(--uis));
+  background: url(/assets/ui/ui_slider_polegar.png) center / 100% 100% no-repeat; border: 0; image-rendering: pixelated;
+}
+.ui-laca .slider input[type="range"]::-moz-range-track {
+  height: calc(16px * var(--uis)); border: 1px solid transparent;
+  border-image: url(/assets/ui/ui_slider_trilho.png) 4 8 4 8 fill / calc(4px * var(--uis)) calc(8px * var(--uis)) stretch;
+}
+.ui-laca .slider input[type="range"]::-moz-range-thumb {
+  width: calc(12px * var(--uis)); height: calc(22px * var(--uis)); border: 0; border-radius: 0;
+  background: url(/assets/ui/ui_slider_polegar.png) center / 100% 100% no-repeat;
+}
+
