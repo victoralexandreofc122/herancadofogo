@@ -24,8 +24,9 @@ SAIDA = os.path.join(RAIZ, 'public', 'assets', 'ui')
 # fatia: a largura (pixels de arte) de cada borda da moldura de 9 fatias [cima, direita, baixo, esquerda]; None = peça inteira.
 # versoes: quantas versões a folha tem (as que sobrarem são variações do gerador e ficam de fora).
 PECAS = {
-    'ui_painel': {'fatia': [18, 18, 18, 18], 'miolo': (48, 48)},
-    'ui_cartao_entrada': {'fatia': [18, 18, 18, 18], 'miolo': (48, 48)},
+    # v101 (pedido do Victor, 23/11): as bordas lisas no trecho que estica e a linha de bronze de baixo um pouco mais grossa
+    'ui_painel': {'fatia': [18, 18, 18, 18], 'miolo': (48, 48), 'bordas_lisas': True, 'bronze_baixo': True},
+    'ui_cartao_entrada': {'fatia': [18, 18, 18, 18], 'miolo': (48, 48), 'bordas_lisas': True, 'bronze_baixo': True},
     'ui_painel_pequeno': {'fatia': [16, 16, 16, 16], 'miolo': (44, 44)},
     'ui_pergaminho': {'fatia': [18, 17, 21, 7], 'miolo': (48, 48)},
     'ui_dica': {'fatia': [13, 13, 13, 13], 'miolo': (30, 20)},
@@ -306,6 +307,27 @@ def acabamento(nome, k, v, cfg):
         mx, my = cfg['miolo']
         cor = v[min(my, H - 1), min(mx, W - 1)].copy()
         v[t:H - b, l:W - r] = cor   # o miolo que estica: uma cor lisa (sem manchas nem ruído do gerador)
+    if cfg.get('bordas_lisas') and cfg.get('fatia'):
+        # o trecho do meio de cada borda estica muitas vezes (60 pixels viram a largura do painel): um risco ou uma
+        # chamazinha ali vira um traço comprido. Cada linha (em cima e embaixo) e cada coluna (dos lados) desse trecho
+        # fica com a cor mais comum dela: a borda estica lisa, igual à moldura
+        t, r, b, l = cfg['fatia']
+        def moda(px):
+            cores, n = np.unique(px.reshape(-1, 4), axis=0, return_counts=True)
+            return cores[np.argmax(n)]
+        for y in list(range(0, t)) + list(range(H - b, H)):
+            v[y, l:W - r] = moda(v[y, l:W - r])
+        for x in list(range(0, l)) + list(range(W - r, W)):
+            v[t:H - b, x] = moda(v[t:H - b, x])
+    if cfg.get('bronze_baixo'):
+        # a linha de bronze de baixo (2 pixels entre os contornos) ganha mais 1 em cima, mais clara (a luz vem de cima):
+        # o contorno sobe 1 linha. Só no trecho do meio: os cantos com a chama ficam como o Victor gerou
+        t, r, b, l = cfg['fatia']
+        y0 = next(y for y in range(H - b, H) if v[y, W // 2, 0] > 150)   # a primeira linha de bronze
+        claro = np.clip(v[y0, l:W - r, :3].astype(int) * 1.18 + 12, 0, 255).astype(np.uint8)
+        v[y0 - 2, l:W - r] = v[y0 - 1, l:W - r]
+        v[y0 - 1, l:W - r, :3] = claro
+        v[y0 - 1, l:W - r, 3] = 255
     if cfg.get('vazar') and not (nome == 'ui_retrato' and k >= 2):
         # o disco escuro do meio fica transparente: a cor do botão (o elemento do jutsu) aparece por baixo do anel
         rgb = v[..., :3].astype(int)

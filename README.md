@@ -246,6 +246,20 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v101: a borda de baixo do painel e os painéis que rolavam no celular (sem migração)
+
+- Pedido do Victor (23/11).
+- **A borda de baixo do painel:**
+  - A animação confundia o bronze aceso da moldura (`c0 88 48`) com fogo. Os pixels mudavam de cor e, esticados pela
+    borda, viravam faixas laranja grossas que piscavam.
+  - Agora só o laranja forte das chamas é fogo (`eFogo` em `public/uiAnim.js`).
+  - O trecho que estica em cada borda ficou liso (`bordas_lisas`).
+  - A linha de bronze de baixo ganhou mais 1 pixel, mais claro, porque a luz vem de cima (`bronze_baixo`).
+- **O ranking e o Torneio não rolam mais no celular:**
+  - Antes o título ficava cortado, parecendo que faltava algo.
+  - Agora são duas colunas: os textos à esquerda e a tabela à direita. Só a tabela rola, quando a lista cresce.
+  - O equipamento, que passava 4 px no celular, também parou.
+
 ### v100: o chat vira botão, a barra da arena desce e a lanterna fica na frente (sem migração)
 
 - Pedido do Victor (23/11).
