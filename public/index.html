@@ -128,19 +128,27 @@
       <small id="duel-banner-next" class="duel-banner-next" hidden></small>
       <button id="duel-again" class="duel-btn duel-again" type="button">⚔️ Jogar de novo</button>
     </div>
-    <div id="duel-bar" class="duel-bar" hidden>
-      <button id="duel-btn" class="duel-btn" type="button">⚔️ Desafio</button>
-      <button id="jounin-btn" class="duel-btn jounin-btn" type="button" aria-controls="jounin-panel">🔒 Torneio Fechado</button>
-      <button id="duel-watch-btn" class="duel-btn duel-board-btn" type="button">👁 Assistir</button>
-      <!-- v55: Torneio dos Heróis (Jounin) ou dos Vilões (renegados): inscrever e entrar na fila -->
-      <button id="champion-btn" class="duel-btn" type="button" hidden>🦸 Torneio</button>
-      <!-- v55: rankeado 3v3 (sozinho ou com o trio) -->
-      <button id="team3-btn" class="duel-btn duel-board-btn" type="button">👥 3v3</button>
-      <button id="trio-btn" class="duel-btn duel-board-btn" type="button" aria-controls="trio-panel">Trio</button>
-      <!-- v55: as lutas de todas as arenas (painel de espectador) -->
-      <button id="arenas-btn" class="duel-btn duel-board-btn" type="button" aria-controls="arenas-panel">📺 Lutas</button>
-      <button id="duel-board-btn" class="duel-btn duel-board-btn" type="button" aria-controls="ranked-panel" aria-label="Ranking" title="Ranking">🏆</button>
-      <button id="mode-switch-btn" class="duel-btn duel-board-btn" type="button">⇄ 3v3</button>   <!-- v70: troca de arena -->
+    <!-- v100 (pedido do Victor, 23/11): a doca de baixo, compacta. O chat virou um botão (💬, com as mensagens novas contadas)
+         que abre o painel do chat; na arena, o Desafio fica à vista e o resto abre no botão "Arena", logo acima. -->
+    <div id="hud-dock" class="hud-dock">
+      <button id="chat-open" class="round-btn chat-open" type="button" aria-label="Chat: mensagens e sussurros" aria-expanded="false" aria-controls="history-panel"><svg class="ico-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg><b id="chat-unread" class="menu-badge chat-unread" hidden></b></button>
+      <div id="duel-bar" class="duel-bar" hidden>
+        <button id="duel-btn" class="duel-btn" type="button">⚔️ Desafio</button>
+        <button id="arena-more-btn" class="duel-btn duel-board-btn arena-more-btn" type="button" aria-expanded="false" aria-controls="arena-more">🏟️ Arena <span aria-hidden="true">▴</span></button>
+        <div id="arena-more" class="arena-more" hidden>
+          <button id="jounin-btn" class="duel-btn jounin-btn" type="button" aria-controls="jounin-panel">🔒 Torneio Fechado</button>
+          <button id="duel-watch-btn" class="duel-btn duel-board-btn" type="button">👁 Assistir</button>
+          <!-- v55: Torneio dos Heróis (Jounin) ou dos Vilões (renegados): inscrever e entrar na fila -->
+          <button id="champion-btn" class="duel-btn" type="button" hidden>🦸 Torneio</button>
+          <!-- v55: rankeado 3v3 (sozinho ou com o trio) -->
+          <button id="team3-btn" class="duel-btn duel-board-btn" type="button">👥 3v3</button>
+          <button id="trio-btn" class="duel-btn duel-board-btn" type="button" aria-controls="trio-panel">Trio</button>
+          <!-- v55: as lutas de todas as arenas (painel de espectador) -->
+          <button id="arenas-btn" class="duel-btn duel-board-btn" type="button" aria-controls="arenas-panel">📺 Lutas</button>
+          <button id="duel-board-btn" class="duel-btn duel-board-btn" type="button" aria-controls="ranked-panel" aria-label="Ranking" title="Ranking">🏆 Ranking</button>
+          <button id="mode-switch-btn" class="duel-btn duel-board-btn" type="button">⇄ 3v3</button>   <!-- v70: troca de arena -->
+        </div>
+      </div>
     </div>
 
     <!-- v29 (migração v15): o ranking do rankeado. -->
@@ -248,10 +256,6 @@
       <ol id="chat-feed" class="chat-feed" aria-live="polite" aria-label="Mensagens do chat"></ol>
       <div id="chat-missions-pane" class="chat-missions" hidden></div>
       <div class="chat-foot">
-        <form id="chat" class="chat-bar" autocomplete="off" aria-label="Escrever no chat">
-          <input id="chat-input" name="message" maxlength="200" placeholder="Chat" enterkeyhint="send" aria-label="Mensagem do chat (/g global · /w Nome sussurro)">
-          <button type="submit" aria-label="Enviar">➤</button>
-        </form>
         <button id="chat-tab-missions" class="chat-tab" type="button" aria-pressed="false">Missões</button>
       </div>
     </section>
@@ -278,8 +282,8 @@
     <!-- Histórico do chat (abre no 🕘): global, sussurros e a fala do mapa atual. Montado com textContent. -->
     <section id="history-panel" class="mission-panel history-panel" hidden role="dialog" aria-labelledby="history-title">
       <header class="mission-head">
-        <h2 id="history-title"><span aria-hidden="true">🕘</span> Histórico</h2>
-        <button id="history-close" class="icon-btn small" type="button" aria-label="Fechar o histórico"><span aria-hidden="true">✕</span></button>
+        <h2 id="history-title"><span aria-hidden="true">💬</span> Chat</h2>
+        <button id="history-close" class="icon-btn small" type="button" aria-label="Fechar o chat"><span aria-hidden="true">✕</span></button>
       </header>
       <div class="tabs" role="tablist">
         <button type="button" class="tab active" role="tab" aria-selected="true" data-filter="all">Tudo</button>
@@ -289,6 +293,10 @@
       </div>
       <ol id="history-list" class="history-list" aria-live="polite"></ol>
       <p id="history-empty" class="mission-empty">Nenhuma mensagem nas últimas 24 horas.</p>
+      <form id="chat" class="chat-bar" autocomplete="off" aria-label="Escrever no chat">
+        <input id="chat-input" name="message" maxlength="200" placeholder="Chat" enterkeyhint="send" aria-label="Mensagem do chat (/g global · /w Nome sussurro)">
+        <button type="submit" aria-label="Enviar">➤</button>
+      </form>
       <p class="kits-help">No chat: <strong>/g</strong> texto fala com todos · <strong>/w Nome</strong> texto sussurra.</p>
     </section>
 

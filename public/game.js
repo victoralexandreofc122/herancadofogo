@@ -13,7 +13,7 @@ import { CAMERA, FOCUS_RANGE, frameCamera, keepFocus, nextFocus, smoothing } fro
 import { HOLD_MS, aimPaths, autoAim, dragAim, tilesOnPath } from './aim.js';
 import { arenaAt, arenaFoes, artPlaces, groundAt, inSafeZone, mapName, placements, themeAt, visibleDeco, visibleWalls } from './world.js';
 import {
-  ART, PROP_KINDS, buildingLights, drawAcademyDoor, drawChakraField, drawDeco, drawGateRoof, drawOakCanopy, drawProp, drawSealGlow, drawTrails,
+  ART, PROP_KINDS, fenceLanternProps, buildingLights, drawAcademyDoor, drawChakraField, drawDeco, drawGateRoof, drawOakCanopy, drawProp, drawSealGlow, drawTrails,
   drawWall, fenceLanterns, propExtent,
 } from './mapArt.js';
 import { dirFrom, drawBackItem, drawCharacter, drawHandItem } from './character.js';
@@ -50,6 +50,7 @@ const ctx = canvas.getContext('2d', { alpha: false });
 const ui = {
   hud: $('hud'), status: $('status'), toast: $('toast'),
   chat: $('chat'), chatFeed: $('chat-feed'), chatInput: $('chat-input'),
+  chatOpen: $('chat-open'), chatUnread: $('chat-unread'), arenaMoreBtn: $('arena-more-btn'), arenaMore: $('arena-more'),
   chatToggle: $('chat-toggle'), logout: $('logout'),
   rankedToggle: $('ranked-toggle'), rankedLabel: $('ranked-label'), duelBtn: $('duel-btn'), duelHud: $('duel-hud'),
   duelBar: $('duel-bar'), duelBoardBtn: $('duel-board-btn'), rankedPanel: $('ranked-panel'), rankedClose: $('ranked-close'),
@@ -1365,7 +1366,9 @@ function handleMessage(msg) {
     }
     case 'chat_history':
       // Ao abrir o jogo e no 🕘: as mensagens anteriores (até 100, últimas 24 h).
-      state.chatHistory = (msg.messages || []).slice(-100);
+      // v100: os avisos do sistema que já estavam no painel ficam (na ordem do tempo)
+      state.chatHistory = [...(msg.messages || []).slice(-100), ...state.chatHistory.filter((e) => e.channel === 'system').slice(-20)]
+        .sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime());
       renderHistory();
       break;
     case 'player_gear': {
@@ -2232,7 +2235,7 @@ function enterMap(id, announce) {
   state.windows = drawn.filter((w) => w.k === 'house').flatMap(buildingLights);
   // Arenas à vista (as do mapa atual): os holofotes.
   state.arenaBoxes = state.places.flatMap((pl) => (pl.map.arenas || []).map((a) => ({ x: a.x + pl.ox, y: a.y + pl.oy, w: a.w, h: a.h })));
-  state.props = makeProps(drawn);
+  state.props = makeProps([...drawn, ...drawn.filter((w) => w.k === 'fence').flatMap(fenceLanternProps)]);   // v100: as lanternas da mureta na frente de quem passa atrás
   state.doors = deco.filter((d) => d.k === 'door');      // Academia: abrem conforme o tutorial (desenho a cada quadro)
   state.fields = layout.fields || [];                     // Sala de Controle: o campo que drena o chakra
   state.npcs = state.allNpcs.filter((n) => n.map === id && npcVisible(n));
@@ -6793,19 +6796,38 @@ matchMedia('(orientation: portrait)').addEventListener?.('change', () => setTime
 // esquerdo) e somem sozinhas depois de ~6 s (animação CSS); também viram balão sobre o boneco.
 const FEED_MAX = 40;
 
-// O chat fica num painel (desenho do HUD): a linha de digitar está sempre ali; o 💬 do menu só a seleciona.
+// v100 (pedido do Victor, 23/11): o chat é um botão (💬 na doca de baixo, em qualquer mapa) que abre o painel do chat: as
+// mensagens das últimas 24 h em abas (Tudo, Local, Global, Sussurros) e a linha de digitar. O 💬 do menu e o Enter abrem
+// o mesmo painel. Mensagem nova com o painel fechado soma no contador do botão.
 function openChat() {
-  showChatMissions(false);
-  ui.chatBox.classList.remove('min');
+  if (ui.historyPanel.hidden) openHistory();
   ui.chatToggle.setAttribute('aria-expanded', 'true');
   ui.chatInput.focus();
 }
 function closeChat() {
   ui.chatToggle.setAttribute('aria-expanded', 'false');
   ui.chatInput.blur();
+  closeHistory();
 }
-ui.chatToggle.addEventListener('click', () => (document.activeElement === ui.chatInput ? closeChat() : openChat()));
-ui.chatInput.addEventListener('blur', () => ui.chatToggle.setAttribute('aria-expanded', 'false'));
+ui.chatToggle.addEventListener('click', () => (ui.historyPanel.hidden ? openChat() : closeChat()));
+ui.chatOpen.addEventListener('click', () => (ui.historyPanel.hidden ? openChat() : closeChat()));
+let chatUnread = 0;
+function setChatUnread(n) {
+  chatUnread = n;
+  ui.chatUnread.hidden = n <= 0;
+  ui.chatUnread.textContent = n > 9 ? '9+' : String(n);
+  ui.chatOpen.setAttribute('aria-label', n > 0 ? `Chat: ${n} mensage${n > 1 ? 'ns novas' : 'm nova'}` : 'Chat: mensagens e sussurros');
+}
+/** O "Arena" da doca: abre os outros botões da arena logo acima (escolher um fecha; tocar fora fecha). */
+function setArenaMore(open) {
+  ui.arenaMore.hidden = !open;
+  ui.arenaMoreBtn.setAttribute('aria-expanded', String(open));
+}
+ui.arenaMoreBtn.addEventListener('click', () => setArenaMore(ui.arenaMore.hidden));
+ui.arenaMore.addEventListener('click', (e) => { if (e.target.closest('button')) setArenaMore(false); });
+document.addEventListener('pointerdown', (e) => {
+  if (!ui.arenaMore.hidden && !ui.arenaMore.contains(e.target) && !ui.arenaMoreBtn.contains(e.target)) setArenaMore(false);
+}, true);
 
 /** Aba "Missões" do chat (no celular, as missões em andamento ficam aqui). */
 let chatTabTouched = false;
@@ -6857,7 +6879,7 @@ function nameColor(name) {
 ui.chat.addEventListener('submit', (e) => {
   e.preventDefault();
   const message = ui.chatInput.value.trim();
-  if (!message) return closeChat();
+  if (!message) return undefined;
   if (!state.connected) return addSystemLine('Sem conexão. Tentando reconectar…');
   // v30: o despertar da linhagem (a partir de Genin): /linhagem rubro | umbra | andarilho
   // v35: agora a linhagem se marca no Criador de Personagem e desperta no Rito do Despertar (v93: com O Cronista)
@@ -6883,6 +6905,9 @@ function addChatLine(username, message, mine, kind = '') {
   appendLine(li);
 }
 function addSystemLine(text) {
+  // v100: o aviso do sistema (respostas do admin, "sem conexão"...) também fica no painel do chat, na aba Tudo
+  state.chatHistory.push({ channel: 'system', message: text, at: Date.now() });
+  if (!ui.historyPanel.hidden) renderHistory();
   const li = document.createElement('li');
   li.className = 'system';
   li.textContent = text;
@@ -6900,6 +6925,7 @@ function appendLine(li) {
 
 /** Quem falou, com o canal: "[Global] kaito", "kaito → mei" (sussurro). */
 function chatWho(e) {
+  if (e.channel === 'system') return '';
   if (e.channel === 'global') return `[Global] ${e.username}`;
   if (e.channel === 'whisper') return e.playerId === state.meId ? `Você → ${e.to || '?'}` : `${e.username} → você`;
   return e.username;
@@ -6908,6 +6934,7 @@ function chatWho(e) {
 /** Mensagem nova também vai para o histórico (o servidor já guardou a mesma no banco). */
 function rememberChat(e) {
   state.chatHistory.push(e);
+  if (ui.historyPanel.hidden && e.playerId !== state.meId) setChatUnread(chatUnread + 1);   // v100: o contador do 💬
   if (state.chatHistory.length > 100) state.chatHistory.splice(0, state.chatHistory.length - 100);
   if (!ui.historyPanel.hidden) renderHistory();
 }
@@ -6925,7 +6952,7 @@ function renderHistory() {
     time.textContent = Number.isNaN(d.getTime()) ? '' : d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     const who = document.createElement('span');
     who.className = 'who';
-    who.textContent = `${chatWho(e)}: `;                 // textContent: texto nunca vira HTML
+    who.textContent = e.channel === 'system' ? '' : `${chatWho(e)}: `;   // textContent: texto nunca vira HTML
     li.append(time, who, document.createTextNode(e.message));
     return li;
   }));
@@ -6939,12 +6966,15 @@ function openHistory() {
   closeBoard();
   ui.historyPanel.hidden = false;
   ui.historyToggle.setAttribute('aria-expanded', 'true');
+  ui.chatOpen.setAttribute('aria-expanded', 'true');
+  setChatUnread(0);
   renderHistory();
   if (state.connected) send({ type: 'chat_history' });   // relê do servidor (no máximo 1 a cada 2 s)
 }
 function closeHistory() {
   ui.historyPanel.hidden = true;
   ui.historyToggle.setAttribute('aria-expanded', 'false');
+  ui.chatOpen.setAttribute('aria-expanded', 'false');
 }
 ui.historyToggle.addEventListener('click', () => (ui.historyPanel.hidden ? openHistory() : closeHistory()));
 ui.historyClose.addEventListener('click', closeHistory);
@@ -8268,7 +8298,7 @@ function drawPropOnScreen(pr, toScreenX, toScreenY, T, me) {
   const sp = propSprite(pr);
   if (!sp) return;
   const x = toScreenX(pr.x - sp.left), y = toScreenY(pr.top - sp.top);
-  const covers = me && me.y < pr.y && me.y > pr.top - sp.top && me.x > pr.x - sp.left && me.x < pr.x + pr.w + sp.right;
+  const covers = pr.wall.k !== 'lanterna_mureta' && me && me.y < pr.y && me.y > pr.top - sp.top && me.x > pr.x - sp.left && me.x < pr.x + pr.w + sp.right;
   if (covers) ctx.globalAlpha = 0.55;
   ctx.drawImage(sp.canvas, x, y, sp.w * T, sp.h * T);
   if (covers) ctx.globalAlpha = 1;

@@ -94,7 +94,7 @@ for (const v of VIEWS) {
   }
   await foto('5_academia');
   // os painéis do menu (cada um aberto e fechado)
-  const paineis = ['inv-toggle', 'status-toggle', 'missions-toggle', 'vinculo-toggle', 'settings-toggle', 'village-toggle', 'history-toggle', 'manual-toggle', 'feedback-toggle', 'ranked-toggle'];
+  const paineis = ['inv-toggle', 'status-toggle', 'missions-toggle', 'vinculo-toggle', 'settings-toggle', 'village-toggle', 'chat-toggle', 'manual-toggle', 'feedback-toggle', 'ranked-toggle'];
   await p.evaluate(() => (document.getElementById('menu-toggle') as HTMLElement)?.click()); await wait(500);
   await foto('6_menu');
   for (const id of paineis) {

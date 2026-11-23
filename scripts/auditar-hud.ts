@@ -44,7 +44,9 @@ for (const v of VIEWS) {
   await wait(4500);
   for (const sel of ['text=Entendi', 'text=Fechar (já entendi)', 'text=Guardar']) { try { await p.click(sel, { timeout: 800 }); } catch {} }
   if (v.name === 'celular') {
-    await p.fill('#chat-input', '/admin ir map_1 40 40'); await p.press('#chat-input', 'Enter'); await wait(2000);
+    await p.evaluate(() => (document.getElementById('chat-open') as HTMLElement)?.click());   // v100: o chat abre no 💬
+    await p.fill('#chat-input', '/admin ir map_1 40 40'); await p.press('#chat-input', 'Enter');
+    await p.evaluate(() => (document.getElementById('history-close') as HTMLElement)?.click()); await wait(2000);
     await p.evaluate(() => (document.activeElement as HTMLElement)?.blur());
   }
   await wait(800);
@@ -101,7 +103,9 @@ const CVD: Record<string, string> = {
   await p.goto(URL_);
   await wait(4500);
   for (const sel of ['text=Entendi', 'text=Fechar (já entendi)', 'text=Guardar', 'text=Continuar']) { try { await p.click(sel, { timeout: 800 }); } catch {} }
-  await p.fill('#chat-input', '/admin ir map_2 50 50'); await p.press('#chat-input', 'Enter'); await wait(2500);
+  await p.evaluate(() => (document.getElementById('chat-open') as HTMLElement)?.click());   // v100: o chat abre no 💬
+  await p.fill('#chat-input', '/admin ir map_2 50 50'); await p.press('#chat-input', 'Enter');
+  await p.evaluate(() => (document.getElementById('history-close') as HTMLElement)?.click()); await wait(2500);
   await p.evaluate(() => (document.activeElement as HTMLElement)?.blur());
   for (const sel of ['text=Guardar', 'text=Entendi']) { try { await p.click(sel, { timeout: 800 }); } catch {} }
   await wait(800);

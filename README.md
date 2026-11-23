@@ -246,6 +246,21 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v100: o chat vira botão, a barra da arena desce e a lanterna fica na frente (sem migração)
+
+- Pedido do Victor (23/11).
+- **O chat:** em qualquer mapa, um botão 💬 na doca de baixo, com o número de mensagens novas.
+  - Abre o painel do chat: as mensagens das últimas 24 h em abas (Tudo, Local, Global, Sussurros) e a linha de digitar.
+  - As respostas do sistema (admin, sem conexão) também aparecem lá.
+  - O 💬 do menu e o Enter abrem o mesmo painel. O Histórico do menu virou esse painel.
+  - O chat flutuante antigo saiu.
+- **A arena:** os botões que ficavam no alto, no meio, descem para a doca, ao lado do 💬.
+  - O ⚔️ Desafio fica à vista.
+  - O resto (Torneio, Lutas, Ranking, 3v3, Trio, Assistir) abre no botão 🏟️ Arena, logo acima.
+  - No computador a doca fica embaixo à esquerda, onde o chat ficava; os jutsus estão no meio.
+- **A lanterna da mureta:** virou objeto com altura, desenhado junto dos bonecos pela linha do pé. Quem passa atrás da
+  mureta fica atrás da lanterna (`fenceLanternProps` em `public/mapArt.js`).
+
 ### v99: as 4 últimas peças do catálogo da interface (sem migração)
 
 - Folhas do Victor (23/11). O painel de fundo que veio junto sai no recorte, como na v98.
