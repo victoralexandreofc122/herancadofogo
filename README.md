@@ -246,6 +246,17 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v108: a montanha, as árvores e o gramado do Flow (sem migração)
+
+- Pedido do Victor (23/11): mais 16 imagens. Na Aldeia da Chama: a montanha nova atrás do Salão (três cópias, na frente
+  da muralha, que agora vai inteira de lado a lado), as 21 árvores redondas e os 4 pinheiros no lugar das antigas (as
+  colisões não mudam) e as flores e o capim espalhados pelo gramado (só desenho). Na aldeia já não sobra nada da arte
+  antiga além das pontes, dos postes de lanterna e dos bancos.
+- O recortador ganhou `RECORTE` (só um pedaço da imagem), `SEPARA` (várias peças numa imagem, cortadas nos vales) e o
+  chão da Floresta (a imagem veio com o ladrilho 2 x 2). As peças da Floresta ficam guardadas para quando ela for refeita.
+- A refazer (prompt novo na página): o arbusto (veio visto de cima), a trilha da Floresta e o chão da Clareira Queimada
+  (vieram cenas, não chão contínuo).
+
 ### v107: os objetos da aldeia do Flow (sem migração)
 
 - Pedido do Victor (23/11): mais 16 imagens do Flow. No mapa (`OBJETOS` em `arte/mapas/montar_chama.py`, cada peça no

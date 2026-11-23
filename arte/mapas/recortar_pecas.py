@@ -28,36 +28,49 @@ REC = os.path.join(AQUI, 'flow', 'recebidas')
 PECAS = os.path.join(AQUI, 'pecas')
 CLIMA = os.path.join(RAIZ, 'public', 'assets', 'clima')
 # Efeitos que voltaram para o Flow (a refazer): ficam em arte/mapas/flow/recebidas, mas não vão para o jogo.
+# Só um pedaço da imagem (x0, y0, x1, y1, em px da original de 2000): das 3 árvores redondas, só a do meio veio inteira.
+RECORTE = {'chama_arvore_redonda': (540, 330, 1480, 1640)}
+# Imagens com várias peças lado a lado: cada pedaço solto vira <id>_1, <id>_2... (da esquerda para a direita, de cima
+# para baixo).
+SEPARA = {'chama_flores': (1, 4, True), 'floresta_arvore_densa': (2, 2), 'floresta_pedregulho': (1, 3)}   # (linhas, colunas)
 FORA_DO_JOGO = {'fx_respingo', 'chama_muralha_canto', 'chama_ponte', 'chama_grade_canal', 'chama_lanterna_poste',
-                'floresta_placa_seta', 'floresta_kunais_chao', 'chama_banco'}
+                'floresta_placa_seta', 'floresta_kunais_chao', 'chama_banco', 'chama_arbusto',
+                'floresta_trilha', 'floresta_clareira_queimada'}
 # Tamanho de cada peça: a imagem inteira de 2000 px vira N px (288 = 6 casas, 3 px de tela por pixel do Flow). O poço é
 # pequeno (144: 1,5 px por pixel do Flow); os prédios grandes (Academia, Salão, portão e muralha) dobram com o Scale2x
 # (6 px por pixel do Flow, as diagonais lisas): é o tamanho que o cartão pede para eles no mapa.
-ESCALA = {'chama_poco': 144, 'chama_lanterna_pedra': 144, 'chama_banco': 192, 'chama_vaso': 96, 'chama_barril': 96,
+ESCALA = {'chama_poco': 144, 'chama_arvore_redonda': 384, 'chama_montanha': 432, 'chama_flores': 192,
+          'chama_capim': 96, 'floresta_samambaia': 144, 'floresta_cogumelos': 96, 'floresta_toco': 96,
+          'floresta_pedregulho': 192, 'chama_lanterna_pedra': 144, 'chama_banco': 192, 'chama_vaso': 96, 'chama_barril': 96,
           'chama_caixotes': 96, 'chama_placa': 96, 'chama_cerca': 192, 'chama_pilar_treino': 96,
           'floresta_fogueira': 96, 'floresta_fogueira_apagada': 96, 'floresta_saco_dormir': 96}
 # Da altura (fração da peça) para baixo, só fica a madeira (os mastros, os postes): o chão em volta sai.
-SO_MADEIRA = {'chama_estandarte': 0.72, 'chama_cerca': 0.66}
-DOBRO = {'chama_academia', 'chama_salao', 'chama_portao', 'chama_muralha'}
+SO_MADEIRA = {'chama_estandarte': 0.72, 'chama_cerca': 0.66, 'chama_arvore_redonda': 0.64}
+DOBRO = {'chama_montanha', 'chama_academia', 'chama_salao', 'chama_portao', 'chama_muralha'}
 # Peças que vieram com um pedaço de chão (grama e terra) em volta: o chão sai, a construção fica.
 TIRA_CHAO = {'chama_armaria': 0.5, 'chama_academia': 0.78, 'chama_portao': 0.5, 'chama_barril': 0.6, 'chama_estandarte': 0.7,
-             'chama_cerca': 0.6, 'chama_cerejeira': 0.75}   # de que altura para baixo pode ter chão
+             'chama_cerca': 0.6, 'chama_cerejeira': 0.75,
+             'chama_arvore_redonda': 0.72, 'chama_pinheiro': 0.8, 'floresta_carvalho': 0.8}   # de que altura para baixo pode ter chão
 N = 288          # 6 casas a 48 px (3 px por pixel do Flow)
 F = N / 192      # as medidas abaixo foram tiradas na grade de 192
 
 
 def amostra(img, n=N):
-    """Reduz pela grade: filtro de mediana (tira o ruído do JPEG) e um ponto no meio de cada célula (sem borrar)."""
+    """Reduz pela grade: filtro de mediana (tira o ruído do JPEG) e um ponto no meio de cada célula (sem borrar).
+    n: o lado da imagem inteira (a escala vem da largura; um recorte não quadrado fica proporcional)."""
     a = np.asarray(img.filter(ImageFilter.MedianFilter(5)))
     h, w = a.shape[:2]
-    iy = ((np.arange(n) + 0.5) * h / n).astype(int)
-    ix = ((np.arange(n) + 0.5) * w / n).astype(int)
+    nw, nh = (n, n) if w == h else (round(n * w / 2000), round(n * h / 2000))
+    iy = ((np.arange(nh) + 0.5) * h / nh).astype(int)
+    ix = ((np.arange(nw) + 0.5) * w / nw).astype(int)
     return a[iy][:, ix]
 
 
 def maioria(mask, n=N):
     """Máscara booleana grande -> a fração de cada célula (média em blocos)."""
-    m = Image.fromarray((mask * 255).astype(np.uint8)).resize((n, n), Image.BOX)
+    h, w = mask.shape[:2]
+    nw, nh = (n, n) if w == h else (round(n * w / 2000), round(n * h / 2000))
+    m = Image.fromarray((mask * 255).astype(np.uint8)).resize((nw, nh), Image.BOX)
     return np.asarray(m) / 255.0
 
 
@@ -114,6 +127,21 @@ def objeto(id_, img, n=N):
     if id_ == 'chama_cerca':
         rgba = periodo_cerca(rgba)
     return rgba
+
+
+def fatias(rgba, n, eixo, igual=False):
+    """Corta em n pedaços ao longo do eixo (0 = linhas, 1 = colunas), cada corte no vale de menos pixels perto da
+    divisão igual (as peças lado a lado se encostam, e o vale é onde elas se tocam menos)."""
+    if n == 1:
+        return [rgba]
+    soma = (rgba[..., 3] > 0).sum(axis=1 - eixo).astype(float)
+    L = len(soma)
+    cortes = [0]
+    for i in range(1, n):
+        c = int(L * i / n); r = L // (3 * n)
+        cortes.append(c if igual else c - r + int(np.argmin(soma[c - r:c + r])))   # igual: as peças se tocam inteiras
+    cortes.append(L)
+    return [rgba[a:b] if eixo == 0 else rgba[:, a:b] for a, b in zip(cortes, cortes[1:])]
 
 
 def periodo_cerca(rgba):
@@ -340,8 +368,23 @@ def main():
             Image.fromarray(mosaico(img)).save(os.path.join(PECAS, id_ + '.png'))
         elif id_.startswith('chama_canal_agua_'):
             continue                                   # os 4 quadros juntos, abaixo
+        elif id_ == 'floresta_chao':
+            # a imagem veio com o ladrilho repetido 2 x 2: um quarto é o ladrilho
+            q = img.crop((0, 0, img.width // 2, img.height // 2)).resize((2000, 2000), Image.NEAREST)
+            Image.fromarray(amostra(q, N)).save(os.path.join(PECAS, id_ + '.png'))
         else:
+            if id_ in RECORTE:
+                img = img.crop(RECORTE[id_])
             p = objeto(id_, img, ESCALA.get(id_, N))
+            if id_ in SEPARA:
+                linhas, colunas, igual = (SEPARA[id_] + (False,))[:3]
+                k = 0
+                for faixa in fatias(p, linhas, 0):
+                    for peca in fatias(faixa, colunas, 1, igual):
+                        k += 1
+                        Image.fromarray(corta(peca)).save(os.path.join(PECAS, f'{id_}_{k}.png'))
+                print('ok', id_, k, 'peças')
+                continue
             if id_ in DOBRO:
                 p = scale2x(p)
             if id_ == 'chama_muralha':

@@ -13,7 +13,7 @@ valendo. O chão é todo refeito com as peças novas:
   quadros vão para public/assets/mapas/ e public/mapaAnim.js (gerado), que o cliente desenha por cima do chão.
 As peças que já chegaram entram no lugar das antigas: as casas de morar, o Salão do Conselho (no lugar da sede), a
 Academia, o hospital, as três lojas, o poço, a muralha (a frente em cima e embaixo, o alto nos lados) e o portão. O que
-ainda não chegou (árvores, montanha, pontes e os miúdos) fica provisório: recortado da arte de hoje
+ainda não chegou (pontes, postes e bancos) fica provisório: recortado da arte de hoje
 (arte/vilas/folha_ampliada.jpg) sem o chão em volta, por cima do chão novo. Cada peça que chegar sai dessa lista.
 As árvores antigas são o caso difícil: o alto da copa tem a cor da grama e não tem contorno, então vêm num oval macio
 com os verdes passados para o tom da grama nova (copa_redonda e verde_novo). Tudo ganha a sombra no chão (para baixo e
@@ -71,7 +71,12 @@ OBJETOS = [
 ESTANDARTES = (61.8, 41.5, 10.4, 1.9)                  # a fileira dos estandartes da arena: duas peças lado a lado
 PORTAO = ('chama_portao', 38.95, 60.0)        # centro x, base y (o vão fica entre os pilares)
 VAO = (36.5, 41.4)                            # o vão do portão (sem muralha)
-MURALHA_MEIO = (19.5, 58.5)                   # em cima, o meio é a montanha (fica a arte antiga)
+MURALHA_MEIO = (39, 39)                       # a muralha de cima é inteira (a montanha nova fica na frente dela)
+# A montanha atrás do Salão: três cópias da peça (a do meio atrás, a da direita espelhada): (centro x, base y, espelha)
+MONTANHAS = [(39.0, 11.6, False), (28.0, 12.6, False), (50.0, 12.6, True)]
+# As árvores verdes no lugar das antigas: os pinheiros (pela caixa da colisão) e a caixa com duas árvores empilhadas
+PINHEIROS = {(18.4, 8.61), (25.3, 9.28), (17.44, 52.39), (52.72, 52.39)}
+DUAS_ARVORES = {(72.42, 33.59)}
 # As janelas de cada casa (fração da largura e da altura da peça): de noite o jogo acende a luz nelas.
 JANELAS = {'chama_casa_media': [(0.17, 0.62), (0.83, 0.62)], 'chama_casa_pequena': [(0.26, 0.6)]}     # centro, em casas (o lugar do mosaico de hoje)
 
@@ -291,8 +296,6 @@ def provisorios(old, L, trocadas, pular, so_recortes=()):
             b = {'x': a['x'] - 0.1, 'y': a['y'] - 0.35, 'w': a['w'] + 0.2, 'h': a['h'] + 0.7}
             regs.append((caixa_px(b), '', a['y'] + a['h'], None))
     # a montanha atrás da sede (o chão só embaixo e dos lados) e a muralha de baixo com o portão (o chão só em cima)
-    regs.append(((int(19 * PX), int(4 * PX), int(59 * PX), int(13 * PX)), 'blr', 9.0, None))
-    regs.append(((int(MURALHA_MEIO[0] * PX), 0, int(MURALHA_MEIO[1] * PX), int(5.5 * PX)), '', 5.4, None))   # a montanha sobre a muralha
     out = []
     for (x0, y0, x1, y1), lados, base, nucleo in regs:
         x1, y1 = min(Wp, x1), min(Hp, y1)
@@ -451,28 +454,6 @@ def muralha_e_portao(img, L, objetos):
     objetos.append((base + 0.01, P(cx) - p.shape[1] // 2, P(base) - p.shape[0], p.astype(np.float32), True))
 
 
-def rocha_atras(old, objetos, pe_esq, pe_dir):
-    """Onde ficava o telhado da sede antiga, embaixo da montanha: a rocha continua (as fileiras de pedra de cima,
-    espelhadas), até atrás do Salão novo; nos lados ela desce menos, num arco, para não deixar um canto reto."""
-    velha = TROCAS[0][3]                                   # a sede antiga
-    sal = next(o for o in objetos if o[0] == TROCAS[0][2])  # o Salão (base, X, Y, p)
-    x0, x1 = int((velha[0] - 0.6) * PX), int((velha[0] + velha[2] + 0.6) * PX)
-    y0, y1 = int(4.9 * PX), sal[2] + 2 * PX
-    fonte = old[0:y0, x0:x1]
-    tex = np.concatenate([fonte[::-1], fonte, fonte[::-1]])[:y1 - y0]
-    yy, xx = np.mgrid[0:y1 - y0, 0:x1 - x0]
-    sx0, sx1 = sal[1] - x0, sal[1] + sal[3].shape[1] - x0
-    # o pé da rocha: nos lados, onde a montanha que ficou termina (pe_esq e pe_dir, em px do mapa); atrás do Salão, fundo
-    lado = np.where(xx < (sx0 + sx1) / 2, pe_esq - y0, pe_dir - y0).astype(float)
-    fora = np.clip(np.maximum(sx0 - xx, xx - sx1) / (1.0 * PX), 0, 1)       # 0 atrás do Salão, 1 longe dele
-    fundo = (y1 - y0) * (1 - fora) + lado * fora
-    m = (yy < fundo).astype(np.float32)
-    borda = m.astype(bool) & ~ndimage.binary_erosion(m.astype(bool), iterations=3)
-    tex = tex.copy()
-    tex[borda & (yy > 0.6 * PX)] = (46, 38, 36)            # o contorno escuro do pé da rocha
-    return (9.2, x0, y0, np.dstack([tex.astype(np.float32), m * 255]), False)
-
-
 arvores_velhas = []                                    # as caixas dos objetos antigos trocados (apagam dos recortes)
 
 
@@ -499,6 +480,21 @@ def objetos_pequenos(L, objetos):
                 poe(nome, w['x'] + w['w'] / 2, w['y'] + w['h'])
             else:
                 poe(nome, w['x'] + w['w'] / 2, w['y'] + w['h'])
+    # as árvores verdes (as que não são cerejeira): pinheiro onde era pinheiro, uma espelhada sim, outra não
+    k = 0
+    for w in L['walls']:
+        if w['k'] != 'tree' or w.get('s') == 'sakura':
+            continue
+        trocadas.add(chave(w))
+        arvores_velhas.append(copa(w))
+        k += 1
+        nome = 'chama_pinheiro' if (w['x'], w['y']) in PINHEIROS else 'chama_arvore_redonda'
+        bases = [w['y'] + w['h'] * 0.45, w['y'] + w['h'] + 0.15] if (w['x'], w['y']) in DUAS_ARVORES else [w['y'] + w['h'] + 0.15]
+        for b in bases:
+            p = rgba(nome)
+            if k % 2:
+                p = p[:, ::-1]
+            objetos.append((b, P(w['x'] + w['w'] / 2) - p.shape[1] // 2, P(b) - p.shape[0], p.astype(np.float32), True))
     # a cerca da arena: os trechos deitados (em cima e embaixo), ladrilhados presos ao x de cada um
     cerca = rgba('chama_cerca')
     for w in L['walls']:
@@ -514,6 +510,34 @@ def objetos_pequenos(L, objetos):
     for f in (0.27, 0.73):
         poe('chama_estandarte', x + w * f, y + h)
     return trocadas
+
+
+def enfeites_do_gramado(cls, L):
+    """Canteiros de flores e tufos de capim espalhados no gramado, longe das bordas e das colisões (sorteio com semente:
+    sai igual toda vez). Só desenho: não bloqueiam."""
+    grama = ndimage.binary_erosion(cls == 0, iterations=9)
+    livre = np.ones_like(grama)
+    Hg, Wg = cls.shape
+    c = lambda v: int(v * PX / G)
+    for w in L['walls']:
+        livre[max(0, c(w['y'] - 1.2)):c(w['y'] + w['h'] + 0.6), max(0, c(w['x'] - 0.8)):c(w['x'] + w['w'] + 0.8)] = False
+    for a in L.get('safeZones', []):                       # a praça fica limpa
+        livre[max(0, c(a['y'])):c(a['y'] + a['h']), max(0, c(a['x'])):c(a['x'] + a['w'])] = False
+    ok = grama & livre
+    r = rng(41)
+    pecas = [f'chama_flores_{i}' for i in range(1, 5)] + ['chama_capim'] * 4
+    out, usados = [], []
+    for _ in range(4000):
+        if len(out) >= 46:
+            break
+        y, x = int(r.integers(0, Hg)), int(r.integers(0, Wg))
+        if not ok[y, x] or any(abs(y - a) < 40 and abs(x - b) < 40 for a, b in usados):
+            continue
+        usados.append((y, x))
+        p = rgba(pecas[int(r.integers(0, len(pecas)))]).astype(np.float32)
+        Y, X = y * G, x * G
+        out.append((Y / PX, X - p.shape[1] // 2, Y - p.shape[0], p, False))
+    return out
 
 
 def luzes_da_peca(p, X, Y):
@@ -620,33 +644,28 @@ def main():
     muralha_e_portao(img, L, objetos)
     pular = {chave(w) for w in novas} | {chave(w) for w in sai} | objetos_pequenos(L, objetos)
 
-    pe = None
     for (x0, y0), mk, base, pix, sombreia in provisorios(old, L, velhas, pular, arvores_velhas):
         p = np.dstack([pix.astype(np.float32), mk.astype(np.float32) * 255])
         objetos.append((base, x0, y0, p, sombreia))
-        if base == 9.0:                                    # a montanha: onde ela termina, logo fora da sede antiga
-            v = TROCAS[0][3]
-            def pe_em(xm):
-                col = mk[:, int(xm) - x0]
-                ys = np.where(col > 0.5)[0]
-                return y0 + (ys.max() if len(ys) else 0)
-            pe = (pe_em((v[0] - 0.7) * PX), pe_em((v[0] + v[2] + 0.7) * PX))
-    objetos.append(rocha_atras(old, objetos, *pe))
+    montanha = rgba('chama_montanha').astype(np.float32)
+    for cx, base, espelha in MONTANHAS:
+        m = montanha[:, ::-1] if espelha else montanha
+        objetos.append((base, int(cx * PX) - m.shape[1] // 2, int(base * PX) - m.shape[0], m, True))
+    objetos += enfeites_do_gramado(cls, L)
 
     # a sombra de tudo no chão, depois os objetos de cima para baixo
     somb = np.zeros((Hp, Wp), np.float32)
     for base, X, Y, p, sombreia in objetos:
         if not sombreia:                   # a árvore antiga já traz a sombra pintada
             continue
-        h, w = p.shape[:2]
-        somb[Y:Y + h, X:X + w] = np.maximum(somb[Y:Y + h, X:X + w], p[..., 3] / 255)
+        y0, x0 = max(0, Y), max(0, X)
+        y1, x1 = min(Hp, Y + p.shape[0]), min(Wp, X + p.shape[1])
+        if y1 > y0 and x1 > x0:
+            somb[y0:y1, x0:x1] = np.maximum(somb[y0:y1, x0:x1], p[y0 - Y:y1 - Y, x0 - X:x1 - X, 3] / 255)
     s = np.clip(sombra(somb) - somb, 0, 1) * 0.32
     img = img * (1 - s[..., None]) + np.array([16, 26, 20]) * s[..., None]
     for base, X, Y, p, _ in sorted(objetos, key=lambda o: o[0]):
-        h, w = p.shape[:2]
-        h, w = min(h, Hp - Y), min(w, Wp - X)
-        al = p[:h, :w, 3:4] / 255
-        img[Y:Y + h, X:X + w] = img[Y:Y + h, X:X + w] * (1 - al) + p[:h, :w, :3] * al
+        cola(img, p, X, Y)
     full = Image.fromarray(np.clip(img, 0, 255).astype(np.uint8))
 
     if a.previa:
