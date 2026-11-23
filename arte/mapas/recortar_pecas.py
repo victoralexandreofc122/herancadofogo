@@ -32,14 +32,16 @@ CLIMA = os.path.join(RAIZ, 'public', 'assets', 'clima')
 RECORTE = {'chama_arvore_redonda': (540, 330, 1480, 1640)}
 # Imagens com várias peças lado a lado: cada pedaço solto vira <id>_1, <id>_2... (da esquerda para a direita, de cima
 # para baixo).
-SEPARA = {'chama_flores': (1, 4, True), 'floresta_arvore_densa': (2, 2), 'floresta_pedregulho': (1, 3)}   # (linhas, colunas)
+SEPARA = {'floresta_pedra_vigilia': (1, 2), 'chama_flores': (1, 4, True), 'floresta_arvore_densa': (2, 2), 'floresta_pedregulho': (1, 3)}   # (linhas, colunas)
 FORA_DO_JOGO = {'fx_respingo', 'chama_muralha_canto', 'chama_ponte', 'chama_grade_canal', 'chama_lanterna_poste',
                 'floresta_placa_seta', 'floresta_kunais_chao', 'chama_banco', 'chama_arbusto',
                 'floresta_trilha', 'floresta_clareira_queimada'}
 # Tamanho de cada peça: a imagem inteira de 2000 px vira N px (288 = 6 casas, 3 px de tela por pixel do Flow). O poço é
 # pequeno (144: 1,5 px por pixel do Flow); os prédios grandes (Academia, Salão, portão e muralha) dobram com o Scale2x
 # (6 px por pixel do Flow, as diagonais lisas): é o tamanho que o cartão pede para eles no mapa.
-ESCALA = {'chama_poco': 144, 'chama_arvore_redonda': 384, 'chama_montanha': 432, 'chama_flores': 192,
+ESCALA = {'floresta_tronco_caido': 96, 'floresta_tronco_brasas': 144, 'floresta_rocha_musgo': 144,
+          'floresta_pedra_vigilia': 192, 'floresta_tenda_rasgada': 192,
+          'chama_poco': 144, 'chama_arvore_redonda': 384, 'chama_montanha': 432, 'chama_flores': 192,
           'chama_capim': 96, 'floresta_samambaia': 144, 'floresta_cogumelos': 96, 'floresta_toco': 96,
           'floresta_pedregulho': 192, 'chama_lanterna_pedra': 144, 'chama_banco': 192, 'chama_vaso': 96, 'chama_barril': 96,
           'chama_caixotes': 96, 'chama_placa': 96, 'chama_cerca': 192, 'chama_pilar_treino': 96,
@@ -368,6 +370,8 @@ def main():
             Image.fromarray(mosaico(img)).save(os.path.join(PECAS, id_ + '.png'))
         elif id_.startswith('chama_canal_agua_'):
             continue                                   # os 4 quadros juntos, abaixo
+        elif id_ == 'floresta_rio':                      # o rio da Floresta é um ladrilho inteiro (a água com as pedras)
+            Image.fromarray(amostra(img, N)).save(os.path.join(PECAS, id_ + '.png'))
         elif id_ == 'floresta_chao':
             # a imagem veio com o ladrilho repetido 2 x 2: um quarto é o ladrilho
             q = img.crop((0, 0, img.width // 2, img.height // 2)).resize((2000, 2000), Image.NEAREST)

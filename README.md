@@ -246,6 +246,13 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### Peças da Floresta recebidas (24/11, sem mudança no jogo)
+
+- 14 imagens do Flow recortadas e guardadas em `arte/mapas/pecas/` para quando a Floresta for refeita: tronco caído,
+  troncos com brasas, rocha com musgo, penhasco, borda do abismo, cascata, rio (ladrilho), as duas Pedras da Vigília,
+  sumidouro, lajes azuis, nicho da Pedra 3, as duas versões da Boca da Caverna do Lodo e a tenda rasgada. Todas
+  aprovadas na página das texturas.
+
 ### v108: a montanha, as árvores e o gramado do Flow (sem migração)
 
 - Pedido do Victor (23/11): mais 16 imagens. Na Aldeia da Chama: a montanha nova atrás do Salão (três cópias, na frente
