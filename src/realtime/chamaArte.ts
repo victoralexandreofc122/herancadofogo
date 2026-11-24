@@ -1,7 +1,7 @@
 // Gerado por arte/mapas/montar_chama.py (não editar à mão): a Aldeia da Chama montada com as peças do Flow.
 // CHAMA_SAI: as paredes da arte antiga (FOLHA_ART) que saíram ("k:x,y,w,h"); CHAMA_NOVAS: as colisões das peças
 // novas (a peça inteira, menos uma beirada); CHAMA_LUZES: janelas e lanternas; CHAMA_PLANO: a planta que mudou.
-export const CHAMA_SAI: readonly string[] = ["house:3.2,6.5,5.5,14.3", "house:10.5,5.8,5.8,4.9", "house:62.6,5.8,6.65,5.3", "house:69.25,6.8,5.55,7.2", "house:70,14,5,7", "house:2.9,29.4,5.6,7.35", "house:2.9,40,6.7,7.3", "house:31.1,5.5,15.5,15", "house:50.1,10.2,14.5,11.6", "house:18.7,10.6,9.1,10.2", "house:24.6,29.4,7,5.6", "house:46.4,29.4,6.8,5.5", "house:58.5,29.4,6.5,5.6", "rock:47.3,43.8,3.1,3"];
+export const CHAMA_SAI: readonly string[] = ["house:3.2,6.5,5.5,14.3", "house:10.5,5.8,5.8,4.9", "house:62.6,5.8,6.65,5.3", "house:69.25,6.8,5.55,7.2", "house:70,14,5,7", "house:2.9,29.4,5.6,7.35", "house:2.9,40,6.7,7.3", "house:31.1,5.5,15.5,15", "house:50.1,10.2,14.5,11.6", "house:18.7,10.6,9.1,10.2", "house:24.6,29.4,7,5.6", "house:46.4,29.4,6.8,5.5", "house:58.5,29.4,6.5,5.6", "rock:47.3,43.8,3.1,3", "furniture:61.8,41.5,10.4,1.9", "pillar:60,41.3,1.6,3.5", "pillar:71.6,41.3,1.7,3.5", "pillar:60,48.8,1.6,3.6", "pillar:71.6,48.8,1.7,3.6"];
 export const CHAMA_NOVAS: readonly { k: string; s?: string; x: number; y: number; w: number; h: number }[] = [
   {"k": "house", "s": "home", "x": 3.76, "y": 9.24, "w": 4.39, "h": 3.97},
   {"k": "house", "s": "home", "x": 3.58, "y": 16.05, "w": 4.81, "h": 4.34},

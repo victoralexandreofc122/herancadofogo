@@ -92,9 +92,8 @@ describe('v15: arena da Vila (layout)', () => {
       assert.equal(blocked(fx + 0.25, y, VILA.walls), !gap, `cerca da esquerda em y=${y}`);
       assert.ok(blocked(fx + fw - 0.25, y, VILA.walls), `cerca da direita em y=${y}`);
     }
-    const pillars = VILA.walls.filter((x) => x.k === 'pillar');
-    assert.equal(pillars.length, 4, 'os quatro pilares de pedra do desenho');
-    for (const p of pillars) assert.ok(arenaAt(VILA, p.x + p.w / 2, p.y + p.h / 2), 'pilares dentro da arena');
+    // v110 (pedido do Victor, 24/11): a arena da Aldeia da Chama ficou sem os pilares de pedra
+    assert.equal(VILA.walls.filter((x) => x.k === 'pillar').length, 0, 'a arena sem pilares');
     assert.ok(arenaAt(VILA, IN.x, IN.y) && !blocked(IN.x, IN.y, VILA.walls));
     assert.equal(arenaAt(VILA, STREET.x, STREET.y), undefined);
     const r = ARENA.respawn;

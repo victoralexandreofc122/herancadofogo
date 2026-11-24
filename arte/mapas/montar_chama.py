@@ -63,7 +63,7 @@ TROCAS = [
 OBJETOS = [
     ('chama_cerejeira', 'tree', 'sakura', lambda x, y, w, h: True),
     ('chama_barril', 'furniture', 'barrel', lambda x, y, w, h: True),
-    ('chama_pilar_treino', 'pillar', 'arena', lambda x, y, w, h: True),
+    (None, 'pillar', 'arena', lambda x, y, w, h: True),                                  # a arena sem pilares (pedido do Victor)
     ('chama_lanterna_pedra', 'furniture', None, lambda x, y, w, h: x in (33.4, 43.2) and 37 < y < 50),  # as 4 da praça
     ('chama_lanterna_pedra', 'furniture', None, lambda x, y, w, h: x in (34.8, 41.9) and y == 20.5),     # as 2 da sede
     ('chama_vaso', 'furniture', None, lambda x, y, w, h: x in (25.2, 27, 49.4, 51.3) and 38 < y < 50),  # os vasos da praça
@@ -175,9 +175,16 @@ def chao(cls):
     pedra = c[yy % c.shape[0], xx % c.shape[1]]
     out[cls == 1] = terra[cls == 1]
     out[cls == 2] = pedra[cls == 2]
-    # água: o canal vem depois (agua()); aqui só a cor de fundo
+    # água: o canal vem depois (agua()) e cobre só os trechos exatos do rio; aqui a classe água vira o chão vizinho
+    # (a água pintada aqui vazava pelas bordas do canal e em volta das pontes)
     agua = cls == 3
-    out[agua] = (64, 139, 204)
+    if agua.any():
+        _, (iy, ix) = ndimage.distance_transform_edt(agua, return_indices=True)
+        cls = cls[iy, ix]
+        out[agua] = base
+        out[agua & (cls == 1)] = terra[agua & (cls == 1)]
+        out[agua & (cls == 2)] = pedra[agua & (cls == 2)]
+    agua = np.zeros_like(agua)
     # bordas: a beira escura da terra e a guia da praça (a margem do rio é a do canal)
     out[borda(cls == 1, 1) & ~(cls == 2) & ~agua] = trilha['beira'][0]
     out[ndimage.binary_dilation(cls == 1, iterations=1) & (cls == 0)] = trilha['beira'][1]
@@ -285,6 +292,8 @@ def provisorios(old, L, trocadas, pular, so_recortes=()):
     for w in L['walls']:
         k, s = w['k'], w.get('s')
         if (k == 'house' and s in ('home', 'hut')) or k == 'water' or chave(w) in pular:
+            continue
+        if k == 'rock' and w['y'] < 12:                 # a montanha antiga: a nova cobre (o resto aparecia atrás dela)
             continue
         if k == 'tree' and s == 'sakura':        # a cerejeira é rosa: o recorte pela cor basta
             regs.append((caixa_px(copa(w), 0.8), 'tblr', w['y'] + w['h'], None))
@@ -515,6 +524,18 @@ def muralha_e_portao(img, L, objetos):
     objetos.append((base + 0.01, P(cx) - p.shape[1] // 2, P(base) - p.shape[0], p.astype(np.float32), True))
 
 
+def no_verde_da_grama(p):
+    """As folhas da árvore puxadas para o tom da grama nova (o verde das copas era mais frio e mais vivo)."""
+    gram = json.load(open(os.path.join(PECAS, 'chama_grama.json')))
+    c = p[..., :3].astype(float)
+    verde = (c[..., 1] > c[..., 0] + 10) & (c[..., 1] > c[..., 2]) & (p[..., 3] > 0)
+    if verde.any():
+        alvo = np.array(gram['base'], float)
+        media = c[verde].mean(axis=0)
+        c[verde] = np.clip(c[verde] * (alvo / media) * 0.92, 0, 255)
+    return np.dstack([c.astype(np.uint8), p[..., 3]])
+
+
 arvores_velhas = []                                    # as caixas dos objetos antigos trocados (apagam dos recortes)
 
 
@@ -554,7 +575,7 @@ def objetos_pequenos(L, objetos):
         nome = 'chama_pinheiro' if (w['x'], w['y']) in PINHEIROS else 'chama_arvore_redonda'
         bases = [w['y'] + w['h'] * 0.45, w['y'] + w['h'] + 0.15] if (w['x'], w['y']) in DUAS_ARVORES else [w['y'] + w['h'] + 0.15]
         for b in bases:
-            p = rgba(nome)
+            p = no_verde_da_grama(rgba(nome))
             if k % 2:
                 p = p[:, ::-1]
             cx = w['x'] + w['w'] / 2
@@ -607,8 +628,9 @@ def objetos_pequenos(L, objetos):
     for w_ in L['walls']:
         if (w_['x'], w_['y'], w_['w'], w_['h']) == ESTANDARTES:
             trocadas.add(chave(w_))
+    cima = min(w_['y'] + w_['h'] for w_ in L['walls'] if w_['k'] == 'fence' and w_['w'] > w_['h'])
     for f in (0.27, 0.73):
-        poe('chama_estandarte', x + w * f, y + h)
+        poe('chama_estandarte', x + w * f, cima - 0.05, cima + 0.02)   # presos na cerca de cima, na frente dela
     return trocadas
 
 
@@ -686,11 +708,26 @@ def sombra(img_alpha, dx=9, dy=6):
     return np.roll(np.roll(img_alpha, dy, axis=0), dx, axis=1)
 
 
+def tons(img, sombra_extra=False):
+    """Menos contraste e tudo um pouco mais escuro e quente (pedido do Victor: a grama e a estrada mais escuras)."""
+    lum = img.mean(axis=2, keepdims=True)
+    img = lum + (img - lum) * 0.86                      # menos saturação
+    img = 118 + (img - 118) * 0.88                      # menos contraste
+    img = img * np.array([0.90, 0.89, 0.86])            # mais escuro, levemente quente
+    if sombra_extra:
+        H, W = img.shape[:2]
+        yy, xx = np.mgrid[0:H, 0:W]
+        d = np.hypot((xx - W / 2) / (W / 2), (yy - H / 2) / (H / 2))
+        img = img * (1 - 0.12 * np.clip(d - 0.6, 0, 1)[..., None])   # um véu escuro nas bordas
+    return img
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('layout')
     ap.add_argument('--saida', default=os.path.join(RAIZ, 'public', 'mapas', 'chama'))
     ap.add_argument('--previa')
+    ap.add_argument('--sombra', action='store_true', help='versão com mais sombra (para o Victor avaliar)')
     a = ap.parse_args()
     L = json.load(open(a.layout))
     W, H = L['width'], L['height']
@@ -744,6 +781,10 @@ def main():
     muralha_e_portao(img, L, objetos)
     pontes(L, objetos)
     pular = {chave(w) for w in novas} | {chave(w) for w in sai} | objetos_pequenos(L, objetos)
+    # sem colisão: os pilares da arena (saíram) e a fileira dos estandartes (subiram para a cerca)
+    for w in L['walls']:
+        if (w['k'] == 'pillar' and w.get('s') == 'arena') or (w['x'], w['y'], w['w'], w['h']) == ESTANDARTES:
+            sai.append({'k': w['k'], 'x': w['x'], 'y': w['y'], 'w': w['w'], 'h': w['h']})
 
     for (x0, y0), mk, base, pix, sombreia in provisorios(old, L, velhas, pular, arvores_velhas):
         p = np.dstack([pix.astype(np.float32), mk.astype(np.float32) * 255])
@@ -764,9 +805,15 @@ def main():
         if y1 > y0 and x1 > x0:
             somb[y0:y1, x0:x1] = np.maximum(somb[y0:y1, x0:x1], p[y0 - Y:y1 - Y, x0 - X:x1 - X, 3] / 255)
     s = np.clip(sombra(somb) - somb, 0, 1) * 0.32
+    if a.sombra:                                       # sombra mais longa e macia, para baixo e à direita
+        longa = np.zeros_like(somb)
+        for k_ in range(1, 6):
+            longa = np.maximum(longa, sombra(somb, 9 + k_ * 5, 6 + k_ * 4) * (1 - k_ * 0.12))
+        s = np.maximum(s, ndimage.gaussian_filter(np.clip(longa - somb, 0, 1), 4) * 0.42)
     img = img * (1 - s[..., None]) + np.array([16, 26, 20]) * s[..., None]
     for base, X, Y, p, _ in sorted(objetos, key=lambda o: o[0]):
         cola(img, p, X, Y)
+    img = tons(img, a.sombra)
     full = Image.fromarray(np.clip(img, 0, 255).astype(np.uint8))
 
     if a.previa:
