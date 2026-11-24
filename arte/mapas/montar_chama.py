@@ -67,6 +67,12 @@ OBJETOS = [
     ('chama_lanterna_pedra', 'furniture', None, lambda x, y, w, h: x in (33.4, 43.2) and 37 < y < 50),  # as 4 da praça
     ('chama_lanterna_pedra', 'furniture', None, lambda x, y, w, h: x in (34.8, 41.9) and y == 20.5),     # as 2 da sede
     ('chama_vaso', 'furniture', None, lambda x, y, w, h: x in (25.2, 27, 49.4, 51.3) and 38 < y < 50),  # os vasos da praça
+    ('chama_caixotes', 'furniture', None, lambda x, y, w, h: (x, y) in ((53.2, 32.3), (65.3, 33.2))),
+    ('chama_placa', 'furniture', None, lambda x, y, w, h: (x, y) in ((45.2, 33.6), (57.2, 33.7), (18.8, 20.8))),
+    ('floresta_pedregulho_1', 'rock', None, lambda x, y, w, h: (x, y) in ((9.6, 33.4), (65.6, 30.8))),
+    ('floresta_pedregulho_2', 'rock', None, lambda x, y, w, h: (x, y) == (64.5, 15.5)),
+    ('chama_barril', 'furniture', None, lambda x, y, w, h: (x, y) == (8.4, 34.8)),
+    (None, 'furniture', None, lambda x, y, w, h: (x, y) in ((8.6, 13.4), (68.4, 19.1), (2.4, 46.4))),   # restos das casas antigas: saem
 ]
 ESTANDARTES = (61.8, 41.5, 10.4, 1.9)                  # a fileira dos estandartes da arena: duas peças lado a lado
 PORTAO = ('chama_portao', 38.95, 60.0)        # centro x, base y (o vão fica entre os pilares)
@@ -115,12 +121,12 @@ def classes_do_chao(old, L, gramados=()):
                 cls[sel & (cls != 3)] = 2
             else:
                 cls[sel] = 1
-        if a['g'] == 'bridge':
-            sel = (xx >= a['x']) & (xx < a['x'] + a['w']) & (yy >= a['y']) & (yy < a['y'] + a['h'])
-            cls[sel] = 3
+        # a ponte não pinta água: debaixo dela vale o rio (a área de água), e fora do rio o chão de volta
     obj = cls < 0
     _, (iy, ix) = ndimage.distance_transform_edt(obj, return_indices=True)
     cls = cls[iy, ix]
+    borda = (xx < 3.6) | (xx > W - 3.6) | (yy < 6.6) | (yy > H - 6.6)
+    cls[borda & (cls == 1)] = 0                    # a rua de terra antiga encostada na muralha vira gramado
     for (x, y, w, h) in gramados:                 # onde ficava um prédio antigo: gramado (as manchas de terra eram do desenho)
         cls[(xx >= x - 0.6) & (xx < x + w + 0.6) & (yy >= y - 0.6) & (yy < y + h - 0.6)] = 0
     # bordas redondas, na grade de 3 px: cada classe vira um campo suave e ganha a maior
@@ -291,10 +297,6 @@ def provisorios(old, L, trocadas, pular, so_recortes=()):
             continue                                   # a muralha e os pilares do portão são as peças novas
         else:
             regs.append((caixa_px(w, 0.7), 'tblr', w['y'] + w['h'], None))
-    for a in L['areas']:
-        if a['g'] == 'bridge':           # a ponte inteira (as tábuas são da cor da terra: o recorte pela cor a apagaria)
-            b = {'x': a['x'] - 0.1, 'y': a['y'] - 0.35, 'w': a['w'] + 0.2, 'h': a['h'] + 0.7}
-            regs.append((caixa_px(b), '', a['y'] + a['h'], None))
     # a montanha atrás da sede (o chão só embaixo e dos lados) e a muralha de baixo com o portão (o chão só em cima)
     out = []
     for (x0, y0, x1, y1), lados, base, nucleo in regs:
@@ -431,14 +433,73 @@ def agua(img, L, saida_anim):
     return trechos, meta
 
 
+def ponte(w, h, deitada):
+    """Uma ponte de tábuas desenhada aqui (provisória até a do Flow chegar), na grade de 3 px e nas cores de madeira das
+    peças: tábuas atravessando o caminho, a beira escura, um corrimão com postes nos dois lados. deitada = a ponte vai
+    da esquerda para a direita (sobre o braço do rio que desce)."""
+    if deitada:
+        return np.rot90(ponte(h, w, False), -1).copy()
+    gw, gh = w // G, h // G
+    C = {'contorno': (52, 32, 24), 'escura': (112, 70, 42), 'media': (150, 96, 56), 'clara': (176, 118, 70),
+         'luz': (204, 150, 94), 'trilho': (128, 82, 48)}
+    a = np.zeros((gh, gw, 4), np.uint8)
+    r = rng(5)
+    t = 3                                               # tábua de 3 pixels do Flow
+    for y in range(gh):
+        tab = y // t
+        base = C['clara'] if tab % 2 else C['media']
+        a[y, :, :3] = base
+        if y % t == t - 1:
+            a[y, :, :3] = C['escura']                   # a fresta entre as tábuas
+        if y % t == 0:
+            a[y, :, :3] = np.minimum(255, np.array(base) + 18)
+    for _ in range(gw * gh // 40):                      # veios
+        y, x = r.integers(0, gh), r.integers(0, gw - 3)
+        if y % t != t - 1:
+            a[y, x:x + int(r.integers(2, 4)), :3] = C['escura'] if r.random() < 0.5 else C['luz']
+    a[..., 3] = 255
+    rw = 3                                              # o corrimão: 3 pixels do Flow de cada lado
+    for x0 in (0, gw - rw):
+        a[:, x0:x0 + rw, :3] = C['trilho']
+        a[:, x0 + 1, :3] = C['luz'] if x0 == 0 else C['clara']
+        for y in list(range(0, gh - 4, 9)) + [gh - 4]:   # os postes
+            a[y:y + 4, x0:x0 + rw, :3] = C['escura']
+            a[y, x0:x0 + rw, :3] = C['luz']
+    a[:, :, :3][np.zeros((gh, gw), bool)] = 0
+    a[0, :, :3] = C['contorno']; a[-1, :, :3] = C['contorno']
+    a[:, 0, :3] = C['contorno']; a[:, -1, :3] = C['contorno']
+    a[:, rw, :3] = C['contorno']; a[:, gw - rw - 1, :3] = C['contorno']
+    return np.repeat(np.repeat(a, G, axis=0), G, axis=1)
+
+
+def pontes(L, objetos):
+    for a in L['areas']:
+        if a['g'] != 'bridge':
+            continue
+        # deitada (vai da esquerda para a direita) quando o rio embaixo dela desce, e não quando ele corre de lado
+        meio = a['y'] + a['h'] / 2
+        deitada = not any(r['g'] == 'water' and r['w'] >= r['h'] and r['y'] <= meio <= r['y'] + r['h'] for r in L['areas'])
+        if deitada:
+            x0, x1, y0, y1 = a['x'] - 0.3, a['x'] + a['w'] + 0.3, a['y'] + 0.25, a['y'] + a['h'] - 0.25
+        else:
+            x0, x1, y0, y1 = a['x'] + 0.15, a['x'] + a['w'] - 0.15, a['y'] - 0.55, a['y'] + a['h'] + 0.55
+        X, Y = int(x0 * PX) // G * G, int(y0 * PX) // G * G
+        p = ponte(int((x1 - x0) * PX) // G * G, int((y1 - y0) * PX) // G * G, deitada)
+        objetos.append((a['y'] + 0.5, X, Y, p.astype(np.float32), True))
+
+
 def muralha_e_portao(img, L, objetos):
     """A frente da muralha em cima (menos o meio, que é a montanha) e embaixo (menos o vão do portão), o alto dela
     nos lados, e o portão por cima do vão."""
     P = lambda v: int(round(v * PX))
     W, H = L['width'], L['height']
     frente, alto = rgba('chama_muralha'), rgba('chama_muralha_alto')
-    lado = np.rot90(alto, 1)
     fh = frente.shape[0]
+    pedra = frente[fh - 78:fh - 6]                       # a parte de pedra da frente (sem o pé)
+    lado = np.rot90(pedra, 1).copy()                     # 72 px de largura: as pedras correndo de cima para baixo
+    telha = np.rot90(alto[18:48], 1)                     # 30 px da cobertura, no meio
+    lado[:, 21:51] = telha
+    lado[:, 20, :3] = (52, 40, 36); lado[:, 51, :3] = (52, 40, 36)
     # em cima, no chão (o que fica embaixo dela passa na frente): a frente da muralha, menos o meio (a montanha)
     for a0, a1 in ((0, MURALHA_MEIO[0]), (MURALHA_MEIO[1], W)):
         ladrilha(img, frente, P(a0), P(5.5) - fh, P(a1), None, 'x')
@@ -475,6 +536,8 @@ def objetos_pequenos(L, objetos):
             if k == 'tree':                               # a cerejeira: a caixa da colisão é o tronco e o pé da copa
                 poe(nome, w['x'] + w['w'] / 2, w['y'] + w['h'] + 0.15)
                 arvores_velhas.append(copa(w))                # a copa antiga não volta pelo recorte dos vizinhos
+            elif nome is None:
+                continue
             elif nome == 'chama_vaso' and w['h'] > 3.5:   # dois vasos, um atrás do outro
                 poe(nome, w['x'] + w['w'] / 2, w['y'] + w['h'] / 2)
                 poe(nome, w['x'] + w['w'] / 2, w['y'] + w['h'])
@@ -494,9 +557,46 @@ def objetos_pequenos(L, objetos):
             p = rgba(nome)
             if k % 2:
                 p = p[:, ::-1]
-            objetos.append((b, P(w['x'] + w['w'] / 2) - p.shape[1] // 2, P(b) - p.shape[0], p.astype(np.float32), True))
-    # a cerca da arena: os trechos deitados (em cima e embaixo), ladrilhados presos ao x de cada um
+            cx = w['x'] + w['w'] / 2
+            z = b
+            # perto da montanha: com o pé em cima da rocha, a árvore some; com o pé fora, fica toda na frente dela
+            for mx, mb, esp in MONTANHAS:
+                m = rgba('chama_montanha')
+                mw, mh = m.shape[1] / PX, m.shape[0] / PX
+                if b < mb and abs(cx - mx) < (mw + p.shape[1] / PX) / 2:
+                    fx = int((cx - (mx - mw / 2)) * PX)
+                    fy = int((b - (mb - mh)) * PX)
+                    if 0 <= fx < m.shape[1] and 0 <= fy < m.shape[0] and m[fy, fx if not esp else m.shape[1] - 1 - fx, 3] > 0:
+                        z = None
+                        break
+                    z = max(z, mb + 0.02)
+            if z is None:
+                continue
+            objetos.append((z, P(cx) - p.shape[1] // 2, P(b) - p.shape[0], p.astype(np.float32), True))
+    # a cerca da arena: os trechos deitados (em cima e embaixo), ladrilhados presos ao x de cada um; os de pé (os lados)
+    # são os postes da mesma cerca, um embaixo do outro, com o corrimão visto de cima entre eles
     cerca = rgba('chama_cerca')
+    topo = cerca[:, :cerca.shape[1]].copy()
+    cols = np.where(topo[:8, :, 3].any(axis=0))[0]
+    poste = cerca[:, cols.min():cols.min() + 24]
+    poste = poste[:, :np.where(poste[..., 3].any(axis=0))[0].max() + 1]
+    for w in L['walls']:
+        if w['k'] == 'fence' and w['h'] > w['w']:
+            trocadas.add(chave(w))
+            arvores_velhas.append({'x': w['x'] - 0.4, 'y': w['y'] - 0.6, 'w': w['w'] + 0.8, 'h': w['h'] + 0.6})
+            alto = P(w['h']) + poste.shape[0]
+            camada = np.zeros((alto, poste.shape[1], 4), np.float32)
+            pw = poste.shape[1]
+            meio = pw // 2
+            camada[poste.shape[0] // 3:, meio - 4:meio + 5] = (150, 96, 56, 255)       # o corrimão visto de cima
+            camada[poste.shape[0] // 3:, meio - 4] = (52, 32, 24, 255)
+            camada[poste.shape[0] // 3:, meio + 4] = (52, 32, 24, 255)
+            camada[poste.shape[0] // 3:, meio - 2:meio] = (196, 140, 86, 255)
+            for y in range(0, alto - poste.shape[0] + 1, 48):
+                cola(camada, poste, 0, y)
+            cola(camada, poste, 0, alto - poste.shape[0])
+            X = P(w['x'] + w['w'] / 2) - pw // 2
+            objetos.append((w['y'] + w['h'], X, P(w['y'] + w['h']) - alto, camada, True))
     for w in L['walls']:
         if w['k'] == 'fence' and w['w'] > w['h']:
             trocadas.add(chave(w))
@@ -642,6 +742,7 @@ def main():
                 d = d.setdefault(parte, {})
             d[campo.split('.')[-1]] = caixa
     muralha_e_portao(img, L, objetos)
+    pontes(L, objetos)
     pular = {chave(w) for w in novas} | {chave(w) for w in sai} | objetos_pequenos(L, objetos)
 
     for (x0, y0), mk, base, pix, sombreia in provisorios(old, L, velhas, pular, arvores_velhas):

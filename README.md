@@ -246,6 +246,20 @@ O estado fica em memória: reinício ou deploy do Render desconecta todos e as p
   servidor e o ninja admin `rin`); `arte/jutsus-vfx/capturar.ts` e `folha.py` conferem as animações dentro do jogo;
   `arte/jutsus-vfx/LEIAME.md` tem o passo a passo e a lista dos 149 jutsus que faltam.
 
+### v109: a Aldeia da Chama sem os restos do mapa antigo (sem migração; a aldeia ainda não vai para a `main`)
+
+- Pedido do Victor (24/11): não sair da aldeia até ela estar perfeita, e consertar com o que já existe enquanto as peças
+  novas não chegam (`arte/mapas/montar_chama.py`).
+- **Pontes:** desenhadas por código (`ponte()`), provisórias; o recorte das antigas trazia um pedaço da água e do chão
+  antigos em volta (a água "vazando"). A ponte do braço do rio vai de lado, e a área da ponte não pinta mais água.
+- **Bordas:** a rua de terra antiga encostada na muralha virou gramado; os lados da muralha são a pedra da frente com
+  um pedaço da cobertura no meio (no lugar das telhas giradas, que pareciam um tapete).
+- **Montanha:** a árvore com o pé em cima da rocha sai; a que fica encostada nela é desenhada inteira na frente.
+- **Objetos:** caixotes, placas, pedras e um barril do Flow no lugar dos antigos; os restos das casas velhas (um poste
+  na muralha, cantos de parede) saem; os lados da arena são a cerca nova (os postes um embaixo do outro).
+- **A gerar no Flow** (página das texturas, com o prompt novo): a ponte nas duas direções, os lados da muralha, a Casa
+  dos Pergaminhos (veio meio de lado) e o portão (não encaixa na muralha), além das que já estavam para refazer.
+
 ### Peças da Floresta recebidas (24/11, sem mudança no jogo)
 
 - 14 imagens do Flow recortadas e guardadas em `arte/mapas/pecas/` para quando a Floresta for refeita: tronco caído,

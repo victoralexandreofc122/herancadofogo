@@ -108,9 +108,9 @@ details summary { cursor: pointer; font-size: 13px; color: var(--muted); min-hei
   </header>
 
   <section class="nojogo" id="nojogo">
-    <div class="eyebrow">Já no jogo (v108)</div>
+    <div class="eyebrow">Já no jogo (v109)</div>
     <h2>A Aldeia da Chama refeita com as peças que chegaram</h2>
-    <p>O chão inteiro é novo: o gramado, a terra das ruas, o calçamento da praça com o mosaico e o rio do Canal de água, que corre trocando os quatro quadros. Já estão no mapa as casas de morar, o Salão do Conselho, a Academia, o hospital, as três lojas, o poço, a muralha, o portão, a montanha, todas as árvores (cerejeiras, as redondas e os pinheiros), as flores e o capim do gramado, as lanternas de pedra, os vasos, os barris e a arena (cerca, estandartes e pilares). A chuva, a névoa, as pétalas, as folhas, os vaga-lumes, as brasas e a poeira aparecem com o desenho de vocês. O que ainda não chegou (as pontes, os postes de lanterna e os bancos) está provisório, recortado da vila antiga, e sai do mapa conforme cada peça chega.</p>
+    <p>O chão inteiro é novo: o gramado, a terra das ruas, o calçamento da praça com o mosaico e o rio do Canal de água, que corre trocando os quatro quadros. Já estão no mapa as casas de morar, o Salão do Conselho, a Academia, o hospital, as três lojas, o poço, a muralha, o portão, a montanha, todas as árvores (cerejeiras, as redondas e os pinheiros), as flores e o capim do gramado, as lanternas de pedra, os vasos, os barris e a arena (cerca, estandartes e pilares). A chuva, a névoa, as pétalas, as folhas, os vaga-lumes, as brasas e a poeira aparecem com o desenho de vocês. Ainda provisório até as peças chegarem: as pontes (desenhadas por código), os lados da muralha (montados com a pedra da frente), a Casa dos Pergaminhos e o portão (as imagens de hoje não encaixam no mapa), os postes de lanterna e os bancos. A aldeia só vai para o jogo quando todas as peças estiverem conferidas.</p>
     <img src="chama_v105.jpg" alt="A Aldeia da Chama Eterna montada com as peças do Flow: gramado, ruas de terra, praça de pedra com o mosaico, casas novas e os prédios provisórios" loading="lazy">
     <div class="legenda" id="legenda"></div>
   </section>
@@ -294,7 +294,8 @@ function progresso() {
   const rec = A.filter((a) => st[a.id] && st[a.id].recebida);
   const leg = document.getElementById('legenda');
   if (leg) leg.innerHTML = rec.length ? [[rec.length, 'recebidas'], [rec.filter((a) => estadoDe(a.id) === 'aprovada').length, 'aprovadas e no jogo'],
-    [rec.filter((a) => estadoDe(a.id) === 'refazer').length, 'para refazer (com prompt novo)']].map(([n, t]) => `<span><b>${n}</b> ${t}</span>`).join('') : '';
+    [rec.filter((a) => estadoDe(a.id) === 'refazer').length, 'para refazer (com prompt novo)'],
+    [A.filter((a) => st[a.id] && st[a.id].promptNovo && estadoDe(a.id) !== 'aprovada').length, 'para gerar agora (filtro "Com prompt novo")']].map(([n, t]) => `<span><b>${n}</b> ${t}</span>`).join('') : '';
   document.getElementById('prog').textContent = ESTADOS.filter(([k]) => k !== 'afazer').map(([k, n]) => `${c[k] || 0} ${n.toLowerCase()}`).join(' · ') + ` · ${c.afazer || 0} a fazer (de ${A.length})`;
 }
 [fRegion, fCat, fEstado].forEach((el) => el.addEventListener('change', render));
