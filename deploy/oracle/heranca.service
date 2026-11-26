@@ -1,0 +1,23 @@
+[Unit]
+Description=Herança do Fogo
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=heranca
+Group=heranca
+WorkingDirectory=/opt/heranca/current
+EnvironmentFile=/etc/heranca/jogo.env
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node dist/server.js
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=35
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

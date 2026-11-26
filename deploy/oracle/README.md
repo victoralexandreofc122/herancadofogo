@@ -1,0 +1,10 @@
+# Servidor do jogo na Oracle Cloud
+
+Esta configuração usa uma VM Linux com systemd, Node 22 em `/usr/bin/node` e Caddy. O Postgres continua no Neon. Cada processo mantém um mundo e conexões em memória. Use uma única instância ativa contra o banco de produção.
+
+1. Reserve o endereço da VM. Libere TCP 80 e 443 para o proxy nas regras da rede e no firewall do sistema. Restrinja SSH à origem administrativa. A aplicação precisa de saída para o Neon e os serviços já usados no Render.
+2. Crie o usuário de serviço `heranca`. Coloque uma cópia da revisão escolhida em `/opt/heranca/current`, execute `npm install --include=dev --no-package-lock` e `npm run verify` nessa cópia. Verifique a presença de `dist/server.js` e `public/`.
+3. Instale a unidade systemd e configure `/etc/heranca/jogo.env` com acesso de leitura só para root. Transfira por canal privado a configuração efetiva do Render: DATABASE_URL, JWT_SECRET e SERVICE_TOKEN e os opcionais já usados (origens, emissor, audiência e integração do site). Fixe PUBLIC_HOST=127.0.0.1, PORT=3000, INTERNAL_HOST=127.0.0.1, INTERNAL_PORT=3001 e TRUST_PROXY=loopback. Instale o Caddyfile com GAME_DOMAIN definido no serviço do Caddy. Valide a configuração com `caddy validate` e recarregue o systemd.
+4. Ensaie com banco de teste, segredos próprios e integração do site desativada. Verifique HTTPS, /health, entrada no jogo, conexão WebSocket /game e movimento confirmado. Se o endereço atual for do Render, será preciso divulgar o novo endereço e atualizar os consumidores que apontam para ele.
+5. Na janela de troca, pause novas entradas, encerre o processo do Render de forma ordenada e aguarde a gravação das posições. Inicie a unidade na Oracle com a configuração definitiva. Confira o proxy, /health, login, movimento e reconexão antes de liberar o endereço para os jogadores. Mantenha a configuração anterior disponível.
+6. Para reverter, pare a unidade na Oracle, reative o servidor anterior com o mesmo banco e os mesmos segredos e restaure o apontamento do endereço.
