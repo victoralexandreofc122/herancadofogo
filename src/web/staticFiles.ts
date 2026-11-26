@@ -67,6 +67,7 @@ function mapArt() {
 }
 
 const FILES = [
+  { route: '/assets/terrain/entrada-praca.png', file: 'assets/terrain/entrada-praca.png', contentType: 'image/png', binary: true },
   { route: '/', file: 'index.html', contentType: 'text/html; charset=utf-8' },
   { route: '/game.js', file: 'game.js', contentType: 'text/javascript; charset=utf-8' },
   { route: '/targeting.js', file: 'targeting.js', contentType: 'text/javascript; charset=utf-8' },

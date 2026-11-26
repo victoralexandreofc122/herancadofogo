@@ -2004,7 +2004,11 @@ function buildMinimap() {
   if (map.art) {                       // mapa em imagem: a própria arte, em miniatura (4 px por casa)
     const mini = new Image();
     const id = state.mapId;
-    mini.onload = () => { if (minimap.mapId === id && minimap.tex === c) g.drawImage(mini, 0, 0, c.width, c.height); };
+    mini.onload = () => {
+      if (minimap.mapId !== id || minimap.tex !== c) return;
+      g.drawImage(mini, 0, 0, c.width, c.height);
+      if (map.art === 'folha') drawPlazaEntrance(g, 0, 0, S);
+    };
     mini.src = `/mapas/${map.art}/mini.webp`;
   }
   for (const w of state.walls) {
@@ -7728,6 +7732,15 @@ function artPieces(cx, cy) {
 }
 const CHUNK_CACHE_MAX = 64;          // 8 x 48 px = 384 px por bloco: ~64 x 576 KB = 37 MB no máximo
 const chunkCache = new Map();        // "mapa:cx,cy" -> canvas (ordem de uso = LRU; voltar a um mapa é instantâneo)
+// Camada de piso em 24 px/casa, desenhada uma vez por bloco, abaixo dos jogadores.
+const plazaEntrance = new Image();
+plazaEntrance.onload = () => { chunkCache.clear(); minimap.mapId = null; };
+plazaEntrance.src = '/assets/terrain/entrada-praca.png';
+function drawPlazaEntrance(g, ox, oy, scale) {
+  if (!plazaEntrance.naturalWidth) return;
+  g.drawImage(plazaEntrance, (ox + 30) * scale, (oy + 34) * scale,
+    plazaEntrance.naturalWidth / 24 * scale, plazaEntrance.naturalHeight / 24 * scale);
+}
 
 /**
  * No máximo 2 blocos novos por quadro: entrar num mapa grande não trava o celular (os blocos
@@ -7796,6 +7809,13 @@ function chunkCanvas(cx, cy) {
     g.clip();
     g.drawImage(p.img, (p.x - cx * CHUNK) * U, (p.y - cy * CHUNK) * U, p.img.naturalWidth / ART, p.img.naturalHeight / ART);
     g.restore();
+  }
+  for (const r of state.arts) {
+    if (r.art !== 'folha') continue;
+    const ox = r.x - cx * CHUNK, oy = r.y - cy * CHUNK;
+    if (ox + 30 >= CHUNK || ox + 48 <= 0 || oy + 34 >= CHUNK || oy + 42 <= 0) continue;
+    g.imageSmoothingEnabled = false;
+    drawPlazaEntrance(g, ox, oy, U);
   }
   chunkCache.set(key, c);
   if (chunkCache.size > CHUNK_CACHE_MAX) chunkCache.delete(chunkCache.keys().next().value);
