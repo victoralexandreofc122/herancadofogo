@@ -121,10 +121,13 @@ describe('lista fechada de arquivos (staticFiles)', () => {
     const files = loadPublicFiles();
     // (os atlas dos monstros, em /assets/monsters, têm o próprio teste: test/monstros.test.ts)
     // (as peças da interface, em /assets/ui, têm o próprio teste: test/uiLaca.test.ts)
-    const served = new Set(files.filter((f) => f.route.startsWith('/assets/') && !f.route.startsWith('/assets/monsters/') && !f.route.startsWith('/assets/audio/') && !f.route.startsWith('/assets/ui/') && f.route !== '/assets/terrain/entrada-praca.png').map((f) => f.route));
-    const entrance = files.find((f) => f.route === '/assets/terrain/entrada-praca.png');
-    assert.ok(entrance && Buffer.isBuffer(entrance.body));
-    assert.deepEqual([entrance.body.readUInt32BE(16), entrance.body.readUInt32BE(20)], [432, 192]);
+    const terrain = new Map([['/assets/terrain/entrada-praca.png', [432, 432]], ['/assets/terrain/flor-de-chama.png', [96, 96]]]);
+    for (const [route, size] of terrain) {
+      const tile = files.find(f => f.route === route);
+      assert.ok(tile && Buffer.isBuffer(tile.body), route);
+      assert.deepEqual([tile.body.readUInt32BE(16), tile.body.readUInt32BE(20)], size);
+    }
+    const served = new Set(files.filter((f) => f.route.startsWith('/assets/') && !f.route.startsWith('/assets/monsters/') && !f.route.startsWith('/assets/audio/') && !f.route.startsWith('/assets/ui/') && !terrain.has(f.route)).map((f) => f.route));
     const weaponSheets = Object.values<any>(ARMAS.armas).flatMap((a) => ['mao', 'costas', 'bainha'].filter((k) => a[k]).map((k) => a[k]));
     const wanted = new Set([...[...Object.values<any>(VFX.efeitos), ...weaponSheets].map((x) => `/${x.arquivo}`), ...JUTSU_SPRITE_FRAMES.map((n) => `/assets/vfx/${n}.png`)]);
     assert.deepEqual([...served].sort(), [...wanted].sort());

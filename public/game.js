@@ -2007,7 +2007,7 @@ function buildMinimap() {
     mini.onload = () => {
       if (minimap.mapId !== id || minimap.tex !== c) return;
       g.drawImage(mini, 0, 0, c.width, c.height);
-      if (map.art === 'folha') drawPlazaEntrance(g, 0, 0, S);
+      if (map.art === 'folha') drawPlazaLayers(g, 0, 0, S);
     };
     mini.src = `/mapas/${map.art}/mini.webp`;
   }
@@ -7733,13 +7733,23 @@ function artPieces(cx, cy) {
 const CHUNK_CACHE_MAX = 64;          // 8 x 48 px = 384 px por bloco: ~64 x 576 KB = 37 MB no máximo
 const chunkCache = new Map();        // "mapa:cx,cy" -> canvas (ordem de uso = LRU; voltar a um mapa é instantâneo)
 // Camada de piso em 24 px/casa, desenhada uma vez por bloco, abaixo dos jogadores.
-const plazaEntrance = new Image();
-plazaEntrance.onload = () => { chunkCache.clear(); minimap.mapId = null; };
-plazaEntrance.src = '/assets/terrain/entrada-praca.png';
-function drawPlazaEntrance(g, ox, oy, scale) {
-  if (!plazaEntrance.naturalWidth) return;
-  g.drawImage(plazaEntrance, (ox + 30) * scale, (oy + 34) * scale,
-    plazaEntrance.naturalWidth / 24 * scale, plazaEntrance.naturalHeight / 24 * scale);
+const plazaLayers = [
+  { file: 'entrada-praca', x: 30, y: 34 },
+  { file: 'flor-de-chama', x: 37, y: 43.55 },
+].map(layer => {
+  const image = new Image();
+  image.onload = () => { chunkCache.clear(); minimap.mapId = null; };
+  image.src = '/assets/terrain/' + layer.file + '.png';
+  return { ...layer, image };
+});
+function drawPlazaLayers(g, ox, oy, scale, chunkSize = Infinity) {
+  for (const layer of plazaLayers) {
+    if (!layer.image.naturalWidth) break; // o mosaico espera o chão que cobre o desenho antigo
+    const x = ox + layer.x, y = oy + layer.y;
+    const w = layer.image.naturalWidth / 24, h = layer.image.naturalHeight / 24;
+    if (x >= chunkSize || y >= chunkSize || x + w <= 0 || y + h <= 0) continue;
+    g.drawImage(layer.image, x * scale, y * scale, w * scale, h * scale);
+  }
 }
 
 /**
@@ -7813,9 +7823,8 @@ function chunkCanvas(cx, cy) {
   for (const r of state.arts) {
     if (r.art !== 'folha') continue;
     const ox = r.x - cx * CHUNK, oy = r.y - cy * CHUNK;
-    if (ox + 30 >= CHUNK || ox + 48 <= 0 || oy + 34 >= CHUNK || oy + 42 <= 0) continue;
     g.imageSmoothingEnabled = false;
-    drawPlazaEntrance(g, ox, oy, U);
+    drawPlazaLayers(g, ox, oy, U, CHUNK);
   }
   chunkCache.set(key, c);
   if (chunkCache.size > CHUNK_CACHE_MAX) chunkCache.delete(chunkCache.keys().next().value);

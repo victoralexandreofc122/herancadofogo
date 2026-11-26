@@ -1,4 +1,4 @@
-"""Monta somente o piso da entrada norte da Praça. Coordenadas em casas da Folha."""
+"""Monta o piso da entrada e do centro da Praça. O mosaico fica em outra camada."""
 from math import hypot, sin
 from pathlib import Path
 from PIL import Image
@@ -8,7 +8,7 @@ DIR = ROOT / "public/assets/terrain"
 atlas = Image.open(DIR / "chama.png").convert("RGB")
 assert atlas.size == (288, 96)
 px = 24
-out = Image.new("RGBA", (18 * px, 8 * px))
+out = Image.new("RGBA", (18 * px, 18 * px))
 for j in range(out.height):
     for i in range(out.width):
         x, y = 30 + i / px, 34 + j / px
@@ -30,8 +30,11 @@ for j in range(out.height):
         # A vista antiga tem lanternas e bancos incorporados. O granito novo entra
         # entre eles; a faixa horizontal de terra passa abaixo das placas e lojas.
         street = min(x - 30, 48 - x, y - 35.75, 37.96 - y)
-        approach = min(x - 35.35, 42.7 - x, y - 34.1, 41.6 - y)
-        extent = max(street, approach)
+        approach = min(x - 35.35, 42.7 - x, y - 34.1, 51.9 - y)
+        # O disco antigo alcançava quatro casas de raio. Esta área de lajes
+        # cobre o desenho inteiro e passa entre os bancos, as lanternas e o poço.
+        center = 4.85 - hypot(x - 39, (y - 45.55) * 1.04)
+        extent = max(street, approach, center)
         opacity = max(0, min(1, extent / .62))
         out.putpixel((i, j), (*color, round(255 * opacity)))
 out.save(DIR / "entrada-praca.png", optimize=True)
