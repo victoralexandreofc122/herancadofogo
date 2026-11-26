@@ -32,6 +32,22 @@ describe('cliente web servido pelo Fastify', () => {
     assert.match(String(r.json()), /<canvas id="game"/);
   });
 
+  it('serve as peças modulares da Chama Eterna e o módulo que as posiciona', async () => {
+    const pub = app();
+    const module = await pub.inject({ method: 'GET', url: '/chamaArt.js' });
+    assert.equal(module.statusCode, 200);
+    assert.equal(module.headers['content-type'], 'text/javascript; charset=utf-8');
+    const url = '/mapas/pecas/chama.webp';
+    const atlas = await pub.inject({ method: 'GET', url });
+    assert.equal(atlas.statusCode, 200);
+    assert.equal(atlas.headers['content-type'], 'image/webp');
+    const bytes = byRoute(url).body;
+    assert.ok(Buffer.isBuffer(bytes));
+    assert.equal(bytes.subarray(8, 12).toString('latin1'), 'WEBP');
+    const cached = await pub.inject({ method: 'GET', url, headers: { 'if-none-match': String(atlas.headers.etag) } });
+    assert.equal(cached.statusCode, 304);
+  });
+
   it('v25: o boneco desenhado por código (visual, paletas, esqueleto, pixel art e cache) com o tipo certo e ETag', async () => {
     const pub = app();
     for (const url of ['/sprites.js', '/spriteData.js', '/rig.js', '/rigArt.js', '/figure.js']) {

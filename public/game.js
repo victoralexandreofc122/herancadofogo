@@ -10,6 +10,7 @@
 // com a posição oficial que chega a cada tick.
 
 import { CAMERA, FOCUS_RANGE, frameCamera, keepFocus, nextFocus, smoothing } from './targeting.js';
+import { chamaReady, drawVillageObject, villageGround, villageObjects } from './chamaArt.js';
 import { HOLD_MS, aimPaths, autoAim, dragAim, tilesOnPath } from './aim.js';
 import { arenaAt, arenaFoes, artPlaces, groundAt, inSafeZone, mapName, placements, themeAt, visibleDeco, visibleWalls } from './world.js';
 import {
@@ -2001,7 +2002,10 @@ function buildMinimap() {
       g.fillRect(x * S, y * S, S, S);
     }
   }
-  if (map.art) {                       // mapa em imagem: a própria arte, em miniatura (4 px por casa)
+  if (map.art === 'folha' && modularChamaReady()) {
+    villageGround(g,map,0,0,S);
+    for (const obj of villageObjects(map)) drawVillageObject(g,obj,obj.x*S,obj.top*S,S);
+  } else if (map.art) {                // mapa em imagem: a própria arte, em miniatura (4 px por casa)
     const mini = new Image();
     const id = state.mapId;
     mini.onload = () => {
@@ -7720,6 +7724,10 @@ function artPieces(cx, cy) {
     const x0 = Math.max(cx * CHUNK, r.x), x1 = Math.min((cx + 1) * CHUNK, r.x + r.w);
     const y0 = Math.max(cy * CHUNK, r.y), y1 = Math.min((cy + 1) * CHUNK, r.y + r.h);
     if (x0 >= x1 || y0 >= y1) continue;
+    if (r.art === 'folha' && state.maps.map_1 && modularChamaReady()) {
+      out.push({ r, modular: true });
+      continue;
+    }
     for (let ay = Math.floor((y0 - r.y) / CHUNK); r.y + ay * CHUNK < y1; ay++) {
       for (let ax = Math.floor((x0 - r.x) / CHUNK); r.x + ax * CHUNK < x1; ax++) {
         const a = artImage(r.art, ax, ay);
@@ -7732,6 +7740,9 @@ function artPieces(cx, cy) {
 }
 const CHUNK_CACHE_MAX = 64;          // 8 x 48 px = 384 px por bloco: ~64 x 576 KB = 37 MB no máximo
 const chunkCache = new Map();        // "mapa:cx,cy" -> canvas (ordem de uso = LRU; voltar a um mapa é instantâneo)
+function modularChamaReady() {
+  return chamaReady(() => { chunkCache.clear(); minimap.mapId = null; });
+}
 // Camada de piso em 24 px/casa, desenhada uma vez por bloco, abaixo dos jogadores.
 const plazaLayers = [
   { file: 'entrada-praca', x: 30, y: 34 },
@@ -7813,6 +7824,10 @@ function chunkCanvas(cx, cy) {
   }
   // Por fim a arte dos mapas em imagem, recortada no retângulo de cada mapa (cobre a sombra do vizinho que vaza).
   for (const p of pieces) {
+    if (p.modular) {
+      villageGround(g,state.maps.map_1,p.r.x-cx*CHUNK,p.r.y-cy*CHUNK,U);
+      continue;
+    }
     g.save();
     g.beginPath();
     g.rect((p.r.x - cx * CHUNK) * U, (p.r.y - cy * CHUNK) * U, p.r.w * U, p.r.h * U);
@@ -7821,7 +7836,7 @@ function chunkCanvas(cx, cy) {
     g.restore();
   }
   for (const r of state.arts) {
-    if (r.art !== 'folha') continue;
+    if (r.art !== 'folha' || modularChamaReady()) continue;
     const ox = r.x - cx * CHUNK, oy = r.y - cy * CHUNK;
     g.imageSmoothingEnabled = false;
     drawPlazaLayers(g, ox, oy, U, CHUNK);
@@ -7990,6 +8005,9 @@ try {
             const ch = chunkCanvas(cx, cy);
             if (ch) g.drawImage(ch, cx * CHUNK * px, cy * CHUNK * px, CHUNK * px, CHUNK * px);
           }
+        }
+        if (state.maps[state.mapId]?.art === 'folha' && modularChamaReady()) {
+          for (const obj of villageObjects(state.maps.map_1)) drawVillageObject(g,obj,obj.x*px,obj.top*px,px);
         }
         for (const s2 of state.glows || []) drawSealGlow(g, s2.x * px, s2.y * px, s2.w * px, s2.h * px, 0);
         for (const pr of [...state.props].sort((a, b) => a.y - b.y)) {
@@ -8267,6 +8285,14 @@ function draw(now) {
   }
   for (const p of state.players.values()) if (p.map === state.mapId && !(state.spectating && p.id === state.meId)) drawList.push(p);
   for (const n of state.npcs) drawList.push(n);
+  for (const r of state.arts) {
+    if (r.art !== 'folha' || !state.maps.map_1 || !modularChamaReady()) continue;
+    for (const obj of villageObjects(state.maps.map_1)) {
+      const x = r.x+obj.x, objectTop = r.y+obj.top;
+      if (x+obj.w<left || x>right || objectTop+obj.h<top || objectTop>bottom) continue;
+      drawList.push({ villageObj:obj, x, y:r.y+obj.y, top:objectTop });
+    }
+  }
   // Árvores, pedras altas e barracas no meio dos bonecos, pela linha da base (quem passa atrás fica atrás da copa).
   for (const pr of state.props) {
     const x = toScreenX(pr.x - pr.ext.left), y = toScreenY(pr.y - pr.ext.top);
@@ -8276,7 +8302,15 @@ function draw(now) {
   if (drawList.length > 1) drawList.sort((a, b) => a.y - b.y);
   ctx.textAlign = 'center';
   for (const e of drawList) {
-    if (e.prop) drawPropOnScreen(e, toScreenX, toScreenY, T, me);
+    if (e.villageObj) {
+      const obj = e.villageObj;
+      const covers = me && me.x > e.x && me.x < e.x + obj.w && me.y > e.top &&
+        me.y < (obj.name === 'portao' ? e.top + obj.h * .53 : e.y);
+      ctx.save();
+      if (covers) ctx.globalAlpha *= .55;
+      drawVillageObject(ctx, obj, toScreenX(e.x), toScreenY(e.top), T);
+      ctx.restore();
+    } else if (e.prop) drawPropOnScreen(e, toScreenX, toScreenY, T, me);
     else if (e.npc) drawNpc(e, toScreenX(e.x), toScreenY(e.y), T, now, me);
     else if (e.type) drawMonster(e, toScreenX(e.x), toScreenY(e.y), T, now);
     else drawPlayer(e, toScreenX(e.x) + knockOffset(e, now, 'dx') * T, toScreenY(e.y) + knockOffset(e, now, 'dy') * T, T, e.id === state.meId, now);
