@@ -13,6 +13,7 @@ const changes={
   ],
   'src/web/staticFiles.ts':[
     ["  { route: '/chamaArt.js', file: 'chamaArt.js', contentType: 'text/javascript; charset=utf-8' },", "  { route: '/chamaArt.js', file: 'chamaArt.js', contentType: 'text/javascript; charset=utf-8' },\n  { route: '/mareArt.js', file: 'mareArt.js', contentType: 'text/javascript; charset=utf-8' },\n  { route: '/mapas/pecas/mare/agua.png', file: 'mapas/pecas/mare/agua.png', contentType: 'image/png', binary: true },"]
+    , ["  { route: '/mapas/pecas/mare/agua.png', file: 'mapas/pecas/mare/agua.png', contentType: 'image/png', binary: true },", "  { route: '/mapas/pecas/mare/agua.png', file: 'mapas/pecas/mare/agua.png', contentType: 'image/png', binary: true },\n  { route: '/mapas/pecas/mare/margem-norte.png', file: 'mapas/pecas/mare/margem-norte.png', contentType: 'image/png', binary: true },"]
   ]
 };
 const pending=[];

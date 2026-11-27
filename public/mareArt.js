@@ -29,9 +29,31 @@ export const MARE_REACH = Object.freeze({ x: 42.98, y: 27.36, w: 12.02, h: 1.77 
 const smooth = (lo, hi, v) => { const t = Math.max(0, Math.min(1, (v-lo)/(hi-lo))); return t*t*(3-2*t); };
 const mod = (a, n) => ((a % n) + n) % n;
 let tile, tilePixels, loading = false;
-const patched = new WeakMap();
+let patched = new WeakMap();
+export const MARE_BANK_URL = '/mapas/pecas/mare/margem-norte.png';
+export const MARE_BANK_PX = Object.freeze({ w:96, h:30 });
+// Beiral superior: a face comeca perto da borda de colisao y=26.74.
+export const MARE_BANK_REACH = Object.freeze({ x:43.06, y:26.22, w:11.94, h:1.25 });
+let bankPixels, bankLoading = false;
+function loadBank(invalidate) {
+  if (bankPixels || bankLoading) return;
+  bankLoading = true;
+  const im = new Image();
+  im.onload = () => {
+    if (im.naturalWidth !== MARE_BANK_PX.w || im.naturalHeight !== MARE_BANK_PX.h) { bankLoading = false; return; }
+    const c = document.createElement('canvas'); c.width=im.naturalWidth; c.height=im.naturalHeight;
+    const g=c.getContext('2d',{willReadFrequently:true}); g.drawImage(im,0,0);
+    bankPixels=g.getImageData(0,0,c.width,c.height).data;
+    // Invalida a composicao antiga, inclusive se a agua ja estava carregada.
+    patched=new WeakMap(); invalidate();
+  };
+  im.onerror=()=>{setTimeout(()=>{bankLoading=false;},8000);};
+  im.src=MARE_BANK_URL;
+}
+
 
 export function mareArtReady(invalidate) {
+  loadBank(invalidate);
   if (tilePixels) return true;
   if (!loading) {
     loading = true;
@@ -85,13 +107,39 @@ export function blendMarePixels(rgba, width, height, sourceX, sourceY, pxPerCell
   return changed;
 }
 
+// Segunda camada: tile transparente da margem norte, separado da agua.
+// Fade horizontal em ambas as extremidades para encaixar no trecho antigo.
+// Nao altera dados de mapa e nao usa cor ou posicao de objetos como colisao.
+export function blendMareBankPixels(rgba, width, height, sourceX, sourceY, pxPerCell, bankRgba) {
+  if (!Number.isFinite(pxPerCell) || pxPerCell <= 0 || bankRgba?.length !== MARE_BANK_PX.w*MARE_BANK_PX.h*4 || rgba.length !== width*height*4) return 0;
+  const a=MARE_BANK_REACH;
+  const x0=Math.max(0,Math.floor((a.x-sourceX)*pxPerCell)), x1=Math.min(width,Math.ceil((a.x+a.w-sourceX)*pxPerCell));
+  const y0=Math.max(0,Math.floor((a.y-sourceY)*pxPerCell)), y1=Math.min(height,Math.ceil((a.y+a.h-sourceY)*pxPerCell));
+  let changed=0;
+  for(let py=y0;py<y1;py++)for(let px=x0;px<x1;px++){
+    const x=sourceX+(px+.5)/pxPerCell,y=sourceY+(py+.5)/pxPerCell;
+    if(x<=a.x||x>=a.x+a.w||y<a.y||y>=a.y+a.h)continue;
+    const i=(py*width+px)*4;
+    if(rgba[i+3]!==255)continue;
+    const tx=mod(Math.floor((x-a.x)*MARE_ART_PX_PER_CELL+1e-8),MARE_BANK_PX.w);
+    const ty=Math.floor((y-a.y)*MARE_ART_PX_PER_CELL+1e-8);
+    const j=(ty*MARE_BANK_PX.w+tx)*4;
+    const w=bankRgba[j+3]/255*smooth(0,.42,x-a.x)*smooth(0,.85,a.x+a.w-x);
+    if(w<=.001)continue;
+    for(let k=0;k<3;k++)rgba[i+k]=Math.round(rgba[i+k]*(1-w)+bankRgba[j+k]*w);
+    changed++;
+  }
+  return changed;
+}
+
 // Chunks de arte existentes continuam como base apenas durante a transicao.
 // Esta camada independe deles: e possivel retirar a mascara quando a margem
 // e os objetos forem reconstruidos. Cache por imagem, sem trabalho por frame.
 export function mareWaterImage(original, sourceX, sourceY, pxPerCell) {
   if (!tilePixels || !original?.naturalWidth || !original?.naturalHeight || !Number.isFinite(pxPerCell) || pxPerCell <= 0) return original;
-  const a = MARE_REACH, width = original.naturalWidth, height = original.naturalHeight;
-  if (sourceX >= a.x+a.w || sourceY >= a.y+a.h || sourceX+width/pxPerCell <= a.x || sourceY+height/pxPerCell <= a.y) return original;
+  const width=original.naturalWidth,height=original.naturalHeight;
+  const hits=a=>sourceX<a.x+a.w&&sourceY<a.y+a.h&&sourceX+width/pxPerCell>a.x&&sourceY+height/pxPerCell>a.y;
+  if(!hits(MARE_REACH)&&!(bankPixels&&hits(MARE_BANK_REACH)))return original;
   let cache = patched.get(original);
   if (!cache) { cache = new Map(); patched.set(original, cache); }
   const key = `${sourceX},${sourceY},${pxPerCell}`;
@@ -102,7 +150,9 @@ export function mareWaterImage(original, sourceX, sourceY, pxPerCell) {
     const g = c.getContext('2d', { willReadFrequently: true });
     g.drawImage(original,0,0);
     const pixels = g.getImageData(0,0,width,height);
-    if (blendMarePixels(pixels.data,width,height,sourceX,sourceY,pxPerCell,tilePixels)) {
+    const waterChanges=blendMarePixels(pixels.data,width,height,sourceX,sourceY,pxPerCell,tilePixels);
+    const bankChanges=bankPixels ? blendMareBankPixels(pixels.data,width,height,sourceX,sourceY,pxPerCell,bankPixels) : 0;
+    if(waterChanges||bankChanges){
       g.putImageData(pixels,0,0); result = c;
     }
   } catch { /* original remains visible if readback is not available */ }

@@ -1,0 +1,39 @@
+{
+  "id": "mare_margem_norte_01",
+  "status": "proposta de borda, composicao local verificada; integracao jogavel pendente",
+  "camada": "terreno/borda_norte",
+  "mapa": "vila_nevoa",
+  "base": "90a5a24abe453963d11622120ad5fdacd5b4a27e",
+  "aguaValidadaEm": "30133cb73d45686c77bd75ac9f1386d8cd112e13 (revisao integrada 13eff05 em copia descartavel)",
+  "arquivo": "public/mapas/pecas/mare/margem-norte.png",
+  "fonte": "arte/mapas/mare/margem_norte.py",
+  "px": [
+    96,
+    30
+  ],
+  "casas": [
+    4,
+    1.25
+  ],
+  "pxPorCasa": 24,
+  "bytes": 1240,
+  "sha256": "e29f12b0bbf00a6429958883cfb521f214cf79e7787b9e8f65edfecd89ccf666",
+  "pivo": [
+    0,
+    0
+  ],
+  "recorte": {
+    "x": 43.06,
+    "y": 26.22,
+    "w": 11.94,
+    "h": 1.25
+  },
+  "profundidade": "sobre agua, abaixo de jogador e demais objetos; transicao de arte apenas",
+  "colisao": "inalterada",
+  "validacao": {
+    "emendas48e4": true,
+    "foraDaFaixa": 0,
+    "chromiumReferencia": 13869,
+    "jogo": "pendente"
+  }
+}
