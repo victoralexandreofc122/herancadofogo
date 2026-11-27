@@ -1,0 +1,15 @@
+{
+  "id": "mare_agua_01",
+  "status": "em revisão, não conectado ao jogo",
+  "camada": "terreno/superficie_agua",
+  "mapa": "vila_nevoa",
+  "base": "90a5a24abe453963d11622120ad5fdacd5b4a27e",
+  "arquivo": "public/mapas/pecas/mare/agua.png",
+  "fonte": "arte/mapas/mare/agua.py",
+  "px": [96,96], "casas": [4,4], "pxPorCasa": 24,
+  "pivo": [0,0], "origemDaRepeticao": [0,0],
+  "profundidade": "abaixo de bordas, objetos, ponte e jogadores",
+  "recortePlanejado": {"x":42.77,"y":26.74,"w":12.23,"h":2.39},
+  "ponteCentral": {"x":37.63,"y":26.74,"w":5.14,"h":2.39},
+  "colisao": "inalterada, definida pelo servidor; recorte visual requer mascara que preserve arte antiga"
+}
