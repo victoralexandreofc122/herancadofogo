@@ -67,6 +67,7 @@ function mapArt() {
 }
 
 const FILES = [
+  { route: '/academyArt.js', file: 'academyArt.js', contentType: 'text/javascript; charset=utf-8' },
   { route: '/chamaArt.js', file: 'chamaArt.js', contentType: 'text/javascript; charset=utf-8' },
   { route: '/mapas/pecas/chama.webp', file: 'mapas/pecas/chama.webp', contentType: 'image/webp', binary: true },
   { route: '/assets/terrain/entrada-praca.png', file: 'assets/terrain/entrada-praca.png', contentType: 'image/png', binary: true },
