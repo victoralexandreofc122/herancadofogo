@@ -10,6 +10,7 @@
 // com a posição oficial que chega a cada tick.
 
 import { CAMERA, FOCUS_RANGE, frameCamera, keepFocus, nextFocus, smoothing } from './targeting.js';
+import { academyMiniFloor, drawAcademyDeco, drawAcademyFloor, drawAcademyWall } from './academyArt.js';
 import { chamaReady, drawVillageObject, villageGround, villageObjects } from './chamaArt.js';
 import { HOLD_MS, aimPaths, autoAim, dragAim, tilesOnPath } from './aim.js';
 import { arenaAt, arenaFoes, artPlaces, groundAt, inSafeZone, mapName, placements, themeAt, visibleDeco, visibleWalls } from './world.js';
@@ -1998,7 +1999,8 @@ function buildMinimap() {
   const g = c.getContext('2d');
   for (let y = 0; y < map.height; y++) {
     for (let x = 0; x < map.width; x++) {
-      g.fillStyle = MM_GROUND[groundKind(x, y)] || '#2a4a2c';
+      const academy = state.mapId === 'academy_interior' && academyMiniFloor(x, y);
+      g.fillStyle = academy || MM_GROUND[groundKind(x, y)] || '#2a4a2c';
       g.fillRect(x * S, y * S, S, S);
     }
   }
@@ -7793,6 +7795,8 @@ function chunkCanvas(cx, cy) {
   }
   // Daqui para baixo, tudo em unidades (U por casa): a arte do mapa é a mesma em qualquer resolução.
   g.scale(ART, ART);
+  const academy = state.mapId === 'academy_interior';
+  if (academy) drawAcademyFloor(g, cx, cy, CHUNK, U);
   // Bordas macias entre chãos diferentes (grama por cima da terra, margem da água).
   drawPatches(g, cx, cy);
   for (let ty = 0; ty < CHUNK; ty++) for (let tx = 0; tx < CHUNK; tx++) if (drawHere(cx * CHUNK + tx, cy * CHUNK + ty)) drawFringe(g, cx * CHUNK + tx, cy * CHUNK + ty, tx * U, ty * U);
@@ -7801,6 +7805,7 @@ function chunkCanvas(cx, cy) {
   // montanha, boneco), inclusive as do mapa vizinho além da borda. Cada uma é desenhada só nos blocos que toca (margem
   // de 8 unidades para as sombras). Árvores, pedras altas e barracas são objetos com altura: vão na camada de cima.
   const size = CHUNK * U, M = 8;
+  const academyBoards = []; // quadros montados sobre a parede do fundo, não sobre o chão
   // As trilhas da Floresta primeiro, todas juntas (emendam sem a borda de uma cortar a outra).
   const trails = [];
   for (const d of state.deco) {
@@ -7814,14 +7819,16 @@ function chunkCanvas(cx, cy) {
     if (d.k === 'trail') continue;
     const x = (d.x - cx * CHUNK) * U, y = (d.y - cy * CHUNK) * U, w = d.w * U, h = d.h * U;
     if (x + w < -M || y + h < -M || x > size + M || y > size + M) continue;
-    drawDeco(g, d, x, y, w, h);
+    if (academy && d.k === 'board') academyBoards.push({ d, x, y, w, h });
+    else if (!academy || !drawAcademyDeco(g, d, x, y, w, h)) drawDeco(g, d, x, y, w, h);
   }
   for (const w of state.walls) {
     if (PROP_KINDS.has(w.k) || w.art) continue;
     const x = (w.x - cx * CHUNK) * U, y = (w.y - cy * CHUNK) * U, pw = w.w * U, ph = w.h * U;
     if (x + pw < -M || y + ph < -M || x > size + M || y > size + M) continue;
-    drawWall(g, w, x, y, pw, ph, U);
+    if (!academy || !drawAcademyWall(g, w, x, y, pw, ph, U)) drawWall(g, w, x, y, pw, ph, U);
   }
+  for (const { d, x, y, w, h } of academyBoards) drawAcademyDeco(g, d, x, y, w, h);
   // Por fim a arte dos mapas em imagem, recortada no retângulo de cada mapa (cobre a sombra do vizinho que vaza).
   for (const p of pieces) {
     if (p.modular) {
