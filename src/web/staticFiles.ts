@@ -67,6 +67,14 @@ function mapArt() {
 }
 
 const FILES = [
+  ...['scrollRoom.js', 'scrollRoomFrames.js'].map(file => ({ route: '/'+file, file, contentType: 'text/javascript; charset=utf-8' })),
+  { route: '/mapas/pecas/hospital.webp', file: 'mapas/pecas/hospital.webp', contentType: 'image/webp', binary: true },
+  { route: '/hospitalFrames.js', file: 'hospitalFrames.js', contentType: 'text/javascript; charset=utf-8' },
+  { route: '/hospitalArt.js', file: 'hospitalArt.js', contentType: 'text/javascript; charset=utf-8' },
+  { route:'/mapas/pecas/sede.webp', file:'mapas/pecas/sede.webp', contentType:'image/webp', binary:true },
+  { route:'/sedeLayout.js', file:'sedeLayout.js', contentType:'text/javascript; charset=utf-8' },
+  { route:'/sedeArt.js', file:'sedeArt.js', contentType:'text/javascript; charset=utf-8' },
+  { route: '/mapas/pecas/pergaminhos-chama.png', file: 'mapas/pecas/pergaminhos-chama.png', contentType: 'image/png', binary: true as const },
   { route: '/chamaArt.js', file: 'chamaArt.js', contentType: 'text/javascript; charset=utf-8' },
   { route: '/mapas/pecas/chama.webp', file: 'mapas/pecas/chama.webp', contentType: 'image/webp', binary: true },
   { route: '/assets/terrain/entrada-praca.png', file: 'assets/terrain/entrada-praca.png', contentType: 'image/png', binary: true },

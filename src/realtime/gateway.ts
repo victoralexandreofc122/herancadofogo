@@ -137,8 +137,8 @@ export function attachGameGateway(server: Server, deps: GatewayDeps): Gateway {
     socket.on('error', onSocketError);
 
     (async () => {
-      const path = new URL(req.url ?? '/', 'http://localhost').pathname;
-      if (path !== config.path) return reject(socket, 404);
+      const url = new URL(req.url ?? '/', 'http://localhost');
+      if (url.pathname !== config.path) return reject(socket, 404);
       if (world.online >= config.maxPlayers) return reject(socket, 503);
 
       const request: PlayerRequest = { params: {}, body: undefined, headers: { authorization: handshakeAuthorization(req) } };
@@ -169,7 +169,7 @@ export function attachGameGateway(server: Server, deps: GatewayDeps): Gateway {
       wss.handleUpgrade(req, socket, head, (ws) => {
         sockets.add(ws);
         alive.set(ws, true);
-        const handle = world.join(player, ws);
+        const handle = world.join(player, ws, url.searchParams.get('mapLayout') === '2');
         ws.on('message', (data, isBinary) => {
           const buf = Buffer.isBuffer(data) ? data : Array.isArray(data) ? Buffer.concat(data) : Buffer.from(data);
           handle.receive(buf, isBinary);

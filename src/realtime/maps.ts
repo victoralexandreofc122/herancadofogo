@@ -25,7 +25,7 @@ import type { Village } from './appearance.js';
 import type { Box } from './movement.js';
 
 export type Edge = 'east' | 'west' | 'north' | 'south';
-export type MapId = 'map_1' | 'map_2' | 'interior_weapons' | 'interior_clothes' | 'interior_scrolls' | 'academy_interior'
+export type MapId = 'gabinete_chama' | 'missoes_chama' | 'hospital_chama' | 'map_1' | 'map_2' | 'interior_weapons' | 'interior_clothes' | 'interior_scrolls' | 'academy_interior'
   | 'vila_nevoa' | 'vila_nuvem' | 'vila_areia' | 'zona_conflito' | 'refugio'
   | 'caverna_lodo' | 'clareira_queimada' | 'poco' | 'vale_estatuas'
   /** v55: as arenas extras, cópias da Arena das Quatro Heranças, para as lutas em paralelo (só se chega levado pelo servidor). */
@@ -51,6 +51,9 @@ export type ShopKind = 'weapons' | 'clothes' | 'scrolls';
  *  logs = troncos caídos (passagem lacrada) · sink = sumidouro (onde o riacho some) · pool = lago de lodo
  */
 export interface Wall extends Box {
+  /** Chama modular: tamanho e posição usados pelo desenho; x/y/w/h continuam sendo a colisão.
+   * null marca o segundo apoio de uma peça que a arte já instancia a partir do mesmo retângulo. */
+  chamaArt?: Box | null;
   k: 'wall' | 'gatepost' | 'rock' | 'house' | 'tree' | 'water' | 'dummy' | 'iwall' | 'counter' | 'furniture' | 'pit' | 'fence' | 'pillar' | 'gate'
     | 'seal' | 'oak' | 'cliff' | 'tent' | 'cave' | 'deadtree' | 'logs' | 'sink' | 'pool'
     // v29: estátua de uma vila no Arena das Quatro Heranças (colide só no pedestal; o desenho sobe acima)
@@ -71,6 +74,22 @@ export interface Wall extends Box {
     | 'vila_1' | 'vila_3' | 'vila_4' | 'vila_5'
     // v29: a mureta de pedra oliva do Vale
     | 'vale';
+}
+
+// Só a Chama modular transmite paredes como tuplas: evita repetir a caixa de colisão
+// e as chaves longas dezenas de vezes no pacote inicial; os dados do mundo ficam iguais.
+type CompactChamaWall = [number, number, number, number, Wall['k'], (Wall['s'] | null)?,
+  ([number, number, number, number] | null)?];
+export type WireMapLayout = MapLayout | (Omit<MapLayout, 'walls'> & { walls: CompactChamaWall[] });
+export function wireMapLayout(m: MapLayout): WireMapLayout {
+  if (m.id !== 'map_1' || m.art !== 'folha') return m;
+  return { ...m, walls: m.walls.map((w): CompactChamaWall => {
+    const row: CompactChamaWall = [w.x, w.y, w.w, w.h, w.k];
+    if (w.chamaArt !== undefined) {
+      row.push(w.s ?? null, w.chamaArt ? [w.chamaArt.x, w.chamaArt.y, w.chamaArt.w, w.chamaArt.h] : null);
+    } else if (w.s) row.push(w.s);
+    return row;
+  }) };
 }
 
 /**
@@ -475,8 +494,8 @@ const crown = (x: number, y: number, w: number, h: number, s?: 'sakura'): Wall =
  * Aldeia da Chama Eterna em imagem (arte/vilas/referencia_folha.jpg, ampliada 4x com o Real-ESRGAN): 78 x 60 casas, a
  * proporção do desenho. Montanha e sede em cima, hospital à esquerda, Academia à direita, o rio de lado a lado com
  * três pontes e um braço que desce pela esquerda, as três lojas no meio, a praça com o poço embaixo, a arena à direita
- * e o portão no meio da muralha de baixo. Árvores e prédios bloqueiam inteiros (copa e telhado): ninguém passa "atrás"
- * deles, porque o desenho não tem camada por cima do jogador.
+ * e o portão no meio da muralha de baixo. As caixas aqui preservam a planta da arte original e das variantes.
+ * Só a Chama modular converte copas, telhados e peças altas em apoio no chão (ver chamaFootprints).
  */
 const FOLHA_ART: VillageArt = {
   art: 'folha',
@@ -618,18 +637,87 @@ export function villagePlan(id: string): VillagePlan {
   return VILLAGE_ART[id as MapId]?.plan ?? BASE_PLAN;
 }
 
+/**
+ * Apoios da Chama modular, separados dos retângulos que ainda posicionam a arte.
+ * Larguras seguem o contato visível do atlas. O fundo da base permanece alinhado
+ * ao desenhista da cena; não deslocar portas ou pontos de chegada ao mudar textura.
+ */
+function chamaFootprints(visual: Wall): Wall[] {
+  const { x, y, w, h, k, s } = visual;
+  const foot = (cx: number, bottom: number, width: number, depth: number, auxiliary = false): Wall => ({
+    ...visual, x: r2(cx - width / 2), y: r2(bottom - depth), w: r2(width), h: r2(depth),
+    chamaArt: auxiliary ? null : { x, y, w, h },
+  });
+  if (k === 'house') {
+    const style = s ?? 'home';
+    const ratio = style === 'leader' || style === 'academy' ? .87 : .83;
+    const depth = style === 'leader' || style === 'academy' ? 1.55 : style === 'hospital' ? 1.2 : .92;
+    const width = style === 'home' ? 5.84 : style === 'hut' ? 6.04 : w + .24;
+    const parts = [foot(x + w / 2, y + h, width * ratio, depth)];
+    // O retângulo comprido do canto noroeste contém uma cabana além da casa.
+    if (style === 'home' && h > 2 * w) parts.push(foot(x + w / 2, y + h * .53, 6.04 * .83, .92, true));
+    return parts;
+  }
+  if (k === 'tree') {
+    // Mesma conversão de crown() usada pela arte modular para recuperar a caixa da copa.
+    const fullWidth = w / .60, fullHeight = h / .55;
+    const oldHeight = Math.min(fullHeight, fullWidth * 1.26);
+    // Mesma altura da arte de catálogo; largura de cada espécie a partir do atlas.
+    const treeHeight = 4.3, sourceHeight = s === 'sakura' ? 140 : 147;
+    const width = treeHeight * 151 / sourceHeight;
+    const cx = x + w / 2 - (s === 'sakura' ? width * .03 : 0);
+    const parts = [foot(cx, y + h, width * .31, treeHeight * .12)];
+    if (fullHeight > oldHeight * 1.5) {
+      parts.push(foot(cx - .38, y + h - fullHeight + oldHeight, width * .31, treeHeight * .12, true));
+    }
+    return parts;
+  }
+  if (k === 'furniture') {
+    const lamp = ((x === 33.4 || x === 43.2) && y >= 38) || (x >= 32 && x <= 45 && y < 22);
+    if (lamp) return [foot(x + w * .49, y + h, w * .76, Math.min(.42, h * .12))];
+    const bench = y >= 38 && x >= 25 && x < 53 && w > 3;
+    if (bench) return [foot(x + w / 2, y + h, 2.75 * .90, .48)];
+    if (y >= 38 && x >= 25 && x < 53) {
+      // O vaso tem contato estreito. Colidir por vaso, não por uma linha vazia entre dois.
+      const parts = [foot(x + w / 2, y + h, 1.45 * .62, .34)];
+      if (h > w * 1.75) parts.push(foot(x + w / 2, y + w * 1.1, 1.45 * .62, .34, true));
+      return parts;
+    }
+    if (w <= 7) {
+      // Um atlas único: barril à frente, caixotes visíveis na segunda linha.
+      // A caixa de apoio acompanha o barril e os caixotes, não suas faces altas.
+      const extent = 2.5, center = x + w / 2, bottom = y + h;
+      return [foot(center - extent * .05, bottom, extent * .44, .38),
+        foot(center - extent * .27, bottom - .36, extent * .40, .41, true),
+        foot(center + extent * .29, bottom - .24, extent * .40, .41, true)];
+    }
+  }
+  if (k === 'rock' && x === 47.3 && y === 43.8) return [foot(x + w / 2, y + h, 2.35 * .92, .96)];
+  return [visual];
+}
+
 /** Vila em imagem: as paredes, as portas e a arena saem da planta medida no desenho. */
 function artVillage(def: VillageMapDef, A: VillageArt): MapLayout {
   const P = A.plan;
   const doors: Door[] = SHOPS.map((sh) => {
     const { door, outside } = shopDoor(P.shops[sh.shop]);
-    return { ...door, dir: 'north' as const, map: sh.map, at: { ...shopRoom(sh.shop).arrive }, back: { ...outside } };
+    return { ...door, ...(def.id === 'map_1' ? { h: .85 } : {}), dir: 'north' as const, map: sh.map, at: { ...shopRoom(sh.shop).arrive }, back: { ...outside } };
   });
+  if (def.id === 'map_1') {
+    const sede = A.walls.find(b => b.s === 'leader')!;
+    for (const id of ['gabinete_chama','missoes_chama'] as const) {
+      const door = civicDoor(id, sede);
+      doors.push({ ...door.door, h:.85, dir:'north', map:id, at:{x:7,y:9.4}, back:door.outside });
+    }
+    const hospital = A.walls.find(b => b.s === 'hospital')!;
+    const entry = shopDoor(hospital);
+    doors.push({ ...entry.door, h:.85, dir: 'north', map: 'hospital_chama', at: { x: 8, y: 10.4 }, back: entry.outside });
+  }
   const academy = shopDoor(P.academy);
-  doors.push({ ...academy.door, dir: 'north', map: 'academy_interior', at: { ...ACADEMY.arrive }, back: { ...academy.outside } });
+  doors.push({ ...academy.door, ...(def.id === 'map_1' ? { h: .85 } : {}), dir: 'north', map: 'academy_interior', at: { ...ACADEMY.arrive }, back: { ...academy.outside } });
   return {
     id: def.id, name: def.name, kind: 'village', village: def.village, theme: def.theme, width: P.w, height: P.h, safe: true,
-    walls: [...A.walls, ...(def.gate ? [] : [wall('gate', P.gate.from, P.h - 3, P.gate.to - P.gate.from, 3)])],
+    walls: [...(def.id === 'map_1' && A.art === 'folha' ? A.walls.flatMap(chamaFootprints) : A.walls), ...(def.gate ? [] : [wall('gate', P.gate.from, P.h - 3, P.gate.to - P.gate.from, 3)])],
     art: A.art, lights: A.lights,
     exits: def.gate ? [{ edge: 'south', from: P.gate.from, to: P.gate.to, map: 'map_2', shift: FOREST_GATE_SHIFT }] : [],
     doors,
@@ -1065,6 +1153,38 @@ function well(): MapLayout {
  * A porta de saída é o capacho (x 5,5..9,5, y 13,4..15): empurrando para baixo, volta para a
  * Vila, na frente da loja. Quem entra chega em (7,5; 12,8), fora dela, e continua subindo.
  */
+// Planta local de revisão. Os sólidos usam a projeção das bases dos móveis.
+function civicDoor(id: 'gabinete_chama' | 'missoes_chama', sede: Box) {
+  if (id === 'gabinete_chama') return shopDoor(sede);
+  // Porta lateral na ala leste, afastada da escadaria central.
+  const entry = shopDoor({ ...sede, x:sede.x+sede.w-3.95, w:2 });
+  return { ...entry, door:{ ...entry.door, x:entry.outside.x-.9, w:1.8 } };
+}
+
+function civicRoom(id: 'gabinete_chama' | 'missoes_chama'): MapLayout {
+  const kage = id === 'gabinete_chama';
+  const base = (x:number,y:number,w:number,h:number) => wall('counter',x/16,y/16,w/16,h/16);
+  const furniture = kage ? [base(98,76,28,7),base(74,101,76,10),base(180,114,24,10)]
+    : [base(74,89,76,11),base(190,103,24,8), ...[8,174].flatMap(x=>[115,142].map(y=>base(x,y+10,42,7)))];
+  const back = civicDoor(id,FOLHA_ART.walls.find(b=>b.s==='leader')!).outside;
+  return {id,name:kage?'Gabinete do Kage':'Sala de Missões',kind:'interior',width:14,height:11,safe:true,
+    walls:[base(0,0,224,34),base(0,34,4,142),base(220,34,4,142),base(0,163,96,13),
+      base(128,163,96,13),base(8,77,36,12),base(180,77,36,12),...furniture],
+    exits:[],doors:[{x:6,y:10.25,w:2,h:.75,dir:'south',map:'map_1',at:back,toBack:true}],
+    areas:[area('wood',0,0,14,11)],deco:[],safeZones:[{x:0,y:0,w:14,h:11}]};
+}
+function hospitalChama(): MapLayout {
+  const back = shopDoor(FOLHA_ART.walls.find(b => b.s === 'hospital')!).outside;
+  const solid = (x:number,y:number,w:number,h:number) => wall('counter',x/16,y/16,w/16,h/16);
+  return { id:'hospital_chama', name:'Hospital da Chama Eterna', kind:'interior', width:16, height:12, safe:true,
+    walls:[solid(0,0,256,43), solid(0,43,5,149), solid(251,43,5,149),
+      solid(0,176,112,16), solid(144,176,112,16), solid(98,55,60,16),
+      solid(20,88,30,33), solid(206,88,30,33), solid(12,44,34,11), solid(220,54,24,13),
+      solid(12,151,38,11), solid(221,150,18,10), solid(51,100,4,5), solid(173,100,4,5)],
+    doors:[{x:7,y:11.15,w:2,h:.85,dir:'south',map:'map_1',at:back,toBack:true}],
+    exits:[],areas:[area('wood',0,0,16,12)],deco:[],safeZones:[{x:0,y:0,w:16,h:12}] };
+}
+
 function interior(sh: (typeof SHOPS)[number]): MapLayout {
   const back = shopDoor(villagePlan('map_1').shops[sh.shop]).outside;
   const A = SHOP_ART[sh.shop];
@@ -1395,6 +1515,8 @@ export function buildMaps(): Record<MapId, MapLayout> {
     vila_nevoa: village(VILLAGE_MAPS[1]), vila_nuvem: village(VILLAGE_MAPS[2]), vila_areia: village(VILLAGE_MAPS[3]),
     zona_conflito: conflictZone(), refugio: refuge(),
     caverna_lodo: cave(), clareira_queimada: burnedClearing(), poco: well(),
+    gabinete_chama: civicRoom('gabinete_chama'), missoes_chama: civicRoom('missoes_chama'),
+    hospital_chama: hospitalChama(),
     interior_weapons: interior(weapons), interior_clothes: interior(clothes), interior_scrolls: interior(scrolls),
     academy_interior: academy(), vale_estatuas: vale(),
     arena_2: vale('arena_2', 'Arena 2'), arena_3: vale('arena_3', 'Arena 3'), arena_4: vale('arena_4', 'Arena 4'),

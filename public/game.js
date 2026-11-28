@@ -1,3 +1,6 @@
+import { drawScrollRoom } from './scrollRoom.js';
+import { civicPaint, civicReady, civicScene, civicSideDoor } from './sedeArt.js';
+import { hospitalReady, hospitalGround, hospitalFurniture, hospitalObject } from './hospitalArt.js';
 // Herança do Fogo — cliente web (JavaScript puro, sem bibliotecas).
 //
 // O SERVIDOR DECIDE TUDO no combate: este cliente só pede ("usa Fogo", "renascer") e
@@ -12,7 +15,7 @@
 import { CAMERA, FOCUS_RANGE, frameCamera, keepFocus, nextFocus, smoothing } from './targeting.js';
 import { chamaReady, drawVillageObject, villageGround, villageObjects } from './chamaArt.js';
 import { HOLD_MS, aimPaths, autoAim, dragAim, tilesOnPath } from './aim.js';
-import { arenaAt, arenaFoes, artPlaces, groundAt, inSafeZone, mapName, placements, themeAt, visibleDeco, visibleWalls } from './world.js';
+import { arenaAt, arenaFoes, artPlaces, decodeWorldMaps, groundAt, inSafeZone, mapName, placements, themeAt, visibleDeco, visibleWalls } from './world.js';
 import {
   ART, PROP_KINDS, fenceLanternProps, buildingLights, drawAcademyDoor, drawChakraField, drawDeco, drawGateRoof, drawOakCanopy, drawProp, drawSealGlow, drawTrails,
   drawWall, fenceLanterns, propExtent,
@@ -40,7 +43,7 @@ import { mountAdminUI } from './adminPanel.js';
 import { drawMonsterArt, drawMonsterPortrait, loadMonsterSprites, monsterArtReady, monsterDeathMs, playMonster } from './monsterSprites.js';
 
 const TOKEN_KEY = 'nin.token';
-const WS_URL = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/game`;
+const WS_URL = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/game?mapLayout=2`;
 const SUBPROTOCOL = 'nin.v1';
 
 // ------------------------------------------------------------------ elementos
@@ -778,7 +781,7 @@ function handleMessage(msg) {
         if (w.sky) setSky(w.sky);
         // Layouts de todos os mapas: paredes (casas e árvores), saídas e chão. São os MESMOS
         // que o servidor usa para colidir e trocar de mapa.
-        state.maps = w.maps || {};
+        state.maps = decodeWorldMaps(w.maps || {});
         state.serverMap = w.map;
         chunkCache.clear();
         state.allNpcs = (w.npcs || []).map((n) => ({ ...n, npc: true, bubble: null }));
@@ -1309,7 +1312,7 @@ function handleMessage(msg) {
       state.serverMap = msg.map;
       state.spectating = !!msg.spectator;   // v55: entrou (ou saiu) como fantasma
       renderGhost();
-      if (msg.maps) Object.assign(state.maps, msg.maps);   // o mapa novo e os vizinhos que ainda não tínhamos
+      if (msg.maps) Object.assign(state.maps, decodeWorldMaps(msg.maps));   // o mapa novo e os vizinhos que ainda não tínhamos
       for (const id of [...state.players.keys()]) if (id !== state.meId) state.players.delete(id);
       state.monsters.clear();
       for (const p of msg.players) upsertPlayer(p, true);
@@ -1988,6 +1991,7 @@ const MM_WALL = {
   seal: '#ffcf6b', logs: '#5c3a1c', sink: '#16324e', pool: '#5e2a86', gate: '#5c3a1c', iwall: '#3b2a1c', counter: '#5c3a1c',
   furniture: '#5c3a1c', dummy: '#b48558',
 };
+const hiddenByChamaTree = new Set();
 const minimap = { mapId: null, tex: null, at: 0, S: 3 };
 function buildMinimap() {
   const map = state.maps[state.mapId];
@@ -2003,14 +2007,15 @@ function buildMinimap() {
     }
   }
   if (map.art === 'folha' && modularChamaReady()) {
-    villageGround(g,map,0,0,S);
-    for (const obj of villageObjects(map)) drawVillageObject(g,obj,obj.x*S,obj.top*S,S);
+    villageGround(g,chamaArtLayout(map),0,0,S);
+    for (const obj of villageObjects(chamaArtLayout(map))) drawVillageObject(g,obj,obj.x*S,obj.top*S,S);
   } else if (map.art) {                // mapa em imagem: a própria arte, em miniatura (4 px por casa)
     const mini = new Image();
     const id = state.mapId;
     mini.onload = () => {
       if (minimap.mapId !== id || minimap.tex !== c) return;
       g.drawImage(mini, 0, 0, c.width, c.height);
+      if (inChamaScrollShop()) drawScrollRoom(g,0,0,S,refreshInteriorArt);
       if (map.art === 'folha') drawPlazaLayers(g, 0, 0, S);
     };
     mini.src = `/mapas/${map.art}/mini.webp`;
@@ -2022,15 +2027,25 @@ function buildMinimap() {
     g.fillStyle = color;
     g.fillRect(w.x * S, w.y * S, Math.max(1, w.w * S), Math.max(1, w.h * S));
   }
+  if (state.mapId === 'hospital_chama' && hospitalReady(refreshInteriorArt)) {
+    hospitalGround(g,0,0,S);
+    for (const obj of hospitalFurniture) hospitalObject(g,obj,obj.x*S,obj.top*S,S);
+  }
+  const civic = civicScene(state.mapId);
+  if (civic && civicReady(refreshInteriorArt)) {
+    civicPaint(g,civic.ground,0,0,S);
+    for (const obj of civic.objects) civicPaint(g,obj.civic,0,0,S);
+  }
   minimap.tex = c;
   minimap.mapId = state.mapId;
+  minimap.scrollChama = inChamaScrollShop();
 }
 function drawMinimap(now) {
   if (now - minimap.at < 120) return;
   minimap.at = now;
   const me = state.players.get(state.meId);
   if (!me) return;
-  if (minimap.mapId !== state.mapId || !minimap.tex) buildMinimap();
+  if (minimap.mapId !== state.mapId || minimap.scrollChama !== inChamaScrollShop() || !minimap.tex) buildMinimap();
   const tex = minimap.tex;
   if (!tex) return;
   // v60: a Águia em campo mostra 30 casas; o Estado Primal dela revela o mapa inteiro por 10 s
@@ -2056,7 +2071,7 @@ function drawMinimap(now) {
   };
   for (const d of state.doors || []) dot(d.x + d.w / 2, d.y + d.h / 2, 3.5, '#b98ae6', '#2a1238');
   for (const m of state.monsters.values()) if (m.map === state.mapId && !m.diedAt) dot(m.x, m.y, 2.6, '#ff5a4a', '#3a0a08');
-  for (const p of state.players.values()) if (p.id !== state.meId) dot(p.x, p.y, 3, '#8fe07a', '#0d2a0a');
+  for (const p of state.players.values()) if (p.id !== state.meId && !hiddenByChamaTree.has(p.id)) dot(p.x, p.y, 3, '#8fe07a', '#0d2a0a');
   for (const n of state.npcs) dot(n.x, n.y, 4, '#ffd76a', '#3a2610');
   // a seta do jogador, apontando para onde ele olha
   const ang = [Math.PI / 2, Math.PI, 0, -Math.PI / 2][me.dir ?? 0] ?? Math.PI / 2;   // 0 baixo, 1 esquerda, 2 direita, 3 cima
@@ -2221,6 +2236,7 @@ function enterMap(id, announce) {
   const layout = state.maps[id];
   if (!layout) return;
   const changed = state.mapId !== id;
+  hiddenByChamaTree.clear();
   state.mapId = id;
   state.world.width = layout.width;
   state.world.height = layout.height;
@@ -7743,6 +7759,18 @@ const chunkCache = new Map();        // "mapa:cx,cy" -> canvas (ordem de uso = L
 function modularChamaReady() {
   return chamaReady(() => { chunkCache.clear(); minimap.mapId = null; });
 }
+// A colisão continua em map.walls. Somente os consumidores de arte leem a caixa
+// original e ignoram apoios auxiliares já representados pelo mesmo desenho.
+const chamaArtLayouts = new WeakMap();
+function chamaArtLayout(map) {
+  if (!chamaArtLayouts.has(map)) {
+    chamaArtLayouts.set(map, {
+      ...map,
+      walls: map.walls.filter(w => w.chamaArt !== null).map(w => w.chamaArt ? { ...w, ...w.chamaArt } : w),
+    });
+  }
+  return chamaArtLayouts.get(map);
+}
 // Camada de piso em 24 px/casa, desenhada uma vez por bloco, abaixo dos jogadores.
 const plazaLayers = [
   { file: 'entrada-praca', x: 30, y: 34 },
@@ -7771,8 +7799,21 @@ function drawPlazaLayers(g, ox, oy, scale, chunkSize = Infinity) {
 const CHUNK_BUILDS_PER_FRAME = 3;
 let chunkBuilds = 0;
 
+function refreshInteriorArt() {
+  chunkCache.clear();
+  minimap.mapId = null;
+}
+
+function inChamaScrollShop() {
+  return state.mapId === 'interior_scrolls' && pred.gates.back?.map === 'map_1';
+}
+
+function chunkKey(cx, cy) {
+  return `${state.mapId}${inChamaScrollShop() ? ':chama' : ''}:${cx},${cy}`;
+}
+
 function chunkCanvas(cx, cy) {
-  const key = `${state.mapId}:${cx},${cy}`;
+  const key = chunkKey(cx, cy);
   let c = chunkCache.get(key);
   if (c) {
     chunkCache.delete(key);          // marca como usado agora
@@ -7825,7 +7866,7 @@ function chunkCanvas(cx, cy) {
   // Por fim a arte dos mapas em imagem, recortada no retângulo de cada mapa (cobre a sombra do vizinho que vaza).
   for (const p of pieces) {
     if (p.modular) {
-      villageGround(g,state.maps.map_1,p.r.x-cx*CHUNK,p.r.y-cy*CHUNK,U);
+      villageGround(g,chamaArtLayout(state.maps.map_1),p.r.x-cx*CHUNK,p.r.y-cy*CHUNK,U);
       continue;
     }
     g.save();
@@ -7835,12 +7876,16 @@ function chunkCanvas(cx, cy) {
     g.drawImage(p.img, (p.x - cx * CHUNK) * U, (p.y - cy * CHUNK) * U, p.img.naturalWidth / ART, p.img.naturalHeight / ART);
     g.restore();
   }
+  if (inChamaScrollShop()) drawScrollRoom(g,-cx*CHUNK*U,-cy*CHUNK*U,U,refreshInteriorArt);
   for (const r of state.arts) {
     if (r.art !== 'folha' || modularChamaReady()) continue;
     const ox = r.x - cx * CHUNK, oy = r.y - cy * CHUNK;
     g.imageSmoothingEnabled = false;
     drawPlazaLayers(g, ox, oy, U, CHUNK);
   }
+  if (state.mapId === 'hospital_chama' && hospitalReady(refreshInteriorArt)) hospitalGround(g,-cx*CHUNK*U,-cy*CHUNK*U,U);
+  const civic = civicScene(state.mapId);
+  if (civic && civicReady(refreshInteriorArt)) civicPaint(g,civic.ground,-cx*CHUNK*U,-cy*CHUNK*U,U);
   chunkCache.set(key, c);
   if (chunkCache.size > CHUNK_CACHE_MAX) chunkCache.delete(chunkCache.keys().next().value);
   return c;
@@ -8007,8 +8052,13 @@ try {
           }
         }
         if (state.maps[state.mapId]?.art === 'folha' && modularChamaReady()) {
-          for (const obj of villageObjects(state.maps.map_1)) drawVillageObject(g,obj,obj.x*px,obj.top*px,px);
+          for (const obj of villageObjects(chamaArtLayout(state.maps.map_1))) drawVillageObject(g,obj,obj.x*px,obj.top*px,px);
         }
+        if (state.mapId === 'hospital_chama' && hospitalReady(refreshInteriorArt)) {
+          for (const obj of hospitalFurniture) hospitalObject(g,obj,obj.x*px,obj.top*px,px);
+        }
+        const civic = civicScene(state.mapId);
+        if (civic && civicReady(refreshInteriorArt)) for (const obj of civic.objects) civicPaint(g,obj.civic,0,0,px);
         for (const s2 of state.glows || []) drawSealGlow(g, s2.x * px, s2.y * px, s2.w * px, s2.h * px, 0);
         for (const pr of [...state.props].sort((a, b) => a.y - b.y)) {
           propBuilds = 0;
@@ -8160,6 +8210,100 @@ function updateCastHud(me, now) {
   if (castHud.name.dataset.skill !== c.skill) { castHud.name.dataset.skill = c.skill; castHud.name.textContent = skillName(c.skill); }
 }
 
+// Ocultação visual da Chama. Não muda alvos, combate, visão ou replicação no servidor.
+const chamaCanopyMasks = new Map();
+const CHAMA_MASK_SIZE = 128;
+const isChamaTree = obj => obj.name === 'tree' || obj.name === 'sakura';
+const CHAMA_ROOFS = new Set(['home','hut','leader','hospital','academy','shop_weapon','shop_cloth','shop_scroll']);
+
+function chamaCanopyMask(obj) {
+  let mask = chamaCanopyMasks.get(obj.name);
+  if (mask) return mask;
+  const c = document.createElement('canvas');
+  c.width = c.height = CHAMA_MASK_SIZE;
+  const g = c.getContext('2d', { willReadFrequently: true });
+  g.imageSmoothingEnabled = false;
+  drawVillageObject(g, { ...obj, w: CHAMA_MASK_SIZE, h: CHAMA_MASK_SIZE }, 0, 0, 1);
+  const { data } = g.getImageData(0, 0, c.width, c.height);
+  const alpha = new Uint8Array(CHAMA_MASK_SIZE * CHAMA_MASK_SIZE);
+  const shape = new Path2D();
+  for (let y = 0; y < CHAMA_MASK_SIZE; y++) {
+    for (let x = 0; x < CHAMA_MASK_SIZE;) {
+      const pos = y * CHAMA_MASK_SIZE + x;
+      if (data[pos * 4 + 3] < 128) { x++; continue; }
+      const start = x;
+      do { alpha[y * CHAMA_MASK_SIZE + x++] = 1; }
+      while (x < CHAMA_MASK_SIZE && data[(y * CHAMA_MASK_SIZE + x) * 4 + 3] >= 128);
+      shape.rect(start, y, x - start, 1);
+    }
+  }
+  mask = { alpha, shape };
+  chamaCanopyMasks.set(obj.name, mask);
+  return mask;
+}
+
+function chamaTreeAt(e, x, y) {
+  const obj = e.villageObj;
+  const sx = Math.floor((x - e.x) * CHAMA_MASK_SIZE / obj.w);
+  const sy = Math.floor((y - e.top) * CHAMA_MASK_SIZE / obj.h);
+  return sx >= 0 && sy >= 0 && sx < CHAMA_MASK_SIZE && sy < CHAMA_MASK_SIZE &&
+    chamaCanopyMask(obj).alpha[sy * CHAMA_MASK_SIZE + sx] === 1;
+}
+
+// Amostras cobrindo cabeça, tronco e pés na escala comum do avatar. Os casos
+// parciais não somem: o recorte desenha fisicamente só o trecho fora da copa.
+function chamaBodyCoverage(trees, p, T) {
+  const scale = spriteScale(T, dpr) / T;
+  const width = Math.max(.30, 22 * scale), top = p.y + .42 - 88 * scale;
+  const foot = p.y + .40;
+  const candidates = trees.filter(e => p.y < e.y && e.top < foot &&
+    p.x + width > e.x && p.x - width < e.x + e.villageObj.w);
+  if (!candidates.length) return { any: false, full: false };
+  let any = false, full = true;
+  for (const dx of [-1,-.5,0,.5,1]) {
+    for (const t of [0,.25,.5,.75,1]) {
+      const x = p.x + dx * width * (t < .7 ? 1 : .78);
+      const y = top + (foot - top) * t;
+      const covered = candidates.some(e => chamaTreeAt(e, x, y));
+      any ||= covered;
+      full &&= covered;
+    }
+  }
+  return { any, full };
+}
+
+function cutFadedChamaTrees(g, p, faded, toScreenX, toScreenY, T) {
+  // Uma máscara por árvore, interseção de recortes: duas copas sobrepostas
+  // continuam ocluindo, sem abrir buraco no encontro.
+  for (const e of faded) {
+    const obj = e.villageObj;
+    if (p.y >= e.y || p.x + 1 <= e.x || p.x - 1 >= e.x + obj.w || p.y + .5 <= e.top) continue;
+    const shape = new Path2D();
+    shape.rect(0, 0, viewW, viewH);
+    shape.addPath(chamaCanopyMask(obj).shape, new DOMMatrix([
+      obj.w * T / CHAMA_MASK_SIZE, 0, 0, obj.h * T / CHAMA_MASK_SIZE, toScreenX(e.x), toScreenY(e.top),
+    ]));
+    g.clip(shape, 'evenodd');
+  }
+}
+
+// Cedro visível no Gabinete IA-01, em pixels de arte. Exclui passadeira, frisos e demais peças opacas.
+const kageCedarRects = [
+  [10, 40, 40, 3],
+  [60, 40, 104, 11],
+  [174, 40, 40, 3],
+  [0, 43, 50, 8],
+  [174, 43, 50, 8],
+  [0, 51, 51, 2],
+  [59, 51, 106, 2],
+  [173, 51, 51, 2],
+  [0, 53, 224, 14],
+  [0, 67, 81, 46],
+  [143, 67, 81, 46],
+  [0, 113, 224, 56],
+  [0, 175, 224, 1],
+];
+
 function draw(now) {
   updateCastHud(state.players.get(state.meId), now);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -8202,7 +8346,7 @@ function draw(now) {
   // Sobrou orçamento: monta já os blocos em volta da tela (andando, nada precisa ser montado na hora).
   for (let cy = cy0 - 1; cy <= cy1 + 1 && chunkBuilds < CHUNK_BUILDS_PER_FRAME; cy++) {
     for (let cx = cx0 - 1; cx <= cx1 + 1 && chunkBuilds < CHUNK_BUILDS_PER_FRAME; cx++) {
-      if (!chunkCache.has(`${state.mapId}:${cx},${cy}`)) chunkCanvas(cx, cy);
+      if (!chunkCache.has(chunkKey(cx, cy))) chunkCanvas(cx, cy);
     }
   }
 
@@ -8214,12 +8358,25 @@ function draw(now) {
   // mapas em imagem também não (o desenho já tem o seu piso).
   const kind = state.maps[state.mapId]?.kind;
   if ((kind === 'village' || kind === 'interior') && !state.maps[state.mapId]?.art) {
+    const clipCedar = state.mapId === 'gabinete_chama';
+    if (clipCedar) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, 0, viewW, viewH);
+      for (const [x, y, w, h] of kageCedarRects) {
+        const sx = toScreenX(x / U), sy = toScreenY(y / U);
+        ctx.rect(sx, sy, toScreenX((x + w) / U) - sx, toScreenY((y + h) / U) - sy);
+      }
+      ctx.clip('evenodd');
+    }
     ctx.beginPath();
+
     for (let x = gx0; x <= gx1; x++) { const sx = toScreenX(x) + 0.5; ctx.moveTo(sx, sTop); ctx.lineTo(sx, sBottom); }
     for (let y = gy0; y <= gy1; y++) { const sy = toScreenY(y) + 0.5; ctx.moveTo(sLeft, sy); ctx.lineTo(sRight, sy); }
     ctx.strokeStyle = 'rgba(16, 48, 12, 0.12)';
     ctx.lineWidth = 1;
     ctx.stroke();
+    if (clipCedar) ctx.restore();
   }
 
   // 3. Borda do mapa.
@@ -8258,8 +8415,34 @@ function draw(now) {
   drawTelegraphs(toScreenX, toScreenY, T, now);
   drawAimPreview(updateAim(me), toScreenX, toScreenY, T, now);
 
+  // Separar a cena para testar a oclusão antes de desenhar nomes, mira e minimapa.
+  const chamaScene = [], chamaTrees = [], fadedChamaTrees = [];
+  const coveredChamaPlayers = new Set();
+  hiddenByChamaTree.clear();
+  for (const r of state.arts) {
+    if (r.art !== 'folha' || !state.maps.map_1 || !modularChamaReady()) continue;
+    for (const obj of villageObjects(chamaArtLayout(state.maps.map_1))) {
+      const x = r.x + obj.x, objectTop = r.y + obj.top;
+      const e = { villageObj: obj, x, y: r.y + obj.y, top: objectTop };
+      if (state.mapId === 'map_1' && isChamaTree(obj)) chamaTrees.push(e);
+      if (x + obj.w < left || x > right || objectTop + obj.h < top || objectTop > bottom) continue;
+      chamaScene.push(e);
+    }
+  }
+  if (chamaTrees.length) {
+    if (me && !state.spectating) {
+      for (const e of chamaTrees) if (chamaBodyCoverage([e], me, T).any) fadedChamaTrees.push(e);
+    }
+    for (const p of state.players.values()) {
+      if (p.map !== state.mapId || p.id === state.meId) continue;
+      const coverage = chamaBodyCoverage(chamaTrees, p, T);
+      if (coverage.any) coveredChamaPlayers.add(p.id);
+      if (coverage.full) hiddenByChamaTree.add(p.id);
+    }
+  }
   // Linha pontilhada do jogador até o alvo focado (e a janela do alvo, o retrato e o minimapa do HUD).
-  const focused = focusEntity();
+  const target = focusEntity();
+  const focused = hiddenByChamaTree.has(target?.id) ? null : target;
   updateTargetWindow(focused);
   updateBossBar(me);
   updatePortrait();
@@ -8278,21 +8461,19 @@ function draw(now) {
   }
 
   // 5. Monstros e jogadores juntos, de cima para baixo (quem está mais embaixo fica na frente).
+  // Os interiores desenham objetos sólidos na mesma ordem de profundidade do avatar.
   drawList.length = 0;
+  const civic = civicScene(state.mapId);
+  if (civic && civicReady(refreshInteriorArt)) drawList.push(...civic.objects);
+  if (state.mapId === 'hospital_chama' && hospitalReady(refreshInteriorArt)) drawList.push(...hospitalFurniture);
   for (const m of state.monsters.values()) {
     if (m.diedAt && now - m.diedAt > monsterDeathMs(m.type)) { state.monsters.delete(m.id); continue; }   // terminou de sumir
     if (m.map === state.mapId) drawList.push(m);
   }
-  for (const p of state.players.values()) if (p.map === state.mapId && !(state.spectating && p.id === state.meId)) drawList.push(p);
+  for (const p of state.players.values()) if (p.map === state.mapId && !(state.spectating && p.id === state.meId) &&
+    !hiddenByChamaTree.has(p.id)) drawList.push(p);
   for (const n of state.npcs) drawList.push(n);
-  for (const r of state.arts) {
-    if (r.art !== 'folha' || !state.maps.map_1 || !modularChamaReady()) continue;
-    for (const obj of villageObjects(state.maps.map_1)) {
-      const x = r.x+obj.x, objectTop = r.y+obj.top;
-      if (x+obj.w<left || x>right || objectTop+obj.h<top || objectTop>bottom) continue;
-      drawList.push({ villageObj:obj, x, y:r.y+obj.y, top:objectTop });
-    }
-  }
+  drawList.push(...chamaScene);
   // Árvores, pedras altas e barracas no meio dos bonecos, pela linha da base (quem passa atrás fica atrás da copa).
   for (const pr of state.props) {
     const x = toScreenX(pr.x - pr.ext.left), y = toScreenY(pr.y - pr.ext.top);
@@ -8302,18 +8483,35 @@ function draw(now) {
   if (drawList.length > 1) drawList.sort((a, b) => a.y - b.y);
   ctx.textAlign = 'center';
   for (const e of drawList) {
-    if (e.villageObj) {
+    if (e.civic) civicPaint(ctx,e.civic,toScreenX(0),toScreenY(0),T);
+    else if (e.hospital) hospitalObject(ctx,e,toScreenX(e.x),toScreenY(e.top),T);
+    else if (e.villageObj) {
       const obj = e.villageObj;
-      const covers = me && me.x > e.x && me.x < e.x + obj.w && me.y > e.top &&
+      const localRule = state.mapId === 'map_1' &&
+        (isChamaTree(obj) || obj.name === 'lanterna' || CHAMA_ROOFS.has(obj.name));
+      const legacyFade = !localRule && me && me.x > e.x && me.x < e.x + obj.w && me.y > e.top &&
         me.y < (obj.name === 'portao' ? e.top + obj.h * .53 : e.y);
       ctx.save();
-      if (covers) ctx.globalAlpha *= .55;
+      // Luminárias e telhados continuam opacos. A árvore só clareia no
+      // navegador de quem controla o próprio personagem atrás dela.
+      if (legacyFade || fadedChamaTrees.includes(e)) ctx.globalAlpha *= .55;
       drawVillageObject(ctx, obj, toScreenX(e.x), toScreenY(e.top), T);
+      if (obj.name === 'leader' && state.mapId === 'map_1' && civicReady(refreshInteriorArt)) {
+        const entry = state.maps.map_1.doors.find(d => d.map === 'missoes_chama');
+        if (entry) civicSideDoor(ctx,toScreenX(entry.x + entry.w/2 - 1.15),toScreenY(e.y - 2.65),T);
+      }
       ctx.restore();
     } else if (e.prop) drawPropOnScreen(e, toScreenX, toScreenY, T, me);
     else if (e.npc) drawNpc(e, toScreenX(e.x), toScreenY(e.y), T, now, me);
     else if (e.type) drawMonster(e, toScreenX(e.x), toScreenY(e.y), T, now);
-    else drawPlayer(e, toScreenX(e.x) + knockOffset(e, now, 'dx') * T, toScreenY(e.y) + knockOffset(e, now, 'dy') * T, T, e.id === state.meId, now);
+    else {
+      const isMe = e.id === state.meId;
+      ctx.save();
+      if (!isMe && fadedChamaTrees.length) cutFadedChamaTrees(ctx, e, fadedChamaTrees, toScreenX, toScreenY, T);
+      drawPlayer(e, toScreenX(e.x) + knockOffset(e, now, 'dx') * T, toScreenY(e.y) + knockOffset(e, now, 'dy') * T,
+        T, isMe, now, !coveredChamaPlayers.has(e.id));
+      ctx.restore();
+    }
   }
 
   for (const fx of state.effects) if (!GROUND_FX.has(fx.skill)) drawEffect(fx, toScreenX(fx.x), toScreenY(fx.y), T, now);
@@ -10274,7 +10472,7 @@ function drawBasicBuff(sx, sy, r, T, now, kind = 'fire') {
   ctx.restore();
 }
 
-function drawPlayer(p, sx, sy, T, isMe, now) {
+function drawPlayer(p, sx, sy, T, isMe, now, showOverhead = true) {
   if (!isMe && now < (p.invisUntil || 0)) return;   // v61: Suprema do Vento Cortante (invisível para os outros)
   if (p.dead) ctx.globalAlpha = 0.45;
   const r = T * 0.38;
@@ -10310,13 +10508,15 @@ function drawPlayer(p, sx, sy, T, isMe, now) {
   // v92: o atordoado (as estrelinhas) vai na fileira de ícones em cima do nome (drawHeadRow)
   if (!p.dead && now < (p.basicBuffUntil || 0)) drawBasicBuff(sx, sy, r, T, now, p.basicBuffColor);   // v29: Lâmina de Fogo; v30: os outros buffs de Básico
   if (!p.dead && now < (p.primalUntil || 0)) drawPrimalAura(sx, sy, r, T, now, p.primalKind, p.titanColor);   // v60: Estado Primal; v61: Suprema
-  if (!p.dead && p.casting && now < p.casting.end + 120) drawCastBar(p, sx, headTop, r, T, now);   // v29: selos
+  if (showOverhead && !p.dead && p.casting && now < p.casting.end + 120) drawCastBar(p, sx, headTop, r, T, now);   // v29: selos
   if (isMe) {                         // marquinha para achar o próprio boneco no meio dos outros
     ctx.fillStyle = '#ffe2a8';
     ctx.beginPath();
     ctx.moveTo(sx - 4, headTop - 3); ctx.lineTo(sx + 4, headTop - 3); ctx.lineTo(sx, headTop + 1);
     ctx.fill();
   }
+
+  if (!showOverhead) { ctx.globalAlpha = 1; return; }
 
   // nome numa plaquinha escura (letra estreita); a vida dos outros fica na base da plaquinha
   const fontSize = Math.max(12, Math.round(T * 0.34));
@@ -10334,7 +10534,7 @@ function drawPlayer(p, sx, sy, T, isMe, now) {
   const myW = ctx.measureText(`${style.prefix}${p.username}`).width;
   let stack = 0;
   for (const q of state.players.values()) {
-    if (q === p || q.map !== p.map || q.dead || !(q.id < p.id) || Math.abs(q.y - p.y) >= 0.9) continue;
+    if (q === p || q.map !== p.map || q.dead || hiddenByChamaTree.has(q.id) || !(q.id < p.id) || Math.abs(q.y - p.y) >= 0.9) continue;
     const qw = ctx.measureText(q.username).width;
     if (Math.abs(q.x - p.x) * T < (myW + qw) / 2 + 14) stack += 1;
   }

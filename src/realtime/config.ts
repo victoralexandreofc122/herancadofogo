@@ -584,6 +584,7 @@ export const REALTIME: Readonly<RealtimeConfig> = {
    */
   npcs: [
     { id: 'sensei', name: 'Mestre', map: 'map_1', ...villagePlan('map_1').sensei, range: 2.5, role: 'sensei' },
+    { id: 'sensei_quadro', name: 'Encarregado do quadro', map: 'missoes_chama', x: 7, y: 4.65, range: 2.5, role: 'sensei' },
     // As outras vilas têm o seu Mestre no lugar equivalente da planta delas (a mesma Sala de Missões).
     ...VILLAGE_MAPS.slice(1).map((v): NpcConfig => ({ id: `sensei_${v.id}`, name: 'Mestre', map: v.id, ...villagePlan(v.id).sensei, range: 2.5, role: 'sensei' })),
     // Postos de Viagem (fim de jogo): na praça de cada vila, na clareira da Floresta, nos acampamentos da Zona de

@@ -119,3 +119,14 @@ export function artPlaces(places) {
 export function mapName(maps, mapId) {
   return (maps && maps[mapId] && maps[mapId].name) || '';
 }
+
+// Reconstrói a Chama antes de a predição ou a arte consumirem as paredes, no
+// login ou quando o mapa chega pela primeira vez durante uma viagem.
+export function decodeWorldMaps(maps) {
+  const m = maps.map_1;
+  if (!m || !Array.isArray(m.walls?.[0])) return maps;
+  return { ...maps, map_1: { ...m, walls: m.walls.map(([x, y, w, h, k, s, art]) => ({
+    x, y, w, h, k, ...(s ? { s } : {}),
+    ...(art === undefined ? {} : { chamaArt: art === null ? null : { x: art[0], y: art[1], w: art[2], h: art[3] } }),
+  })) } };
+}

@@ -85,7 +85,7 @@ import { NO_CLASS, PvpStats, reportText, toClassRows } from './pvpStats.js';
 import { DUEL, TEAM3, takeTeamMatch, type TeamEntry, leavePenalty, addDamage, advance, endRound, fighters, forfeit, newMatch, other, queuePosition, sideOf, takeMatch, takeVillageMatch, type VillageEntry, timeoutWinner, type DuelMatch, type DuelMode, type QueueEntry, type Side } from './duel.js';
 import {
   VALE, ACADEMY, REFUGE, arenaGeo, academySpawn, arenaAt, conflictCamp, crossedGap, inSafeZone, villagePlan, type Arena, type CampOwner, type HuntZone, type MapId,
-  type MapLayout, type Wall,
+  wireMapLayout, type MapLayout, type Wall, type WireMapLayout,
 } from './maps.js';
 import { TokenBucket } from './tokenBucket.js';
 import type { WorldWatch } from './watch.js';
@@ -427,6 +427,8 @@ interface Session {
   // ------------------------------------------------ fim de jogo (v16, migração v11)
   /** Layouts de mapa já enviados a esta conexão (os outros vão no map_changed). */
   sentMaps: Set<MapId>;
+  /** Old browser tabs retain the original object-shaped wall layout when reconnecting. */
+  compactChamaLayout: boolean;
   /** Vila (null = renegado). O banco é a autoridade; aqui é a cópia lida ao conectar e a cada mudança. */
   village: Village | null;
   renegadeFrom: Village | null;
@@ -1056,14 +1058,16 @@ export class GameWorld {
    * Layouts que o cliente precisa e ainda não tem: o mapa e os vizinhos dele (saídas e portas: a predição atravessa
    * na hora, então o vizinho já tem que estar lá). Cada um vai uma vez por conexão.
    */
-  private layoutsFor(s: Session, map: MapId): Partial<Record<MapId, MapLayout>> {
+  private layoutsFor(s: Session, map: MapId): Partial<Record<MapId, WireMapLayout>> {
     const here = this.layout(map);
     const want = [map, ...here.exits.map((e) => e.map), ...here.doors.map((d) => d.map)];
-    const out: Partial<Record<MapId, MapLayout>> = {};
+    const out: Partial<Record<MapId, WireMapLayout>> = {};
     for (const id of want) {
+      // Envia interiores novos e a academia ao entrar, em vez de crescer o pacote inicial da Chama.
+      if (id !== map && (id === 'gabinete_chama' || id === 'missoes_chama' || id === 'hospital_chama' || (map === 'map_1' && id === 'academy_interior'))) continue;
       if (s.sentMaps.has(id) || !this.config.maps[id]) continue;
       s.sentMaps.add(id);
-      out[id] = this.config.maps[id];
+      out[id] = s.compactChamaLayout ? wireMapLayout(this.config.maps[id]) : this.config.maps[id];
     }
     return out;
   }
@@ -1138,7 +1142,7 @@ export class GameWorld {
    * conectado, a conexão antiga é fechada (4000) e a nova herda posição, vida, chakra e
    * até a morte: reconectar não cura ninguém.
    */
-  join(player: JoiningPlayer, conn: Connection): SessionHandle {
+  join(player: JoiningPlayer, conn: Connection, compactChamaLayout = true): SessionHandle {
     const t = this.now();
     const live = this.sessions.get(player.id);
     // v59: a sessão que caiu há menos de 2 minutos volta no mesmo lugar
@@ -1261,6 +1265,7 @@ export class GameWorld {
       nextSyncAt: t + this.config.lagComp.syncEveryMs / 2,
       lastHistoryAt: 0,
       sentMaps: new Set(),
+      compactChamaLayout,
       village,
       renegadeFrom: eg ? eg.renegadeFrom : (previous?.renegadeFrom ?? null),
       bounty: eg ? eg.bounty : (previous?.bounty ?? 0),

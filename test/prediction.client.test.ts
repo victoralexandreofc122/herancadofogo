@@ -106,9 +106,11 @@ describe('predição + reconciliação (cliente real x servidor real, 200 ms de 
   });
 
   it('parede (casa da vila): o cliente prevê a batida igual ao servidor, sem correção', () => {
-    const { pred, s, results } = simulate({ ms: 2500, start: [28.5, 20], joystick: (t) => (t < 2000 ? [1, 0] : [0, 0]) });
-    assert.equal(results.snaps + results.smooth, 0, 'nenhuma correção: a previsão já parou na parede');
-    assert.ok(s.x < 31 && pred.x === s.x, `parou em ${s.x} (a sede começa em x=31)`);
+    const base = REALTIME.maps.map_1.walls.find((w) => w.s === 'leader')!;
+    const y = base.y + base.h / 2;
+    const { pred, s, results } = simulate({ ms: 2500, start: [base.x - 1, y], joystick: (t) => (t < 2000 ? [1, 0] : [0, 0]) });
+    assert.equal(results.snaps + results.smooth, 0, 'nenhuma correção: a previsão já parou na base');
+    assert.ok(s.x >= base.x - .6 && s.x <= base.x - .3 && pred.x === s.x, `parou em ${s.x} (a base começa em ${base.x})`);
   });
 
   it('cliente trapaceiro (velocidade 15 em vez de 5): o servidor só aplica a velocidade real e o cliente é puxado de volta', () => {

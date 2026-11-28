@@ -307,7 +307,8 @@ describe('mapas: servidor (salas)', () => {
     const w = b.conn.last('welcome');
     assert.equal(w.world.map, 'map_1');
     assert.deepEqual([w.world.width, w.world.height], [78, 60]);
-    assert.deepEqual(Object.keys(w.world.maps), ['map_1', 'map_2', 'interior_weapons', 'interior_clothes', 'interior_scrolls', 'academy_interior']);
+    assert.deepEqual(Object.keys(w.world.maps), ['map_1', 'map_2', 'interior_weapons', 'interior_clothes', 'interior_scrolls']);
+    assert.equal(w.world.maps.academy_interior, undefined, 'Academia chega ao atravessar a porta da Chama');
     assert.equal(w.world.maps.map_2.walls.length, FLORESTA.walls.length);
     assert.deepEqual(w.world.maps.map_1.safeZones, VILA.safeZones);
     assert.deepEqual(w.players, [], 'kaito está na Floresta: não aparece na Vila');
@@ -319,6 +320,17 @@ describe('mapas: servidor (salas)', () => {
 describe('mapas: desenho no cliente (world.js)', async () => {
   const W = await import(new URL('../public/world.js', import.meta.url).href);
   const maps = JSON.parse(JSON.stringify(WORLD_MAPS));          // como chega pela rede
+
+  it('compactação da Chama preserva cada apoio de colisão e caixa visual após transporte', async () => {
+    const { wireMapLayout } = await import('../src/realtime/maps.js');
+    const encoded = wireMapLayout(WORLD_MAPS.map_1);
+    assert(Array.isArray(encoded.walls[0]));
+    // O servidor preserva a forma regular das outras vilas e o cliente tolera a forma anterior.
+    for (const m of [WORLD_MAPS.vila_nevoa, WORLD_MAPS.vila_nuvem, WORLD_MAPS.vila_areia]) assert.equal(wireMapLayout(m), m);
+    assert.deepEqual(W.decodeWorldMaps(maps), maps);
+    const sent = JSON.parse(JSON.stringify({ map_1: encoded, vila_nevoa: WORLD_MAPS.vila_nevoa }));
+    assert.deepEqual(W.decodeWorldMaps(sent), { map_1: maps.map_1, vila_nevoa: maps.vila_nevoa });
+  });
 
   it('costura: além do portão sul da Vila aparece a Floresta (e vice-versa), no lugar certo', () => {
     const fromVila = W.placements(maps, 'map_1');

@@ -4,7 +4,7 @@ import type { PvpClassRow, PvpReport } from './pvpStats.js';
 import { z } from 'zod';
 import { CREATURES, type Creature } from './vinculo.js';
 import { ATTRIBUTES, type Attributes, type DerivedStats } from './stats.js';
-import type { MapId, MapLayout, ShopKind } from './maps.js';
+import type { MapId, WireMapLayout, ShopKind } from './maps.js';
 import { CLANS, type Clan } from './jutsusClasses.js';
 import { MANUAL_CHAPTERS, type ManualChapter } from './manual.js';
 import type { FeedbackRow } from './admin.js';
@@ -603,7 +603,7 @@ export interface WorldInfo {
    * outros chegam no `map_changed`, quando o jogador se aproxima deles.
    */
   map: MapId;
-  maps: Partial<Record<MapId, MapLayout>>;
+  maps: Partial<Record<MapId, WireMapLayout>>;
   attributePerPoint: Attributes;
   /** Níveis dos ranks: Genin (Missão de Genin), Chunin (Exame Chunin), Kage (candidatura). */
   rankLevels: { genin: number; chunin: number; kage: number };
@@ -635,7 +635,7 @@ export type ServerMessage =
   | { type: 'player_joined'; player: PlayerView }
   | { type: 'shop_open'; shop: ShopKind; npcId: string }
   /** maps: layouts que o cliente ainda não tinha (o mapa novo e os vizinhos dele). */
-  | { type: 'map_changed'; map: MapId; x: number; y: number; a: number; players: PlayerView[]; monsters: MonsterView[]; reason: MapChangeReason; maps?: Partial<Record<MapId, MapLayout>>;
+  | { type: 'map_changed'; map: MapId; x: number; y: number; a: number; players: PlayerView[]; monsters: MonsterView[]; reason: MapChangeReason; maps?: Partial<Record<MapId, WireMapLayout>>;
       /** v55: entrou como fantasma (espectador): o cliente esconde o próprio boneco e trava os controles. */ spectator?: boolean }
   | { type: 'player_moved'; playerId: string; x: number; y: number; d: Dir; a: number }
   | { type: 'player_appearance'; playerId: string; appearance: Appearance }

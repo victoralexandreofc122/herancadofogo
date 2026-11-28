@@ -162,7 +162,11 @@ describe('Arco 1: Caverna do Lodo, Clareira Queimada e Poço', () => {
     // Na Folha (em imagem) o poço e a grade estão no desenho: a planta marca onde (o poço é obstáculo, a grade é rio).
     const plan = villagePlan('map_1');
     const at = (b: { x: number; y: number; w: number; h: number }) => [b.x + b.w / 2, b.y + b.h / 2] as const;
-    assert.ok(blocked(...at(plan.well), WORLD_MAPS.map_1.walls) && blocked(...at(plan.grate), WORLD_MAPS.map_1.walls));
+    const walls = WORLD_MAPS.map_1.walls;
+    const wellBase = walls.find((w) => w.k === 'rock' && w.chamaArt?.x === plan.well.x && w.chamaArt?.y === plan.well.y);
+    assert.ok(wellBase, 'o poço mantém o apoio físico alinhado à arte');
+    assert.ok(wellBase.w < plan.well.w && wellBase.h < plan.well.h);
+    assert.ok(blocked(...at(wellBase), walls) && blocked(...at(plan.grate), walls));
     // Nas vilas desenhadas por código, a tampa e a grade são enfeites.
     const deco = WORLD_MAPS.vila_areia.deco.map((d) => d.k);
     assert.ok(deco.includes('well_lid') && deco.includes('grate'));

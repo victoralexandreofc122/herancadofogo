@@ -386,6 +386,9 @@ describe('combate: morte, renascimento e autoridade do servidor', () => {
     let sent = 0;
     const conn = () => ({ send: () => { sent += 1; }, close: () => {}, bufferedAmount: 0 });
     const handles = Array.from({ length: 100 }, (_, i) => world.join({ id: `00000000-0000-7000-8000-${String(i).padStart(12, '0')}`, username: `p${i}` }, conn()));
+    // A carga mede difusão em um só mapa. A sede tem portas a poucos passos do spawn.
+    handles.forEach((_, i) => placeIn(world, `00000000-0000-7000-8000-${String(i).padStart(12, '0')}`, 'map_1', 39, 45));
+    sent = 0;
     handles.forEach((h, i) => h.receive(JSON.stringify({ type: 'move', dx: Math.cos(i), dy: Math.sin(i) })));
     const t0 = performance.now();
     for (let i = 0; i < 20; i++) {
